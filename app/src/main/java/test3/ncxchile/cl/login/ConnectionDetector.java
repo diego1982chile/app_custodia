@@ -14,6 +14,7 @@ public class ConnectionDetector {
         this._context = context;
     }
 
+    /*
     public boolean hayConexion(){
         ConnectivityManager connectivity = (ConnectivityManager) _context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivity != null)
@@ -28,5 +29,16 @@ public class ConnectionDetector {
 
         }
         return false;
+    }
+    */
+
+    public boolean hayConexion() {
+        ConnectivityManager conMgr = (ConnectivityManager) _context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = conMgr.getActiveNetworkInfo();
+        if (activeNetwork != null && activeNetwork.isConnected()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -87,7 +87,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
                 //Aca se efectua la consulta ¿Tiene internet?
                 ConnectionDetector cd = new ConnectionDetector(getApplicationContext()); //instancie el objeto
                 Boolean isInternetPresent = cd.hayConexion(); // true o false dependiendo de si hay conexion
-                if(isInternetPresent = true){
+                if(isInternetPresent){
                     System.out.println("Si hay");
                 }else{
                     System.out.println("No hay");
