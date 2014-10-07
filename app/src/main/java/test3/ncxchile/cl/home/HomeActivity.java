@@ -12,13 +12,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import test3.ncxchile.cl.acta.MyActivity;
 import test3.ncxchile.cl.fotosvid.activity.SeleccionServicioActivity;
-import test3.ncxchile.cl.test3.R;
+import test3.ncxchile.cl.login.R;
 
 public class HomeActivity extends Activity {
     public TableRow tablerow;

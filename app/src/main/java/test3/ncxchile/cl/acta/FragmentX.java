@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import test3.ncxchile.cl.test3.R;
+import test3.ncxchile.cl.login.R;
 
 /**
  * Created by BOBO on 14-07-2014.

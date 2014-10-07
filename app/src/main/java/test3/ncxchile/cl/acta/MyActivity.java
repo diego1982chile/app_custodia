@@ -27,7 +27,7 @@ import test3.ncxchile.cl.models.DatosPDF;
 import test3.ncxchile.cl.greenDAO.DaoMaster;
 import test3.ncxchile.cl.greenDAO.DaoSession;
 import test3.ncxchile.cl.greenDAO.FinalizarActaDao;
-import test3.ncxchile.cl.test3.R;
+import test3.ncxchile.cl.login.R;
 
 
 public class MyActivity extends Activity implements ActionBar.TabListener {

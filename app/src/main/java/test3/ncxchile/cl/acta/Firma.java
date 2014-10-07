@@ -44,7 +44,7 @@ import com.lowagie.text.pdf.PdfWriter;
 import org.xmlpull.v1.XmlSerializer;
 
 import test3.ncxchile.cl.models.DatosPDF;
-import test3.ncxchile.cl.test3.R;
+import test3.ncxchile.cl.login.R;
 
 public class Firma extends Activity {
 

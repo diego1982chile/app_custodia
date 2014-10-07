@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import java.io.IOException;
 import java.io.InputStream;
 
-import test3.ncxchile.cl.test3.R;
+import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.fotosvid.util.Contador;
 import test3.ncxchile.cl.fotosvid.util.ImagenesCMVRCConstants;
 import test3.ncxchile.cl.fotosvid.util.LoadImageUtil;

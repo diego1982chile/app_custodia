@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import test3.ncxchile.cl.test3.R;
+import test3.ncxchile.cl.login.R;
 
 /**
  * Created by BOBO on 14-07-2014.

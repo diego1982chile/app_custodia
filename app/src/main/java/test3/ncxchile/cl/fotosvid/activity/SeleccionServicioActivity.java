@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import test3.ncxchile.cl.test3.R;
+import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.fotosvid.util.ImagenesCMVRCConstants;
 
 /**
