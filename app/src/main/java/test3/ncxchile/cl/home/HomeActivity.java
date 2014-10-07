@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,7 @@ import test3.ncxchile.cl.acta.MyActivity;
 import test3.ncxchile.cl.fotosvid.activity.SeleccionServicioActivity;
 import test3.ncxchile.cl.login.R;
 
+
 public class HomeActivity extends Activity {
     public TableRow tablerow;
     public int color;
@@ -26,6 +28,7 @@ public class HomeActivity extends Activity {
     public int marcada;
     public TextView erroress;
 
+    private ChequearConexion myChequearConexion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,10 @@ public class HomeActivity extends Activity {
 
         color = 0;
         marcada = 0;
+
+        myChequearConexion = new ChequearConexion(10000, 10000, getApplicationContext());
+        myChequearConexion.start();
+
     }
 
 
@@ -125,7 +132,6 @@ public class HomeActivity extends Activity {
         }
     }
 
-
     public void completaActa(View view) {
         Intent myIntent = new Intent(HomeActivity.this, MyActivity.class);
         HomeActivity.this.startActivity(myIntent);
@@ -140,4 +146,5 @@ public class HomeActivity extends Activity {
         Intent myIntent3 = new Intent(HomeActivity.this, SeleccionServicioActivity.class);
         HomeActivity.this.startActivity(myIntent3);
     }
+
 }
