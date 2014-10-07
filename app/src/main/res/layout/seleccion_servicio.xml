@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Orden de servicio                         "
+            android:id="@+id/etServicio"
+            android:textSize="40dp"
+            android:background="#fffef6"
+            android:textStyle="italic"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:inputType="number"
+            android:imeOptions="actionNext" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ingresar"
+            android:id="@+id/btIngresar"
+            android:textSize="45dp"
+            android:layout_below="@+id/etServicio"
+            android:layout_centerHorizontal="true"
+            android:typeface="normal"
+            android:layout_gravity="center_horizontal" />
+    </RelativeLayout>
+
+</LinearLayout>

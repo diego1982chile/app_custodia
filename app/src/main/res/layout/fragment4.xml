@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:paddingBottom="@dimen/activity_vertical_margin">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/headhead"
+        android:layout_gravity="left|top"
+        android:id="@+id/imageView" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logotipo_vehi"
+        android:gravity="center"
+        android:layout_below="@id/imageView"
+        android:background="#33b5e5"
+        android:layout_gravity="center" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView"
+        android:layout_below="@+id/imageView1">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/editText1">
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:showDividers="middle"
+            android:nestedScrollingEnabled="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/tableRow3"
+            android:layout_alignLeft="@+id/tableRow3"
+            android:layout_alignStart="@+id/tableRow3"
+            android:id="@+id/tableRow000">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tipo_vehiculo"
+                android:layout_marginTop="8dp"
+                android:textColor="#003076"
+                android:textSize="18dp"
+                android:id="@+id/textView000" />
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:textSize="18dp"
+                android:id="@+id/tipos_vehiculo" />
+
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/autoridad_solicita"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:showDividers="middle"
+            android:nestedScrollingEnabled="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:id="@+id/tableRow"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/numpat_vehi"
+                android:textColor="#003076"
+                android:textSize="18dp"
+                android:layout_marginTop="8dp"
+                android:id="@+id/textView" />
+
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:id="@+id/view4_01_numplaca"
+                android:layout_weight="0.51"
+                android:layout_marginLeft="15dp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:showDividers="middle"
+            android:nestedScrollingEnabled="true"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:paddingRight="10dp"
+            android:layout_below="@+id/tableRow2"
+            android:layout_alignLeft="@+id/tableRow2"
+            android:layout_alignStart="@+id/tableRow2"
+            android:id="@+id/tableRow2">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#003076"
+                android:textSize="18dp"
+                android:text="@string/marca_vehi"
+                android:layout_marginTop="8dp"
+                android:id="@+id/textView3" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/view4_02_marca"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:layout_weight="0.51"
+                android:layout_marginLeft="15dp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:showDividers="middle"
+            android:nestedScrollingEnabled="true"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:paddingRight="10dp"
+            android:layout_below="@+id/tableRow3"
+            android:layout_alignLeft="@+id/tableRow3"
+            android:id="@+id/tableRow3">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#003076"
+                android:textSize="18dp"
+                android:text="@string/modelo_vehi"
+                android:layout_marginTop="8dp"
+                android:id="@+id/textView5" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/view4_03_modelo"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:layout_weight="0.51"
+                android:layout_marginLeft="15dp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:showDividers="middle"
+            android:nestedScrollingEnabled="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/tableRow2"
+            android:layout_alignLeft="@+id/tableRow4"
+            android:layout_alignStart="@+id/tableRow4"
+            android:id="@+id/tableRow4">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ano_vehi"
+                android:textColor="#003076"
+                android:textSize="18dp"
+                android:layout_marginTop="8dp"
+                android:id="@+id/textView4" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/view4_04_ano"
+                android:inputType="number"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:maxLength="4"
+                android:layout_weight="0.51"
+                android:layout_marginLeft="15dp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:showDividers="middle"
+            android:nestedScrollingEnabled="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/tableRow3"
+            android:layout_alignLeft="@+id/tableRow5"
+            android:layout_alignStart="@+id/tableRow5"
+            android:id="@+id/tableRow5">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/color_vehi"
+                android:layout_marginTop="8dp"
+                android:textColor="#003076"
+                android:textSize="18dp"
+                android:id="@+id/textView6" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/view4_05_color"
+                android:layout_weight="0.51"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:layout_marginLeft="15dp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:showDividers="middle"
+            android:nestedScrollingEnabled="true"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:paddingRight="10dp"
+            android:id="@+id/tableRow8"
+            android:layout_below="@+id/tableRow6"
+            android:layout_alignLeft="@+id/tableRow6"
+            android:layout_alignStart="@+id/tableRow6">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/km_vehi"
+                android:layout_marginTop="8dp"
+                android:textColor="#003076"
+                android:textSize="18dp"
+                android:id="@+id/textView7" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/view4_06_kilometraje"
+                android:layout_weight="0.51"
+                android:inputType="number"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:layout_marginLeft="15dp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:showDividers="middle"
+            android:nestedScrollingEnabled="true"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:paddingRight="10dp"
+            android:id="@+id/tableRow7"
+            android:layout_below="@+id/tableRow7"
+            android:layout_alignLeft="@+id/tableRow7"
+            android:layout_alignStart="@+id/tableRow7">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/motor_vehi"
+                android:layout_marginTop="8dp"
+                android:textColor="#003076"
+                android:textSize="18dp"
+                android:id="@+id/textView8" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/view4_07_nummotor"
+                android:layout_weight="0.51"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:layout_marginLeft="15dp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:showDividers="middle"
+            android:nestedScrollingEnabled="true"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:paddingRight="10dp"
+            android:id="@+id/tableRow9"
+            android:layout_below="@+id/tableRow8"
+            android:layout_alignLeft="@+id/tableRow8"
+            android:layout_alignStart="@+id/tableRow8">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/chasis_vehi"
+                android:layout_marginTop="8dp"
+                android:textColor="#003076"
+                android:textSize="18dp"
+                android:id="@+id/textView9" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/view4_08_numchasis"
+                android:layout_weight="0.51"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:layout_marginLeft="15dp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:showDividers="middle"
+            android:nestedScrollingEnabled="true"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:paddingRight="10dp"
+            android:id="@+id/tableRow11"
+            android:layout_below="@+id/tableRow11"
+            android:layout_alignLeft="@+id/tableRow11"
+            android:layout_alignStart="@+id/tableRow11">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/origen_vehi"
+                android:layout_marginTop="8dp"
+                android:textColor="#003076"
+                android:textSize="18dp"
+                android:id="@+id/textView10" />
+
+            <RadioGroup
+                android:id="@+id/view4_09_radiogroup1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1">
+
+                <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nacional"
+                android:layout_marginLeft="50dp"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/radioButton1" />
+
+                <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:layout_marginLeft="80dp"
+                android:text="Extranjero"
+                android:id="@+id/radioButton2"
+                    android:layout_marginTop="-30dp"
+                    android:layout_weight="0.19" />
+
+            </RadioGroup>
+
+
+        </TableRow>
+
+    </LinearLayout>
+
+    </ScrollView>
+</RelativeLayout>
+

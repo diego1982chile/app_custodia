@@ -1,0 +1,426 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    tools:context="test3.ncxchile.cl.home.HomeActivity">
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logotipo_small"
+        android:gravity="center"
+        android:background="#33b5e5"
+        android:layout_gravity="center" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/imageView1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="36dp"
+        android:id="@+id/layout1">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:paddingTop="20dp"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:id="@+id/head1"
+            android:layout_marginLeft="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nombre: "
+                android:textSize="18dp"
+                android:layout_marginRight="10dp"
+                android:textColor="#ff232323"
+                android:id="@+id/name" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Agustín Santiago"
+                android:textSize="18dp"
+                android:textColor="#0174DF"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/name_value"
+                android:layout_weight="0.13" />
+
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_marginBottom="40dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/head2"
+            android:layout_marginLeft="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nº grúa: "
+                android:textSize="18dp"
+                android:textColor="#ff232323"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/n_grua" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12345"
+                android:textSize="18dp"
+                android:gravity="left"
+                android:textColor="#0174DF"
+                android:id="@+id/n_grua_value"
+                android:layout_weight="0.13" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cargar tareas"
+                style="@style/CustomStyleButton"
+                android:textColor="#fff"
+                android:layout_marginLeft="40dp"
+                android:id="@+id/button" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#ffe30919"
+                android:layout_marginLeft="50dp"
+                android:text="No hay conexión a internet"
+                android:gravity="right"
+                android:id="@+id/erroress" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView"
+                android:background="@android:drawable/presence_offline"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="17dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/estados"
+                android:id="@+id/imageView2"
+                android:layout_marginLeft="40dp" />
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"></TableRow>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="25dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <TableLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:text="OS"
+                        android:singleLine="false"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/num_os_text"
+                        android:background="#ff2ca4c9"
+                        android:textColor="#fff"
+                        android:autoText="true">
+                    </TextView>
+                    <TextView
+                        android:text="Tipo vehículo"
+                        android:gravity="center"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:layout_width="wrap_content"
+                        android:textColor="#fff"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tip_vehiculo_text"
+                        android:clickable="false"
+                        android:background="#ff2ca4c9">
+                    </TextView>
+                    <TextView
+                        android:text="Comuna"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:textColor="#fff"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/comuna_text"
+                        android:background="#ff2ca4c9">
+                    </TextView>
+                    <TextView
+                        android:text="Dirección"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:textColor="#fff"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/direccion_text"
+                        android:background="#ff2ca4c9">
+                    </TextView>
+                    <TextView
+                        android:text="Ultima Actividad"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:textColor="#fff"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/ult_actividad_text"
+                        android:background="#ff2ca4c9">
+                    </TextView>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="3dp"
+                    android:id="@+id/tablarow1"
+                    android:background="#fff"
+                    android:onClick="rowClick">
+                    <TextView
+                        android:text="1"
+                        android:singleLine="false"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:textColor="#000"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/num_os_ex1">
+                    </TextView>
+                    <TextView
+                        android:text="Vehiculo liviano"
+                        android:gravity="right"
+                        android:paddingLeft="20dp"
+                        android:textColor="#000"
+                        android:paddingRight="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tip_vehiculo_ex1"
+                        android:clickable="false">
+                    </TextView>
+                    <TextView
+                        android:text="La Florida"
+                        android:gravity="right"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:textColor="#000"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/comuna_ex1">
+                    </TextView>
+                    <TextView
+                        android:text="Av. Mexico 9487"
+                        android:gravity="right"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:textColor="#000"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/direccion_ex1">
+                    </TextView>
+                    <TextView
+                        android:text="2:03"
+                        android:gravity="right"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:textColor="#000"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/ult_actividad_ex1">
+                    </TextView>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="3dp"
+                    android:onClick="rowClick">
+                    <TextView
+                        android:text="2"
+                        android:singleLine="false"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:textColor="#FFF"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/num_os_ex2">
+                    </TextView>
+                    <TextView
+                        android:text="Vehiculo pesado"
+                        android:gravity="right"
+                        android:paddingLeft="20dp"
+                        android:textColor="#FFF"
+                        android:paddingRight="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tip_vehiculo_ex2"
+                        android:clickable="false">
+                    </TextView>
+                    <TextView
+                        android:text="La Dehesa"
+                        android:gravity="right"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:textColor="#FFF"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/comuna_ex2">
+                    </TextView>
+                    <TextView
+                        android:text="Av. Francia 11"
+                        android:gravity="right"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:textColor="#FFF"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/direccion_ex2">
+                    </TextView>
+                    <TextView
+                        android:text="2:17"
+                        android:gravity="right"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:textColor="#FFF"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/ult_actividad_ex2">
+                    </TextView>
+                </TableRow>
+
+
+
+                </TableLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:id="@+id/asdddd">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tomar una tarea"
+                android:onClick="tomarTarea"
+                android:textColor="#fff"
+                style="@style/CustomStyleButton"
+                android:id="@+id/button2"
+                android:layout_marginRight="9dp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Confirmar arribo"
+                android:onClick="confirmarArribo"
+                android:textColor="#fff"
+                style="@style/CustomStyleButton"
+                android:id="@+id/button3"
+                android:layout_marginRight="9dp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Completar acta"
+                android:textColor="#fff"
+                style="@style/CustomStyleButton"
+                android:onClick="completaActa"
+                android:id="@+id/button4" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tomar foto"
+                android:textColor="#fff"
+                android:onClick="fotos"
+                style="@style/CustomStyleButton"
+                android:id="@+id/button5"
+                android:layout_marginRight="9dp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Grabar video"
+                android:textColor="#fff"
+                android:onClick="videos"
+                style="@style/CustomStyleButton"
+                android:id="@+id/button6"
+                android:layout_marginRight="9dp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Retiro realizado"
+                android:textColor="#fff"
+                style="@style/CustomStyleButton"
+                android:id="@+id/button7" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_height="fill_parent">
+
+            <Button
+                style="@style/CustomStyleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:textColor="#fff"
+                android:text="PDF"
+                android:id="@+id/button8"
+                android:layout_marginRight="20dp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cerrar sesión"
+                style="@style/CustomStyleButton"
+                android:layout_gravity="bottom"
+                android:textColor="#fff"
+                android:id="@+id/button9" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

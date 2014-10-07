@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Bienvenido - Custodia Metropolitana</string>
+    <string name="title_activity_home">Home</string>
+    <string name="title_section1">Recepción</string>
+    <string name="title_section2">Retiro</string>
+    <string name="title_section3">Información Policial</string>
+    <string name="title_section4">Información Vehículo</string>
+    <string name="title_section5">Información Visual</string>
+    <string name="title_section6">Info. Propietario/Conductor</string>
+    <string name="title_section7">Info. de la grúa</string>
+    <string name="title_section8">Especies</string>
+    <string name="title_section9">Confirmar</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="hola">Hola</string>
+    <string name="home_activity">Home - Custodia Metropolitana</string>
+
+    <string name="seleccion_servicio">ImagenesCMVRC - Seleccionar Orden de Servicio</string>
+    <string name="seleccionar_categoria">ImagenesCMVRC - Seleccionar Categoria</string>
+    <string name="sacar_fotos">ImagenesCMVRC - Sacar Fotos</string>
+    <string name="tomar_video">ImagenesCMVRC - Tomar Video</string>
+
+    <!-- Numero de orden -->
+    <string name="n_orden">Número de orden de servicio:</string>
+    <string name="numero">Nº Orden</string>
+
+    <!-- Autoridad que solicita -->
+    <string name="autoridad_solic">Autoridad que solicita</string>
+    <string name="rut_aut">RUT</string>
+    <string name="nombre_aut">Nombre:</string>
+    <string name="institucion_aut">Institución:</string>
+    <string name="cargo_aut">Cargo:</string>
+    <string name="unidad_aut">Unidad jurisdiccional:</string>
+    <string name="numfunc_aut">Número de funcionario:</string>
+
+    <!-- Información del retiro -->
+    <string name="info_ret">Información del retiro</string>
+    <string name="motivo_ret">Motivo del retiro</string>
+    <string name="tipo_motivo">Tipo del motivo</string>
+    <string name="avenidaocalle_ret">(*)Avenida o calle:</string>
+    <string name="numeracion_ret">(*)Numeración exacta:</string>
+    <string name="entrecalles_ret">Entre calles:</string>
+    <string name="comuna_ret">(*)Comuna:</string>
+    <string name="ref_ret">Otras referencias:</string>
+
+    <!-- Información policial -->
+    <string name="fecha_pol">Fecha del parte</string>
+    <string name="num_pol">(*)Nº del parte:</string>
+    <string name="unidad_pol">(*)Nº Unidad policial:</string>
+    <string name="nue_pol">(*)NUE:</string>
+    <string name="ruc_pol">(*)RUC:</string>
+    <string name="acta_pol">(*)Acta de incautación:</string>
+    <string name="oficio_pol">(*)Oficio remisor:</string>
+    <string name="tribunal_pol">(*)Tribunal competente:</string>
+
+    <!-- Información Vehículo -->
+    <string name="tipo_vehiculo">Tipo del vehiculo:</string>
+    <string name="numpat_vehi">Nº de placa patente:</string>
+    <string name="marca_vehi">Marca:</string>
+    <string name="modelo_vehi">Modelo:</string>
+    <string name="ano_vehi">Año:</string>
+    <string name="color_vehi">Color:</string>
+    <string name="km_vehi">Kilometraje:</string>
+    <string name="motor_vehi">Nº de motor:</string>
+    <string name="chasis_vehi">Nº de chasis:</string>
+    <string name="origen_vehi">Origen:</string>
+
+    <!-- Información Visual Vehículo -->
+    <string name="asocimg_visual">Asociación de imágenes/videos:</string>
+    <string name="motivo_visual">Indique motivo por el cual no adjunta imágenes y/o videos:</string>
+    <string name="estadopintura_visual">Estado pintura:</string>
+    <string name="estadocarroceria_visual">Estado carrocería:</string>
+    <string name="estadoruedas_visual">Estado ruedas:</string>
+    <string name="estadocristales_visual">Estado cristales:</string>
+    <string name="estadofocos_visual">Estado focos:</string>
+    <string name="estadochapas_visual">Estado chapas:</string>
+    <string name="abierto_visual">Abierto:</string>
+    <string name="llaves_visual">Llaves del vehículo:</string>
+    <string name="radio_visual">Radio:</string>
+    <string name="ruedasrepuesto_visual">Ruedas de repuesto:</string>
+    <string name="antena_visual">Antena:</string>
+    <string name="kitseg_visual">Kit de seguridad:</string>
+    <string name="chapas_visual">Chapas:</string>
+
+    <!-- Información Propietario/Conductor -->
+    <string name="info_prop">Información propietario:</string>
+    <string name="info_conduct">Información conductor:</string>
+    <string name="rut_propconduct">RUT:</string>
+    <string name="nombre_propconduct">Nombre:</string>
+    <string name="licencia_propconduct">Licencia:</string>
+    <string name="correo_propconduct">Correo:</string>
+    <string name="telefono_propconduct">Telefono:</string>
+
+    <!-- Información de la grúa -->
+    <string name="id_grua">Identificación de la grúa:</string>
+    <string name="nombre_grua">Nombre operador:</string>
+    <string name="rut_grua">RUT Operador:</string>
+
+    <!-- Especies -->
+
+    <string name="h1_especies">Catastro de especies del vehículo:</string>
+    <string name="h2_especies">Descripción de las especies:</string>
+    <string name="title_activity_envio_datos">EnvioDatos</string>
+    <string name="title_activity_firma">Acta de recepción - Firma</string>
+    <string name="escoger_comuna">Comunas</string>
+
+</resources>
