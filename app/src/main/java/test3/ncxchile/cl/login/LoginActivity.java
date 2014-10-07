@@ -47,7 +47,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
+    private UserLogin mAuthTask = null;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -84,14 +84,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             @Override
             public void onClick(View view) {
                 attemptLogin();
-                //Aca se efectua la consulta ¿Tiene internet?
-                ConnectionDetector cd = new ConnectionDetector(getApplicationContext()); //instancie el objeto
-                Boolean isInternetPresent = cd.hayConexion(); // true o false dependiendo de si hay conexion
-                if(isInternetPresent){
-                    System.out.println("Si hay");
-                }else{
-                    System.out.println("No hay");
-                }
             }
         });
 
@@ -152,8 +144,32 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            mAuthTask = new UserLogin(email, password);
+
+            ConnectionDetector cd = new ConnectionDetector(getApplicationContext()); //instancie el objeto
+            Boolean isInternetPresent = cd.hayConexion(); // true o false dependiendo de si hay conexion
+            if(isInternetPresent){
+                System.out.println("Si hay");
+                mAuthTask.loginOnLine();
+            }else{
+                System.out.println("No hay");
+                mAuthTask.loginOffLine();
+            }
+
+            if (mAuthTask.status) {
+                try {
+                    // Simulate network access.
+                    Thread.sleep(2000);
+                    Intent myIntent = new Intent(LoginActivity.this, HomeActivity.class);
+                    LoginActivity.this.startActivity(myIntent);
+                } catch (InterruptedException e) {
+                    System.out.println("Error al cargar Home: "+ e);
+                }
+                //finish();
+            } else {
+                mPasswordView.setError(getString(R.string.error_incorrect_password));
+                mPasswordView.requestFocus();
+            }
         }
     }
     private boolean isEmailValid(String email) {

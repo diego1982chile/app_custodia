@@ -36,13 +36,12 @@ public class ChequearConexion extends CountDownTimer
         ConnectionDetector cd = new ConnectionDetector(_context); //instancie el objeto
         Boolean isInternetPresent = cd.hayConexion(); // true o false dependiendo de si hay conexion
         if(isInternetPresent){
-            System.out.println("Si hay");
             if(!conexionPrevia) {
-                // Si no hay conexion previa se consumen los webservices
+                // Si no hay conexion previa se consumen los webservices para resincronizar la aplicacion
+                conexionPrevia=true;
+                System.out.println("Voy a consumir un WebService para sincronizar la app con el sistema RTEWEB");
             }
         }else{
-
-            System.out.println("No hay");
             // Se pierde la conexion, luego si se vuelve a detectar conexion, es necesario volver a consumir el webservice
             conexionPrevia=false;
         }

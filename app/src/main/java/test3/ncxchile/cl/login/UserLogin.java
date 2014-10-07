@@ -20,7 +20,7 @@ public class UserLogin implements Serializable {
 
     protected Boolean loginOffLine(Void... params) {
         // AQUI SE DEBE AUTENTICAR EL USUARIO EN LA BD LOCAL
-
+        System.out.println("Voy a autenticar al usuario mediante la BD local de este dispositivo");
         ///////////////////////////////////////////////////////////////////////////////////
         // TODO: register the new account here.
         status = true;
@@ -30,7 +30,7 @@ public class UserLogin implements Serializable {
     protected Boolean loginOnLine(Void... params) {
         // TODO: attempt authentication against a network service.
         // AQUI SE DEBE CONSUMIR EL WEBSERVICE MEDIANTE LA INSTANCIACIÓN DE UN CLIENTE SOAP
-
+        System.out.println("Voy a consumir un WebService para autenticar al usuario en el sistema");
         ///////////////////////////////////////////////////////////////////////////////////
         status = true;
         // TODO: register the new account here.
