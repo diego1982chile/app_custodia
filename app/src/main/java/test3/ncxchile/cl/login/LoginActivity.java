@@ -82,8 +82,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             public void onFocusChange(View view, boolean b) {
                 if(!b)
                 {
-                    if(!Validator.isRutValid(mEmailView.getText().toString()))
+                    if(!Validator.isRutValid(mEmailView.getText().toString())){
                         mEmailView.setError(getString(R.string.error_invalid_email));
+                        return;
+                    }
                 }
             }
         };
@@ -100,7 +102,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (Validator.isCurrentFormatValid(s))
+                if (!Validator.isCurrentFormatValid(s))
                 {
                     System.out.println("Rut actual="+s+" no es valido");
                     mEmailView.setError(getString(R.string.error_invalid_email));
@@ -161,7 +163,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        if (TextUtils.isEmpty(password) || !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
@@ -200,7 +202,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             if (mAuthTask.status) {
                 try {
                     // Simulate network access.
-                    Thread.sleep(2000);
+                    Thread.sleep(10);
                     Intent myIntent = new Intent(LoginActivity.this, HomeActivity.class);
                     LoginActivity.this.startActivity(myIntent);
                 } catch (InterruptedException e) {
