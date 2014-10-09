@@ -2,7 +2,7 @@
         <string name="title_activity_login">Custodia Metropolitana</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
+    <string name="prompt_email" hint="Sin puntos ni guión">Rut</string>
     <string name="prompt_password">Contraseña</string>
     <string name="action_sign_in">Iniciar sesión</string>
     <string name="action_sign_in_short">Iniciar sesión</string>

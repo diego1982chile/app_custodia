@@ -9,7 +9,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,7 +27,7 @@ public class HomeActivity extends Activity {
     public int marcada;
     public TextView erroress;
 
-    private ChequearConexion myChequearConexion;
+    private Sincronizar myChequearConexion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +42,7 @@ public class HomeActivity extends Activity {
         color = 0;
         marcada = 0;
 
-        myChequearConexion = new ChequearConexion(10000, 10000, getApplicationContext());
+        myChequearConexion = new Sincronizar(10000, 10000, getApplicationContext());
         myChequearConexion.start();
 
     }

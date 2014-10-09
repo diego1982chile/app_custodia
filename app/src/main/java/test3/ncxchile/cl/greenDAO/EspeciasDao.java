@@ -22,6 +22,7 @@ public class EspeciasDao extends AbstractDao<Especias, Long> {
     public static final String TABLENAME = "Especias";
 
     /**
+    /**
      * Properties of entity Especias.<br/>
      * Can be used for QueryBuilder and for referencing column names.
     */

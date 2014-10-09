@@ -458,8 +458,8 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         return datospdf;
 
         // Guardar la base de datos
-
-        /*DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "finalizaracta-db", null);
+        /*
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "finalizaracta-db", null);
         db = helper.getWritableDatabase();
         daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();

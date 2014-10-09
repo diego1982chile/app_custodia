@@ -52,6 +52,7 @@ public class DaoMaster extends AbstractDaoMaster {
         CorreosDao.createTable(db, ifNotExists);
         TelefonosDao.createTable(db, ifNotExists);
         InstitucionDao.createTable(db, ifNotExists);
+        UserDao.createTable(db, ifNotExists);
     }
     
     /** Drops underlying database table using DAOs. */
@@ -121,6 +122,7 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(CorreosDao.class);
         registerDaoClass(TelefonosDao.class);
         registerDaoClass(InstitucionDao.class);
+        registerDaoClass(UserDao.class);
     }
     
     public DaoSession newSession() {

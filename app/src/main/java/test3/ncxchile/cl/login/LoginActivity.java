@@ -9,18 +9,20 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,6 +31,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import test3.ncxchile.cl.greenDAO.DaoMaster;
+import test3.ncxchile.cl.greenDAO.DaoSession;
+import test3.ncxchile.cl.greenDAO.PersonaDao;
 import test3.ncxchile.cl.home.HomeActivity;
 
 /**
@@ -50,22 +55,54 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
     private UserLogin mAuthTask = null;
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
+    private EditText mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
 
     // Variables consulta conexión
     public Boolean isInternetPresent = false;
+    SQLiteDatabase db;
+    private DaoMaster daoMaster;
+    private DaoSession daoSession;
+    private PersonaDao personaDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
+
+        TextWatcher fieldValidatorTextWatcher = new TextWatcher() {
+
+            private CharSequence mText;
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!Validator.isValid(s))
+                {
+                    mEmailView.setText(mText);
+                    mEmailView.setSelection(mEmailView.getText().length());
+                }
+                mText = null;
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                mText = Validator.isValid(s) ? s : s.subSequence(0,count-1);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+        };
+        mEmailView.addTextChangedListener(fieldValidatorTextWatcher);
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -105,18 +142,16 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         if (mAuthTask != null) {
             return;
         }
-
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
+        String rut = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
-
 
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
@@ -125,12 +160,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             cancel = true;
         }
 
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
+        // Check for a valid rut.
+        if (TextUtils.isEmpty(rut)) {
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
-        } else if (!isEmailValid(email)) {
+        } else if (!Validator.isRutValid(1, 'k')) {
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
@@ -144,18 +179,17 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLogin(email, password);
+            mAuthTask = new UserLogin(rut, password);
 
             ConnectionDetector cd = new ConnectionDetector(getApplicationContext()); //instancie el objeto
             Boolean isInternetPresent = cd.hayConexion(); // true o false dependiendo de si hay conexion
-            if(isInternetPresent){
-                System.out.println("Si hay");
+            // Si hay conexion autenticar online. Si no hay conexion autenticar offline
+            if(isInternetPresent)
                 mAuthTask.loginOnLine();
-            }else{
-                System.out.println("No hay");
+            else
                 mAuthTask.loginOffLine();
-            }
 
+            // Si el login fue exitoso
             if (mAuthTask.status) {
                 try {
                     // Simulate network access.
@@ -171,10 +205,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
                 mPasswordView.requestFocus();
             }
         }
-    }
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
     }
 
     private boolean isPasswordValid(String password) {
@@ -246,8 +276,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             emails.add(cursor.getString(ProfileQuery.ADDRESS));
             cursor.moveToNext();
         }
-
-        addEmailsToAutoComplete(emails);
     }
 
     @Override
@@ -263,16 +291,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
 
         int ADDRESS = 0;
         int IS_PRIMARY = 1;
-    }
-
-
-    private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
-        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(LoginActivity.this,
-                        android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
-
-        mEmailView.setAdapter(adapter);
     }
 
     /**
