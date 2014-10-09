@@ -7,7 +7,7 @@
     <string name="action_sign_in">Iniciar sesión</string>
     <string name="action_sign_in_short">Iniciar sesión</string>
 
-    <string name="error_invalid_email">El email no es válido</string>
+    <string name="error_invalid_email">El RUT no es válido</string>
     <string name="error_invalid_password">La password es muy corta</string>
     <string name="error_incorrect_password">La password es incorrecta</string>
     <string name="error_field_required">Éste campo es obligatorio</string>

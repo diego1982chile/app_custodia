@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:hint="@string/prompt_email"
-                    android:inputType="textEmailAddress"
+                    android:inputType="textAutoComplete"
                     android:maxLines="1"
                     android:maxLength="12"
                     android:singleLine="true"/>

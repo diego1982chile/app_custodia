@@ -77,31 +77,38 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
+        View.OnFocusChangeListener fieldValidatorText = new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(!b)
+                {
+                    if(!Validator.isRutValid(mEmailView.getText().toString()))
+                        mEmailView.setError(getString(R.string.error_invalid_email));
+                }
+            }
+        };
+
         TextWatcher fieldValidatorTextWatcher = new TextWatcher() {
 
             private CharSequence mText;
 
             @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
             public void afterTextChanged(Editable s) {
-                if (!Validator.isValid(s))
+                if (Validator.isCurrentFormatValid(s))
                 {
-                    mEmailView.setText(mText);
-                    mEmailView.setSelection(mEmailView.getText().length());
+                    System.out.println("Rut actual="+s+" no es valido");
+                    mEmailView.setError(getString(R.string.error_invalid_email));
                 }
-                mText = null;
             }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                mText = Validator.isValid(s) ? s : s.subSequence(0,count-1);
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
         };
+
+        mEmailView.setOnFocusChangeListener(fieldValidatorText);
         mEmailView.addTextChangedListener(fieldValidatorTextWatcher);
 
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -165,7 +172,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
-        } else if (!Validator.isRutValid(1, 'k')) {
+        } else if (!Validator.isRutValid(rut)) {
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
