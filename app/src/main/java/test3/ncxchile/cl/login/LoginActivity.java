@@ -252,6 +252,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
                 case 1:
                     try {// Si el login fue exitoso
                         // Simulate network access.
+                        System.out.println("EL LOGIN FUE EXITOSO!!");
                         Thread.sleep(0);
                         Intent myIntent = new Intent(LoginActivity.this, HomeActivity.class);
                         LoginActivity.this.startActivity(myIntent);

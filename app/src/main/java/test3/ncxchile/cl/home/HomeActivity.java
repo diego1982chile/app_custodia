@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -63,6 +64,11 @@ public class HomeActivity extends Activity {
 
         setContentView(R.layout.activity_home);
 
+        TextView lblName = (TextView) findViewById(R.id.name_value);
+        //TextView lblEmail = (TextView) findViewById(R.id.);
+
+        lblName.setText(nombre+" "+apellido_paterno);
+
         tablerow = (TableRow) findViewById(R.id.tablarow1);
         tablerow.setBackgroundColor(Color.WHITE);
 
@@ -71,7 +77,7 @@ public class HomeActivity extends Activity {
         color = 0;
         marcada = 0;
 
-        myChequearConexion = new Sincronizar(10000, 10000, getApplicationContext());
+        myChequearConexion = new Sincronizar(10000, 10000, HomeActivity.this, getApplicationContext());
         myChequearConexion.start();
 
     }

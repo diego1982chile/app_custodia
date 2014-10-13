@@ -50,10 +50,7 @@
                 android:textColor="#0174DF"
                 android:layout_gravity="center_horizontal"
                 android:id="@+id/name_value"
-                android:layout_weight="0.13" />
-
-
-
+                 />
 
         </LinearLayout>
 
@@ -91,8 +88,8 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-
+            android:layout_height="wrap_content"
+            >
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -103,21 +100,15 @@
                 android:id="@+id/button" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:textColor="#ffe30919"
                 android:layout_marginLeft="50dp"
                 android:text="No hay conexión a internet"
                 android:gravity="right"
-                android:id="@+id/erroress" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageView"
-                android:background="@android:drawable/presence_offline"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="17dp" />
+                android:id="@+id/erroress"
+                android:textAlignment="center"
+                />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -128,7 +119,9 @@
 
             <TableRow
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"></TableRow>
+                android:layout_height="match_parent"
+                >
+            </TableRow>
         </LinearLayout>
 
         <LinearLayout
