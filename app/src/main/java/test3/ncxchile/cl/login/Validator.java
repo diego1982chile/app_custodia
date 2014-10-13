@@ -7,8 +7,8 @@ import java.util.regex.Pattern;
  */
 public abstract class Validator {
 
-    private static final Pattern sFinalPattern = Pattern.compile("(^0?[1-9]{1,2})(?>((\\.\\d{3}){2}\\-)|((\\d{3}){2}\\-)|((\\d{3}){2}))([\\dkK])$");
-    private static final Pattern sCurrentPattern = Pattern.compile("(\\d{0,2})(\\.?)(\\d{0,3})(\\.?)(\\d{0,3})(\\-?)([\\dkK]?)");
+    private static final Pattern sFinalPattern = Pattern.compile("(^0?[1-9]{1,2})(?>((\\d{3}){2})|((\\d{3}){2})|((\\d{3}){2}))([\\dkK])$");
+    private static final Pattern sCurrentPattern = Pattern.compile("(\\d{0,2})()(\\d{0,3})()(\\d{0,3})()([\\dkK]?)");
 
     protected static boolean isFormatValid(CharSequence s) {
         return sFinalPattern.matcher(s).matches();
@@ -42,11 +42,11 @@ public abstract class Validator {
         // Quitar puntos y guion (si hubieren)
 
         String str=s.toString();
-        System.out.println("strAntes="+str);
+        //System.out.println("strAntes="+str);
         str=str.replace(".","");
         str=str.replace(".","");
         str=str.replace("-","");
-        System.out.println("strDespues="+str);
+        //System.out.println("strDespues="+str);
 
         try {
             rut = Integer.parseInt(str.subSequence(0,str.length()-1).toString());

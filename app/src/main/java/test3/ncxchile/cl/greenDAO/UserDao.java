@@ -4,6 +4,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 
+import java.util.List;
+
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
 import de.greenrobot.dao.internal.DaoConfig;
@@ -149,14 +151,16 @@ public class UserDao extends AbstractDao<User, Long> {
         return true;
     }
 
-    public boolean getByRut(int rut){
-        int numRows= queryBuilder().where(Properties.Rut.eq(rut))
-        .list().size();
-
-        if(numRows>0)
-            return true;
-        else
-            return false;
+    public List getByRut(int rut){
+        List usuarios= queryBuilder()
+        .where(Properties.Rut.eq(rut))
+        .list();
+        return usuarios;
     }
-    
+
+    public List getAll(){
+        List usuarios= queryBuilder()
+                .list();
+        return usuarios;
+    }
 }

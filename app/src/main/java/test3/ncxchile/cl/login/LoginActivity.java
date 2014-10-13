@@ -4,12 +4,16 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 
@@ -17,6 +21,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -28,13 +33,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
 import test3.ncxchile.cl.greenDAO.DaoMaster;
 import test3.ncxchile.cl.greenDAO.DaoSession;
 import test3.ncxchile.cl.greenDAO.PersonaDao;
+import test3.ncxchile.cl.greenDAO.UserDao;
 import test3.ncxchile.cl.home.HomeActivity;
+import test3.ncxchile.cl.session.SessionManager;
+import test3.ncxchile.cl.widgets.ErrorDialog;
 
 /**
  * A login screen that offers login via email/password.
@@ -42,13 +51,6 @@ import test3.ncxchile.cl.home.HomeActivity;
  */
 public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -62,10 +64,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
 
     // Variables consulta conexión
     public Boolean isInternetPresent = false;
-    SQLiteDatabase db;
-    private DaoMaster daoMaster;
-    private DaoSession daoSession;
-    private PersonaDao personaDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,14 +75,25 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
+        final Drawable successIcon = getResources().getDrawable(R.drawable.green_circle_check);
+        successIcon.setBounds(new Rect(0, 0, 20, 20));
+
         View.OnFocusChangeListener fieldValidatorText = new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
+                String s= mEmailView.getText().toString();
                 if(!b)
                 {
-                    if(!Validator.isRutValid(mEmailView.getText().toString())){
+                    if(!Validator.isRutValid(s))
                         mEmailView.setError(getString(R.string.error_invalid_email));
-                        return;
+                    else
+                        mEmailView.setError(getString(R.string.prompt_valid_rut), successIcon);
+                }
+                else
+                {
+                    if(s.length()==9 || s.length()==8) {
+                        if (Validator.isRutValid(s))
+                            mEmailView.setError(getString(R.string.prompt_valid_rut), successIcon);
                     }
                 }
             }
@@ -107,6 +116,17 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
                     System.out.println("Rut actual="+s+" no es valido");
                     mEmailView.setError(getString(R.string.error_invalid_email));
                 }
+                if(s.length()==9 || s.length()==8) {
+                    if (Validator.isRutValid(s)) {
+                        mEmailView.setError(getString(R.string.prompt_valid_rut), successIcon);
+                        mPasswordView.requestFocus();
+                    }
+                }
+                if(s.length()==9) {
+                    if (!Validator.isRutValid(s)) {
+                        mEmailView.setError(getString(R.string.error_invalid_email));
+                    }
+                }
             }
         };
 
@@ -114,22 +134,33 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         mEmailView.addTextChangedListener(fieldValidatorTextWatcher);
 
         mPasswordView = (EditText) findViewById(R.id.password);
+
+        /*
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
+                    try {
+                        attemptLogin();
+                    } catch (NoSuchAlgorithmException e) {
+                        e.printStackTrace();
+                    }
                     return true;
                 }
                 return false;
             }
         });
-
+        */
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
+                try {
+                    attemptLogin();
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -141,16 +172,17 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         getLoaderManager().initLoader(0, null, this);
     }
 
-
     /**
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    public void attemptLogin() {
+    public void attemptLogin() throws NoSuchAlgorithmException {
+        /*
         if (mAuthTask != null) {
             return;
         }
+        */
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
@@ -188,30 +220,45 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLogin(rut, password);
+            mAuthTask = new UserLogin(rut, password, getApplicationContext());
 
             ConnectionDetector cd = new ConnectionDetector(getApplicationContext()); //instancie el objeto
             Boolean isInternetPresent = cd.hayConexion(); // true o false dependiendo de si hay conexion
             // Si hay conexion autenticar online. Si no hay conexion autenticar offline
+            int loginResponse;
             if(isInternetPresent)
-                mAuthTask.loginOnLine();
+                loginResponse= mAuthTask.loginOnLine();
             else
-                mAuthTask.loginOffLine();
+                loginResponse= mAuthTask.loginOffLine();
 
-            // Si el login fue exitoso
-            if (mAuthTask.status) {
-                try {
-                    // Simulate network access.
-                    Thread.sleep(10);
-                    Intent myIntent = new Intent(LoginActivity.this, HomeActivity.class);
-                    LoginActivity.this.startActivity(myIntent);
-                } catch (InterruptedException e) {
-                    System.out.println("Error al cargar Home: "+ e);
-                }
-                //finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+            showProgress(false);
+            mEmailView.setError(null);
+            ErrorDialog ed= new ErrorDialog(LoginActivity.this);
+
+            switch (loginResponse)
+            {
+                case -1:
+                    System.out.println("No existe el usuario");
+                    ed.show();
+                    break;
+                case -2:
+                    System.out.println("el rut es ambiguo: mas de un usuario con el mismo rut");
+                    ed.show();
+                    break;
+                case -3:
+                    System.out.println("password incorrecta");
+                    ed.show();
+                    break;
+                case 1:
+                    try {// Si el login fue exitoso
+                        // Simulate network access.
+                        Thread.sleep(0);
+                        Intent myIntent = new Intent(LoginActivity.this, HomeActivity.class);
+                        LoginActivity.this.startActivity(myIntent);
+                    } catch (InterruptedException e) {
+                        System.out.println("Error al cargar Home: "+ e);
+                    }
+                    break;
             }
         }
     }
@@ -301,66 +348,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         int ADDRESS = 0;
         int IS_PRIMARY = 1;
     }
-
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mEmail;
-        private final String mPassword;
-
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-                Intent myIntent = new Intent(LoginActivity.this, HomeActivity.class);
-                LoginActivity.this.startActivity(myIntent);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
-    }
-
 
 }
 

@@ -15,9 +15,12 @@ import android.view.View;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.util.HashMap;
+
 import test3.ncxchile.cl.acta.MyActivity;
 import test3.ncxchile.cl.fotosvid.activity.SeleccionServicioActivity;
 import test3.ncxchile.cl.login.R;
+import test3.ncxchile.cl.session.SessionManager;
 
 
 public class HomeActivity extends Activity {
@@ -29,9 +32,35 @@ public class HomeActivity extends Activity {
 
     private Sincronizar myChequearConexion;
 
+    // Session Manager Class
+    SessionManager session;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Session class instance
+        session = new SessionManager(getApplicationContext());
+
+        /**
+         * Call this function whenever you want to check user login
+         * This will redirect user to LoginActivity is he is not
+         * logged in
+         * */
+        session.checkLogin();
+
+        // get user data from session
+        HashMap<String, String> user = session.getUserDetails();
+
+        // name
+        String rut = user.get(SessionManager.KEY_RUT);
+        // email
+        String nombre = user.get(SessionManager.KEY_NOMBRE);
+        // apellido paterno
+        String apellido_paterno = user.get(SessionManager.KEY_APELLIDO_PATERNO);
+        // email
+        String apellido_materno = user.get(SessionManager.KEY_APELLIDO_MATERNO);
+
         setContentView(R.layout.activity_home);
 
         tablerow = (TableRow) findViewById(R.id.tablarow1);
@@ -46,7 +75,6 @@ public class HomeActivity extends Activity {
         myChequearConexion.start();
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
