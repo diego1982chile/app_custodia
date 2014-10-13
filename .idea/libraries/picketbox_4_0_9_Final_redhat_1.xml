@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="picketbox-4.0.9.Final-redhat-1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/libs/picketbox-4.0.9.Final-redhat-1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
