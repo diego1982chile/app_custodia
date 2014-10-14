@@ -44,6 +44,7 @@ import test3.ncxchile.cl.greenDAO.UserDao;
 import test3.ncxchile.cl.home.HomeActivity;
 import test3.ncxchile.cl.session.SessionManager;
 import test3.ncxchile.cl.widgets.ErrorDialog;
+import test3.ncxchile.cl.widgets.RutTextView;
 
 /**
  * A login screen that offers login via email/password.
@@ -57,7 +58,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
     private UserLogin mAuthTask = null;
 
     // UI references.
-    private EditText mEmailView;
+    private RutTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
@@ -71,86 +72,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-        populateAutoComplete();
-
-        final Drawable successIcon = getResources().getDrawable(R.drawable.green_circle_check);
-        successIcon.setBounds(new Rect(0, 0, 20, 20));
-
-        View.OnFocusChangeListener fieldValidatorText = new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                String s= mEmailView.getText().toString();
-                if(!b)
-                {
-                    if(!Validator.isRutValid(s))
-                        mEmailView.setError(getString(R.string.error_invalid_email));
-                    else
-                        mEmailView.setError(getString(R.string.prompt_valid_rut), successIcon);
-                }
-                else
-                {
-                    if(s.length()==9 || s.length()==8) {
-                        if (Validator.isRutValid(s))
-                            mEmailView.setError(getString(R.string.prompt_valid_rut), successIcon);
-                    }
-                }
-            }
-        };
-
-        TextWatcher fieldValidatorTextWatcher = new TextWatcher() {
-
-            private CharSequence mText;
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (!Validator.isCurrentFormatValid(s))
-                {
-                    System.out.println("Rut actual="+s+" no es valido");
-                    mEmailView.setError(getString(R.string.error_invalid_email));
-                }
-                if(s.length()==9 || s.length()==8) {
-                    if (Validator.isRutValid(s)) {
-                        mEmailView.setError(getString(R.string.prompt_valid_rut), successIcon);
-                        mPasswordView.requestFocus();
-                    }
-                }
-                if(s.length()==9) {
-                    if (!Validator.isRutValid(s)) {
-                        mEmailView.setError(getString(R.string.error_invalid_email));
-                    }
-                }
-            }
-        };
-
-        mEmailView.setOnFocusChangeListener(fieldValidatorText);
-        mEmailView.addTextChangedListener(fieldValidatorTextWatcher);
-
+        mEmailView= (RutTextView) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
 
-        /*
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    try {
-                        attemptLogin();
-                    } catch (NoSuchAlgorithmException e) {
-                        e.printStackTrace();
-                    }
-                    return true;
-                }
-                return false;
-            }
-        });
-        */
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
 
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
@@ -166,10 +90,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
-    }
-
-    private void populateAutoComplete() {
-        getLoaderManager().initLoader(0, null, this);
     }
 
     /**

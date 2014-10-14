@@ -43,7 +43,6 @@ public class UserLogin implements Serializable {
         mRut = parseRut(rut);
         mPassword = password;
         status=0;
-        System.out.println("Password="+mPassword);
 
         // Inicializar UserDao
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(localContext,"cmvrc_android", null);
@@ -51,15 +50,6 @@ public class UserLogin implements Serializable {
         daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();
         // Insertar usuario de prueba si no existe
-        User user=new User(new Long(1), 11111111, "1", passwordHelper.encriptarMD5base64("12345"), "Usuario", "de Prueba", "CMVRC");
-        daoSession.getUserDao().insertOrReplace(user);
-        List usuarios= daoSession.getUserDao().getAll();
-
-        for(int i=0;i<usuarios.size();++i)
-        {
-            User usuario=(User)usuarios.get(i);
-            System.out.println("Rut:"+usuario.getRut()+ "Password:"+usuario.getPassword());
-        }
         //daoSession.getUserDao().deleteAll();
     }
 

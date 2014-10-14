@@ -14,7 +14,7 @@ public abstract class Validator {
         return sFinalPattern.matcher(s).matches();
     }
 
-    protected static boolean isCurrentFormatValid(CharSequence s) {
+    public static boolean isCurrentFormatValid(CharSequence s) {
         return sCurrentPattern.matcher(s).matches();
     }
 
@@ -26,7 +26,7 @@ public abstract class Validator {
         return dv == (char) (s != 0 ? s + 47 : 75);
     }
 
-    protected static boolean isRutValid(CharSequence s) {
+    public static boolean isRutValid(CharSequence s) {
 
         // Validar formato
 

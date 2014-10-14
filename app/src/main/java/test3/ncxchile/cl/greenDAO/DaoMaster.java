@@ -85,6 +85,8 @@ public class DaoMaster extends AbstractDaoMaster {
         @Override
         public void onCreate(SQLiteDatabase db) {
             Log.i("greenDAO", "Creating tables for schema version " + SCHEMA_VERSION);
+            System.out.println("SOY ONCREATE Y ME LLAMARON");
+            System.out.println("VOY A CREAR TODAS LAS TABLAS");
             createAllTables(db, false);
         }
     }
@@ -97,6 +99,7 @@ public class DaoMaster extends AbstractDaoMaster {
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+            System.out.println("SOY ONUPGRADE Y ME LLAMARON");
             Log.i("greenDAO", "Upgrading schema from version " + oldVersion + " to " + newVersion + " by dropping all tables");
             dropAllTables(db, true);
             onCreate(db);

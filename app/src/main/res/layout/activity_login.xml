@@ -41,17 +41,25 @@
                     android:gravity="center"
                     android:layout_gravity="center" />
 
-                <AutoCompleteTextView
+                <!--test3.ncxchile.cl.widgets.RutTextView
                     android:id="@+id/email"
-                    android:layout_width="match_parent"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:hint="@string/prompt_email"
+                    android:maxLines="1"
+                    android:maxLength="9"
+                    android:singleLine="true" /-->
+                <test3.ncxchile.cl.widgets.RutTextView
+                    android:id="@+id/email"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:hint="@string/prompt_email"
-                    android:inputType="textAutoComplete"
                     android:maxLines="1"
                     android:maxLength="9"
-                    android:singleLine="true"/>
-
+                    android:singleLine="true"
+                    android:typeface="monospace" />
                 <EditText
                     android:id="@+id/password"
                     android:layout_width="match_parent"
