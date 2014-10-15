@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;

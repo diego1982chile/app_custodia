@@ -105,7 +105,7 @@
                     android:layout_marginTop="8dp"
                     android:id="@+id/textView2" />
 
-                <EditText
+                <test3.ncxchile.cl.widgets.RutEditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/view1_01_rut"

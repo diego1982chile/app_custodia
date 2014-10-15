@@ -4,47 +4,29 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.text.Editable;
-import android.text.Html;
 import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
-import test3.ncxchile.cl.greenDAO.DaoMaster;
-import test3.ncxchile.cl.greenDAO.DaoSession;
-import test3.ncxchile.cl.greenDAO.PersonaDao;
-import test3.ncxchile.cl.greenDAO.UserDao;
 import test3.ncxchile.cl.home.HomeActivity;
-import test3.ncxchile.cl.session.SessionManager;
 import test3.ncxchile.cl.widgets.ErrorDialog;
-import test3.ncxchile.cl.widgets.RutTextView;
+import test3.ncxchile.cl.widgets.RutEditText;
 
 /**
  * A login screen that offers login via email/password.
@@ -58,7 +40,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
     private UserLogin mAuthTask = null;
 
     // UI references.
-    private RutTextView mEmailView;
+    private RutEditText mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
@@ -72,7 +54,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mEmailView= (RutTextView) findViewById(R.id.email);
+        mEmailView= (RutEditText) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
@@ -87,7 +69,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
                 }
             }
         });
-
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }

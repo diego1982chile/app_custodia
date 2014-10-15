@@ -50,7 +50,7 @@
                     android:maxLines="1"
                     android:maxLength="9"
                     android:singleLine="true" /-->
-                <test3.ncxchile.cl.widgets.RutTextView
+                <test3.ncxchile.cl.widgets.RutEditText
                     android:id="@+id/email"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"

@@ -24,36 +24,20 @@ import test3.ncxchile.cl.login.Validator;
 /**
  * Created by android-developer on 13-10-2014.
  */
-public class RutTextView extends EditText {
+public class RutEditText extends EditText {
 
     //Context context;
     private Paint pincel;
     private Drawable successIcon;
-    /*
-    public RutTextView(final Context context){
-        super(context);
-        //this.context=context;
-        //Typeface face=Typeface.createFromAsset(context.getAssets(), "Helvetica_Neue.ttf");
-        //this.setTypeface(face);
-        init(context);
-    }
-    */
-    public RutTextView(Context context, AttributeSet attrs) {
+
+    public RutEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
         pincel = new Paint();
         pincel.setColor(Color.BLACK);
         pincel.setTextAlign(Paint.Align.LEFT);
         //pincel.setTextSize(28);
-        //Typeface face=Typeface.createFromAsset(context.getAssets(), "Helvetica_Neue.ttf");
-        //this.setTypeface(face);
         init(context);
     }
-    /*
-    public RutTextView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        init(context);
-    }
-    */
 
     public void init(final Context context){
         successIcon = getResources().getDrawable(R.drawable.green_circle_check);

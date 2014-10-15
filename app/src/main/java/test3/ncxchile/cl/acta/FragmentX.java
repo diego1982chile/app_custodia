@@ -8,13 +8,25 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import test3.ncxchile.cl.login.R;
+import test3.ncxchile.cl.login.Validator;
+import test3.ncxchile.cl.widgets.RutEditText;
 
 /**
  * Created by BOBO on 14-07-2014.
  */
 public class FragmentX extends android.app.Fragment {
 
-    public EditText view1_00, view1_01, view1_02, view1_03, view1_04, view1_05, view1_06;
+    //view1_00: N°Orden -> Numerico
+    //view1_01: Rut -> Rut
+    //view1_02: Nombre -> Texto
+    //view1_03: Institucion -> Autocomplete
+    //view1_04: Cargo -> Texto
+    //view1_05: Unidad Jurisdiccional -> Texto
+    //view1_06: N°Funcionario -> Numerico
+
+    public EditText view1_00, view1_02, view1_03, view1_04, view1_05, view1_06;
+    public RutEditText view1_01;
+
     public TextView view1_tv_01, view1_tv_02, view1_tv_03, view1_tv_04, view1_tv_05, view1_tv_06, errores;
     public String errorv01_01, errorv01_02, errorv01_03, errorv01_04, errorv01_05, errorv01_06, errorv01_07, texto_error;
     public String[] a;
@@ -37,10 +49,9 @@ public class FragmentX extends android.app.Fragment {
         View rootView = inflater.inflate(R.layout.fragment_my, container, false);
         // Inicializando inputs de fragmentX
 
-
         view1_00 = (EditText) rootView.findViewById(R.id.view1_00_orden);
         view1_tv_01 = (TextView) rootView.findViewById(R.id.textView2);
-        view1_01 = (EditText) rootView.findViewById(R.id.view1_01_rut);
+        view1_01 = (RutEditText) rootView.findViewById(R.id.view1_01_rut);
         view1_tv_02 = (TextView) rootView.findViewById(R.id.textView3);
         view1_02 = (EditText) rootView.findViewById(R.id.view1_02_nombre);
         view1_tv_03 = (TextView) rootView.findViewById(R.id.textView4);
@@ -65,31 +76,6 @@ public class FragmentX extends android.app.Fragment {
        ((MyActivity) getActivity()).recibeDatosFragmentX(view1_00, view1_01, view1_02, view1_03, view1_04, view1_05, view1_06);
     }
 
-    public static boolean validarRut(String rut) {
-
-        boolean validacion = false;
-        try {
-            rut =  rut.toUpperCase();
-            rut = rut.replace(".", "");
-            rut = rut.replace("-", "");
-            int rutAux = Integer.parseInt(rut.substring(0, rut.length() - 1));
-
-            char dv = rut.charAt(rut.length() - 1);
-
-            int m = 0, s = 1;
-            for (; rutAux != 0; rutAux /= 10) {
-                s = (s + rutAux % 10 * (9 - m++ % 6)) % 11;
-            }
-            if (dv == (char) (s != 0 ? s + 47 : 75)) {
-                validacion = true;
-            }
-
-        } catch (java.lang.NumberFormatException e) {
-        } catch (Exception e) {
-        }
-        return validacion;
-    }
-
     public String[] validarDatosFragment1(){
 
 
@@ -105,7 +91,7 @@ public class FragmentX extends android.app.Fragment {
             errorv01_01 = "1";
         }
 
-        if (validarRut(view1_01.getText().toString()) != true){
+        if (!Validator.isRutValid(view1_01.getText().toString())){
             errorv01_02 = "1";
         }
 
