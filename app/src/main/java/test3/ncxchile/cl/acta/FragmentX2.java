@@ -10,16 +10,30 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import test3.ncxchile.cl.greenDAO.Institucion;
 import test3.ncxchile.cl.login.R;
 
 /**
  * Created by BOBO on 14-07-2014.
  */
 public class FragmentX2 extends android.app.Fragment {
+
     private static final String ARG_SECTION_NUMBER = "section_number";
+
+    //view2_01: Motivo retiro -> Select
+    //view2_02: *Avda. o calle -> Texto
+    //view2_03: *Numeracion -> Texto
+    //view2_04: Entre Calles -> Texto
+    //view2_05: *Comuna -> Select
+    //view2_06: Otras Referencias -> Texto
+
     public EditText view2_01, view2_02, view2_03, view2_04, view2_06, view2_05;
     public Spinner spinner, spinner_motivo1, spinner_motivo2;
     public RadioGroup view2_00;
@@ -53,39 +67,60 @@ public class FragmentX2 extends android.app.Fragment {
         view2_00.check(R.id.radioButton1);
         errores = (TextView) rootView.findViewById(R.id.errores2);
 
-        List<String> motivo1 = new ArrayList<String>();
-        motivo1.add("Sin motivo");
-        motivo1.add("Boleta citacion adulterada o falsa");
-        motivo1.add("Boleta citacion vencida");
-        motivo1.add("Conduccion sin la licencia debida (art. 196 de ley 18.290)");
-        motivo1.add("Conducir sin licencia");
-        motivo1.add("Conducir sin permiso de circulacion");
-        motivo1.add("Conducir sin placa patente");
-        motivo1.add("Conducir sin portar revision tecnica");
-        motivo1.add("Estacionamientos indebidos");
-        motivo1.add("Estacionamientos prohibidos señalizados");
-        motivo1.add("Expeler exceso de humo visible");
-        motivo1.add("Falla mecanicas, otras");
-        motivo1.add("Falsificacion licencia de conducir y otros falsificacion");
-        motivo1.add("Licencia adultera o falsa");
-        motivo1.add("Licencia vencida");
-        motivo1.add("Neumaticos en mal estado");
-        motivo1.add("No lleva parabrisas");
-        motivo1.add("Otros problemas relacionados con placa patente");
-        motivo1.add("Permiso circulacion vencido");
-        motivo1.add("Permiso provisorio vencido");
-        motivo1.add("Placa patente no corresponde a vehiculo");
-        motivo1.add("Revision tecnica vencida");
-        motivo1.add("Seguro automotriz vencido o no contar con este");
-        motivo1.add("Sin o en mal estado silenciador");
-        motivo1.add("Sistema de direccion en mal estado");
-        motivo1.add("Vehiculo abandonado");
-        motivo1.add("Traslado inicial");
-        motivo1.add("No inscrito RNSTPP");
-        motivo1.add("No inscrito RENASTRE");
+        List<Institucion> motivo1 = new ArrayList<Institucion>();
+        InputStream myInput=null;
 
+        try {
+            myInput = getActivity().getAssets().open("motivos.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        List<String> motivo2 = new ArrayList<String>();
+        BufferedReader br = null;
+        String thisLine = null;
+
+        try {
+            br = new BufferedReader((new InputStreamReader(myInput)));
+            long id = 1;
+            while ((thisLine = br.readLine()) != null) {
+                motivo1.add(new Institucion(id,thisLine.toString()));
+                ++id;
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        } finally {                       // always close the file
+            if (br != null) try {
+                br.close();
+            } catch (IOException ioe2) {
+                // just ignore it
+            }
+        }
+
+        List<Institucion> motivo2 = new ArrayList<Institucion>();
+
+        try {
+            myInput = getActivity().getAssets().open("motivos_fiscalia.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            br = new BufferedReader((new InputStreamReader(myInput)));
+            long id = 1;
+            while ((thisLine = br.readLine()) != null) {
+                motivo2.add(new Institucion(id,thisLine.toString()));
+                ++id;
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        } finally {                       // always close the file
+            if (br != null) try {
+                br.close();
+            } catch (IOException ioe2) {
+                // just ignore it
+            }
+        }
+
         motivo2.add("Instrucción de fiscal por delito Ley 20.000");
         motivo2.add("Instrucción de fiscal por otros delitos");
 

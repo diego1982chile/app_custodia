@@ -82,12 +82,13 @@ public class RutEditText extends EditText {
                 if(s.length()==9) {
                     if (Validator.isRutValid(s)) {
                         setError(context.getString(R.string.prompt_valid_rut), successIcon);
-                        focusSearch(FOCUS_DOWN).requestFocus();
+                        if(focusSearch(FOCUS_DOWN)!=null)
+                            focusSearch(FOCUS_DOWN).requestFocus();
                     }
                 }
                 if(s.length()==9) {
                     if (!Validator.isRutValid(s)) {
-                        setError(context.getString(R.string.error_invalid_email));
+                        setError(context.getString(R.string.error_field_required));
                     }
                 }
             }

@@ -168,12 +168,9 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
 
         if(tab.getPosition() == 1 || tab.getPosition() == 2 || tab.getPosition() == 3 || tab.getPosition() == 4 || tab.getPosition() == 5 || tab.getPosition() == 6 || tab.getPosition() == 7 || tab.getPosition() == 8 ){
             FragmentX f1 = (FragmentX) getFragment(0);
-            view1 = new String[7];
-            view1 = f1.validarDatosFragment1();
-            if (view1[0] != "0" || view1[1] != "0" || view1[2] != "0" || view1[3] != "0" || view1[4] != "0" || view1[5] != "0" || view1[6] != "0"){
+
+            if(!f1.validarDatosFragment1())
                 errorFragment(0);
-                f1.pintarErrores1(view1);
-            }
         }
 
         if(tab.getPosition() == 2 || tab.getPosition() == 3 || tab.getPosition() == 4 || tab.getPosition() == 5 || tab.getPosition() == 6 || tab.getPosition() == 7 || tab.getPosition() == 8 ){
@@ -227,8 +224,6 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
                 f6.pintarErrores6notMatch(view6);
             }
         }
-
-
 
         if(tab.getPosition() == 7 || tab.getPosition() == 8 ){
             FragmentX6 f6 = (FragmentX6) getFragment(5);
