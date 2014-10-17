@@ -4,12 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.login.Validator;
-import test3.ncxchile.cl.widgets.InstitucionesAutoCompleteView;
+import test3.ncxchile.cl.widgets.CustomAutoCompleteView;
 import test3.ncxchile.cl.widgets.RequiredEditText;
 import test3.ncxchile.cl.widgets.RutEditText;
 
@@ -27,7 +26,7 @@ public class FragmentX extends android.app.Fragment {
     //view1_06: N°Funcionario -> Numerico
 
     public RequiredEditText view1_00, view1_02, view1_04, view1_05, view1_06;
-    public InstitucionesAutoCompleteView view1_03;
+    public CustomAutoCompleteView view1_03;
     public RutEditText view1_01;
 
     public TextView view1_tv_01, view1_tv_02, view1_tv_03, view1_tv_04, view1_tv_05, view1_tv_06, errores;
@@ -51,19 +50,27 @@ public class FragmentX extends android.app.Fragment {
         // Inicializando inputs de fragmentX
 
         view1_00 = (RequiredEditText) rootView.findViewById(R.id.view1_00_orden);
+        view1_00.setText("1");
         view1_tv_01 = (TextView) rootView.findViewById(R.id.textView2);
         view1_01 = (RutEditText) rootView.findViewById(R.id.view1_01_rut);
+
         view1_tv_02 = (TextView) rootView.findViewById(R.id.textView3);
         view1_02 = (RequiredEditText) rootView.findViewById(R.id.view1_02_nombre);
         view1_tv_03 = (TextView) rootView.findViewById(R.id.textView4);
-        view1_03 = (InstitucionesAutoCompleteView) rootView.findViewById(R.id.view1_03_institucion);
+        view1_03 = (CustomAutoCompleteView) rootView.findViewById(R.id.view1_03_institucion);
         view1_tv_04 = (TextView) rootView.findViewById(R.id.textView4);
         view1_04 = (RequiredEditText) rootView.findViewById(R.id.view1_04_cargo);
         view1_tv_05 = (TextView) rootView.findViewById(R.id.textView5);
         view1_05 = (RequiredEditText) rootView.findViewById(R.id.view1_05_unidadjuris);
         view1_tv_06 = (TextView) rootView.findViewById(R.id.textView6);
         view1_06 = (RequiredEditText) rootView.findViewById(R.id.view1_06_numfunc);
-        errores = (TextView) rootView.findViewById(R.id.errores1);
+
+        view1_01.setText("111111111");
+        view1_02.setText("Juan Pérez");
+        view1_03.setText("Juzgado de garantía");
+        view1_04.setText("Jefe");
+        view1_05.setText("Unidad A");
+        view1_06.setText("1578");
         return rootView;
     }
 

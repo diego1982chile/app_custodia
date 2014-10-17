@@ -37,4 +37,8 @@ public class Institucion {
         this.nombre = nombre;
     }
 
+    public String toString(){
+        return this.nombre;
+    }
+
 }

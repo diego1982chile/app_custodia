@@ -87,9 +87,7 @@
 
             </RadioGroup>
 
-
         </TableRow>
-
 
         <TableRow
             android:layout_width="fill_parent"
@@ -112,7 +110,7 @@
                 android:layout_marginTop="8dp"
                 android:id="@+id/textView" />
 
-            <Spinner
+            <test3.ncxchile.cl.widgets.CustomSpinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/motivos1"
@@ -120,7 +118,7 @@
                 android:textSize="18dp"
                 android:layout_weight="1" />
 
-            <Spinner
+            <test3.ncxchile.cl.widgets.CustomSpinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/motivos2"
@@ -153,7 +151,7 @@
                 android:layout_marginTop="8dp"
                 android:id="@+id/textView3" />
 
-            <EditText
+            <test3.ncxchile.cl.widgets.RequiredEditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/view2_02_avocalle"
@@ -185,7 +183,7 @@
                 android:layout_marginTop="8dp"
                 android:id="@+id/textView5" />
 
-            <EditText
+            <test3.ncxchile.cl.widgets.RequiredEditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/view2_03_numeracion"
@@ -250,7 +248,7 @@
                 android:textSize="18dp"
                 android:id="@+id/textView6" />
 
-            <Spinner
+            <test3.ncxchile.cl.widgets.CustomSpinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"

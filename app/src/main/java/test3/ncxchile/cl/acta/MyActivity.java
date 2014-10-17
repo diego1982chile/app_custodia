@@ -175,31 +175,23 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
 
         if(tab.getPosition() == 2 || tab.getPosition() == 3 || tab.getPosition() == 4 || tab.getPosition() == 5 || tab.getPosition() == 6 || tab.getPosition() == 7 || tab.getPosition() == 8 ){
             FragmentX f1 = (FragmentX) getFragment(0);
-            f1.limpiarErrores();
             FragmentX2 f2 = (FragmentX2) getFragment(1);
-            view2 = new String[2];
-            view2 = f2.validarDatosFragment2();
-            if (view2[0] != "0" || view2[1] != "0"){
+
+            if (!f2.validarDatosFragment2())
                 errorFragment(1);
-                f2.pintarErrores2(view2);
-            }
         }
 
         if(tab.getPosition() == 3 || tab.getPosition() == 4 || tab.getPosition() == 5 || tab.getPosition() == 6 || tab.getPosition() == 7 || tab.getPosition() == 8 ){
             FragmentX2 f2 = (FragmentX2) getFragment(1);
-            f2.limpiarErrores();
             FragmentX3 f3 = (FragmentX3) getFragment(2);
-            view3 = new String[7];
-            view3 = f3.validarDatosFragment3();
-            if (view3[0] != "0" || view3[1] != "0" || view3[2] != "0" || view3[3] != "0" || view3[4] != "0" || view3[5] != "0" || view3[6] != "0") {
+
+            if (!f3.validarDatosFragment3()) {
                 errorFragment(2);
-                f3.pintarErrores3(view3);
             }
         }
 
         if(tab.getPosition() == 5 || tab.getPosition() == 6 || tab.getPosition() == 7 || tab.getPosition() == 8 ){
             FragmentX3 f3 = (FragmentX3) getFragment(2);
-            f3.limpiarErrores();
             FragmentX5 f5 = (FragmentX5) getFragment(4);
             view5 = new String[6];
             view5 = f5.validarDatosFragment5();
@@ -668,7 +660,4 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         FragmentX5 frg = (FragmentX5) getFragment(4);
         frg.sinObs6();
     }
-
-
-
 }
