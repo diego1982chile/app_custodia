@@ -1,25 +1,19 @@
 package test3.ncxchile.cl.widgets;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.RectShape;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import test3.ncxchile.cl.login.R;
-import test3.ncxchile.cl.login.Validator;
+import test3.ncxchile.cl.validators.RutValidator;
 
 /**
  * Created by android-developer on 13-10-2014.
@@ -49,7 +43,7 @@ public class RutEditText extends EditText {
                 String s= getText().toString();
                 if(!b)
                 {
-                    if(!Validator.isRutValid(s))
+                    if(!RutValidator.isRutValid(s))
                         setError(context.getString(R.string.error_invalid_email));
                     else
                         setError(context.getString(R.string.prompt_valid_rut), successIcon);
@@ -57,7 +51,7 @@ public class RutEditText extends EditText {
                 else
                 {
                     if(s.length()==9) {
-                        if (Validator.isRutValid(s))
+                        if (RutValidator.isRutValid(s))
                             setError(context.getString(R.string.prompt_valid_rut), successIcon);
                     }
                 }
@@ -66,28 +60,42 @@ public class RutEditText extends EditText {
 
         TextWatcher fieldValidatorTextWatcher = new TextWatcher() {
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            String cadenaValida="";
+            boolean error=false;
 
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!RutValidator.isCurrentFormatValid(s))
+                {
+                    System.out.println("Rut actual="+s+" no es valido");
+                    setText(cadenaValida);
+                    error=true;
+                    setSelection(s.length()-1);
+                    setError(context.getString(R.string.error_invalid_email));
+                }
+                else
+                    error=false;
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                if(!error)
+                    cadenaValida=s.toString();
+                else
+                    cadenaValida=getText().toString();
+            }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!Validator.isCurrentFormatValid(s))
-                {
-                    System.out.println("Rut actual="+s+" no es valido");
-                    setError(context.getString(R.string.error_invalid_email));
-                }
                 if(s.length()==9) {
-                    if (Validator.isRutValid(s)) {
+                    if (RutValidator.isRutValid(s)) {
                         setError(context.getString(R.string.prompt_valid_rut), successIcon);
                         if(focusSearch(FOCUS_DOWN)!=null)
                             focusSearch(FOCUS_DOWN).requestFocus();
                     }
                 }
                 if(s.length()==9) {
-                    if (!Validator.isRutValid(s)) {
+                    if (!RutValidator.isRutValid(s)) {
                         setError(context.getString(R.string.error_field_required));
                     }
                 }

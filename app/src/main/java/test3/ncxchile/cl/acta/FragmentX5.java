@@ -14,6 +14,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import test3.ncxchile.cl.login.R;
+import test3.ncxchile.cl.widgets.PictureTakerButton;
 
 /**
  * Created by BOBO on 14-07-2014.
@@ -21,6 +22,8 @@ import test3.ncxchile.cl.login.R;
 public class FragmentX5 extends android.app.Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
+    PictureTakerButton pictureTakerButton;
+    PictureTakerButton videoTakerButton;
     public RadioGroup view5_01_radiogroup1;
     public RadioGroup view5_03_radiogroup2;
     public RadioGroup view5_04_radiogroup3;
@@ -77,10 +80,7 @@ public class FragmentX5 extends android.app.Fragment {
         switch5 = (Switch) rootView.findViewById(R.id.switch5);
         switch6 = (Switch) rootView.findViewById(R.id.switch6);
         switch7 = (Switch) rootView.findViewById(R.id.switch7);
-        errores = (TextView) rootView.findViewById(R.id.errores5);
 
-        img = (CheckBox) rootView.findViewById(R.id.checkBox);
-        vid = (CheckBox) rootView.findViewById(R.id.checkBox2);
         tabla_05_01 = (TableRow) rootView.findViewById(R.id.tabla_05_01);
         input1 = (LinearLayout) rootView.findViewById(R.id.input1);
         input1.setVisibility(View.GONE);
@@ -206,7 +206,6 @@ public class FragmentX5 extends android.app.Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
     }
 
     public void envioDeDatos() {
@@ -381,37 +380,5 @@ public class FragmentX5 extends android.app.Fragment {
         a[4] = errorv05_05;
         a[5] = errorv05_06;
         return a;
-    }
-
-    public void pintarErrores3(String a[]){
-        errores_name = new String[6];
-        errores_name[0] = "Estado de pintura";
-        errores_name[1] = "Estado de carrocería";
-        errores_name[2] = "Estado de ruedas";
-        errores_name[3] = "Estado de cristales";
-        errores_name[4] = "Estado de focos";
-        errores_name[5] = "Estado de chapas";
-
-        texto_error = "Debe seleccionar los siguientes campos ";
-
-        for (int i = 0; i < a.length; i++)
-        {
-            if(a[i] == "1"){
-                if(i == 0){
-                    texto_error = texto_error + errores_name[i];
-                }else{
-                    if(a[i-1] == "1"){
-                        texto_error = texto_error + ", " + errores_name[i];
-                    }else{
-                        texto_error = texto_error + ", " + errores_name[i];
-                    }
-                }
-            }
-        }
-        errores.setText(texto_error);
-    }
-
-    public void limpiarErrores(){
-        errores.setText("");
     }
 }

@@ -34,7 +34,7 @@ public class FragmentX3 extends android.app.Fragment {
 
     public RequiredEditText view3_01, view3_02, view3_03, view3_04, view3_05, view3_06, view3_07, view3_08;
     public CustomScrollView customScrollView;
-    public ScrollArrow arrow_bottom, arrow_top;
+    public ScrollArrow arrow_bottom,arrow_top;
 
     public FragmentX3 newInstance(int sectionNumber){
         FragmentX3 fragment = new FragmentX3();
@@ -62,21 +62,18 @@ public class FragmentX3 extends android.app.Fragment {
         view3_08 = (RequiredEditText) rootView.findViewById(R.id.view3_08_tribunal);
         customScrollView = (CustomScrollView) rootView.findViewById( R.id.scrollView2);
         arrow_bottom=(ScrollArrow) rootView.findViewById(R.id.arrow_bottom);
-        customScrollView.setScrollArrow(arrow_bottom);
+        arrow_top=(ScrollArrow) rootView.findViewById(R.id.arrow_top);
+        customScrollView.setScrollArrows(arrow_bottom,arrow_top);
         //errores = (RequiredEditText) rootView.findViewById(R.id.errores3);
 
-       /*
-        validador_03.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
+        view3_02.setText("1234");
+        view3_03.setText("16");
+        view3_04.setText("A-05");
+        view3_05.setText("B-08");
+        view3_06.setText("1578");
+        view3_07.setText("Fiscal");
+        view3_08.setText("Tribunal oral");
 
-
-
-                Toast.makeText(getActivity(), "Todos los datos estan correctamente validados, puedes pasar a la siguiente sección",
-                        Toast.LENGTH_LONG).show();
-            }
-        });
-*/
         return rootView;
     }
 

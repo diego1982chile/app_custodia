@@ -69,6 +69,7 @@
 
     <!-- Información Visual Vehículo -->
     <string name="asocimg_visual">Asociación de imágenes/videos:</string>
+    <string name="asocimg_visual2">Imágenes/Videos:</string>
     <string name="motivo_visual">Indique motivo por el cual no adjunta imágenes y/o videos:</string>
     <string name="estadopintura_visual">Estado pintura:</string>
     <string name="estadocarroceria_visual">Estado carrocería:</string>

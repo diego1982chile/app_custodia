@@ -36,6 +36,7 @@ public class UserLogin implements Serializable {
     private PasswordHelper passwordHelper;
 
     private Context localContext;
+    private List<User> usuarios;
 
     UserLogin(String rut, String password, Context context) {
 
@@ -51,8 +52,11 @@ public class UserLogin implements Serializable {
         db = helper.getWritableDatabase();
         daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();
+        System.out.println("Usuarios="+daoSession.getUserDao().getByRut(mRut).toString());
+        usuarios = daoSession.getUserDao().getByRut(mRut);
         // Insertar usuario de prueba si no existe
         //daoSession.getUserDao().deleteAll();
+        db.close();
     }
 
     int parseRut(String str){
@@ -76,9 +80,6 @@ public class UserLogin implements Serializable {
         System.out.println("Voy a autenticar al usuario mediante la BD local de este dispositivo");
         ///////////////////////////////////////////////////////////////////////////////////
         // Si el usuario aun no está sincronizado con la BD, permitir el uso de la credencial MAESTRA
-
-        System.out.println("Usuarios="+daoSession.getUserDao().getByRut(mRut).toString());
-        List usuarios = daoSession.getUserDao().getByRut(mRut);
 
         if(usuarios.size()==0)
             return -1; // Código de error -> no existe el usuario
@@ -108,6 +109,6 @@ public class UserLogin implements Serializable {
         System.out.println("Voy a consumir un WebService para autenticar al usuario en el sistema");
         ///////////////////////////////////////////////////////////////////////////////////
         // TODO: register the new account here.
-        return 1;
+        return -3;
     }
 }

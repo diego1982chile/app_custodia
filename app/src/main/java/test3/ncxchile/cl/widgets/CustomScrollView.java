@@ -18,7 +18,8 @@ public class CustomScrollView extends ScrollView {
 
     private OnScrollViewListener mOnScrollViewListener;
 
-    ScrollArrow scrollArrow;
+    ScrollArrow scrollArrowBottom;
+    ScrollArrow scrollArrowTop;
 
     public CustomScrollView(Context context) {
         super(context);
@@ -35,13 +36,22 @@ public class CustomScrollView extends ScrollView {
         init();
     }
 
-    public void setScrollArrow(ScrollArrow scrollArrow){
-        this.scrollArrow=scrollArrow;
-        this.scrollArrow.setOnClickListener(new View.OnClickListener() {
+    public void setScrollArrows(ScrollArrow scrollArrowBottom, ScrollArrow scrollArrowTop){
+        this.scrollArrowBottom=scrollArrowBottom;
+        this.scrollArrowTop=scrollArrowTop;
+        this.scrollArrowTop.setVisibility(View.INVISIBLE);
+        this.scrollArrowBottom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
             System.out.println("ME APRETARON");
             fullScroll(View.FOCUS_DOWN);
+            }
+        });
+        this.scrollArrowTop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("ME APRETARON");
+                fullScroll(View.FOCUS_UP);
             }
         });
     }
@@ -69,22 +79,34 @@ public class CustomScrollView extends ScrollView {
 
                 if (diff == 0 && t > 0) { // if diff is zero, then the bottom has been reached
                     System.out.println("MyScrollView: Bottom has been reached");
-                    Animation fadeOut = new AlphaAnimation(1, 0);
-                    fadeOut.setInterpolator(new AccelerateInterpolator()); //and this
-                    fadeOut.setStartOffset(100);
-                    fadeOut.setDuration(100);
-                    scrollArrow.setAnimation(fadeOut);
-                    scrollArrow.setVisibility(View.INVISIBLE);
+                    scrollArrowBottom.setAnimation(fadeOut());
+                    scrollArrowBottom.setVisibility(View.INVISIBLE);
+                    scrollArrowTop.setAnimation(fadeIn());
+                    scrollArrowTop.setVisibility(View.VISIBLE);
                 }
                 if (t == 0) {
                     System.out.println("No está en el tope, se debe redibujar la imagen");
-                    Animation fadeIn = new AlphaAnimation(0, 1);
-                    fadeIn.setInterpolator(new DecelerateInterpolator());
-                    fadeIn.setDuration(500);
-                    scrollArrow.setAnimation(fadeIn);
-                    scrollArrow.setVisibility(View.VISIBLE);
+                    scrollArrowBottom.setAnimation(fadeIn());
+                    scrollArrowBottom.setVisibility(View.VISIBLE);
+                    scrollArrowTop.setAnimation(fadeOut());
+                    scrollArrowTop.setVisibility(View.INVISIBLE);
                 }
             }
         });
+    }
+
+    Animation fadeIn(){
+        Animation fadeIn = new AlphaAnimation(0, 1);
+        fadeIn.setInterpolator(new DecelerateInterpolator());
+        fadeIn.setDuration(500);
+        return fadeIn;
+    }
+
+    Animation fadeOut(){
+        Animation fadeOut = new AlphaAnimation(1, 0);
+        fadeOut.setInterpolator(new AccelerateInterpolator()); //and this
+        fadeOut.setStartOffset(100);
+        fadeOut.setDuration(100);
+        return fadeOut;
     }
 }

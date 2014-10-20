@@ -66,11 +66,8 @@ public class CustomSpinner extends Spinner{
         myResource=source;
         // just to add some initial value
         myItems= populateList(mContext, myResource);
-
         // adapter for spinner
-
         ArrayAdapter myAdapter = new ArrayAdapter<Institucion>(mContext, android.R.layout.simple_spinner_item, myItems);
-
         setAdapter(myAdapter);
     }
 

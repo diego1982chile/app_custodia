@@ -6,22 +6,26 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.EditText;
 
 import test3.ncxchile.cl.login.R;
+import test3.ncxchile.cl.validators.PatenteValidator;
+import test3.ncxchile.cl.validators.RutValidator;
 
 /**
- * Created by android-developer on 15-10-2014.
+ * Created by android-developer on 17-10-2014.
  */
-public class RequiredEditText extends EditText {
+public class PatenteEditText extends EditText{
 
     //Context context;
     private Paint pincel;
     private Drawable successIcon;
 
-    public RequiredEditText(Context context, AttributeSet attrs) {
+    public PatenteEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
         pincel = new Paint();
         pincel.setColor(Color.BLACK);
@@ -40,13 +44,35 @@ public class RequiredEditText extends EditText {
                 String s= getText().toString();
                 if(!b)
                 {
-                    if(s.equals(""))
-                        setError(context.getString(R.string.error_field_required));
+                    if(!PatenteValidator.isFormatValid(s))
+                        setError(context.getString(R.string.error_valid_patente));
+                    else
+                        setError(context.getString(R.string.prompt_valid_patente), successIcon);
+                }
+                else
+                {
+                    if(s.length()==6) {
+                        if (PatenteValidator.isFormatValid(s))
+                            setError(context.getString(R.string.prompt_valid_rut), successIcon);
+                    }
                 }
             }
         };
 
+        TextWatcher fieldValidatorTextWatcher = new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        };
         setOnFocusChangeListener(fieldValidatorText);
+        addTextChangedListener(fieldValidatorTextWatcher);
     }
 
     @Override

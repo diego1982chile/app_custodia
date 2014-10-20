@@ -14,15 +14,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 import test3.ncxchile.cl.login.R;
+import test3.ncxchile.cl.widgets.CustomScrollView;
+import test3.ncxchile.cl.widgets.CustomSpinner;
+import test3.ncxchile.cl.widgets.PatenteEditText;
+import test3.ncxchile.cl.widgets.ScrollArrow;
 
 /**
  * Created by BOBO on 14-07-2014.
  */
 public class FragmentX4 extends android.app.Fragment  {
-    public EditText view4_01, view4_02, view4_03, view4_04, view4_05, view4_06, view4_07, view4_08;
-    public Spinner spinner;
-    public RadioGroup view4_09;
+
     private static final String ARG_SECTION_NUMBER = "section_number";
+
+    //view4_01: N°Patente -> Patente
+    //view4_02: Marca -> Texto
+    //view4_03: Modelo -> Texto
+    //view4_04: Año -> Numérico
+    //view4_05: Color -> Texto
+    //view4_06: Kilometraje -> Numérico
+    //view4_07: N°Motor -> Texto
+    //view4_08: N°Chasis -> Texto
+    //view4_08: Origen -> RadioButton
+    //view4_08:  ->
+
+    public PatenteEditText view4_01;
+    public EditText view4_02, view4_03, view4_04, view4_05, view4_06, view4_07, view4_08;
+    public CustomScrollView customScrollView;
+    public ScrollArrow arrow_bottom,arrow_top;
+    public CustomSpinner spinner;
+    public RadioGroup view4_09;
     public Button validador_04;
     public String view4_09_response;
 
@@ -38,7 +58,7 @@ public class FragmentX4 extends android.app.Fragment  {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment4, container, false);
-        view4_01 = (EditText) rootView.findViewById(R.id.view4_01_numplaca);
+        view4_01 = (PatenteEditText) rootView.findViewById(R.id.view4_01_numplaca);
         view4_02 = (EditText) rootView.findViewById(R.id.view4_02_marca);
         view4_03 = (EditText) rootView.findViewById(R.id.view4_03_modelo);
         view4_04 = (EditText) rootView.findViewById(R.id.view4_04_ano);
@@ -46,16 +66,13 @@ public class FragmentX4 extends android.app.Fragment  {
         view4_06 = (EditText) rootView.findViewById(R.id.view4_06_kilometraje);
         view4_07 = (EditText) rootView.findViewById(R.id.view4_07_nummotor);
         view4_08 = (EditText) rootView.findViewById(R.id.view4_08_numchasis);
-        spinner = (Spinner) rootView.findViewById(R.id.tipos_vehiculo);
+        spinner = (CustomSpinner) rootView.findViewById(R.id.tipos_vehiculo);
+        spinner.setSource("tipos_vehiculo");
         view4_09 = (RadioGroup) rootView.findViewById(R.id.view4_09_radiogroup1);
-
-        List<String> tipo_vehiculo = new ArrayList<String>();
-        tipo_vehiculo.add("Moto");
-        tipo_vehiculo.add("Vehículo Liviano");
-        tipo_vehiculo.add("Vehículo  pesado de 2 ejes");
-        tipo_vehiculo.add("Vehículo  pesado de mas de 2 ejes");
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item,tipo_vehiculo);
-        spinner.setAdapter(adapter);
+        customScrollView = (CustomScrollView) rootView.findViewById( R.id.scrollViewFragment4);
+        arrow_bottom=(ScrollArrow) rootView.findViewById(R.id.arrow_bottom2);
+        arrow_top=(ScrollArrow) rootView.findViewById(R.id.arrow_top2);
+        customScrollView.setScrollArrows(arrow_bottom,arrow_top);
         return rootView;
     }
 

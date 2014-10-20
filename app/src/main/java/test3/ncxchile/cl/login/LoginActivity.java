@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import test3.ncxchile.cl.home.HomeActivity;
+import test3.ncxchile.cl.validators.RutValidator;
 import test3.ncxchile.cl.widgets.ErrorDialog;
 import test3.ncxchile.cl.widgets.RutEditText;
 
@@ -110,7 +111,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
-        } else if (!Validator.isRutValid(rut)) {
+        } else if (!RutValidator.isRutValid(rut)) {
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;

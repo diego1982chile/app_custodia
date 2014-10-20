@@ -5,12 +5,11 @@ package test3.ncxchile.cl.widgets;
  */
 
 import android.content.Context;
-import android.graphics.Rect;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
@@ -18,7 +17,6 @@ import java.util.List;
 
 import test3.ncxchile.cl.greenDAO.Institucion;
 import test3.ncxchile.cl.login.R;
-import test3.ncxchile.cl.login.Validator;
 
 public class CustomAutoCompleteView extends AutoCompleteTextView {
 
@@ -91,8 +89,20 @@ public class CustomAutoCompleteView extends AutoCompleteTextView {
                 public void afterTextChanged(Editable s) {}
             };
 
-            /*
-            View.OnFocusChangeListener fieldValidatorText = new View.OnFocusChangeListener() {
+            AdapterView.OnItemSelectedListener fieldSelectionText = new AdapterView.OnItemSelectedListener(){
+
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+                    setError(context.getString(R.string.error_field_required));
+                }
+            };
+
+            OnFocusChangeListener fieldValidatorText = new OnFocusChangeListener() {
                 String mText=getText().toString();
 
                 @Override
@@ -101,17 +111,14 @@ public class CustomAutoCompleteView extends AutoCompleteTextView {
                 if(b) {
                     mText=s;
                     setText("");
+                    }
                 }
-                 else{
-                    setText(mText);
-                }
-              }
             };
-            */
 
-            // add the listener so it will tries to suggest while the user types
+            // add the listeners so it will tries to suggest while the user types
             addTextChangedListener(fieldValidatorTextWatcher);
-            //setOnFocusChangeListener(fieldValidatorText);
+            setOnFocusChangeListener(fieldValidatorText);
+            setOnItemSelectedListener(fieldSelectionText);
 
             // set our adapter
             myAdapter[0] = new ArrayAdapter<String>(context, android.R.layout.simple_dropdown_item_1line, item[0]);

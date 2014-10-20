@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.pm.ActivityInfo;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
@@ -163,6 +164,11 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
         // Aqui hago las validaciones de los campos, al hacer swap
+        System.out.println("HICIERON onTabSelected");
+        System.out.println("La orientación es: "+getResources().getConfiguration().orientation);
+
+        if(getResources().getConfiguration().orientation == 2) // si tiene orientacion landscape, no hacer nada
+            return;
 
         mViewPager.setCurrentItem(tab.getPosition());
 
@@ -197,13 +203,11 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
             view5 = f5.validarDatosFragment5();
             if (view5[0] != "0" || view5[1] != "0" || view5[2] != "0" || view5[3] != "0" || view5[4] != "0" || view5[5] != "0") {
                 errorFragment(4);
-                f5.pintarErrores3(view5);
             }
         }
 
         if(tab.getPosition() == 6 || tab.getPosition() == 7 || tab.getPosition() == 8){
             FragmentX5 f5 = (FragmentX5) getFragment(4);
-            f5.limpiarErrores();
             FragmentX6 f6 = (FragmentX6) getFragment(5);
             view6 = new String[3];
             view6 = f6.validarDatosFragment6();
@@ -228,7 +232,6 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
                 f7.pintarErrores7(view7);
             }
         }
-
     }
 
     @Override
@@ -423,7 +426,6 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         datospdf.setView5_14(view5_14);
         datospdf.setView5_15(view5_15);
         datospdf.setView5_16(view5_16);
-
 
         datospdf.setView6_01(view6_01);
         datospdf.setView6_02(view6_02);

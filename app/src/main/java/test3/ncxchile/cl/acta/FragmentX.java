@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import test3.ncxchile.cl.login.R;
-import test3.ncxchile.cl.login.Validator;
+import test3.ncxchile.cl.validators.RutValidator;
 import test3.ncxchile.cl.widgets.CustomAutoCompleteView;
 import test3.ncxchile.cl.widgets.RequiredEditText;
 import test3.ncxchile.cl.widgets.RutEditText;
@@ -32,7 +32,6 @@ public class FragmentX extends android.app.Fragment {
     public TextView view1_tv_01, view1_tv_02, view1_tv_03, view1_tv_04, view1_tv_05, view1_tv_06, errores;
     public String[] a;
 
-
     private static final String ARG_SECTION_NUMBER = "section_number";
 
     public FragmentX newInstance(int sectionNumber){
@@ -50,6 +49,7 @@ public class FragmentX extends android.app.Fragment {
         // Inicializando inputs de fragmentX
 
         view1_00 = (RequiredEditText) rootView.findViewById(R.id.view1_00_orden);
+        System.out.println("view1_00: "+view1_00.getText());
         view1_00.setText("1");
         view1_tv_01 = (TextView) rootView.findViewById(R.id.textView2);
         view1_01 = (RutEditText) rootView.findViewById(R.id.view1_01_rut);
@@ -93,7 +93,7 @@ public class FragmentX extends android.app.Fragment {
             esValido=false;
         }
 
-        if (!Validator.isRutValid(view1_01.getText().toString())){
+        if (!RutValidator.isRutValid(view1_01.getText().toString())){
             view1_01.setError(getString(R.string.error_field_required));
             esValido=false;
         }
