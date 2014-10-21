@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.validators.RutValidator;
-import test3.ncxchile.cl.widgets.CustomAutoCompleteView;
+import test3.ncxchile.cl.widgets.CustomAutoComplete;
 import test3.ncxchile.cl.widgets.RequiredEditText;
 import test3.ncxchile.cl.widgets.RutEditText;
 
@@ -26,7 +26,7 @@ public class FragmentX extends android.app.Fragment {
     //view1_06: N°Funcionario -> Numerico
 
     public RequiredEditText view1_00, view1_02, view1_04, view1_05, view1_06;
-    public CustomAutoCompleteView view1_03;
+    public CustomAutoComplete view1_03;
     public RutEditText view1_01;
 
     public TextView view1_tv_01, view1_tv_02, view1_tv_03, view1_tv_04, view1_tv_05, view1_tv_06, errores;
@@ -57,7 +57,7 @@ public class FragmentX extends android.app.Fragment {
         view1_tv_02 = (TextView) rootView.findViewById(R.id.textView3);
         view1_02 = (RequiredEditText) rootView.findViewById(R.id.view1_02_nombre);
         view1_tv_03 = (TextView) rootView.findViewById(R.id.textView4);
-        view1_03 = (CustomAutoCompleteView) rootView.findViewById(R.id.view1_03_institucion);
+        view1_03 = (CustomAutoComplete) rootView.findViewById(R.id.view1_03_institucion);
         view1_tv_04 = (TextView) rootView.findViewById(R.id.textView4);
         view1_04 = (RequiredEditText) rootView.findViewById(R.id.view1_04_cargo);
         view1_tv_05 = (TextView) rootView.findViewById(R.id.textView5);

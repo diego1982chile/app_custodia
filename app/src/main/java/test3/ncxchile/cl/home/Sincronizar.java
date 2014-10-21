@@ -60,12 +60,12 @@ public class Sincronizar extends CountDownTimer
             if(!conexionPrevia) {
                 // Si no hay conexion previa se consumen los webservices para resincronizar la aplicacion
                 conexionPrevia=true;
-                System.out.println("Voy a consumir un WebService para sincronizar la app con el sistema RTEWEB");
+                //System.out.println("Voy a consumir un WebService para sincronizar la app con el sistema RTEWEB");
             }
         }else{
             // Se pierde la conexion, luego si se vuelve a detectar conexion, es necesario volver a consumir el webservice
             conexionPrevia=false;
-            System.out.println("Se perdio la conexion. Se deberá utilizar los repositorios locales para operar");
+            //System.out.println("Se perdio la conexion. Se deberá utilizar los repositorios locales para operar");
         }
         notificarConexion();
     }

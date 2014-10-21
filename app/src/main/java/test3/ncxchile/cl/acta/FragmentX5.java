@@ -14,7 +14,6 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import test3.ncxchile.cl.login.R;
-import test3.ncxchile.cl.widgets.PictureTakerButton;
 
 /**
  * Created by BOBO on 14-07-2014.
@@ -22,8 +21,6 @@ import test3.ncxchile.cl.widgets.PictureTakerButton;
 public class FragmentX5 extends android.app.Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
-    PictureTakerButton pictureTakerButton;
-    PictureTakerButton videoTakerButton;
     public RadioGroup view5_01_radiogroup1;
     public RadioGroup view5_03_radiogroup2;
     public RadioGroup view5_04_radiogroup3;
@@ -31,7 +28,6 @@ public class FragmentX5 extends android.app.Fragment {
     public RadioGroup view5_06_radiogroup5;
     public RadioGroup view5_07_radiogroup6;
     public RadioGroup view5_08_radiogroup7;
-    public String errorv05_01, errorv05_02, errorv05_03, errorv05_04, errorv05_05, errorv05_06, texto_error;
     public String q1_response, q2_response, q3_response, q4_response, q5_response, q6_response, switch1_response, switch2_response, switch3_response, switch4_response, switch5_response, switch6_response, switch7_response, switch8_response;
     public EditText observacion_01, observacion_02, observacion_03, observacion_04, observacion_05, observacion_06, motivo_imgvid;
     public CheckBox img, vid;
@@ -41,8 +37,6 @@ public class FragmentX5 extends android.app.Fragment {
     public LinearLayout input1, input2, input3, input4, input5, input6;
     public boolean boolimg, boolvid;
     public String[] a;
-    public TextView errores;
-    public String[] errores_name;
 
     public FragmentX5 newInstance(int sectionNumber){
         FragmentX5 fragment = new FragmentX5();
@@ -333,52 +327,12 @@ public class FragmentX5 extends android.app.Fragment {
         input6.setVisibility(View.GONE);
     }
 
-    public String[]  validarDatosFragment5(){
+    public void validarDatosFragment5(){
         int id2 = view5_03_radiogroup2.getCheckedRadioButtonId();
         int id3 = view5_04_radiogroup3.getCheckedRadioButtonId();
         int id4 = view5_05_radiogroup4.getCheckedRadioButtonId();
         int id5 = view5_06_radiogroup5.getCheckedRadioButtonId();
         int id6 = view5_07_radiogroup6.getCheckedRadioButtonId();
         int id7 = view5_08_radiogroup7.getCheckedRadioButtonId();
-
-        errorv05_01 = "0";
-        errorv05_02 = "0";
-        errorv05_03 = "0";
-        errorv05_04 = "0";
-        errorv05_05 = "0";
-        errorv05_06 = "0";
-
-        if (id2 == -1){
-            errorv05_01 = "1";
-        }
-        if (id3 == -1){
-            errorv05_02 = "1";
-        }
-
-        if (id4 == -1){
-            errorv05_03 = "1";
-        }
-
-        if (id5 == -1){
-            errorv05_04 = "1";
-        }
-
-        if (id6 == -1){
-            errorv05_05 = "1";
-        }
-
-        if (id7 == -1){
-            errorv05_06 = "1";
-        }
-
-        a = new String[6];
-
-        a[0] = errorv05_01;
-        a[1] = errorv05_02;
-        a[2] = errorv05_03;
-        a[3] = errorv05_04;
-        a[4] = errorv05_05;
-        a[5] = errorv05_06;
-        return a;
     }
 }

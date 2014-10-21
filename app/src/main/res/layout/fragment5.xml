@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -49,27 +48,22 @@
             android:layout_below="@+id/tableRow11"
             android:layout_alignLeft="@+id/tableRow11"
             android:layout_alignStart="@+id/tableRow11">
-
-            <GridLayout android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:columnCount="3"
-                android:rowCount="2">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/asocimg_visual2"
-                        android:layout_marginTop="8dp"
-                        android:textColor="#003076"
-                        android:textSize="18dp"
-                        android:id="@+id/textView10"
-                        android:layout_rowSpan="2"/>
-                    <fragment android:name="test3.ncxchile.cl.acta.SimpleCameraIntentFragment"
-                    android:id="@+id/list"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-            </GridLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/asocimg_visual2"
+                android:textColor="#003076"
+                android:gravity="center"
+                android:textSize="18dp"
+                android:id="@+id/textView10"
+                android:layout_centerVertical="true"
+                android:textAlignment="gravity" />
+                <CheckBox
+                android:checked="true"/>
+                <fragment android:name="test3.ncxchile.cl.acta.SimpleCameraIntentFragment"
+                android:id="@+id/list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         </TableRow>
 
 

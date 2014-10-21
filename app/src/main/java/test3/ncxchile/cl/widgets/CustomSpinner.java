@@ -39,7 +39,6 @@ public class CustomSpinner extends Spinner{
         pincel.setColor(Color.BLACK);
         pincel.setTextAlign(Paint.Align.LEFT);
         init(context);
-        // TODO Auto-generated constructor stub
     }
 
     public CustomSpinner(Context context, AttributeSet attrs) {
@@ -49,7 +48,6 @@ public class CustomSpinner extends Spinner{
         pincel.setColor(Color.BLACK);
         pincel.setTextAlign(Paint.Align.LEFT);
         init(context);
-        // TODO Auto-generated constructor stub
     }
 
     public CustomSpinner(Context context, AttributeSet attrs, int defStyle) {
@@ -59,7 +57,6 @@ public class CustomSpinner extends Spinner{
         pincel.setColor(Color.BLACK);
         pincel.setTextAlign(Paint.Align.LEFT);
         init(context);
-        // TODO Auto-generated constructor stub
     }
 
     public void setSource(String source){
@@ -98,9 +95,7 @@ public class CustomSpinner extends Spinner{
             public void onNothingSelected(AdapterView<?> parentView) {
 
             }
-
         });
-
     }
 
     @Override

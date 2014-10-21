@@ -172,23 +172,23 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
 
         mViewPager.setCurrentItem(tab.getPosition());
 
-        if(tab.getPosition() == 1 || tab.getPosition() == 2 || tab.getPosition() == 3 || tab.getPosition() == 4 || tab.getPosition() == 5 || tab.getPosition() == 6 || tab.getPosition() == 7 || tab.getPosition() == 8 ){
+        if(tab.getPosition() == 1 /*|| tab.getPosition() == 2 || tab.getPosition() == 3 || tab.getPosition() == 4 || tab.getPosition() == 5 || tab.getPosition() == 6 || tab.getPosition() == 7 || tab.getPosition() == 8 */){
             FragmentX f1 = (FragmentX) getFragment(0);
 
             if(!f1.validarDatosFragment1())
                 errorFragment(0);
         }
 
-        if(tab.getPosition() == 2 || tab.getPosition() == 3 || tab.getPosition() == 4 || tab.getPosition() == 5 || tab.getPosition() == 6 || tab.getPosition() == 7 || tab.getPosition() == 8 ){
-            FragmentX f1 = (FragmentX) getFragment(0);
+        if(tab.getPosition() == 2 /*|| tab.getPosition() == 3 || tab.getPosition() == 4 || tab.getPosition() == 5 || tab.getPosition() == 6 || tab.getPosition() == 7 || tab.getPosition() == 8 */){
+            //FragmentX f1 = (FragmentX) getFragment(0);
             FragmentX2 f2 = (FragmentX2) getFragment(1);
 
             if (!f2.validarDatosFragment2())
                 errorFragment(1);
         }
 
-        if(tab.getPosition() == 3 || tab.getPosition() == 4 || tab.getPosition() == 5 || tab.getPosition() == 6 || tab.getPosition() == 7 || tab.getPosition() == 8 ){
-            FragmentX2 f2 = (FragmentX2) getFragment(1);
+        if(tab.getPosition() == 3 /*|| tab.getPosition() == 4 || tab.getPosition() == 5 || tab.getPosition() == 6 || tab.getPosition() == 7 || tab.getPosition() == 8 */){
+            //FragmentX2 f2 = (FragmentX2) getFragment(1);
             FragmentX3 f3 = (FragmentX3) getFragment(2);
 
             if (!f3.validarDatosFragment3()) {
@@ -196,14 +196,16 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
             }
         }
 
-        if(tab.getPosition() == 5 || tab.getPosition() == 6 || tab.getPosition() == 7 || tab.getPosition() == 8 ){
-            FragmentX3 f3 = (FragmentX3) getFragment(2);
+        if(tab.getPosition() == 5 /*|| tab.getPosition() == 6 || tab.getPosition() == 7 || tab.getPosition() == 8*/ ){
+            //FragmentX3 f3 = (FragmentX3) getFragment(2);
             FragmentX5 f5 = (FragmentX5) getFragment(4);
-            view5 = new String[6];
-            view5 = f5.validarDatosFragment5();
+
+            //view5 = f5.validarDatosFragment5();
+            /*
             if (view5[0] != "0" || view5[1] != "0" || view5[2] != "0" || view5[3] != "0" || view5[4] != "0" || view5[5] != "0") {
                 errorFragment(4);
             }
+            */
         }
 
         if(tab.getPosition() == 6 || tab.getPosition() == 7 || tab.getPosition() == 8){

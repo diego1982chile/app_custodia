@@ -1,11 +1,14 @@
 package test3.ncxchile.cl.widgets;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -35,7 +38,9 @@ public class RutEditText extends EditText {
 
     public void init(final Context context){
         successIcon = getResources().getDrawable(R.drawable.green_circle_check);
-        successIcon.setBounds(new Rect(0, 0, 20, 20));
+        Drawable errorIcon = getResources().getDrawable(R.drawable.red_circle_exclamation);
+
+        successIcon.setBounds(0, 0, (int)getTextSize()+2, (int)getTextSize()+2);
 
         View.OnFocusChangeListener fieldValidatorText = new View.OnFocusChangeListener() {
             @Override
