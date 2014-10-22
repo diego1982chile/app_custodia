@@ -1,0 +1,4 @@
+Moto
+Vehículo Liviano
+Vehículo  pesado de 2 ejes
+Vehículo  pesado de mas de 2 ejes

@@ -30,7 +30,7 @@ public class FragmentX5 extends android.app.Fragment {
     public RadioGroup view5_08_radiogroup7;
     public String q1_response, q2_response, q3_response, q4_response, q5_response, q6_response, switch1_response, switch2_response, switch3_response, switch4_response, switch5_response, switch6_response, switch7_response, switch8_response;
     public EditText observacion_01, observacion_02, observacion_03, observacion_04, observacion_05, observacion_06, motivo_imgvid;
-    public CheckBox img, vid;
+    public CheckBox img, vid, adjuntar;
     public Switch switch1, switch2, switch3, switch4, switch5, switch6, switch7;
     public TableRow tabla_05_01;
     public String view5_01_radiogrup1_response, view5_03_radiogroup2_response, view5_04_radiogroup3_response, view5_05_radiogroup4_response, view5_06_radiogroup5_response, view5_07_radiogroup6_response, view5_08_radiogroup7_response;
@@ -52,6 +52,10 @@ public class FragmentX5 extends android.app.Fragment {
         View rootView = inflater.inflate(R.layout.fragment5, container, false);
 
         motivo_imgvid = (EditText) rootView.findViewById(R.id.motivo_imgvid);
+
+        adjuntar= (CheckBox) rootView.findViewById(R.id.adjuntar_imagenvideo);
+
+        tabla_05_01= (TableRow) rootView.findViewById(R.id.tabla_05_01);
 
         view5_03_radiogroup2 = (RadioGroup) rootView.findViewById(R.id.view5_03_radiogroup2);
         view5_04_radiogroup3 = (RadioGroup) rootView.findViewById(R.id.view5_04_radiogroup3);
@@ -75,7 +79,7 @@ public class FragmentX5 extends android.app.Fragment {
         switch6 = (Switch) rootView.findViewById(R.id.switch6);
         switch7 = (Switch) rootView.findViewById(R.id.switch7);
 
-        tabla_05_01 = (TableRow) rootView.findViewById(R.id.tabla_05_01);
+        //tabla_05_01 = (TableRow) rootView.findViewById(R.id.tabla_05_01);
         input1 = (LinearLayout) rootView.findViewById(R.id.input1);
         input1.setVisibility(View.GONE);
         input2 = (LinearLayout) rootView.findViewById(R.id.input2);
@@ -101,6 +105,17 @@ public class FragmentX5 extends android.app.Fragment {
                     switch1_response = "NO";
                 }
 
+            }
+        });
+
+        adjuntar.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+            if(!b)
+                tabla_05_01.setVisibility(View.VISIBLE);
+            else
+                tabla_05_01.setVisibility(View.GONE);
             }
         });
 

@@ -1,27 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <GridLayout android:layout_width="fill_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <GridLayout android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:columnCount="2"
+        android:columnCount="4"
         android:rowCount="1"
-        android:textAlignment="gravity">
+        >
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tomar Foto"
-            android:src="@drawable/camera"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            style="@style/CustomStyleButton2"
             android:id="@+id/button_foto"
-            android:layout_gravity="center|bottom"
+            android:drawableLeft="@drawable/camera_small_blanco"
+            android:layout_gravity="center"
+            android:layout_centerVertical="true"
             />
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:id="@+id/imageViewThumbnail"
-            android:layout_gravity="center_horizontal"
+            android:src="@drawable/placeholder" />
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/imageViewThumbnail2"
+            android:src="@drawable/placeholder" />
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/imageViewThumbnail3"
             android:src="@drawable/placeholder" />
     </GridLayout>
 </FrameLayout>
