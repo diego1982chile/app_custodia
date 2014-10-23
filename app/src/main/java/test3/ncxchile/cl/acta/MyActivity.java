@@ -72,6 +72,8 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
     Fragment h = new FragmentX8().newInstance(7);
     Fragment i = new FragmentX9().newInstance(8);
 
+    Fragment j = new FragmentFotoVideo().newInstance(9);
+
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -147,6 +149,8 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         mPageReferenceMap.put(6, g);
         mPageReferenceMap.put(7, h);
         mPageReferenceMap.put(8, i);
+
+        mPageReferenceMap.put(9, j);
     }
 
     @Override
@@ -198,6 +202,18 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
 
         if(tab.getPosition() == 5 /*|| tab.getPosition() == 6 || tab.getPosition() == 7 || tab.getPosition() == 8*/ ){
             //FragmentX3 f3 = (FragmentX3) getFragment(2);
+            FragmentFotoVideo fragmentFotoVideo = (FragmentFotoVideo) getFragment(9);
+
+            //view5 = f5.validarDatosFragment5();
+            /*
+            if (view5[0] != "0" || view5[1] != "0" || view5[2] != "0" || view5[3] != "0" || view5[4] != "0" || view5[5] != "0") {
+                errorFragment(4);
+            }
+            */
+        }
+
+        if(tab.getPosition() == 6 /*|| tab.getPosition() == 6 || tab.getPosition() == 7 || tab.getPosition() == 8*/ ){
+            //FragmentX3 f3 = (FragmentX3) getFragment(2);
             FragmentX5 f5 = (FragmentX5) getFragment(4);
 
             //view5 = f5.validarDatosFragment5();
@@ -208,7 +224,7 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
             */
         }
 
-        if(tab.getPosition() == 6 || tab.getPosition() == 7 || tab.getPosition() == 8){
+        if(tab.getPosition() == 7 /*|| tab.getPosition() == 8 || tab.getPosition() == 9*/){
             FragmentX5 f5 = (FragmentX5) getFragment(4);
             FragmentX6 f6 = (FragmentX6) getFragment(5);
             view6 = new String[3];
@@ -223,7 +239,7 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
             }
         }
 
-        if(tab.getPosition() == 7 || tab.getPosition() == 8 ){
+        if(tab.getPosition() == 8 /*|| tab.getPosition() == 9 */){
             FragmentX6 f6 = (FragmentX6) getFragment(5);
             f6.limpiarErrores();
             FragmentX7 f7 = (FragmentX7) getFragment(6);
@@ -273,15 +289,28 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
                 case 3:
                     return d;
                 case 4:
-                    return e;
+                    return j;
                 case 5:
-                    return f;
+                    return e;
                 case 6:
-                    return g;
+                    return f;
                 case 7:
-                    return h;
+                    return g;
                 case 8:
+                    return h;
+                case 9:
                     return i;
+                /*
+                mPageReferenceMap.put(0, a);
+                mPageReferenceMap.put(1, b);
+                mPageReferenceMap.put(2, c);
+                mPageReferenceMap.put(3, d);
+                mPageReferenceMap.put(4, e);
+                mPageReferenceMap.put(5, f);
+                mPageReferenceMap.put(6, g);
+                mPageReferenceMap.put(7, h);
+                mPageReferenceMap.put(8, i);
+                */
             }
             return null;//
         }

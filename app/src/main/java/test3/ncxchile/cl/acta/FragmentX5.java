@@ -1,5 +1,6 @@
 package test3.ncxchile.cl.acta;
 
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,12 +51,6 @@ public class FragmentX5 extends android.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment5, container, false);
-
-        motivo_imgvid = (EditText) rootView.findViewById(R.id.motivo_imgvid);
-
-        adjuntar= (CheckBox) rootView.findViewById(R.id.adjuntar_imagenvideo);
-
-        tabla_05_01= (TableRow) rootView.findViewById(R.id.tabla_05_01);
 
         view5_03_radiogroup2 = (RadioGroup) rootView.findViewById(R.id.view5_03_radiogroup2);
         view5_04_radiogroup3 = (RadioGroup) rootView.findViewById(R.id.view5_04_radiogroup3);
@@ -108,16 +103,6 @@ public class FragmentX5 extends android.app.Fragment {
             }
         });
 
-        adjuntar.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
-
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-            if(!b)
-                tabla_05_01.setVisibility(View.VISIBLE);
-            else
-                tabla_05_01.setVisibility(View.GONE);
-            }
-        });
 
         switch2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 

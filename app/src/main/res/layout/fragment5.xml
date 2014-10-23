@@ -41,63 +41,6 @@
         <TableRow
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="true"
-            android:showDividers="middle"
-            android:paddingLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:paddingRight="10dp"
-            android:id="@+id/tableRow1"
-            android:layout_below="@+id/tableRow11"
-            android:layout_alignLeft="@+id/tableRow11"
-            android:layout_alignStart="@+id/tableRow11">
-            <LinearLayout android:layout_marginTop="8dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/asocimg_visual2"
-                    android:textColor="#003076"
-                    android:textSize="18dp"
-                    android:id="@+id/textView10"
-                    />
-                <CheckBox android:layout_height="wrap_content" android:layout_width="wrap_content" android:checked="true" android:id="@+id/adjuntar_imagenvideo"/>
-            </LinearLayout>
-                <fragment android:name="test3.ncxchile.cl.acta.SimpleCameraIntentFragment"
-                    android:id="@+id/list"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/autoridad_solicita"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:id="@+id/tabla_05_01"
-            android:visibility="gone"
-            >
-
-            <TextView
-                android:layout_width="0dip"
-                android:layout_weight=".3"
-                android:layout_height="wrap_content"
-                android:text="@string/motivo_visual"
-                android:textColor="#003076"
-                android:textSize="18dp"
-                android:id="@+id/textView"
-                android:layout_gravity="center"
-                />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/motivo_imgvid"
-                 />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
             android:showDividers="middle"
             android:nestedScrollingEnabled="true"
             android:paddingLeft="10dp"
@@ -203,7 +146,8 @@
                     android:id="@+id/radioButton6"
                     android:onClick="sinObs2"
                     android:layout_marginTop="-33dp"
-                    android:layout_marginRight="40dp" />
+                    android:layout_marginRight="40dp"
+                    android:checked="false" />
 
             </RadioGroup>
         </TableRow>
@@ -722,10 +666,7 @@
                 android:id="@+id/switch7"
                 android:textOn="Si"
                 android:textOff="No"/>
-
         </TableRow>
-
-
     </TableLayout>
     </ScrollView>
 </RelativeLayout>
