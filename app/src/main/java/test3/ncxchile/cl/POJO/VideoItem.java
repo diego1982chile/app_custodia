@@ -8,12 +8,14 @@ import android.net.Uri;
  */
 public class VideoItem {
     private Bitmap image;
+    private Bitmap icon;
     private Uri uri;
     private String Path;
 
-    public VideoItem(Bitmap image, Uri uri, String path) {
+    public VideoItem(Bitmap image, Bitmap icon, Uri uri, String path) {
         super();
         this.image = image;
+        this.icon = icon;
         this.uri = uri;
         this.Path = path;
     }
@@ -24,6 +26,14 @@ public class VideoItem {
 
     public void setImage(Bitmap image) {
         this.image = image;
+    }
+
+    public Bitmap getIcon () {
+        return icon;
+    }
+
+    public void setIcon(Bitmap icon) {
+        this.image = icon;
     }
 
     public Uri getUri() {

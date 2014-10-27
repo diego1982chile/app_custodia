@@ -48,6 +48,9 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
     public String view3_01, view3_02, view3_03, view3_04, view3_05, view3_06, view3_07, view3_08;
     // Fragment 4
     public String view4_00, view4_01, view4_02, view4_03, view4_05, view4_07, view4_08, view4_04, view4_06, view4_09;
+    // Fragment fotovideo
+    public boolean viewImagenVideo_01, viewImagenVideo_02;
+    public String viewImagenVideo_03;
     // Fragment 5
     public boolean view5_01, view5_02;
     public String view5_03, view5_04, view5_05, view5_06, view5_07, view5_08, view5_09, view5_10, view5_11, view5_12, view5_13, view5_14, view5_15, view5_16, view5_17;
@@ -204,24 +207,18 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
             //FragmentX3 f3 = (FragmentX3) getFragment(2);
             FragmentFotoVideo fragmentFotoVideo = (FragmentFotoVideo) getFragment(9);
 
-            //view5 = f5.validarDatosFragment5();
-            /*
-            if (view5[0] != "0" || view5[1] != "0" || view5[2] != "0" || view5[3] != "0" || view5[4] != "0" || view5[5] != "0") {
+            if (!fragmentFotoVideo.validarDatosFragmentFotoVideo()) {
                 errorFragment(4);
             }
-            */
         }
 
         if(tab.getPosition() == 6 /*|| tab.getPosition() == 6 || tab.getPosition() == 7 || tab.getPosition() == 8*/ ){
             //FragmentX3 f3 = (FragmentX3) getFragment(2);
             FragmentX5 f5 = (FragmentX5) getFragment(4);
 
-            //view5 = f5.validarDatosFragment5();
-            /*
-            if (view5[0] != "0" || view5[1] != "0" || view5[2] != "0" || view5[3] != "0" || view5[4] != "0" || view5[5] != "0") {
-                errorFragment(4);
+            if (!f5.validarDatosFragment5()) {
+                errorFragment(5);
             }
-            */
         }
 
         if(tab.getPosition() == 7 /*|| tab.getPosition() == 8 || tab.getPosition() == 9*/){
@@ -571,6 +568,12 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         view4_07 = g.getText().toString();
         view4_08 = h.getText().toString();
         view4_09 = i;
+    }
+
+    public void recibeDatosFragmentFotoVideo(boolean boolimg, boolean boolvid, String motivo_imgvid){
+        viewImagenVideo_01 = boolimg;
+        viewImagenVideo_02 = boolvid;
+        viewImagenVideo_03 = motivo_imgvid;
     }
 
     public void recibeDatosFragmentX5(boolean boolimg, boolean boolvid, EditText motivo_imgvid, String q1_response, String q2_response,  String q3_response,  String q4_response,  String q5_response, String q6_response, String switch1_response, String switch2_response, String switch3_response, String switch4_response, String switch5_response, String switch6_response, String switch7_response){

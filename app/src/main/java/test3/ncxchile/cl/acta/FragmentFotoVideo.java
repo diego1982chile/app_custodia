@@ -4,13 +4,14 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Fragment;
-import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.AssetFileDescriptor;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
@@ -27,13 +28,11 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -52,13 +51,13 @@ public class FragmentFotoVideo extends Fragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
 
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1888;
-    static final int REQUEST_VIDEO_CAPTURE = 1;
-
     static final int REQUEST_TAKE_PHOTO = 1;
+    static final int REQUEST_VIDEO_CAPTURE = 2;
+
     // Elementos legados de FragmentX5
-    public CheckBox img, vid, adjuntar;
-    public TextView textMotivo;
-    public EditText motivo;
+    public CheckBox img, vid, adjuntarImagen, adjuntarVideo;
+    public EditText motivo_imgvid;
+    public TableRow motivo;
     //////////////////////////////
     Button button,buttonVideo;
     ImageView imageView;
@@ -66,11 +65,14 @@ public class FragmentFotoVideo extends Fragment {
     ArrayList<VideoItem> videoItems = new ArrayList<VideoItem>(5);
     GridView imageGridView;
     GridView videoGridView;
+    ImageView imageIcon;
+    ImageView videoIcon;
     private GridViewAdapter imageGridAdapter;
     private GridViewVideoAdapter videoGridAdapter;
     Intent photoIntent;
     View rootView;
-    int cont = 0;
+    String mCurrentPath;
+    Uri mCurrentUri;
 
     public FragmentFotoVideo newInstance(int sectionNumber){
         FragmentFotoVideo fragment = new FragmentFotoVideo();
@@ -84,15 +86,21 @@ public class FragmentFotoVideo extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.fragment_fotovideo, container, false);
-        motivo = (EditText) rootView.findViewById(R.id.motivo);
-        adjuntar= (CheckBox) rootView.findViewById(R.id.adjuntar_imagenvideo);
-        textMotivo= (TextView) rootView.findViewById(R.id.textMotivo);
+        motivo = (TableRow) rootView.findViewById(R.id.motivo);
+        motivo_imgvid = (EditText) rootView.findViewById(R.id.motivo_imgvid);
+        adjuntarImagen= (CheckBox) rootView.findViewById(R.id.adjuntar_imagen);
+        adjuntarVideo= (CheckBox) rootView.findViewById(R.id.adjuntar_video);
+        imageIcon= (ImageView) rootView.findViewById(R.id.icon);
+        videoIcon= (ImageView) rootView.findViewById(R.id.icon_video);
 
         button = (Button) rootView.findViewById(R.id.button_foto);
         buttonVideo = (Button) rootView.findViewById(R.id.button_video);
         //items.add(new ImageItem(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.placeholder),""));
 
-        ImageItem imagePlaceHolder = new ImageItem(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.placeholder), "");
+        ImageItem imagePlaceHolder = new ImageItem(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.photo_placeholder),
+                                                   BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.photo_placeholder),
+                                                   Uri.parse(getActivity().getPackageName() + R.drawable.video_placeholder),"");
+
         imageItems.add(imagePlaceHolder);
         imageItems.add(imagePlaceHolder);
         imageItems.add(imagePlaceHolder);
@@ -104,8 +112,9 @@ public class FragmentFotoVideo extends Fragment {
         imageItems.add(imagePlaceHolder);
         imageItems.add(imagePlaceHolder);
 
-        VideoItem videoPlaceHolder= new VideoItem(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.placeholder),
-                                                  Uri.parse(getActivity().getPackageName() + R.drawable.placeholder),"");
+        VideoItem videoPlaceHolder= new VideoItem(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.video_placeholder),
+                                                  BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.photo_placeholder),
+                                                  Uri.parse(getActivity().getPackageName() + R.drawable.video_placeholder),"");
         videoItems.add(videoPlaceHolder);
         videoItems.add(videoPlaceHolder);
         videoItems.add(videoPlaceHolder);
@@ -133,25 +142,38 @@ public class FragmentFotoVideo extends Fragment {
             @Override
             public void onClick(View view) {
                 photoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-                //photoIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri(2));
-                setImageUri(2);
+                photoIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri(2));
                 startActivityForResult(photoIntent, REQUEST_VIDEO_CAPTURE);
             }
         });
 
-        imageGridView.setOnItemClickListener(clickImage);
+        //imageGridView.setOnItemClickListener(clickImage);
+        //videoGridView.setOnItemClickListener(clickVideo);
 
-        adjuntar.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+        adjuntarImagen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
 
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(!b) {
-                    textMotivo.setVisibility(View.VISIBLE);
                     motivo.setVisibility(View.VISIBLE);
                 }
                 else {
-                    textMotivo.setVisibility(View.GONE);
-                    motivo.setVisibility(View.GONE);
+                    if(adjuntarVideo.isChecked())
+                        motivo.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        adjuntarVideo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(!b) {
+                    motivo.setVisibility(View.VISIBLE);
+                }
+                else {
+                    if(adjuntarImagen.isChecked())
+                        motivo.setVisibility(View.GONE);
                 }
             }
         });
@@ -163,9 +185,7 @@ public class FragmentFotoVideo extends Fragment {
     public Uri setImageUri(int media) {
         // Store image in dcim
         //File file = new File(Environment.getExternalStorageDirectory() + "/DCIM/", "image" + new Date().getTime() + ".png");
-        File storageDir;
-
-        storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        File storageDir= Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 
@@ -173,10 +193,18 @@ public class FragmentFotoVideo extends Fragment {
 
         switch (media){
             case 1:
-                imageFileName = "/OS_1/FOTOS/" + timeStamp + ".png";
+                storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS+"/OS_1/FOTOS/");
+                //timeStamp = "foto_"+contImage;
+                if(!storageDir.exists())
+                    storageDir.mkdirs();
+                imageFileName = timeStamp + ".png";
                 break;
             case 2:
-                imageFileName = "/OS_1/VIDEOS/" + timeStamp + ".mp4";
+                storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS+"/OS_1/VIDEOS/");
+                //timeStamp = "video_"+contVideo;
+                if(!storageDir.exists())
+                    storageDir.mkdirs();
+                imageFileName = timeStamp + ".mp4";
                 break;
         }
 
@@ -184,7 +212,8 @@ public class FragmentFotoVideo extends Fragment {
 
         Uri imgUri = Uri.fromFile(file);
         System.out.print("imgUri=" + imgUri);
-        mCurrentPhotoPath = file.getAbsolutePath();
+        mCurrentPath = file.getAbsolutePath();
+        mCurrentUri = imgUri;
         return imgUri;
     }
 
@@ -192,33 +221,27 @@ public class FragmentFotoVideo extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != Activity.RESULT_CANCELED) {
             if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
-                imageItems.set(cont, new ImageItem(decodeFile(mCurrentPhotoPath), mCurrentPhotoPath));
+                imageItems.set(imageGridAdapter.getContImage(), new ImageItem(decodeFile(mCurrentPath),
+                        BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.delete_small)
+                        ,mCurrentUri, mCurrentPath));
+                imageGridAdapter.setContImage(imageGridAdapter.getContImage()+1);
                 imageGridView.setAdapter(imageGridAdapter);
-                ++cont;
             } else {
                 if(requestCode == REQUEST_VIDEO_CAPTURE) {
+                    System.out.println("mCurrentPhotoPath="+mCurrentPath);
+                    Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(mCurrentPath,MediaStore.Images.Thumbnails.MINI_KIND);
 
-                    try {
-                        AssetFileDescriptor videoAsset = getActivity().getContentResolver().openAssetFileDescriptor(data.getData(), "r");
-                        FileInputStream fis = videoAsset.createInputStream();
-                        File tmpFile = new File(mCurrentPhotoPath);
-                        FileOutputStream fos = new FileOutputStream(tmpFile);
+                    /*
+                    MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+                    retriever.setDataSource(mCurrentPhotoPath);
+                    Bitmap bitmap = retriever.getFrameAtTime(11);
+                    */
 
-                        byte[] buf = new byte[1024];
-                        int len;
-                        while ((len = fis.read(buf)) > 0) {
-                            fos.write(buf, 0, len);
-                        }
-                        fis.close();
-                        fos.close();
-                    } catch (IOException io_e) {
-                        System.out.println("Error: "+io_e);
-                        // TODO: handle error
-                    }
-
-                    //videoItems.set(cont, new ImageItem(decodeFile(mCurrentPhotoPath), mCurrentPhotoPath));
+                    videoItems.set(videoGridAdapter.getContVideo(), new VideoItem(bitmap,
+                            BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.delete_small)
+                            , mCurrentUri ,mCurrentPath));
+                    videoGridAdapter.setContVideo(videoGridAdapter.getContVideo()+1);
                     videoGridView.setAdapter(videoGridAdapter);
-                    ++cont;
                 }
                 else {
                     super.onActivityResult(requestCode, resultCode, data);
@@ -227,19 +250,13 @@ public class FragmentFotoVideo extends Fragment {
         }
     }
 
-    public String getRealPathFromURI(Uri contentUri) {
-        String[] proj = { MediaStore.Images.Media.DATA };
-        Cursor cursor = getActivity().managedQuery(contentUri, proj, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);
-    }
-
     public Bitmap decodeFile(String path) {
+
         try {
             // Decode image size
             BitmapFactory.Options o = new BitmapFactory.Options();
             o.inJustDecodeBounds = true;
+
             BitmapFactory.decodeFile(path, o);
             // The new size we want to scale to
             final int REQUIRED_SIZE = 70;
@@ -252,7 +269,19 @@ public class FragmentFotoVideo extends Fragment {
             // Decode with inSampleSize
             BitmapFactory.Options o2 = new BitmapFactory.Options();
             o2.inSampleSize = scale;
-            return BitmapFactory.decodeFile(path, o2);
+
+            int rotateImage = getCameraPhotoOrientation(getActivity(), mCurrentUri, mCurrentPath);
+
+            if(rotateImage==0)
+                return BitmapFactory.decodeFile(path, o2);
+
+            // create a matrix object
+            Matrix matrix = new Matrix();
+            matrix.postRotate(90); // anti-clockwise by 90 degrees
+
+            // create a new bitmap from the original using the matrix to transform the result
+            return Bitmap.createBitmap(BitmapFactory.decodeFile(path, o2) , 0, 0, o2.outWidth, o2.outHeight, matrix, true);
+
         } catch (Throwable e) {
             e.printStackTrace();
         }
@@ -260,74 +289,81 @@ public class FragmentFotoVideo extends Fragment {
 
     }
 
-    String mCurrentPhotoPath;
+    public void envioDeDatos() {
 
-    private void setPic(View v) {
-        // Get the dimensions of the View
-        int targetW = v.getWidth();
-        int targetH = v.getHeight();
+        boolean boolimg=adjuntarImagen.isChecked();
+        boolean boolvid=adjuntarVideo.isChecked();
+        String motivo=motivo_imgvid.getText().toString();
 
-        // Get the dimensions of the bitmap
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
-        int photoW = bmOptions.outWidth;
-        int photoH = bmOptions.outHeight;
-
-        // Determine how much to scale down the image
-        int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
-
-        // Decode the image file into a Bitmap sized to fill the View
-        bmOptions.inJustDecodeBounds = false;
-        bmOptions.inSampleSize = scaleFactor;
-        bmOptions.inPurgeable = true;
-
-        Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
-        imageView.setImageBitmap(bitmap);
+        ((MyActivity) getActivity()).recibeDatosFragmentFotoVideo(boolimg, boolvid, motivo);
     }
 
-    AdapterView.OnItemClickListener clickImage = new AdapterView.OnItemClickListener() {
+    public boolean validarDatosFragmentFotoVideo(){
 
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        boolean esValido=true;
+
+        if( (!adjuntarImagen.isChecked() || !adjuntarVideo.isChecked()) && motivo_imgvid.getText().toString().equals("") ){
+            motivo_imgvid.setError(getString(R.string.error_field_required));
+            esValido=false;
+        }
+        /*
+        if (adjuntarImagen.isChecked() && contImage==0){
             AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-            ImageItem item = (ImageItem) adapterView.getItemAtPosition(i);
-
-            alertDialog.setTitle(item.getPath());
-
-            // Get the dimensions of the View
-            int targetW = 400;
-            int targetH = 400;
-
-            // Get the dimensions of the bitmap
-            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-            bmOptions.inJustDecodeBounds = true;
-            BitmapFactory.decodeFile(item.getPath(), bmOptions);
-            int photoW = bmOptions.outWidth;
-            int photoH = bmOptions.outHeight;
-
-            // Determine how much to scale down the image
-            int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
-
-            // Decode the image file into a Bitmap sized to fill the View
-            bmOptions.inJustDecodeBounds = false;
-            bmOptions.inSampleSize = scaleFactor;
-            bmOptions.inPurgeable = true;
-
-            Bitmap bitmap = BitmapFactory.decodeFile(item.getPath(), bmOptions);
-
-            LayoutInflater factory = LayoutInflater.from(getActivity());
-            final View mView = factory.inflate(R.layout.sample, null);
-            ImageView mImageView = (ImageView) mView.findViewById(R.id.bigImage);
-            mImageView.setImageBitmap(bitmap);
-            alertDialog.setView(mView);
+            alertDialog.setTitle("Error de Fotos/Videos");
+            alertDialog.setMessage("Debe sacar al menos una foto");
+            alertDialog.setIcon(R.drawable.action_fail_small);
 
             alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                 }
             });
             alertDialog.show();
+            esValido=false;
         }
-    };
 
+        if (adjuntarVideo.isChecked() && contVideo==0){
+            AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+            alertDialog.setTitle("Error de Fotos/Videos");
+            alertDialog.setMessage("Debe grabar al menos un video");
+            alertDialog.setIcon(R.drawable.action_fail_small);
+
+            alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+            alertDialog.show();
+            esValido=false;
+        }
+        ¨*/
+        return esValido;
+    }
+
+    public int getCameraPhotoOrientation(Context context, Uri imageUri, String imagePath){
+        int rotate = 0;
+        try {
+            context.getContentResolver().notifyChange(imageUri, null);
+            File imageFile = new File(imagePath);
+
+            ExifInterface exif = new ExifInterface(imageFile.getAbsolutePath());
+            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    rotate = 270;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    rotate = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    rotate = 90;
+                    break;
+            }
+
+            System.out.println("Exif orientation: " + orientation);
+            System.out.println("Rotate value: " + rotate);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rotate;
+    }
 }

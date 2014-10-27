@@ -133,14 +133,12 @@ public class HomeActivity extends Activity {
                     marcada = 3;
                 }
             });
-
             alertDialog.setButton(Dialog.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     // here you can add functions
                 }
             });
             alertDialog.show();
-
         }
     }
 

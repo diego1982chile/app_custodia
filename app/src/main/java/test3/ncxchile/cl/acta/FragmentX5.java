@@ -1,6 +1,7 @@
 package test3.ncxchile.cl.acta;
 
 import android.app.FragmentTransaction;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TableRow;
@@ -103,7 +105,6 @@ public class FragmentX5 extends android.app.Fragment {
             }
         });
 
-
         switch2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
@@ -115,7 +116,6 @@ public class FragmentX5 extends android.app.Fragment {
                 }else{
                     switch2_response = "NO";
                 }
-
             }
         });
 
@@ -327,12 +327,98 @@ public class FragmentX5 extends android.app.Fragment {
         input6.setVisibility(View.GONE);
     }
 
-    public void validarDatosFragment5(){
-        int id2 = view5_03_radiogroup2.getCheckedRadioButtonId();
-        int id3 = view5_04_radiogroup3.getCheckedRadioButtonId();
-        int id4 = view5_05_radiogroup4.getCheckedRadioButtonId();
-        int id5 = view5_06_radiogroup5.getCheckedRadioButtonId();
-        int id6 = view5_07_radiogroup6.getCheckedRadioButtonId();
-        int id7 = view5_08_radiogroup7.getCheckedRadioButtonId();
+    public boolean validarDatosFragment5(){
+        boolean esValido=true;
+        /*
+        view5_03_radiogroup2 = (RadioGroup) rootView.findViewById(R.id.view5_03_radiogroup2);
+        view5_04_radiogroup3 = (RadioGroup) rootView.findViewById(R.id.view5_04_radiogroup3);
+        view5_05_radiogroup4 = (RadioGroup) rootView.findViewById(R.id.view5_05_radiogroup4);
+        view5_06_radiogroup5 = (RadioGroup) rootView.findViewById(R.id.view5_06_radiogroup5);
+        view5_07_radiogroup6 = (RadioGroup) rootView.findViewById(R.id.view5_07_radiogroup6);
+        view5_08_radiogroup7 = (RadioGroup) rootView.findViewById(R.id.view5_08_radiogroup7);
+        */
+
+        if(view5_03_radiogroup2.getCheckedRadioButtonId()!=-1){
+            int id= view5_03_radiogroup2.getCheckedRadioButtonId();
+            View radioButton = view5_03_radiogroup2.findViewById(id);
+            int radioId = view5_03_radiogroup2.indexOfChild(radioButton);
+            RadioButton btn = (RadioButton) view5_03_radiogroup2.getChildAt(radioId);
+            String selection = (String) btn.getText();
+            if(selection.equals("Con observación") && observacion_01.getText().equals(""))
+                observacion_01.setError("Debe ingresar una observación");
+                esValido=false;
+        }
+        else{
+            view5_03_radiogroup2.setBackgroundColor(Color.RED);
+            esValido=false;
+        }
+
+        if(view5_04_radiogroup3.getCheckedRadioButtonId()!=-1){
+            int id= view5_04_radiogroup3.getCheckedRadioButtonId();
+            View radioButton = view5_04_radiogroup3.findViewById(id);
+            int radioId = view5_04_radiogroup3.indexOfChild(radioButton);
+            RadioButton btn = (RadioButton) view5_04_radiogroup3.getChildAt(radioId);
+            String selection = (String) btn.getText();
+            if(selection.equals("Con observación") && observacion_02.getText().equals(""))
+                esValido=false;
+        }
+        else{
+            esValido=false;
+        }
+
+        if(view5_05_radiogroup4.getCheckedRadioButtonId()!=-1){
+            int id= view5_05_radiogroup4.getCheckedRadioButtonId();
+            View radioButton = view5_05_radiogroup4.findViewById(id);
+            int radioId = view5_05_radiogroup4.indexOfChild(radioButton);
+            RadioButton btn = (RadioButton) view5_05_radiogroup4.getChildAt(radioId);
+            String selection = (String) btn.getText();
+            if(selection.equals("Con observación") && observacion_03.getText().equals(""))
+                esValido=false;
+        }
+        else{
+            esValido=false;
+        }
+
+        if(view5_06_radiogroup5.getCheckedRadioButtonId()!=-1){
+            int id= view5_06_radiogroup5.getCheckedRadioButtonId();
+            View radioButton = view5_06_radiogroup5.findViewById(id);
+            int radioId = view5_06_radiogroup5.indexOfChild(radioButton);
+            RadioButton btn = (RadioButton) view5_06_radiogroup5.getChildAt(radioId);
+            String selection = (String) btn.getText();
+            if(selection.equals("Con observación") && observacion_04.getText().equals(""))
+                esValido=false;
+        }
+        else{
+            esValido=false;
+        }
+
+        if(view5_07_radiogroup6.getCheckedRadioButtonId()!=-1){
+            int id= view5_07_radiogroup6.getCheckedRadioButtonId();
+            View radioButton = view5_07_radiogroup6.findViewById(id);
+            int radioId = view5_07_radiogroup6.indexOfChild(radioButton);
+            RadioButton btn = (RadioButton) view5_07_radiogroup6.getChildAt(radioId);
+            String selection = (String) btn.getText();
+            if(selection.equals("Con observación") && observacion_05.getText().equals(""))
+                esValido=false;
+        }
+        else{
+            esValido=false;
+        }
+
+        if(view5_08_radiogroup7.getCheckedRadioButtonId()!=-1){
+            int id= view5_08_radiogroup7.getCheckedRadioButtonId();
+            View radioButton = view5_08_radiogroup7.findViewById(id);
+            int radioId = view5_08_radiogroup7.indexOfChild(radioButton);
+            RadioButton btn = (RadioButton) view5_08_radiogroup7.getChildAt(radioId);
+            String selection = (String) btn.getText();
+            if(selection.equals("Con observación") && observacion_06.getText().equals(""))
+                esValido=false;
+        }
+        else{
+            esValido=false;
+        }
+
+        return esValido;
+
     }
 }

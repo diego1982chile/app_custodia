@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/image_item_container"
     android:orientation="vertical"
+    android:descendantFocusability="afterDescendants"
+    android:focusable="false"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    >
+    android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/img"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:focusable="true"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
         android:background="@android:color/darker_gray"/>
+    <ImageView
+        android:id="@+id/icon"
+        android:focusable="true"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="top"
+        android:visibility="gone"
+        />
     <TextView
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone">
     </TextView>
-</LinearLayout>
+</RelativeLayout>

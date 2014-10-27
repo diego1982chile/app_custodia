@@ -93,14 +93,15 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:id="@+id/input1">
-            <EditText
-                android:layout_width="wrap_content"
+            <test3.ncxchile.cl.widgets.RequiredEditText
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/observacion_01"
                 android:layout_marginLeft="15dp"
                 android:paddingLeft="50dp"
+                android:paddingRight="50dp"
                 android:hint="Ingresar observación"
-                android:paddingRight="100dp"/>
+                android:layout_marginRight="15dp"/>
         </LinearLayout>
 
         <TableRow
@@ -159,14 +160,14 @@
             android:layout_gravity="center_horizontal"
             android:id="@+id/input2">
             <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/observacion_02"
-                android:layout_weight="0.51"
                 android:hint="Ingresar observación"
                 android:layout_marginLeft="15dp"
                 android:paddingLeft="50dp"
-                android:paddingRight="100dp"/>
+                android:paddingRight="100dp"
+                android:layout_marginRight="15dp"/>
 
         </LinearLayout>
 
@@ -226,10 +227,9 @@
             android:layout_gravity="center_horizontal"
             android:id="@+id/input3">
             <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/observacion_03"
-                android:layout_weight="0.51"
                 android:hint="Ingresar observación"
                 android:layout_marginLeft="15dp"
                 android:paddingLeft="50dp"
@@ -297,7 +297,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/observacion_04"
                 android:hint="Debe ingresar una observación"
-                android:layout_weight="0.51"
                 android:layout_marginLeft="15dp"
                 android:paddingLeft="50dp"
                 android:paddingRight="100dp"/>
@@ -363,7 +362,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/observacion_05"
-                android:layout_weight="0.51"
                 android:hint="Debe ingresar una observación"
                 android:layout_marginLeft="15dp"
                 android:paddingLeft="50dp"
@@ -431,7 +429,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/observacion_06"
                 android:hint="Debe ingresar una observación"
-                android:layout_weight="0.51"
                 android:layout_marginLeft="15dp"
                 android:paddingLeft="50dp"
                 android:paddingRight="100dp"/>
@@ -464,7 +461,7 @@
             <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="164dp"
+                android:layout_gravity="center"
                 android:id="@+id/switch1"
                 android:textOn="Si"
                 android:textOff="No"/>
