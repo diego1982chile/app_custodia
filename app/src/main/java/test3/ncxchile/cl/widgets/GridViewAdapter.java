@@ -27,6 +27,7 @@ import android.widget.TextView;
 import repack.org.bouncycastle.asn1.x509.Holder;
 import test3.ncxchile.cl.POJO.ImageItem;
 import test3.ncxchile.cl.login.R;
+import test3.ncxchile.cl.session.SessionManager;
 
 
 public class GridViewAdapter extends ArrayAdapter  {
@@ -41,6 +42,8 @@ public class GridViewAdapter extends ArrayAdapter  {
         this.layoutResourceId = layoutResourceId;
         this.context = context;
         this.data = data;
+        SessionManager session = new SessionManager(context);
+        contImage=session.getKeyCantidadFotos();
     }
 
     public int getContImage(){return contImage;}
@@ -50,7 +53,7 @@ public class GridViewAdapter extends ArrayAdapter  {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View row = convertView;
         ViewHolder holder = null;
 
@@ -85,7 +88,17 @@ public class GridViewAdapter extends ArrayAdapter  {
                         boolean deleted = file.delete();
                         if(deleted){
                             remove(item);
+                            add(new ImageItem(BitmapFactory.decodeResource(context.getResources(), R.drawable.photo_placeholder),
+                                    BitmapFactory.decodeResource(context.getResources(), R.drawable.photo_placeholder),
+                                    Uri.parse(context.getPackageName() + R.drawable.video_placeholder),""));
+                            /*
+                            insert(new ImageItem(BitmapFactory.decodeResource(context.getResources(), R.drawable.photo_placeholder),
+                                                 BitmapFactory.decodeResource(context.getResources(), R.drawable.photo_placeholder),
+                                                 Uri.parse(context.getPackageName() + R.drawable.video_placeholder),""),position);
+                                                 */
                             contImage--;
+                            SessionManager session = new SessionManager(context);
+                            session.setKeyCantidadVideos(contImage);
                             //imageGridView.setAdapter(imageGridAdapter);
                         }
                     }

@@ -101,7 +101,7 @@ public class RutEditText extends EditText {
                 }
                 if(s.length()==9) {
                     if (!RutValidator.isRutValid(s)) {
-                        setError(context.getString(R.string.error_field_required));
+                        setError(context.getString(R.string.error_invalid_email));
                     }
                 }
             }

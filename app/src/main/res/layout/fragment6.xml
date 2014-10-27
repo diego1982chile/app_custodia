@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
-    android:paddingBottom="@dimen/activity_vertical_margin">
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:id="@+id/layout_fragment5">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -15,405 +20,686 @@
 
     <ImageView
         android:id="@+id/imageView1"
-        android:layout_below="@id/imageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/logotipo_propconductor"
+        android:src="@drawable/logotipo_visual"
         android:gravity="center"
+        android:layout_below="@id/imageView"
         android:background="#33b5e5"
         android:layout_gravity="center" />
 
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/scrollView"
-        android:layout_below="@+id/imageView1">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
 
+    <test3.ncxchile.cl.widgets.CustomScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/imageView1"
+        android:id="@+id/scrollView6">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_marginTop="20dp"
+        android:paddingBottom="70dp"
+        android:layout_centerHorizontal="true">
+    <TableLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/editText1">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:textSize="18dp"
-            android:textColor="#FF0000"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/errores6" />
+        android:layout_below="@+id/editText1"
+        android:stretchColumns="1">
 
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:showDividers="middle"
+            android:nestedScrollingEnabled="true"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:paddingRight="10dp"
+            android:id="@+id/tablerow"
+            android:layout_below="@+id/tableRow11"
+            android:layout_alignLeft="@+id/tableRow11"
+            android:layout_alignStart="@+id/tableRow11">
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:text="@string/estadopintura_visual"
+                android:textColor="#003076"
+                android:layout_marginTop="4dp"
+                android:textSize="18dp"
+                android:id="@+id/textView20" />
+
+            <RadioGroup
+                android:id="@+id/view5_03_radiogroup2"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Con observación"
+                    android:layout_marginLeft="14dp"
+                    android:layout_gravity="left"
+                    android:id="@+id/radioButton3"
+                    android:onClick="conObs1"/>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:text="Sin observación"
+                    android:id="@+id/radioButton4"
+                    android:layout_marginTop="-33dp"
+                    android:layout_marginRight="40dp"
+                    android:onClick="sinObs1"
+                    android:checked="true"/>
+            </RadioGroup>
+
+        </TableRow>
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="#D8D8D8">
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/info_prop_03"
-                android:gravity="left"
-                android:layout_gravity="left"
-                android:layout_marginLeft="17dp" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/input1">
+            <test3.ncxchile.cl.widgets.RequiredEditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/observacion_01"
+                android:layout_marginLeft="15dp"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
+                android:hint="Ingresar observación"
+                android:layout_marginRight="15dp"/>
         </LinearLayout>
 
         <TableRow
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/autoridad_solicita"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:showDividers="middle"
             android:nestedScrollingEnabled="true"
             android:paddingLeft="10dp"
+            android:layout_marginTop="20dp"
             android:paddingRight="10dp"
-            android:id="@+id/tableRow"
-            android:baselineAligned="true">
+            android:id="@+id/tableRow115"
+            android:layout_below="@+id/tableRow11"
+            android:layout_alignLeft="@+id/tableRow11"
+            android:layout_alignStart="@+id/tableRow11">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dip"
                 android:layout_height="wrap_content"
-                android:text="@string/rut_propconduct"
+                android:text="@string/estadocarroceria_visual"
+                android:layout_marginTop="4dp"
                 android:textColor="#003076"
                 android:textSize="18dp"
-                android:layout_marginTop="8dp"
-                android:id="@+id/textView" />
+                android:id="@+id/textView5" />
 
+            <RadioGroup
+                android:id="@+id/view5_04_radiogroup3"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp" >
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Con observación"
+                    android:layout_marginLeft="14dp"
+                    android:layout_gravity="left"
+                    android:onClick="conObs2"
+                    android:id="@+id/radioButton5" />
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/view6_01_rut"
-                android:layout_weight="0.51"
-                android:singleLine="true"
-                android:imeOptions="actionNext"
-                android:hint="Ingresar rut sin puntos ni guiones"
-                android:layout_marginLeft="15dp" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:text="Sin observación"
+                    android:id="@+id/radioButton6"
+                    android:onClick="sinObs2"
+                    android:layout_marginTop="-33dp"
+                    android:layout_marginRight="40dp"
+                    android:checked="true" />
+
+            </RadioGroup>
         </TableRow>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/input2">
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/observacion_02"
+                android:hint="Ingresar observación"
+                android:layout_marginLeft="15dp"
+                android:paddingLeft="50dp"
+                android:paddingRight="100dp"
+                android:layout_marginRight="15dp"/>
+
+        </LinearLayout>
 
         <TableRow
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/autoridad_solicita"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:showDividers="middle"
             android:nestedScrollingEnabled="true"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:id="@+id/tablerow1"
-            android:baselineAligned="true">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/nombre_propconduct"
-                android:textColor="#003076"
-                android:textSize="18dp"
-                android:layout_marginTop="8dp"
-                android:id="@+id/view6_nombre" />
-
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/view6_02_nombre"
-                android:singleLine="true"
-                android:imeOptions="actionNext"
-                android:layout_weight="0.51"
-                android:layout_marginLeft="15dp" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/autoridad_solicita"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:showDividers="middle"
-            android:nestedScrollingEnabled="true"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:id="@+id/tableRow9"
-            android:baselineAligned="true">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/licencia_propconduct"
-                android:textColor="#003076"
-                android:textSize="18dp"
-                android:layout_marginTop="8dp"
-                android:id="@+id/textView3" />
-
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/view6_03_licencia"
-                android:layout_weight="0.51"
-                android:singleLine="true"
-                android:imeOptions="actionNext"
-                android:layout_marginLeft="15dp" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/autoridad_solicita"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:showDividers="middle"
-            android:nestedScrollingEnabled="true"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:id="@+id/tableRow6"
-            android:baselineAligned="true">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/correo_propconduct"
-                android:textColor="#003076"
-                android:textSize="18dp"
-                android:layout_marginTop="8dp"
-                android:id="@+id/textView11" />
-
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/view6_04_correo"
-                android:layout_weight="0.51"
-                android:singleLine="true"
-                android:imeOptions="actionNext"
-                android:layout_marginLeft="15dp" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/autoridad_solicita"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:showDividers="middle"
-            android:nestedScrollingEnabled="true"
-            android:paddingLeft="10dp"
+            android:layout_marginTop="20dp"
             android:paddingRight="10dp"
             android:id="@+id/tableRow7"
-            android:baselineAligned="true"
-            android:layout_marginBottom="15dp">
+            android:layout_below="@+id/tableRow11"
+            android:layout_alignLeft="@+id/tableRow11"
+            android:layout_alignStart="@+id/tableRow11">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dip"
                 android:layout_height="wrap_content"
-                android:text="@string/telefono_propconduct"
+                android:text="@string/estadoruedas_visual"
+                android:layout_marginTop="4dp"
                 android:textColor="#003076"
                 android:textSize="18dp"
-                android:layout_marginTop="8dp"
                 android:id="@+id/textView8" />
 
+            <RadioGroup
+                android:id="@+id/view5_05_radiogroup4"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp" >
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Con observación"
+                    android:layout_marginLeft="14dp"
+                    android:layout_gravity="left"
+                    android:onClick="conObs3"
+                    android:id="@+id/radioButton7" />
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/view6_05_telefono"
-                android:singleLine="true"
-                android:imeOptions="actionNext"
-                android:layout_weight="0.51"
-                android:layout_marginLeft="15dp" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:text="Sin observación"
+                    android:onClick="sinObs3"
+                    android:id="@+id/radioButton8"
+                    android:layout_marginTop="-33dp"
+                    android:layout_marginRight="40dp"
+                    android:checked="true"/>
+            </RadioGroup>
+
+
         </TableRow>
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="#D8D8D8">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/input3">
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/observacion_03"
+                android:hint="Ingresar observación"
+                android:layout_marginLeft="15dp"
+                android:paddingLeft="50dp"
+                android:paddingRight="100dp"/>
 
-            <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/info_conductor_03"
-                android:gravity="left"
-                android:layout_gravity="left"
-                android:layout_marginLeft="17dp" />
         </LinearLayout>
 
         <TableRow
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/autoridad_solicita"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:showDividers="middle"
             android:nestedScrollingEnabled="true"
             android:paddingLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:paddingRight="10dp"
+            android:id="@+id/tableRow33"
+            android:layout_below="@+id/tableRow11"
+            android:layout_alignLeft="@+id/tableRow11"
+            android:layout_alignStart="@+id/tableRow11">
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:text="@string/estadocristales_visual"
+                android:layout_marginTop="4dp"
+                android:textColor="#003076"
+                android:textSize="18dp"
+                android:id="@+id/textView19" />
+
+            <RadioGroup
+                android:id="@+id/view5_06_radiogroup5"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp" >
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Con observación"
+                    android:layout_marginLeft="14dp"
+                    android:layout_gravity="left"
+                    android:onClick="conObs4"
+                    android:id="@+id/radioButton9" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:text="Sin observación"
+                    android:onClick="sinObs4"
+                    android:id="@+id/radioButton10"
+                    android:layout_marginTop="-33dp"
+                    android:layout_marginRight="40dp"
+                    android:checked="true"/>
+            </RadioGroup>
+
+
+        </TableRow>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/input4">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/observacion_04"
+                android:hint="Debe ingresar una observación"
+                android:layout_marginLeft="15dp"
+                android:paddingLeft="50dp"
+                android:paddingRight="100dp"/>
+
+        </LinearLayout>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:showDividers="middle"
+            android:nestedScrollingEnabled="true"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="20dp"
             android:paddingRight="10dp"
             android:id="@+id/tableRow12"
-            android:baselineAligned="true">
+            android:layout_below="@+id/tableRow11"
+            android:layout_alignLeft="@+id/tableRow11"
+            android:layout_alignStart="@+id/tableRow11">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dip"
                 android:layout_height="wrap_content"
-                android:text="@string/rut_propconduct"
+                android:text="@string/estadofocos_visual"
+                android:layout_marginTop="4dp"
                 android:textColor="#003076"
                 android:textSize="18dp"
-                android:layout_marginTop="8dp"
                 android:id="@+id/textView12" />
 
+            <RadioGroup
+                android:id="@+id/view5_07_radiogroup6"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp" >
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Con observación"
+                    android:layout_marginLeft="14dp"
+                    android:layout_gravity="left"
+                    android:onClick="conObs5"
+                    android:id="@+id/radioButton11" />
 
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:text="Sin observación"
+                    android:onClick="sinObs5"
+                    android:id="@+id/radioButton12"
+                    android:layout_marginTop="-33dp"
+                    android:layout_marginRight="40dp"
+                    android:checked="true"/>
+            </RadioGroup>
+
+
+        </TableRow>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/input5">
             <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/observacion_05"
+                android:hint="Debe ingresar una observación"
+                android:layout_marginLeft="15dp"
+                android:paddingLeft="50dp"
+                android:paddingRight="100dp"/>
+
+        </LinearLayout>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:showDividers="middle"
+            android:nestedScrollingEnabled="true"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:paddingRight="10dp"
+            android:id="@+id/tableRow28"
+            android:layout_below="@+id/tableRow11"
+            android:layout_alignLeft="@+id/tableRow11"
+            android:layout_alignStart="@+id/tableRow11">
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:text="@string/estadochapas_visual"
+                android:layout_marginTop="4dp"
+                android:textColor="#003076"
+                android:textSize="18dp"
+                android:id="@+id/textView27" />
+
+            <RadioGroup
+                android:id="@+id/view5_08_radiogroup7"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp" >
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Con observación"
+                    android:layout_marginLeft="14dp"
+                    android:layout_gravity="left"
+                    android:onClick="conObs6"
+                    android:id="@+id/radioButton13" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:text="Sin observación"
+                    android:id="@+id/radioButton14"
+                    android:onClick="sinObs6"
+                    android:layout_marginTop="-33dp"
+                    android:layout_marginRight="40dp"
+                    android:checked="true"/>
+            </RadioGroup>
+
+        </TableRow>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/input6">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/observacion_06"
+                android:hint="Debe ingresar una observación"
+                android:layout_marginLeft="15dp"
+                android:paddingLeft="50dp"
+                android:paddingRight="100dp"/>
+
+        </LinearLayout>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:showDividers="middle"
+            android:nestedScrollingEnabled="true"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:paddingRight="10dp"
+            android:id="@+id/tableRow49"
+            android:layout_below="@+id/tableRow11"
+            android:layout_alignLeft="@+id/tableRow11"
+            android:layout_alignStart="@+id/tableRow11"
+            android:weightSum="1">
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Ingresar rut sin puntos ni guiones"
-                android:id="@+id/view6_06_rut"
-                android:singleLine="true"
-                android:imeOptions="actionNext"
-                android:layout_weight="0.51"
-                android:layout_marginLeft="15dp" />
+                android:text="@string/abierto_visual"
+                android:textColor="#003076"
+                android:textSize="18dp"
+                android:id="@+id/textView48" />
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginLeft="164dp"
+                android:layout_marginRight="164dp"
+                android:id="@+id/switch1"
+                android:textOn="Si"
+                android:textOff="No"/>
+
         </TableRow>
 
         <TableRow
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/autoridad_solicita"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:showDividers="middle"
             android:nestedScrollingEnabled="true"
             android:paddingLeft="10dp"
+            android:layout_marginTop="20dp"
             android:paddingRight="10dp"
-            android:id="@+id/tableRow13"
-            android:baselineAligned="true">
+            android:id="@+id/tableRow51"
+            android:layout_below="@+id/tableRow11"
+            android:layout_alignLeft="@+id/tableRow11"
+            android:layout_alignStart="@+id/tableRow11"
+            android:weightSum="1">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/nombre_propconduct"
+                android:text="@string/llaves_visual"
                 android:textColor="#003076"
                 android:textSize="18dp"
-                android:layout_marginTop="8dp"
-                android:id="@+id/textView15" />
+                android:id="@+id/textView51" />
 
-
-            <EditText
+            <Switch
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/view6_07_nombre"
-                android:singleLine="true"
-                android:imeOptions="actionNext"
-                android:layout_weight="0.51"
-                android:layout_marginLeft="15dp" />
+                android:layout_height="50dp"
+                android:layout_marginLeft="70dp"
+                android:layout_marginRight="164dp"
+                android:id="@+id/switch2"
+                android:textOn="Si"
+                android:textOff="No" />
+
         </TableRow>
 
         <TableRow
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/autoridad_solicita"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:showDividers="middle"
             android:nestedScrollingEnabled="true"
             android:paddingLeft="10dp"
+            android:layout_marginTop="20dp"
             android:paddingRight="10dp"
-            android:id="@+id/tableRow16"
-            android:baselineAligned="true">
+            android:id="@+id/tableRow52"
+            android:layout_below="@+id/tableRow11"
+            android:layout_alignLeft="@+id/tableRow11"
+            android:layout_alignStart="@+id/tableRow11"
+            android:weightSum="1">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/licencia_propconduct"
+                android:text="@string/radio_visual"
                 android:textColor="#003076"
                 android:textSize="18dp"
-                android:layout_marginTop="8dp"
-                android:id="@+id/textView112" />
+                android:id="@+id/textView52" />
 
-
-            <EditText
+            <Switch
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/view6_08_licencia"
-                android:layout_weight="0.51"
-                android:singleLine="true"
-                android:imeOptions="actionNext"
-                android:layout_marginLeft="15dp" />
+                android:layout_height="50dp"
+                android:layout_marginLeft="176dp"
+                android:layout_marginRight="164dp"
+                android:id="@+id/switch3"
+                android:textOn="Si"
+                android:textOff="No" />
+
         </TableRow>
 
         <TableRow
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/autoridad_solicita"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:showDividers="middle"
             android:nestedScrollingEnabled="true"
             android:paddingLeft="10dp"
+            android:layout_marginTop="20dp"
             android:paddingRight="10dp"
-            android:id="@+id/tableRow23"
-            android:baselineAligned="true">
+            android:id="@+id/tableRow53"
+            android:layout_below="@+id/tableRow11"
+            android:layout_alignLeft="@+id/tableRow11"
+            android:layout_alignStart="@+id/tableRow11"
+            android:weightSum="1">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/correo_propconduct"
+                android:text="@string/ruedasrepuesto_visual"
                 android:textColor="#003076"
                 android:textSize="18dp"
-                android:layout_marginTop="8dp"
-                android:id="@+id/textView24" />
+                android:id="@+id/textView53" />
 
-
-            <EditText
+            <Switch
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/view6_09_correo"
-                android:layout_weight="0.51"
-                android:singleLine="true"
-                android:imeOptions="actionNext"
-                android:layout_marginLeft="15dp" />
+                android:layout_height="50dp"
+                android:layout_marginLeft="64dp"
+                android:layout_marginRight="164dp"
+                android:id="@+id/switch4"
+                android:textOn="Si"
+                android:textOff="No"/>
+
         </TableRow>
 
         <TableRow
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/autoridad_solicita"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:showDividers="middle"
             android:nestedScrollingEnabled="true"
             android:paddingLeft="10dp"
+            android:layout_marginTop="20dp"
             android:paddingRight="10dp"
-            android:id="@+id/tableRow31"
-            android:baselineAligned="true">
+            android:id="@+id/tableRow55"
+            android:layout_below="@+id/tableRow11"
+            android:layout_alignLeft="@+id/tableRow11"
+            android:layout_alignStart="@+id/tableRow11"
+            android:weightSum="1">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/telefono_propconduct"
+                android:text="@string/antena_visual"
                 android:textColor="#003076"
                 android:textSize="18dp"
-                android:layout_marginTop="8dp"
-                android:id="@+id/textView32" />
+                android:id="@+id/textView55" />
 
-
-            <EditText
+            <Switch
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/view6_10_telefono"
-                android:singleLine="true"
-                android:imeOptions="actionNext"
-                android:layout_weight="0.51"
-                android:layout_marginLeft="15dp" />
+                android:layout_height="50dp"
+                android:layout_marginLeft="164dp"
+                android:layout_marginRight="164dp"
+                android:id="@+id/switch5"
+                android:textOn="Si"
+                android:textOff="No"/>
+
         </TableRow>
 
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:showDividers="middle"
+            android:nestedScrollingEnabled="true"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:paddingRight="10dp"
+            android:id="@+id/tableRow56"
+            android:layout_below="@+id/tableRow11"
+            android:layout_alignLeft="@+id/tableRow11"
+            android:layout_alignStart="@+id/tableRow11"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/kitseg_visual"
+                android:textColor="#003076"
+                android:textSize="18dp"
+                android:id="@+id/textView56" />
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginLeft="92dp"
+                android:layout_marginRight="164dp"
+                android:id="@+id/switch6"
+                android:textOn="Si"
+                android:textOff="No"/>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:showDividers="middle"
+            android:nestedScrollingEnabled="true"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:paddingRight="10dp"
+            android:id="@+id/tableRow58"
+            android:layout_below="@+id/tableRow11"
+            android:layout_alignLeft="@+id/tableRow11"
+            android:layout_alignStart="@+id/tableRow11"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/chapas_visual"
+                android:textColor="#003076"
+                android:textSize="18dp"
+                android:id="@+id/textView58" />
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginLeft="164dp"
+                android:layout_marginRight="164dp"
+                android:id="@+id/switch7"
+                android:textOn="Si"
+                android:textOff="No"/>
+        </TableRow>
+    </TableLayout>
     </LinearLayout>
-
-    </ScrollView>
+    </test3.ncxchile.cl.widgets.CustomScrollView>
+    <test3.ncxchile.cl.widgets.ScrollArrow
+        android:src="@drawable/scroll_arrow_top"
+        android:id="@+id/arrow_top6"
+        android:layout_height="80dip"
+        android:layout_width="80dip"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+    <test3.ncxchile.cl.widgets.ScrollArrow
+        android:src="@drawable/scroll_arrow_bottom"
+        android:id="@+id/arrow_bottom6"
+        android:layout_height="80dip"
+        android:layout_width="80dip"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+    </LinearLayout>
 </RelativeLayout>
 

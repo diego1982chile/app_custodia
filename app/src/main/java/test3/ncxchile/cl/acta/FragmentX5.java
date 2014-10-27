@@ -1,45 +1,74 @@
 package test3.ncxchile.cl.acta;
 
-import android.app.FragmentTransaction;
-import android.graphics.Color;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.Fragment;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
+import android.media.ThumbnailUtils;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Switch;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TableRow;
-import android.widget.TextView;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+
+import test3.ncxchile.cl.POJO.ImageItem;
+import test3.ncxchile.cl.POJO.VideoItem;
 import test3.ncxchile.cl.login.R;
+import test3.ncxchile.cl.session.SessionManager;
+import test3.ncxchile.cl.widgets.GridViewAdapter;
+import test3.ncxchile.cl.widgets.GridViewVideoAdapter;
 
 /**
- * Created by BOBO on 14-07-2014.
+ * Created by android-developer on 23-10-2014.
  */
-public class FragmentX5 extends android.app.Fragment {
+public class FragmentX5 extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
-    public RadioGroup view5_01_radiogroup1;
-    public RadioGroup view5_03_radiogroup2;
-    public RadioGroup view5_04_radiogroup3;
-    public RadioGroup view5_05_radiogroup4;
-    public RadioGroup view5_06_radiogroup5;
-    public RadioGroup view5_07_radiogroup6;
-    public RadioGroup view5_08_radiogroup7;
-    public String q1_response, q2_response, q3_response, q4_response, q5_response, q6_response, switch1_response, switch2_response, switch3_response, switch4_response, switch5_response, switch6_response, switch7_response, switch8_response;
-    public EditText observacion_01, observacion_02, observacion_03, observacion_04, observacion_05, observacion_06, motivo_imgvid;
-    public CheckBox img, vid, adjuntar;
-    public Switch switch1, switch2, switch3, switch4, switch5, switch6, switch7;
-    public TableRow tabla_05_01;
-    public String view5_01_radiogrup1_response, view5_03_radiogroup2_response, view5_04_radiogroup3_response, view5_05_radiogroup4_response, view5_06_radiogroup5_response, view5_07_radiogroup6_response, view5_08_radiogroup7_response;
-    public LinearLayout input1, input2, input3, input4, input5, input6;
-    public boolean boolimg, boolvid;
-    public String[] a;
+
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1888;
+    static final int REQUEST_TAKE_PHOTO = 1;
+    static final int REQUEST_VIDEO_CAPTURE = 2;
+
+    // Elementos legados de FragmentX5
+    public CheckBox img, vid, adjuntarImagen, adjuntarVideo;
+    public EditText motivo_imgvid;
+    public TableRow motivo;
+    //////////////////////////////
+    Button button,buttonVideo;
+    ImageView imageView;
+    ArrayList<ImageItem> imageItems = new ArrayList<ImageItem>(15);
+    ArrayList<VideoItem> videoItems = new ArrayList<VideoItem>(5);
+    GridView imageGridView;
+    GridView videoGridView;
+    ImageView imageIcon;
+    ImageView videoIcon;
+    private GridViewAdapter imageGridAdapter;
+    private GridViewVideoAdapter videoGridAdapter;
+    Intent photoIntent;
+    View rootView;
+    String mCurrentPath;
+    Uri mCurrentUri;
 
     public FragmentX5 newInstance(int sectionNumber){
         FragmentX5 fragment = new FragmentX5();
@@ -49,376 +78,285 @@ public class FragmentX5 extends android.app.Fragment {
         return fragment;
     }
 
-    // METODO QUE INICIALIZA LA VISTA SELECCIONADA EN EL TAB
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment5, container, false);
 
-        view5_03_radiogroup2 = (RadioGroup) rootView.findViewById(R.id.view5_03_radiogroup2);
-        view5_04_radiogroup3 = (RadioGroup) rootView.findViewById(R.id.view5_04_radiogroup3);
-        view5_05_radiogroup4 = (RadioGroup) rootView.findViewById(R.id.view5_05_radiogroup4);
-        view5_06_radiogroup5 = (RadioGroup) rootView.findViewById(R.id.view5_06_radiogroup5);
-        view5_07_radiogroup6 = (RadioGroup) rootView.findViewById(R.id.view5_07_radiogroup6);
-        view5_08_radiogroup7 = (RadioGroup) rootView.findViewById(R.id.view5_08_radiogroup7);
+        rootView = inflater.inflate(R.layout.fragment5, container, false);
+        motivo = (TableRow) rootView.findViewById(R.id.motivo);
+        motivo_imgvid = (EditText) rootView.findViewById(R.id.motivo_imgvid);
+        adjuntarImagen= (CheckBox) rootView.findViewById(R.id.adjuntar_imagen);
+        adjuntarVideo= (CheckBox) rootView.findViewById(R.id.adjuntar_video);
+        imageIcon= (ImageView) rootView.findViewById(R.id.icon);
+        videoIcon= (ImageView) rootView.findViewById(R.id.icon_video);
 
-        observacion_01 = (EditText) rootView.findViewById(R.id.observacion_01);
-        observacion_02 = (EditText) rootView.findViewById(R.id.observacion_02);
-        observacion_03 = (EditText) rootView.findViewById(R.id.observacion_03);
-        observacion_04 = (EditText) rootView.findViewById(R.id.observacion_04);
-        observacion_05 = (EditText) rootView.findViewById(R.id.observacion_05);
-        observacion_06 = (EditText) rootView.findViewById(R.id.observacion_06);
+        button = (Button) rootView.findViewById(R.id.button_foto);
+        buttonVideo = (Button) rootView.findViewById(R.id.button_video);
+        //items.add(new ImageItem(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.placeholder),""));
 
-        switch1 = (Switch) rootView.findViewById(R.id.switch1);
-        switch2 = (Switch) rootView.findViewById(R.id.switch2);
-        switch3 = (Switch) rootView.findViewById(R.id.switch3);
-        switch4 = (Switch) rootView.findViewById(R.id.switch4);
-        switch5 = (Switch) rootView.findViewById(R.id.switch5);
-        switch6 = (Switch) rootView.findViewById(R.id.switch6);
-        switch7 = (Switch) rootView.findViewById(R.id.switch7);
+        ImageItem imagePlaceHolder = new ImageItem(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.photo_placeholder),
+                                                   BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.photo_placeholder),
+                                                   Uri.parse(getActivity().getPackageName() + R.drawable.video_placeholder),"");
 
-        //tabla_05_01 = (TableRow) rootView.findViewById(R.id.tabla_05_01);
-        input1 = (LinearLayout) rootView.findViewById(R.id.input1);
-        input1.setVisibility(View.GONE);
-        input2 = (LinearLayout) rootView.findViewById(R.id.input2);
-        input2.setVisibility(View.GONE);
-        input3 = (LinearLayout) rootView.findViewById(R.id.input3);
-        input3.setVisibility(View.GONE);
-        input4 = (LinearLayout) rootView.findViewById(R.id.input4);
-        input4.setVisibility(View.GONE);
-        input5 = (LinearLayout) rootView.findViewById(R.id.input5);
-        input5.setVisibility(View.GONE);
-        input6 = (LinearLayout) rootView.findViewById(R.id.input6);
-        input6.setVisibility(View.GONE);
+        imageItems.add(imagePlaceHolder);
+        imageItems.add(imagePlaceHolder);
+        imageItems.add(imagePlaceHolder);
+        imageItems.add(imagePlaceHolder);
+        imageItems.add(imagePlaceHolder);
+        imageItems.add(imagePlaceHolder);
+        imageItems.add(imagePlaceHolder);
+        imageItems.add(imagePlaceHolder);
+        imageItems.add(imagePlaceHolder);
+        imageItems.add(imagePlaceHolder);
 
-        switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        VideoItem videoPlaceHolder= new VideoItem(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.video_placeholder),
+                                                  BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.photo_placeholder),
+                                                  Uri.parse(getActivity().getPackageName() + R.drawable.video_placeholder),"");
+        videoItems.add(videoPlaceHolder);
+        videoItems.add(videoPlaceHolder);
+        videoItems.add(videoPlaceHolder);
+        videoItems.add(videoPlaceHolder);
+        videoItems.add(videoPlaceHolder);
 
+        imageGridView = (GridView) rootView.findViewById(R.id.imageViewThumbnail);
+        imageGridAdapter = new GridViewAdapter(getActivity(), R.layout.image_item, imageItems);
+        imageGridView.setAdapter(imageGridAdapter);
+
+        videoGridView = (GridView) rootView.findViewById(R.id.videoViewThumbnail);
+        videoGridAdapter = new GridViewVideoAdapter(getActivity(), R.layout.video_item, videoItems);
+        videoGridView.setAdapter(videoGridAdapter);
+
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView,
-                                         boolean isChecked) {
-
-                if(isChecked){
-                    switch1_response = "SI";
-                }else{
-                    switch1_response = "NO";
-                }
-
+            public void onClick(View view) {
+                photoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                photoIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri(1));
+                startActivityForResult(photoIntent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
             }
         });
 
-        switch2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        buttonVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                photoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                photoIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri(2));
+                startActivityForResult(photoIntent, REQUEST_VIDEO_CAPTURE);
+            }
+        });
+
+        //imageGridView.setOnItemClickListener(clickImage);
+        //videoGridView.setOnItemClickListener(clickVideo);
+
+        adjuntarImagen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
 
             @Override
-            public void onCheckedChanged(CompoundButton buttonView,
-                                         boolean isChecked) {
-
-                if(isChecked){
-                    switch2_response = "SI";
-                }else{
-                    switch2_response = "NO";
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(!b) {
+                    motivo.setVisibility(View.VISIBLE);
+                }
+                else {
+                    if(adjuntarVideo.isChecked())
+                        motivo.setVisibility(View.GONE);
                 }
             }
         });
 
-        switch3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        adjuntarVideo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
 
             @Override
-            public void onCheckedChanged(CompoundButton buttonView,
-                                         boolean isChecked) {
-
-                if(isChecked){
-                    switch3_response = "SI";
-                }else{
-                    switch3_response = "NO";
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(!b) {
+                    motivo.setVisibility(View.VISIBLE);
                 }
-
+                else {
+                    if(adjuntarImagen.isChecked())
+                        motivo.setVisibility(View.GONE);
+                }
             }
         });
 
-        switch4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView,
-                                         boolean isChecked) {
-
-                if(isChecked){
-                    switch4_response = "SI";
-                }else{
-                    switch4_response = "NO";
-                }
-
-            }
-        });
-
-        switch5.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView,
-                                         boolean isChecked) {
-
-                if(isChecked){
-                    switch5_response = "SI";
-                }else{
-                    switch5_response = "NO";
-                }
-
-            }
-        });
-
-        switch6.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView,
-                                         boolean isChecked) {
-
-                if(isChecked){
-                    switch6_response = "SI";
-                }else{
-                    switch6_response = "NO";
-                }
-
-            }
-        });
-
-        switch7.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView,
-                                         boolean isChecked) {
-
-                if(isChecked){
-                    switch7_response = "SI";
-                }else{
-                    switch7_response = "NO";
-                }
-
-            }
-        });
-
+        //horizontalListView.setAdapter(new HAdapter());
         return rootView;
     }
 
+    public Uri setImageUri(int media) {
+        // Store image in dcim
+        //File file = new File(Environment.getExternalStorageDirectory() + "/DCIM/", "image" + new Date().getTime() + ".png");
+        File storageDir= Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+
+        String imageFileName="";
+
+        switch (media){
+            case 1:
+                storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS+"/OS_1/FOTOS/");
+                //timeStamp = "foto_"+contImage;
+                if(!storageDir.exists())
+                    storageDir.mkdirs();
+                imageFileName = timeStamp + ".png";
+                break;
+            case 2:
+                storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS+"/OS_1/VIDEOS/");
+                //timeStamp = "video_"+contVideo;
+                if(!storageDir.exists())
+                    storageDir.mkdirs();
+                imageFileName = timeStamp + ".mp4";
+                break;
+        }
+
+        File file = new File(storageDir.getAbsolutePath(), imageFileName);
+
+        Uri imgUri = Uri.fromFile(file);
+        System.out.print("imgUri=" + imgUri);
+        mCurrentPath = file.getAbsolutePath();
+        mCurrentUri = imgUri;
+        return imgUri;
+    }
+
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_CANCELED) {
+            if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+                SessionManager session = new SessionManager(getActivity());
+                imageItems.set(session.getKeyCantidadFotos(), new ImageItem(decodeFile(mCurrentPath),
+                        BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.delete_small)
+                        ,mCurrentUri, mCurrentPath));
+                session.setKeyCantidadFotos(session.getKeyCantidadFotos() + 1);
+                imageGridAdapter.setContImage(session.getKeyCantidadFotos()+1);
+                imageGridView.setAdapter(imageGridAdapter);
+            } else {
+                if(requestCode == REQUEST_VIDEO_CAPTURE) {
+                    System.out.println("mCurrentPhotoPath="+mCurrentPath);
+                    Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(mCurrentPath,MediaStore.Images.Thumbnails.MINI_KIND);
+                    SessionManager session = new SessionManager(getActivity());
+                    videoItems.set(session.getKeyCantidadVideos(), new VideoItem(bitmap,
+                            BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.delete_small)
+                            , mCurrentUri ,mCurrentPath));
+                    session.setKeyCantidadVideos(session.getKeyCantidadVideos()+1);
+                    videoGridAdapter.setContVideo(session.getKeyCantidadVideos()+1);
+                    videoGridView.setAdapter(videoGridAdapter);
+                }
+                else {
+                    super.onActivityResult(requestCode, resultCode, data);
+                }
+            }
+        }
+    }
+
+    public Bitmap decodeFile(String path) {
+
+        try {
+            // Decode image size
+            BitmapFactory.Options o = new BitmapFactory.Options();
+            o.inJustDecodeBounds = true;
+
+            BitmapFactory.decodeFile(path, o);
+            // The new size we want to scale to
+            final int REQUIRED_SIZE = 70;
+
+            // Find the correct scale value. It should be the power of 2.
+            int scale = 1;
+            while (o.outWidth / scale / 2 >= REQUIRED_SIZE && o.outHeight / scale / 2 >= REQUIRED_SIZE)
+                scale *= 2;
+
+            // Decode with inSampleSize
+            BitmapFactory.Options o2 = new BitmapFactory.Options();
+            o2.inSampleSize = scale;
+
+            int rotateImage = getCameraPhotoOrientation(getActivity(), mCurrentUri, mCurrentPath);
+
+            if(rotateImage==0)
+                return BitmapFactory.decodeFile(path, o2);
+
+            // create a matrix object
+            Matrix matrix = new Matrix();
+            matrix.postRotate(90); // anti-clockwise by 90 degrees
+
+            // create a new bitmap from the original using the matrix to transform the result
+            return Bitmap.createBitmap(BitmapFactory.decodeFile(path, o2) , 0, 0, o2.outWidth, o2.outHeight, matrix, true);
+
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+        return null;
+
     }
 
     public void envioDeDatos() {
-        int id2 = view5_03_radiogroup2.getCheckedRadioButtonId();
-        int id3 = view5_04_radiogroup3.getCheckedRadioButtonId();
-        int id4 = view5_05_radiogroup4.getCheckedRadioButtonId();
-        int id5 = view5_06_radiogroup5.getCheckedRadioButtonId();
-        int id6 = view5_07_radiogroup6.getCheckedRadioButtonId();
-        int id7 = view5_08_radiogroup7.getCheckedRadioButtonId();
 
-        if (id2 == R.id.radioButton3){
-            q1_response = observacion_01.getText().toString();
-        }
-        else{
-            q1_response = "Sin Observación";
-        }
+        boolean boolimg=adjuntarImagen.isChecked();
+        boolean boolvid=adjuntarVideo.isChecked();
+        String motivo=motivo_imgvid.getText().toString();
 
-        if (id3 == R.id.radioButton5){
-            q2_response = observacion_02.getText().toString();
-        }
-        else{
-            q2_response = "Sin Observación";
-        }
-
-        if (id4 == R.id.radioButton7){
-            q3_response = observacion_03.getText().toString();
-        }
-        else{
-            q3_response = "Sin Observación";
-        }
-
-        if (id5 == R.id.radioButton9){
-            q4_response = observacion_04.getText().toString();
-        }
-        else{
-            q4_response = "Sin Observación";
-        }
-
-        if (id6 == R.id.radioButton11){
-            q5_response = observacion_05.getText().toString();
-        }
-        else{
-            q5_response = "Sin Observación";
-        }
-
-        if (id7 == R.id.radioButton13){
-            q6_response = observacion_06.getText().toString();
-        }
-        else{
-            q6_response = "Sin Observación";
-        }
-
-        if(img.isChecked()){
-            boolimg = true;
-        }
-
-        if(vid.isChecked()){
-            boolvid = true;
-        }
-
-        ((MyActivity) getActivity()).recibeDatosFragmentX5(boolimg, boolvid, motivo_imgvid, q1_response, q2_response, q3_response, q4_response, q5_response, q6_response, switch1_response, switch2_response, switch3_response, switch4_response, switch5_response, switch6_response, switch7_response);
-
+        ((MyActivity) getActivity()).recibeDatosFragmentFotoVideo(boolimg, boolvid, motivo);
     }
+    /*
+    public boolean validarDatosFragmentFotoVideo(){
 
-    public void isChecked()
-    {
-        if(img.isChecked()){
-            tabla_05_01.setVisibility(View.VISIBLE);
-        }
-
-        if(vid.isChecked()){
-            tabla_05_01.setVisibility(View.VISIBLE);
-        }
-
-        if(img.isChecked() && vid.isChecked()){
-            tabla_05_01.setVisibility(View.GONE);
-        }
-    }
-
-    public void conObs1(){
-        input1.setVisibility(View.VISIBLE);
-    }
-
-    public void sinObs1(){
-        input1.setVisibility(View.GONE);
-    }
-
-    public void conObs2(){
-        input2.setVisibility(View.VISIBLE);
-    }
-
-    public void sinObs2(){
-        input2.setVisibility(View.GONE);
-    }
-
-    public void conObs3(){
-        input3.setVisibility(View.VISIBLE);
-    }
-
-    public void sinObs3(){
-        input3.setVisibility(View.GONE);
-    }
-
-    public void conObs4(){
-        input4.setVisibility(View.VISIBLE);
-    }
-
-    public void sinObs4(){
-        input4.setVisibility(View.GONE);
-    }
-
-    public void conObs5(){
-        input5.setVisibility(View.VISIBLE);
-    }
-
-    public void sinObs5(){
-        input5.setVisibility(View.GONE);
-    }
-
-    public void conObs6(){
-        input6.setVisibility(View.VISIBLE);
-    }
-
-    public void sinObs6(){
-        input6.setVisibility(View.GONE);
-    }
-
-    public boolean validarDatosFragment5(){
         boolean esValido=true;
-        /*
-        view5_03_radiogroup2 = (RadioGroup) rootView.findViewById(R.id.view5_03_radiogroup2);
-        view5_04_radiogroup3 = (RadioGroup) rootView.findViewById(R.id.view5_04_radiogroup3);
-        view5_05_radiogroup4 = (RadioGroup) rootView.findViewById(R.id.view5_05_radiogroup4);
-        view5_06_radiogroup5 = (RadioGroup) rootView.findViewById(R.id.view5_06_radiogroup5);
-        view5_07_radiogroup6 = (RadioGroup) rootView.findViewById(R.id.view5_07_radiogroup6);
-        view5_08_radiogroup7 = (RadioGroup) rootView.findViewById(R.id.view5_08_radiogroup7);
-        */
 
-        if(view5_03_radiogroup2.getCheckedRadioButtonId()!=-1){
-            int id= view5_03_radiogroup2.getCheckedRadioButtonId();
-            View radioButton = view5_03_radiogroup2.findViewById(id);
-            int radioId = view5_03_radiogroup2.indexOfChild(radioButton);
-            RadioButton btn = (RadioButton) view5_03_radiogroup2.getChildAt(radioId);
-            String selection = (String) btn.getText();
-            if(selection.equals("Con observación") && observacion_01.getText().equals(""))
-                observacion_01.setError("Debe ingresar una observación");
-                esValido=false;
-        }
-        else{
-            view5_03_radiogroup2.setBackgroundColor(Color.RED);
+        if( (!adjuntarImagen.isChecked() || !adjuntarVideo.isChecked()) && motivo_imgvid.getText().toString().equals("") ){
+            motivo_imgvid.setError(getString(R.string.error_field_required));
             esValido=false;
         }
 
-        if(view5_04_radiogroup3.getCheckedRadioButtonId()!=-1){
-            int id= view5_04_radiogroup3.getCheckedRadioButtonId();
-            View radioButton = view5_04_radiogroup3.findViewById(id);
-            int radioId = view5_04_radiogroup3.indexOfChild(radioButton);
-            RadioButton btn = (RadioButton) view5_04_radiogroup3.getChildAt(radioId);
-            String selection = (String) btn.getText();
-            if(selection.equals("Con observación") && observacion_02.getText().equals(""))
-                esValido=false;
-        }
-        else{
+        if (adjuntarImagen.isChecked() && imageGridAdapter.getContImage()==0){
+            AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+            alertDialog.setTitle("Error de Fotos/Videos");
+            alertDialog.setMessage("Debe sacar al menos una foto");
+            alertDialog.setIcon(R.drawable.action_fail_small);
+
+            alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+            alertDialog.show();
             esValido=false;
         }
 
-        if(view5_05_radiogroup4.getCheckedRadioButtonId()!=-1){
-            int id= view5_05_radiogroup4.getCheckedRadioButtonId();
-            View radioButton = view5_05_radiogroup4.findViewById(id);
-            int radioId = view5_05_radiogroup4.indexOfChild(radioButton);
-            RadioButton btn = (RadioButton) view5_05_radiogroup4.getChildAt(radioId);
-            String selection = (String) btn.getText();
-            if(selection.equals("Con observación") && observacion_03.getText().equals(""))
-                esValido=false;
-        }
-        else{
+        if (adjuntarVideo.isChecked() && videoGridAdapter.getContVideo()==0){
+            AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+            alertDialog.setTitle("Error de Fotos/Videos");
+            alertDialog.setMessage("Debe grabar al menos un video");
+            alertDialog.setIcon(R.drawable.action_fail_small);
+
+            alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+            alertDialog.show();
             esValido=false;
         }
-
-        if(view5_06_radiogroup5.getCheckedRadioButtonId()!=-1){
-            int id= view5_06_radiogroup5.getCheckedRadioButtonId();
-            View radioButton = view5_06_radiogroup5.findViewById(id);
-            int radioId = view5_06_radiogroup5.indexOfChild(radioButton);
-            RadioButton btn = (RadioButton) view5_06_radiogroup5.getChildAt(radioId);
-            String selection = (String) btn.getText();
-            if(selection.equals("Con observación") && observacion_04.getText().equals(""))
-                esValido=false;
-        }
-        else{
-            esValido=false;
-        }
-
-        if(view5_07_radiogroup6.getCheckedRadioButtonId()!=-1){
-            int id= view5_07_radiogroup6.getCheckedRadioButtonId();
-            View radioButton = view5_07_radiogroup6.findViewById(id);
-            int radioId = view5_07_radiogroup6.indexOfChild(radioButton);
-            RadioButton btn = (RadioButton) view5_07_radiogroup6.getChildAt(radioId);
-            String selection = (String) btn.getText();
-            if(selection.equals("Con observación") && observacion_05.getText().equals(""))
-                esValido=false;
-        }
-        else{
-            esValido=false;
-        }
-
-        if(view5_08_radiogroup7.getCheckedRadioButtonId()!=-1){
-            int id= view5_08_radiogroup7.getCheckedRadioButtonId();
-            View radioButton = view5_08_radiogroup7.findViewById(id);
-            int radioId = view5_08_radiogroup7.indexOfChild(radioButton);
-            RadioButton btn = (RadioButton) view5_08_radiogroup7.getChildAt(radioId);
-            String selection = (String) btn.getText();
-            if(selection.equals("Con observación") && observacion_06.getText().equals(""))
-                esValido=false;
-        }
-        else{
-            esValido=false;
-        }
-
         return esValido;
+    }
+    */
 
+    public int getCameraPhotoOrientation(Context context, Uri imageUri, String imagePath){
+        int rotate = 0;
+        try {
+            context.getContentResolver().notifyChange(imageUri, null);
+            File imageFile = new File(imagePath);
+
+            ExifInterface exif = new ExifInterface(imageFile.getAbsolutePath());
+            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    rotate = 270;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    rotate = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    rotate = 90;
+                    break;
+            }
+
+            System.out.println("Exif orientation: " + orientation);
+            System.out.println("Rotate value: " + rotate);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rotate;
     }
 }

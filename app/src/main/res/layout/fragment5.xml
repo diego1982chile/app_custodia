@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -29,642 +30,139 @@
         android:id="@+id/scrollView"
         android:layout_below="@+id/imageView1">
 
-    <TableLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/editText1"
-        android:stretchColumns="1">
-
-        <TableRow
-            android:layout_width="fill_parent"
+        <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/GridLayout1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:showDividers="middle"
-            android:nestedScrollingEnabled="true"
-            android:paddingLeft="10dp"
+            android:columnCount="3"
             android:layout_marginTop="20dp"
-            android:paddingRight="10dp"
-            android:id="@+id/tablerow"
-            android:layout_below="@+id/tableRow11"
-            android:layout_alignLeft="@+id/tableRow11"
-            android:layout_alignStart="@+id/tableRow11">
-
+            tools:context=".GridLayoutActivity" >
             <TextView
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:text="@string/estadopintura_visual"
-                android:textColor="#003076"
-                android:layout_marginTop="4dp"
-                android:textSize="18dp"
-                android:id="@+id/textView20" />
-
-            <RadioGroup
-                android:id="@+id/view5_03_radiogroup2"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Con observación"
-                    android:layout_marginLeft="14dp"
-                    android:layout_gravity="left"
-                    android:id="@+id/radioButton3"
-                    android:onClick="conObs1"/>
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:text="Sin observación"
-                    android:id="@+id/radioButton4"
-                    android:layout_marginTop="-33dp"
-                    android:layout_marginRight="40dp"
-                    android:onClick="sinObs1"/>
-            </RadioGroup>
-
-        </TableRow>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/input1">
-            <test3.ncxchile.cl.widgets.RequiredEditText
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/observacion_01"
-                android:layout_marginLeft="15dp"
-                android:paddingLeft="50dp"
-                android:paddingRight="50dp"
-                android:hint="Ingresar observación"
-                android:layout_marginRight="15dp"/>
-        </LinearLayout>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:showDividers="middle"
-            android:nestedScrollingEnabled="true"
-            android:paddingLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:paddingRight="10dp"
-            android:id="@+id/tableRow115"
-            android:layout_below="@+id/tableRow11"
-            android:layout_alignLeft="@+id/tableRow11"
-            android:layout_alignStart="@+id/tableRow11">
-
-            <TextView
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:text="@string/estadocarroceria_visual"
-                android:layout_marginTop="4dp"
-                android:textColor="#003076"
-                android:textSize="18dp"
-                android:id="@+id/textView5" />
-
-            <RadioGroup
-                android:id="@+id/view5_04_radiogroup3"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Con observación"
-                    android:layout_marginLeft="14dp"
-                    android:layout_gravity="left"
-                    android:onClick="conObs2"
-                    android:id="@+id/radioButton5" />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:text="Sin observación"
-                    android:id="@+id/radioButton6"
-                    android:onClick="sinObs2"
-                    android:layout_marginTop="-33dp"
-                    android:layout_marginRight="40dp"
-                    android:checked="false" />
-
-            </RadioGroup>
-        </TableRow>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/input2">
-            <EditText
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/observacion_02"
-                android:hint="Ingresar observación"
-                android:layout_marginLeft="15dp"
-                android:paddingLeft="50dp"
-                android:paddingRight="100dp"
-                android:layout_marginRight="15dp"/>
-
-        </LinearLayout>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:showDividers="middle"
-            android:nestedScrollingEnabled="true"
-            android:paddingLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:paddingRight="10dp"
-            android:id="@+id/tableRow7"
-            android:layout_below="@+id/tableRow11"
-            android:layout_alignLeft="@+id/tableRow11"
-            android:layout_alignStart="@+id/tableRow11">
-
-            <TextView
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:text="@string/estadoruedas_visual"
-                android:layout_marginTop="4dp"
-                android:textColor="#003076"
-                android:textSize="18dp"
-                android:id="@+id/textView8" />
-
-            <RadioGroup
-                android:id="@+id/view5_05_radiogroup4"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Con observación"
-                    android:layout_marginLeft="14dp"
-                    android:layout_gravity="left"
-                    android:onClick="conObs3"
-                    android:id="@+id/radioButton7" />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:text="Sin observación"
-                    android:onClick="sinObs3"
-                    android:id="@+id/radioButton8"
-                    android:layout_marginTop="-33dp"
-                    android:layout_marginRight="40dp" />
-            </RadioGroup>
-
-
-        </TableRow>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/input3">
-            <EditText
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/observacion_03"
-                android:hint="Ingresar observación"
-                android:layout_marginLeft="15dp"
-                android:paddingLeft="50dp"
-                android:paddingRight="100dp"/>
-
-        </LinearLayout>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:showDividers="middle"
-            android:nestedScrollingEnabled="true"
-            android:paddingLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:paddingRight="10dp"
-            android:id="@+id/tableRow33"
-            android:layout_below="@+id/tableRow11"
-            android:layout_alignLeft="@+id/tableRow11"
-            android:layout_alignStart="@+id/tableRow11">
-
-            <TextView
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:text="@string/estadocristales_visual"
-                android:layout_marginTop="4dp"
-                android:textColor="#003076"
-                android:textSize="18dp"
-                android:id="@+id/textView19" />
-
-            <RadioGroup
-                android:id="@+id/view5_06_radiogroup5"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Con observación"
-                    android:layout_marginLeft="14dp"
-                    android:layout_gravity="left"
-                    android:onClick="conObs4"
-                    android:id="@+id/radioButton9" />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:text="Sin observación"
-                    android:onClick="sinObs4"
-                    android:id="@+id/radioButton10"
-                    android:layout_marginTop="-33dp"
-                    android:layout_marginRight="40dp" />
-            </RadioGroup>
-
-
-        </TableRow>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/input4">
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/observacion_04"
-                android:hint="Debe ingresar una observación"
-                android:layout_marginLeft="15dp"
-                android:paddingLeft="50dp"
-                android:paddingRight="100dp"/>
-
-        </LinearLayout>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:showDividers="middle"
-            android:nestedScrollingEnabled="true"
-            android:paddingLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:paddingRight="10dp"
-            android:id="@+id/tableRow12"
-            android:layout_below="@+id/tableRow11"
-            android:layout_alignLeft="@+id/tableRow11"
-            android:layout_alignStart="@+id/tableRow11">
-
-            <TextView
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:text="@string/estadofocos_visual"
-                android:layout_marginTop="4dp"
-                android:textColor="#003076"
-                android:textSize="18dp"
-                android:id="@+id/textView12" />
-
-            <RadioGroup
-                android:id="@+id/view5_07_radiogroup6"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Con observación"
-                    android:layout_marginLeft="14dp"
-                    android:layout_gravity="left"
-                    android:onClick="conObs5"
-                    android:id="@+id/radioButton11" />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:text="Sin observación"
-                    android:onClick="sinObs5"
-                    android:id="@+id/radioButton12"
-                    android:layout_marginTop="-33dp"
-                    android:layout_marginRight="40dp" />
-            </RadioGroup>
-
-
-        </TableRow>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/input5">
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/observacion_05"
-                android:hint="Debe ingresar una observación"
-                android:layout_marginLeft="15dp"
-                android:paddingLeft="50dp"
-                android:paddingRight="100dp"/>
-
-        </LinearLayout>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:showDividers="middle"
-            android:nestedScrollingEnabled="true"
-            android:paddingLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:paddingRight="10dp"
-            android:id="@+id/tableRow28"
-            android:layout_below="@+id/tableRow11"
-            android:layout_alignLeft="@+id/tableRow11"
-            android:layout_alignStart="@+id/tableRow11">
-
-            <TextView
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:text="@string/estadochapas_visual"
-                android:layout_marginTop="4dp"
-                android:textColor="#003076"
-                android:textSize="18dp"
-                android:id="@+id/textView27" />
-
-            <RadioGroup
-                android:id="@+id/view5_08_radiogroup7"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Con observación"
-                    android:layout_marginLeft="14dp"
-                    android:layout_gravity="left"
-                    android:onClick="conObs6"
-                    android:id="@+id/radioButton13" />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:text="Sin observación"
-                    android:id="@+id/radioButton14"
-                    android:onClick="sinObs6"
-                    android:layout_marginTop="-33dp"
-                    android:layout_marginRight="40dp" />
-            </RadioGroup>
-
-
-        </TableRow>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/input6">
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/observacion_06"
-                android:hint="Debe ingresar una observación"
-                android:layout_marginLeft="15dp"
-                android:paddingLeft="50dp"
-                android:paddingRight="100dp"/>
-
-        </LinearLayout>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:showDividers="middle"
-            android:nestedScrollingEnabled="true"
-            android:paddingLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:paddingRight="10dp"
-            android:id="@+id/tableRow49"
-            android:layout_below="@+id/tableRow11"
-            android:layout_alignLeft="@+id/tableRow11"
-            android:layout_alignStart="@+id/tableRow11"
-            android:weightSum="1">
-
-            <TextView
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:text="@string/abierto_visual"
-                android:layout_marginTop="4dp"
-                android:textColor="#003076"
-                android:textSize="18dp"
-                android:id="@+id/textView48" />
-
-            <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:id="@+id/switch1"
-                android:textOn="Si"
-                android:textOff="No"/>
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:showDividers="middle"
-            android:nestedScrollingEnabled="true"
-            android:paddingLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:paddingRight="10dp"
-            android:id="@+id/tableRow51"
-            android:layout_below="@+id/tableRow11"
-            android:layout_alignLeft="@+id/tableRow11"
-            android:layout_alignStart="@+id/tableRow11"
-            android:weightSum="1">
-
+                android:text="@string/asoc_imagenes"
+                android:textColor="#003076"
+                android:textSize="18dp"
+                android:id="@+id/textView10"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                />
+            <CheckBox
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="10dp"
+                android:checked="true"
+                android:id="@+id/adjuntar_imagen" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:text="  Tomar Foto"
+                style="@style/CustomStyleButton2"
+                android:id="@+id/button_foto"
+                android:drawableLeft="@drawable/camera_small_blanco"
+                />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:descendantFocusability="afterDescendants"
+                android:focusable="false"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical"
+                android:layout_columnSpan="3"
+                >
+                <GridView
+                    android:id="@+id/imageViewThumbnail"
+                    android:descendantFocusability="afterDescendants"
+                    android:drawSelectorOnTop="true"
+                    android:cacheColorHint="@android:color/darker_gray"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:columnWidth="100dp"
+                    android:numColumns="auto_fit"
+                    android:verticalSpacing="5dp"
+                    android:horizontalSpacing="5dp"
+                    android:stretchMode="columnWidth" >
+                </GridView>
+            </RelativeLayout>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/llaves_visual"
-                android:layout_marginTop="4dp"
+                android:layout_gravity="center"
+                android:text="@string/asoc_videos"
                 android:textColor="#003076"
                 android:textSize="18dp"
-                android:id="@+id/textView51" />
-
-            <Switch
+                android:id="@+id/textView11"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                />
+            <CheckBox
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="69dp"
-                android:layout_marginLeft="70dp"
-                android:id="@+id/switch2"
-                android:textOn="Si"
-                android:textOff="No" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:showDividers="middle"
-            android:nestedScrollingEnabled="true"
-            android:paddingLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:paddingRight="10dp"
-            android:id="@+id/tableRow52"
-            android:layout_below="@+id/tableRow11"
-            android:layout_alignLeft="@+id/tableRow11"
-            android:layout_alignStart="@+id/tableRow11"
-            android:weightSum="1">
-
-            <TextView
+                android:layout_marginTop="10dp"
+                android:checked="true"
+                android:id="@+id/adjuntar_video"
+                />
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/radio_visual"
-                android:layout_marginTop="4dp"
-                android:textColor="#003076"
-                android:textSize="18dp"
-                android:id="@+id/textView52" />
-
-            <Switch
-                android:layout_width="wrap_content"
-                android:layout_height="69dp"
-                android:layout_marginLeft="176dp"
-                android:id="@+id/switch3"
-                android:textOn="Si"
-                android:textOff="No" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:showDividers="middle"
-            android:nestedScrollingEnabled="true"
-            android:paddingLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:paddingRight="10dp"
-            android:id="@+id/tableRow53"
-            android:layout_below="@+id/tableRow11"
-            android:layout_alignLeft="@+id/tableRow11"
-            android:layout_alignStart="@+id/tableRow11"
-            android:weightSum="1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/ruedasrepuesto_visual"
-                android:layout_marginTop="8dp"
-                android:textColor="#003076"
-                android:textSize="18dp"
-                android:id="@+id/textView53" />
-
-            <Switch
-                android:layout_width="wrap_content"
-                android:layout_height="69dp"
-                android:layout_marginLeft="64dp"
-                android:id="@+id/switch4"
-                android:textOn="Si"
-                android:textOff="No"/>
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:showDividers="middle"
-            android:nestedScrollingEnabled="true"
-            android:paddingLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:paddingRight="10dp"
-            android:id="@+id/tableRow55"
-            android:layout_below="@+id/tableRow11"
-            android:layout_alignLeft="@+id/tableRow11"
-            android:layout_alignStart="@+id/tableRow11"
-            android:weightSum="1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/antena_visual"
-                android:layout_marginTop="8dp"
-                android:textColor="#003076"
-                android:textSize="18dp"
-                android:id="@+id/textView55" />
-
-            <Switch
-                android:layout_width="wrap_content"
-                android:layout_height="69dp"
-                android:layout_marginLeft="164dp"
-                android:id="@+id/switch5"
-                android:textOn="Si"
-                android:textOff="No"/>
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:showDividers="middle"
-            android:nestedScrollingEnabled="true"
-            android:paddingLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:paddingRight="10dp"
-            android:id="@+id/tableRow56"
-            android:layout_below="@+id/tableRow11"
-            android:layout_alignLeft="@+id/tableRow11"
-            android:layout_alignStart="@+id/tableRow11"
-            android:weightSum="1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/kitseg_visual"
-                android:layout_marginTop="8dp"
-                android:textColor="#003076"
-                android:textSize="18dp"
-                android:id="@+id/textView56" />
-
-            <Switch
-                android:layout_width="wrap_content"
-                android:layout_height="69dp"
-                android:layout_marginLeft="92dp"
-                android:id="@+id/switch6"
-                android:textOn="Si"
-                android:textOff="No"/>
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:showDividers="middle"
-            android:nestedScrollingEnabled="true"
-            android:paddingLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:paddingRight="10dp"
-            android:id="@+id/tableRow58"
-            android:layout_below="@+id/tableRow11"
-            android:layout_alignLeft="@+id/tableRow11"
-            android:layout_alignStart="@+id/tableRow11"
-            android:weightSum="1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/chapas_visual"
-                android:layout_marginTop="8dp"
-                android:textColor="#003076"
-                android:textSize="18dp"
-                android:id="@+id/textView58" />
-
-            <Switch
-                android:layout_width="wrap_content"
-                android:layout_height="69dp"
-                android:layout_marginLeft="164dp"
-                android:id="@+id/switch7"
-                android:textOn="Si"
-                android:textOff="No"/>
-        </TableRow>
-    </TableLayout>
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:text="  Grabar Video"
+                style="@style/CustomStyleButton2"
+                android:id="@+id/button_video"
+                android:drawableLeft="@drawable/vide_small_blanco"
+                />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_columnSpan="3">
+                <GridView
+                    android:id="@+id/videoViewThumbnail"
+                    android:cacheColorHint="@android:color/darker_gray"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:columnWidth="100dp"
+                    android:gravity="center"
+                    android:numColumns="auto_fit"
+                    android:verticalSpacing="5dp"
+                    android:drawSelectorOnTop="true"
+                    android:stretchMode="columnWidth" >
+                </GridView>
+            </RelativeLayout>
+            <RelativeLayout android:layout_columnSpan="3">
+                <TableRow android:id="@+id/motivo"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/motivo_visual"
+                    android:textColor="#003076"
+                    android:textSize="18dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="20dp"
+                />
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:lines="2"
+                    android:id="@+id/motivo_imgvid"
+                 />
+                </TableRow>
+            </RelativeLayout>
+        </GridLayout>
     </ScrollView>
 </RelativeLayout>
-

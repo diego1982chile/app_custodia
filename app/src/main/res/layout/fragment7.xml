@@ -2,8 +2,8 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="#fff"
     android:layout_height="match_parent"
+    android:background="#fff"
     android:paddingBottom="@dimen/activity_vertical_margin">
 
     <ImageView
@@ -15,10 +15,10 @@
 
     <ImageView
         android:id="@+id/imageView1"
+        android:layout_below="@id/imageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/imageView"
-        android:src="@drawable/logotipo_infogrua"
+        android:src="@drawable/logotipo_propconductor"
         android:gravity="center"
         android:background="#33b5e5"
         android:layout_gravity="center" />
@@ -35,7 +35,6 @@
         android:layout_height="fill_parent"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/editText1">
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,7 +44,8 @@
             android:textSize="18dp"
             android:textColor="#FF0000"
             android:layout_gravity="center_horizontal"
-            android:id="@+id/errores7" />
+            android:id="@+id/errores6" />
+
 
         <LinearLayout
             android:orientation="vertical"
@@ -56,11 +56,11 @@
             <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="17dp"
-                android:src="@drawable/info_grua_03"
+                android:layout_height="match_parent"
+                android:src="@drawable/info_prop_03"
                 android:gravity="left"
-                android:layout_gravity="left" />
+                android:layout_gravity="left"
+                android:layout_marginLeft="17dp" />
         </LinearLayout>
 
         <TableRow
@@ -79,20 +79,21 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/id_grua"
+                android:text="@string/rut_propconduct"
                 android:textColor="#003076"
                 android:textSize="18dp"
                 android:layout_marginTop="8dp"
                 android:id="@+id/textView" />
 
 
-            <EditText
+            <test3.ncxchile.cl.widgets.RutEditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/view7_01_infogrua"
+                android:id="@+id/view6_01_rut"
+                android:layout_weight="0.51"
                 android:singleLine="true"
                 android:imeOptions="actionNext"
-                android:layout_weight="0.51"
+                android:hint="Ingresar rut sin puntos ni guiones"
                 android:layout_marginLeft="15dp" />
         </TableRow>
 
@@ -106,23 +107,23 @@
             android:nestedScrollingEnabled="true"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:id="@+id/tableRow2"
+            android:id="@+id/tablerow1"
             android:baselineAligned="true">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/nombre_grua"
+                android:text="@string/nombre_propconduct"
                 android:textColor="#003076"
                 android:textSize="18dp"
                 android:layout_marginTop="8dp"
-                android:id="@+id/textView2" />
+                android:id="@+id/view6_nombre" />
 
 
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/view7_02_nombreop"
+                android:id="@+id/view6_02_nombre"
                 android:singleLine="true"
                 android:imeOptions="actionNext"
                 android:layout_weight="0.51"
@@ -139,13 +140,13 @@
             android:nestedScrollingEnabled="true"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:id="@+id/tableRow3"
+            android:id="@+id/tableRow9"
             android:baselineAligned="true">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/rut_grua"
+                android:text="@string/licencia_propconduct"
                 android:textColor="#003076"
                 android:textSize="18dp"
                 android:layout_marginTop="8dp"
@@ -155,12 +156,259 @@
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/view7_03_rut"
+                android:id="@+id/view6_03_licencia"
                 android:layout_weight="0.51"
                 android:singleLine="true"
-                android:maxLength="9"
                 android:imeOptions="actionNext"
+                android:layout_marginLeft="15dp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/autoridad_solicita"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:showDividers="middle"
+            android:nestedScrollingEnabled="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:id="@+id/tableRow6"
+            android:baselineAligned="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/correo_propconduct"
+                android:textColor="#003076"
+                android:textSize="18dp"
+                android:layout_marginTop="8dp"
+                android:id="@+id/textView11" />
+
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/view6_04_correo"
+                android:layout_weight="0.51"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:layout_marginLeft="15dp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/autoridad_solicita"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:showDividers="middle"
+            android:nestedScrollingEnabled="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:id="@+id/tableRow7"
+            android:baselineAligned="true"
+            android:layout_marginBottom="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/telefono_propconduct"
+                android:textColor="#003076"
+                android:textSize="18dp"
+                android:layout_marginTop="8dp"
+                android:id="@+id/textView8" />
+
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/view6_05_telefono"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:layout_weight="0.51"
+                android:layout_marginLeft="15dp" />
+        </TableRow>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#D8D8D8">
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/info_conductor_03"
+                android:gravity="left"
+                android:layout_gravity="left"
+                android:layout_marginLeft="17dp" />
+        </LinearLayout>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/autoridad_solicita"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:showDividers="middle"
+            android:nestedScrollingEnabled="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:id="@+id/tableRow12"
+            android:baselineAligned="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rut_propconduct"
+                android:textColor="#003076"
+                android:textSize="18dp"
+                android:layout_marginTop="8dp"
+                android:id="@+id/textView12" />
+
+
+            <test3.ncxchile.cl.widgets.RutEditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:hint="Ingresar rut sin puntos ni guiones"
+                android:id="@+id/view6_06_rut"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:layout_weight="0.51"
+                android:layout_marginLeft="15dp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/autoridad_solicita"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:showDividers="middle"
+            android:nestedScrollingEnabled="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:id="@+id/tableRow13"
+            android:baselineAligned="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nombre_propconduct"
+                android:textColor="#003076"
+                android:textSize="18dp"
+                android:layout_marginTop="8dp"
+                android:id="@+id/textView15" />
+
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/view6_07_nombre"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:layout_weight="0.51"
+                android:layout_marginLeft="15dp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/autoridad_solicita"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:showDividers="middle"
+            android:nestedScrollingEnabled="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:id="@+id/tableRow16"
+            android:baselineAligned="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/licencia_propconduct"
+                android:textColor="#003076"
+                android:textSize="18dp"
+                android:layout_marginTop="8dp"
+                android:id="@+id/textView112" />
+
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/view6_08_licencia"
+                android:layout_weight="0.51"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:layout_marginLeft="15dp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/autoridad_solicita"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:showDividers="middle"
+            android:nestedScrollingEnabled="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:id="@+id/tableRow23"
+            android:baselineAligned="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/correo_propconduct"
+                android:textColor="#003076"
+                android:textSize="18dp"
+                android:layout_marginTop="8dp"
+                android:id="@+id/textView24" />
+
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/view6_09_correo"
+                android:layout_weight="0.51"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:layout_marginLeft="15dp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/autoridad_solicita"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:showDividers="middle"
+            android:nestedScrollingEnabled="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:id="@+id/tableRow31"
+            android:baselineAligned="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/telefono_propconduct"
+                android:textColor="#003076"
+                android:textSize="18dp"
+                android:layout_marginTop="8dp"
+                android:id="@+id/textView32" />
+
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/view6_10_telefono"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:layout_weight="0.51"
                 android:layout_marginLeft="15dp" />
         </TableRow>
 

@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.pm.ActivityInfo;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
@@ -69,13 +68,14 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
     Fragment b = new FragmentX2().newInstance(1);
     Fragment c = new FragmentX3().newInstance(2);
     Fragment d = new FragmentX4().newInstance(3);
-    Fragment e = new FragmentX5().newInstance(4);
+    Fragment e = new FragmentX5().newInstance(4); // Fragment FotoVideo
     Fragment f = new FragmentX6().newInstance(5);
     Fragment g = new FragmentX7().newInstance(6);
     Fragment h = new FragmentX8().newInstance(7);
     Fragment i = new FragmentX9().newInstance(8);
+    Fragment j = new FragmentX10().newInstance(9);
 
-    Fragment j = new FragmentFotoVideo().newInstance(9);
+
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -143,6 +143,18 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
     public void onStart() {
        // mapeo de vistas con su respectivo ID
         super.onStart();
+        /*
+        Fragment a = new FragmentX().newInstance(0);
+        Fragment b = new FragmentX2().newInstance(1);
+        Fragment c = new FragmentX3().newInstance(2);
+        Fragment d = new FragmentX4().newInstance(3);
+        Fragment e = new FragmentX5().newInstance(4); // Fragment FotoVideo
+        Fragment f = new FragmentX6().newInstance(5);
+        Fragment g = new FragmentX7().newInstance(6);
+        Fragment h = new FragmentX8().newInstance(7);
+        Fragment i = new FragmentX9().newInstance(8);
+        Fragment j = new FragmentX10().newInstance(9);
+        */
         mPageReferenceMap.put(0, a);
         mPageReferenceMap.put(1, b);
         mPageReferenceMap.put(2, c);
@@ -152,7 +164,6 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         mPageReferenceMap.put(6, g);
         mPageReferenceMap.put(7, h);
         mPageReferenceMap.put(8, i);
-
         mPageReferenceMap.put(9, j);
     }
 
@@ -205,47 +216,41 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
 
         if(tab.getPosition() == 5 /*|| tab.getPosition() == 6 || tab.getPosition() == 7 || tab.getPosition() == 8*/ ){
             //FragmentX3 f3 = (FragmentX3) getFragment(2);
-            FragmentFotoVideo fragmentFotoVideo = (FragmentFotoVideo) getFragment(9);
-
-            if (!fragmentFotoVideo.validarDatosFragmentFotoVideo()) {
+            FragmentX5 f5 = (FragmentX5) getFragment(4);
+            /*
+            if (!f5.validarDatosFragmentFotoVideo()) {
                 errorFragment(4);
             }
+            */
         }
 
         if(tab.getPosition() == 6 /*|| tab.getPosition() == 6 || tab.getPosition() == 7 || tab.getPosition() == 8*/ ){
             //FragmentX3 f3 = (FragmentX3) getFragment(2);
-            FragmentX5 f5 = (FragmentX5) getFragment(4);
+            FragmentX6 f6 = (FragmentX6) getFragment(5);
 
-            if (!f5.validarDatosFragment5()) {
+            if (!f6.validarDatosFragment5()) {
                 errorFragment(5);
             }
         }
 
         if(tab.getPosition() == 7 /*|| tab.getPosition() == 8 || tab.getPosition() == 9*/){
-            FragmentX5 f5 = (FragmentX5) getFragment(4);
-            FragmentX6 f6 = (FragmentX6) getFragment(5);
-            view6 = new String[3];
-            view6 = f6.validarDatosFragment6();
-            if (view6[0] == "1" || view6[1] == "1") {
-                errorFragment(5);
-                f6.pintarErrores6(view6);
-            }
-            if(view6[2] == "1"){
-                errorFragment(5);
-                f6.pintarErrores6notMatch(view6);
+            FragmentX7 f7 = (FragmentX7) getFragment(6);
+
+            if (!f7.validarDatosFragment6()) {
+                errorFragment(6);
             }
         }
 
         if(tab.getPosition() == 8 /*|| tab.getPosition() == 9 */){
-            FragmentX6 f6 = (FragmentX6) getFragment(5);
-            f6.limpiarErrores();
-            FragmentX7 f7 = (FragmentX7) getFragment(6);
+            /*
+            FragmentX8 f8 = (FragmentX8) getFragment(7);
             view7 = new String[3];
             view7 = f7.validarDatosFragment7();
             if (view7[0] != "0" || view7[1] != "0" || view7[2] != "0") {
                 errorFragment(6);
                 f7.pintarErrores7(view7);
             }
+            */
         }
     }
 
@@ -286,17 +291,17 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
                 case 3:
                     return d;
                 case 4:
-                    return j;
-                case 5:
                     return e;
-                case 6:
+                case 5:
                     return f;
-                case 7:
+                case 6:
                     return g;
-                case 8:
+                case 7:
                     return h;
-                case 9:
+                case 8:
                     return i;
+                case 9:
+                    return j;
                 /*
                 mPageReferenceMap.put(0, a);
                 mPageReferenceMap.put(1, b);
@@ -389,10 +394,10 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         FragmentX2 b = (FragmentX2) getFragment(1);
         FragmentX3 c = (FragmentX3) getFragment(2);
         FragmentX4 d = (FragmentX4) getFragment(3);
-        FragmentX5 e = (FragmentX5) getFragment(4);
-        FragmentX6 f = (FragmentX6) getFragment(5);
-        FragmentX7 g = (FragmentX7) getFragment(6);
-        FragmentX8 h = (FragmentX8) getFragment(7);
+        FragmentX6 e = (FragmentX6) getFragment(4);
+        FragmentX7 f = (FragmentX7) getFragment(5);
+        FragmentX8 g = (FragmentX8) getFragment(6);
+        FragmentX9 h = (FragmentX9) getFragment(7);
         a.envioDeDatos();
         b.envioDeDatos();
         c.envioDeDatos();
@@ -533,7 +538,7 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
     }
 
     public void errorFragmentX(String error){
-        FragmentX9 a = (FragmentX9) getFragment(8);
+        FragmentX10 a = (FragmentX10) getFragment(8);
         a.errorCampoFragmentX(error);
     }
 
@@ -621,79 +626,79 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
 
     public void onCheckboxClicked(View v)
     {
-        FragmentX5 frg = (FragmentX5) getFragment(4);
+        FragmentX6 frg = (FragmentX6) getFragment(4);
         frg.isChecked();
     }
 
     public void conObs1(View v)
     {
-        FragmentX5 frg = (FragmentX5) getFragment(4);
+        FragmentX6 frg = (FragmentX6) getFragment(5);
         frg.conObs1();
     }
 
     public void sinObs1(View v)
     {
-        FragmentX5 frg = (FragmentX5) getFragment(4);
+        FragmentX6 frg = (FragmentX6) getFragment(5);
         frg.sinObs1();
     }
 
     public void conObs2(View v)
     {
-        FragmentX5 frg = (FragmentX5) getFragment(4);
+        FragmentX6 frg = (FragmentX6) getFragment(5);
         frg.conObs2();
     }
 
     public void sinObs2(View v)
     {
-        FragmentX5 frg = (FragmentX5) getFragment(4);
+        FragmentX6 frg = (FragmentX6) getFragment(5);
         frg.sinObs2();
     }
 
     public void conObs3(View v)
     {
-        FragmentX5 frg = (FragmentX5) getFragment(4);
+        FragmentX6 frg = (FragmentX6) getFragment(5);
         frg.conObs3();
     }
 
     public void sinObs3(View v)
     {
-        FragmentX5 frg = (FragmentX5) getFragment(4);
+        FragmentX6 frg = (FragmentX6) getFragment(5);
         frg.sinObs3();
     }
 
     public void conObs4(View v)
     {
-        FragmentX5 frg = (FragmentX5) getFragment(4);
+        FragmentX6 frg = (FragmentX6) getFragment(5);
         frg.conObs4();
     }
 
     public void sinObs4(View v)
     {
-        FragmentX5 frg = (FragmentX5) getFragment(4);
+        FragmentX6 frg = (FragmentX6) getFragment(5);
         frg.sinObs4();
     }
 
     public void conObs5(View v)
     {
-        FragmentX5 frg = (FragmentX5) getFragment(4);
+        FragmentX6 frg = (FragmentX6) getFragment(5);
         frg.conObs5();
     }
 
     public void sinObs5(View v)
     {
-        FragmentX5 frg = (FragmentX5) getFragment(4);
+        FragmentX6 frg = (FragmentX6) getFragment(5);
         frg.sinObs5();
     }
 
     public void conObs6(View v)
     {
-        FragmentX5 frg = (FragmentX5) getFragment(4);
+        FragmentX6 frg = (FragmentX6) getFragment(5);
         frg.conObs6();
     }
 
     public void sinObs6(View v)
     {
-        FragmentX5 frg = (FragmentX5) getFragment(4);
+        FragmentX6 frg = (FragmentX6) getFragment(5);
         frg.sinObs6();
     }
 }

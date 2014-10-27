@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +20,12 @@ import android.widget.VideoView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import test3.ncxchile.cl.POJO.ImageItem;
 import test3.ncxchile.cl.POJO.VideoItem;
 import test3.ncxchile.cl.login.R;
+import test3.ncxchile.cl.session.SessionManager;
 
 /**
  * Created by android-developer on 23-10-2014.
@@ -39,6 +42,8 @@ public class GridViewVideoAdapter extends ArrayAdapter {
         this.layoutResourceId = layoutResourceId;
         this.context = context;
         this.data = data;
+        SessionManager session = new SessionManager(context);
+        contVideo=session.getKeyCantidadVideos();
     }
 
     public int getContVideo(){return contVideo;}
@@ -48,7 +53,7 @@ public class GridViewVideoAdapter extends ArrayAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         View row = convertView;
         ViewHolder holder = null;
@@ -85,7 +90,17 @@ public class GridViewVideoAdapter extends ArrayAdapter {
                         boolean deleted = file.delete();
                         if(deleted){
                             remove(item);
+                            add(new VideoItem(BitmapFactory.decodeResource(context.getResources(), R.drawable.video_placeholder),
+                                    BitmapFactory.decodeResource(context.getResources(), R.drawable.photo_placeholder),
+                                    Uri.parse(context.getPackageName() + R.drawable.video_placeholder),""));
+                            /*
+                            insert(new VideoItem(BitmapFactory.decodeResource(context.getResources(), R.drawable.video_placeholder),
+                                                 BitmapFactory.decodeResource(context.getResources(), R.drawable.photo_placeholder),
+                                                 Uri.parse(context.getPackageName() + R.drawable.video_placeholder),""), position);
+                            */
                             contVideo--;
+                            SessionManager session = new SessionManager(context);
+                            session.setKeyCantidadVideos(contVideo);
                             //imageGridView.setAdapter(imageGridAdapter);
                         }
                     }

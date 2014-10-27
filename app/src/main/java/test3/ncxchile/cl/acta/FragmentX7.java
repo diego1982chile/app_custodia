@@ -1,27 +1,38 @@
 package test3.ncxchile.cl.acta;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import test3.ncxchile.cl.login.R;
+import test3.ncxchile.cl.validators.RutValidator;
+import test3.ncxchile.cl.widgets.RutEditText;
 
 /**
  * Created by BOBO on 14-07-2014.
  */
 public class FragmentX7 extends android.app.Fragment {
-    public EditText view7_01, view7_02, view7_03;
-    public String errorv07_01, errorv07_02, errorv07_03, texto_error;
-    public String[] a;
-    public TextView errores;
-    public String[] errores_name;
-
+    public RutEditText view6_01, view6_06;
+    public EditText view6_02, view6_03, view6_04, view6_05, view6_07, view6_08, view6_09, view6_10;
     private static final String ARG_SECTION_NUMBER = "section_number";
+    public String errorv06_01, errorv06_02, texto_error, rut1, rut2, name1, name2, licencia1, licencia2, correo1, correo2, telefono1, telefono2;
+    public TextView errores;
+    public String[] a;
+    public String[] errores_name;
+    public Button validador_06;
+    private static final String PATTERN_EMAIL = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+            + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
-    public FragmentX7 newInstance(int sectionNumber){
+    public FragmentX7 newInstance(int sectionNumber) {
         FragmentX7 fragment = new FragmentX7();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
@@ -33,72 +44,59 @@ public class FragmentX7 extends android.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment7, container, false);
-        view7_01 = (EditText) rootView.findViewById(R.id.view7_01_infogrua);
-        view7_02 = (EditText) rootView.findViewById(R.id.view7_02_nombreop);
-        view7_03 = (EditText) rootView.findViewById(R.id.view7_03_rut);
-        errores = (TextView) rootView.findViewById(R.id.errores7);
-
+        view6_01 = (RutEditText) rootView.findViewById(R.id.view6_01_rut);
+        view6_02 = (EditText) rootView.findViewById(R.id.view6_02_nombre);
+        view6_03 = (EditText) rootView.findViewById(R.id.view6_03_licencia);
+        view6_04 = (EditText) rootView.findViewById(R.id.view6_04_correo);
+        view6_05 = (EditText) rootView.findViewById(R.id.view6_05_telefono);
+        view6_06 = (RutEditText) rootView.findViewById(R.id.view6_06_rut);
+        view6_07 = (EditText) rootView.findViewById(R.id.view6_07_nombre);
+        view6_08 = (EditText) rootView.findViewById(R.id.view6_08_licencia);
+        view6_09 = (EditText) rootView.findViewById(R.id.view6_09_correo);
+        view6_10 = (EditText) rootView.findViewById(R.id.view6_10_telefono);
+        errores = (TextView) rootView.findViewById(R.id.errores6);
+        view6_06.addTextChangedListener(replicadorCampos);
         return rootView;
     }
 
     public void envioDeDatos() {
-        ((MyActivity) getActivity()).recibeDatosFragmentX7(view7_01, view7_02, view7_03);
+        ((MyActivity) getActivity()).recibeDatosFragmentX6(view6_01, view6_02, view6_03, view6_04, view6_05, view6_06, view6_07, view6_08, view6_09, view6_10);
     }
 
-    public String[] validarDatosFragment7() {
-        errorv07_01 = "0";
-        errorv07_02 = "0";
-        errorv07_03 = "0";
 
-        if (view7_01.getText().toString().equals("")){
-            errorv07_01 = "1";
-        }
-        if (view7_02.getText().toString().equals("")){
-            errorv07_02 = "1";
-        }
+    public static boolean validateEmail(String email) {
 
-        if (validarRut(view7_03.getText().toString()) != true){
-            errorv07_03 = "1";
-        }
+        // Compiles the given regular expression into a pattern.
+        Pattern pattern = Pattern.compile(PATTERN_EMAIL);
 
-        a = new String[3];
+        // Match the given input against this pattern
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
 
-        a[0] = errorv07_01;
-        a[1] = errorv07_02;
-        a[2] = errorv07_03;
-        return a;
     }
 
-    public static boolean validarRut(String rut) {
+    public boolean validarDatosFragment6(){
 
-        boolean validacion = false;
-        try {
-            rut =  rut.toUpperCase();
-            rut = rut.replace(".", "");
-            rut = rut.replace("-", "");
-            int rutAux = Integer.parseInt(rut.substring(0, rut.length() - 1));
+        boolean esValido=true;
 
-            char dv = rut.charAt(rut.length() - 1);
-
-            int m = 0, s = 1;
-            for (; rutAux != 0; rutAux /= 10) {
-                s = (s + rutAux % 10 * (9 - m++ % 6)) % 11;
-            }
-            if (dv == (char) (s != 0 ? s + 47 : 75)) {
-                validacion = true;
-            }
-
-        } catch (java.lang.NumberFormatException e) {
-        } catch (Exception e) {
+        if(view6_01.getText().toString().equals("")){
+            view6_01.setError(getString(R.string.error_field_required));
+            esValido=false;
         }
-        return validacion;
+
+        if (view6_06.getText().toString().equals("")){
+            view6_06.setError(getString(R.string.error_field_required));
+            esValido=false;
+        }
+
+        return esValido;
     }
 
-    public void pintarErrores7(String a[]){
+    public void pintarErrores6(String a[]){
         errores_name = new String[3];
-        errores_name[0] = "Identificación";
-        errores_name[1] = "Nombre";
-        errores_name[2] = "RUT";
+        errores_name[0] = "RUT Propietario";
+        errores_name[1] = "RUT Conductor";
+        errores_name[2] = ": Si los rut son iguales, los datos ingresados deben ser los mismos";
 
         texto_error = "Hay errores en los campos ";
 
@@ -119,7 +117,63 @@ public class FragmentX7 extends android.app.Fragment {
         errores.setText(texto_error);
     }
 
-    public void limpiarErrores(){
-        errores.setText("");
-    }
+    TextWatcher replicadorCampos = new TextWatcher() {
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if(s.length()==9) {
+                if(s.toString().equals(view6_01.getText().toString()))
+                {
+                    view6_07.setText(view6_02.getText().toString());
+                    view6_08.setText(view6_03.getText().toString());
+                    view6_09.setText(view6_04.getText().toString());
+                    view6_10.setText(view6_05.getText().toString());
+
+                    view6_07.setFocusable(false);
+                    view6_07.setFocusableInTouchMode(false); // user touches widget on phone with touch screen
+                    view6_07.setClickable(false);
+
+                    view6_08.setFocusable(false);
+                    view6_08.setFocusableInTouchMode(false); // user touches widget on phone with touch screen
+                    view6_08.setClickable(false);
+
+                    view6_09.setFocusable(false);
+                    view6_09.setFocusableInTouchMode(false); // user touches widget on phone with touch screen
+                    view6_09.setClickable(false);
+
+                    view6_10.setFocusable(false);
+                    view6_10.setFocusableInTouchMode(false); // user touches widget on phone with touch screen
+                    view6_10.setClickable(false);
+                }
+                else
+                {
+                    view6_07.setFocusable(true);
+                    view6_07.setFocusableInTouchMode(true); // user touches widget on phone with touch screen
+                    view6_07.setClickable(true);
+
+                    view6_08.setFocusable(true);
+                    view6_08.setFocusableInTouchMode(true); // user touches widget on phone with touch screen
+                    view6_08.setClickable(true);
+
+                    view6_09.setFocusable(true);
+                    view6_09.setFocusableInTouchMode(true); // user touches widget on phone with touch screen
+                    view6_09.setClickable(true);
+
+                    view6_10.setFocusable(true);
+                    view6_10.setFocusableInTouchMode(true); // user touches widget on phone with touch screen
+                    view6_10.setClickable(true);
+                }
+
+            }
+        }
+    };
 }
+

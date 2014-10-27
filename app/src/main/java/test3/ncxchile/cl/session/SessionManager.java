@@ -40,6 +40,13 @@ public class SessionManager {
     // Email address (make variable public to access from outside)
     public static final String KEY_APELLIDO_MATERNO = "apellido_materno";
 
+    // Amount of video files
+    public static final String KEY_CANTIDAD_VIDEOS = "cantidad_videos";
+
+    // Amount of image files
+    public static final String KEY_CANTIDAD_FOTOS = "cantidad_fotos";
+
+
     // Email address (make variable public to access from outside)
 
     // Constructor
@@ -67,6 +74,12 @@ public class SessionManager {
 
         // Storing email in pref
         editor.putString(KEY_APELLIDO_MATERNO, apellido_materno);
+
+        // Storing amount of saved image files
+        editor.putInt(KEY_CANTIDAD_VIDEOS, 0);
+
+        // Storing amount of saved image files
+        editor.putInt(KEY_CANTIDAD_FOTOS, 0);
 
         // commit changes
         editor.commit();
@@ -140,5 +153,25 @@ public class SessionManager {
     // Get Login State
     public boolean isLoggedIn(){
         return pref.getBoolean(IS_LOGIN, false);
+    }
+
+    public void setKeyCantidadFotos(int cantidadFotos){
+        Editor editor= pref.edit();
+        editor.putInt(KEY_CANTIDAD_FOTOS, cantidadFotos);
+        editor.commit();
+    }
+
+    public int getKeyCantidadFotos(){
+        return pref.getInt(KEY_CANTIDAD_FOTOS, 0);
+    }
+
+    public void setKeyCantidadVideos(int cantidadVideos){
+        Editor editor= pref.edit();
+        editor.putInt(KEY_CANTIDAD_VIDEOS, cantidadVideos);
+        editor.commit();
+    }
+
+    public int getKeyCantidadVideos(){
+        return pref.getInt(KEY_CANTIDAD_VIDEOS, 0);
     }
 }
