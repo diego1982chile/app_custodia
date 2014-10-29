@@ -104,8 +104,7 @@ public class Firma extends Activity {
 
                     // Creamos el flujo de datos de salida para el fichero donde
                     // guardaremos el pdf.
-                    FileOutputStream ficheroPdf = new FileOutputStream(
-                            f.getAbsolutePath());
+                    FileOutputStream ficheroPdf = new FileOutputStream(f.getAbsolutePath());
 
                     // Asociamos el flujo que acabamos de crear al documento.
                     PdfWriter writer = PdfWriter.getInstance(documento, ficheroPdf);

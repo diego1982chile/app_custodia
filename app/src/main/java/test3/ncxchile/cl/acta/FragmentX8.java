@@ -7,17 +7,21 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.HashMap;
+
 import test3.ncxchile.cl.login.R;
+import test3.ncxchile.cl.session.SessionManager;
+import test3.ncxchile.cl.validators.RutValidator;
+import test3.ncxchile.cl.widgets.RequiredEditText;
+import test3.ncxchile.cl.widgets.RutEditText;
 
 /**
  * Created by BOBO on 14-07-2014.
  */
 public class FragmentX8 extends android.app.Fragment {
-    public EditText view7_01, view7_02, view7_03;
-    public String errorv07_01, errorv07_02, errorv07_03, texto_error;
-    public String[] a;
+    public RequiredEditText view7_01, view7_02;
+    public RutEditText view7_03;
     public TextView errores;
-    public String[] errores_name;
 
     private static final String ARG_SECTION_NUMBER = "section_number";
 
@@ -33,10 +37,29 @@ public class FragmentX8 extends android.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment8, container, false);
-        view7_01 = (EditText) rootView.findViewById(R.id.view7_01_infogrua);
-        view7_02 = (EditText) rootView.findViewById(R.id.view7_02_nombreop);
-        view7_03 = (EditText) rootView.findViewById(R.id.view7_03_rut);
-        errores = (TextView) rootView.findViewById(R.id.errores7);
+        view7_01 = (RequiredEditText) rootView.findViewById(R.id.view7_01_infogrua);
+        view7_02 = (RequiredEditText) rootView.findViewById(R.id.view7_02_nombreop);
+        view7_03 = (RutEditText) rootView.findViewById(R.id.view7_03_rut);
+
+        SessionManager session = new SessionManager(getActivity());
+        // get user data from session
+        HashMap<String, String> user = session.getUserDetails();
+
+        // name
+        String rut = user.get(SessionManager.KEY_RUT);
+        // email
+        String nombre = user.get(SessionManager.KEY_NOMBRE);
+        // apellido paterno
+        String apellido_paterno = user.get(SessionManager.KEY_APELLIDO_PATERNO);
+        // email
+        String apellido_materno = user.get(SessionManager.KEY_APELLIDO_MATERNO);
+
+        view7_02.setText(nombre+" "+apellido_paterno+" "+apellido_materno);
+        view7_03.setText(rut);
+
+        view7_02.setFocusable(false);
+        view7_02.setFocusableInTouchMode(false); // user touches widget on phone with touch screen
+        view7_02.setClickable(false);
 
         return rootView;
     }
@@ -45,81 +68,22 @@ public class FragmentX8 extends android.app.Fragment {
         ((MyActivity) getActivity()).recibeDatosFragmentX7(view7_01, view7_02, view7_03);
     }
 
-    public String[] validarDatosFragment7() {
-        errorv07_01 = "0";
-        errorv07_02 = "0";
-        errorv07_03 = "0";
+    public boolean validarDatosFragment7() {
+
+        boolean esValido=true;
+
+        if (!RutValidator.isRutValid(view7_03.getText().toString())){
+            view7_03.setError(getString(R.string.error_invalid_email));
+            esValido=false;
+        }
 
         if (view7_01.getText().toString().equals("")){
-            errorv07_01 = "1";
+            esValido=false;
         }
         if (view7_02.getText().toString().equals("")){
-            errorv07_02 = "1";
+            esValido=false;
         }
 
-        if (validarRut(view7_03.getText().toString()) != true){
-            errorv07_03 = "1";
-        }
-
-        a = new String[3];
-
-        a[0] = errorv07_01;
-        a[1] = errorv07_02;
-        a[2] = errorv07_03;
-        return a;
-    }
-
-    public static boolean validarRut(String rut) {
-
-        boolean validacion = false;
-        try {
-            rut =  rut.toUpperCase();
-            rut = rut.replace(".", "");
-            rut = rut.replace("-", "");
-            int rutAux = Integer.parseInt(rut.substring(0, rut.length() - 1));
-
-            char dv = rut.charAt(rut.length() - 1);
-
-            int m = 0, s = 1;
-            for (; rutAux != 0; rutAux /= 10) {
-                s = (s + rutAux % 10 * (9 - m++ % 6)) % 11;
-            }
-            if (dv == (char) (s != 0 ? s + 47 : 75)) {
-                validacion = true;
-            }
-
-        } catch (java.lang.NumberFormatException e) {
-        } catch (Exception e) {
-        }
-        return validacion;
-    }
-
-    public void pintarErrores7(String a[]){
-        errores_name = new String[3];
-        errores_name[0] = "Identificación";
-        errores_name[1] = "Nombre";
-        errores_name[2] = "RUT";
-
-        texto_error = "Hay errores en los campos ";
-
-        for (int i = 0; i < a.length; i++)
-        {
-            if(a[i] == "1"){
-                if(i == 0){
-                    texto_error = texto_error + errores_name[i];
-                }else{
-                    if(a[i-1] == "1"){
-                        texto_error = texto_error + ", " + errores_name[i];
-                    }else{
-                        texto_error = texto_error + ", " + errores_name[i];
-                    }
-                }
-            }
-        }
-        errores.setText(texto_error);
-    }
-
-    public void limpiarErrores(){
-        errores.setText("");
+        return esValido;
     }
 }

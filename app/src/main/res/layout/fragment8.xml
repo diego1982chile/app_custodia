@@ -86,7 +86,7 @@
                 android:id="@+id/textView" />
 
 
-            <EditText
+            <test3.ncxchile.cl.widgets.RequiredEditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/view7_01_infogrua"
@@ -119,7 +119,7 @@
                 android:id="@+id/textView2" />
 
 
-            <EditText
+            <test3.ncxchile.cl.widgets.RequiredEditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/view7_02_nombreop"
@@ -152,7 +152,7 @@
                 android:id="@+id/textView3" />
 
 
-            <EditText
+            <test3.ncxchile.cl.widgets.RutEditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/view7_03_rut"

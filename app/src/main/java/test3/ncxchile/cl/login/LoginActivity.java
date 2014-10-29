@@ -38,7 +38,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLogin mAuthTask = null;
+    private LoginController mAuthTask = null;
 
     // UI references.
     private RutEditText mEmailView;
@@ -125,7 +125,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLogin(rut, password, getApplicationContext());
+            mAuthTask = new LoginController(rut, password, getApplicationContext());
 
             ConnectionDetector cd = new ConnectionDetector(getApplicationContext()); //instancie el objeto
             Boolean isInternetPresent = cd.hayConexion(); // true o false dependiendo de si hay conexion

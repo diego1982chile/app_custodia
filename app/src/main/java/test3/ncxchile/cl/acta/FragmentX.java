@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import test3.ncxchile.cl.greenDAO.InstitucionDao;
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.validators.RutValidator;
 import test3.ncxchile.cl.widgets.CustomAutoComplete;
@@ -58,6 +59,8 @@ public class FragmentX extends android.app.Fragment {
         view1_02 = (RequiredEditText) rootView.findViewById(R.id.view1_02_nombre);
         view1_tv_03 = (TextView) rootView.findViewById(R.id.textView4);
         view1_03 = (CustomAutoComplete) rootView.findViewById(R.id.view1_03_institucion);
+        view1_03.setSource(InstitucionDao.TABLENAME);
+        view1_03.setThreshold(1);
         view1_tv_04 = (TextView) rootView.findViewById(R.id.textView4);
         view1_04 = (RequiredEditText) rootView.findViewById(R.id.view1_04_cargo);
         view1_tv_05 = (TextView) rootView.findViewById(R.id.textView5);
@@ -94,7 +97,7 @@ public class FragmentX extends android.app.Fragment {
         }
 
         if (!RutValidator.isRutValid(view1_01.getText().toString())){
-            view1_01.setError(getString(R.string.error_field_required));
+            view1_01.setError(getString(R.string.error_invalid_email));
             esValido=false;
         }
 

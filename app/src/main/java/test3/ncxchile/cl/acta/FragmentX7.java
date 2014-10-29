@@ -60,7 +60,7 @@ public class FragmentX7 extends android.app.Fragment {
     }
 
     public void envioDeDatos() {
-        ((MyActivity) getActivity()).recibeDatosFragmentX6(view6_01, view6_02, view6_03, view6_04, view6_05, view6_06, view6_07, view6_08, view6_09, view6_10);
+        ((MyActivity) getActivity()).recibeDatosFragmentX7(view6_01, view6_02, view6_03, view6_04, view6_05, view6_06, view6_07, view6_08, view6_09, view6_10);
     }
 
 
@@ -79,6 +79,16 @@ public class FragmentX7 extends android.app.Fragment {
 
         boolean esValido=true;
 
+        if (!RutValidator.isRutValid(view6_01.getText().toString())){
+            view6_01.setError(getString(R.string.error_invalid_email));
+            esValido=false;
+        }
+
+        if (!RutValidator.isRutValid(view6_06.getText().toString())){
+            view6_06.setError(getString(R.string.error_invalid_email));
+            esValido=false;
+        }
+
         if(view6_01.getText().toString().equals("")){
             view6_01.setError(getString(R.string.error_field_required));
             esValido=false;
@@ -92,30 +102,7 @@ public class FragmentX7 extends android.app.Fragment {
         return esValido;
     }
 
-    public void pintarErrores6(String a[]){
-        errores_name = new String[3];
-        errores_name[0] = "RUT Propietario";
-        errores_name[1] = "RUT Conductor";
-        errores_name[2] = ": Si los rut son iguales, los datos ingresados deben ser los mismos";
 
-        texto_error = "Hay errores en los campos ";
-
-        for (int i = 0; i < a.length; i++)
-        {
-            if(a[i] == "1"){
-                if(i == 0){
-                    texto_error = texto_error + errores_name[i];
-                }else{
-                    if(a[i-1] == "1"){
-                        texto_error = texto_error + ", " + errores_name[i];
-                    }else{
-                        texto_error = texto_error + ", " + errores_name[i];
-                    }
-                }
-            }
-        }
-        errores.setText(texto_error);
-    }
 
     TextWatcher replicadorCampos = new TextWatcher() {
 
@@ -129,7 +116,10 @@ public class FragmentX7 extends android.app.Fragment {
 
         @Override
         public void afterTextChanged(Editable s) {
-            if(s.length()==9) {
+
+            int rut_propietario=view6_01.getText().toString().length();
+
+            if(s.length()==rut_propietario) {
                 if(s.toString().equals(view6_01.getText().toString()))
                 {
                     view6_07.setText(view6_02.getText().toString());
@@ -137,43 +127,27 @@ public class FragmentX7 extends android.app.Fragment {
                     view6_09.setText(view6_04.getText().toString());
                     view6_10.setText(view6_05.getText().toString());
 
-                    view6_07.setFocusable(false);
-                    view6_07.setFocusableInTouchMode(false); // user touches widget on phone with touch screen
-                    view6_07.setClickable(false);
-
-                    view6_08.setFocusable(false);
-                    view6_08.setFocusableInTouchMode(false); // user touches widget on phone with touch screen
-                    view6_08.setClickable(false);
-
-                    view6_09.setFocusable(false);
-                    view6_09.setFocusableInTouchMode(false); // user touches widget on phone with touch screen
-                    view6_09.setClickable(false);
-
-                    view6_10.setFocusable(false);
-                    view6_10.setFocusableInTouchMode(false); // user touches widget on phone with touch screen
-                    view6_10.setClickable(false);
+                    setDisable(view6_07,false);
+                    setDisable(view6_08,false);
+                    setDisable(view6_09,false);
+                    setDisable(view6_10,false);
                 }
                 else
                 {
-                    view6_07.setFocusable(true);
-                    view6_07.setFocusableInTouchMode(true); // user touches widget on phone with touch screen
-                    view6_07.setClickable(true);
-
-                    view6_08.setFocusable(true);
-                    view6_08.setFocusableInTouchMode(true); // user touches widget on phone with touch screen
-                    view6_08.setClickable(true);
-
-                    view6_09.setFocusable(true);
-                    view6_09.setFocusableInTouchMode(true); // user touches widget on phone with touch screen
-                    view6_09.setClickable(true);
-
-                    view6_10.setFocusable(true);
-                    view6_10.setFocusableInTouchMode(true); // user touches widget on phone with touch screen
-                    view6_10.setClickable(true);
+                    setDisable(view6_07,true);
+                    setDisable(view6_08,true);
+                    setDisable(view6_09,true);
+                    setDisable(view6_10,true);
                 }
 
             }
         }
     };
+
+    public void setDisable(EditText et, boolean disable){
+        et.setFocusable(disable);
+        et.setFocusableInTouchMode(disable); // user touches widget on phone with touch screen
+        et.setClickable(disable);
+    }
 }
 

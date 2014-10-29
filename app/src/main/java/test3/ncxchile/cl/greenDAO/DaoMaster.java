@@ -41,7 +41,7 @@ import test3.ncxchile.cl.security.PasswordHelper;
  * Master of DAO (schema version 1000): knows all DAOs.
 */
 public class DaoMaster extends AbstractDaoMaster {
-    public static final int SCHEMA_VERSION = 1002;
+    public static final int SCHEMA_VERSION = 1003;
 
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(SQLiteDatabase db, boolean ifNotExists) {
@@ -63,6 +63,7 @@ public class DaoMaster extends AbstractDaoMaster {
         TelefonosDao.createTable(db, ifNotExists);
         InstitucionDao.createTable(db, ifNotExists);
         UserDao.createTable(db, ifNotExists);
+        ComunaDao.createTable(db, ifNotExists);
     }
     
     /** Drops underlying database table using DAOs. */
@@ -85,6 +86,7 @@ public class DaoMaster extends AbstractDaoMaster {
         TelefonosDao.dropTable(db, ifExists);
         InstitucionDao.dropTable(db, ifExists);
         UserDao.dropTable(db, ifExists);
+        ComunaDao.dropTable(db, ifExists);
     }
     
     public static abstract class OpenHelper extends SQLiteOpenHelper {
@@ -152,6 +154,40 @@ public class DaoMaster extends AbstractDaoMaster {
                     // just ignore it
                 }
             }
+
+            ////////////////////////////////////
+            // Poblar comunas
+            myInput=null;
+
+            //System.out.print("ASSETS1="+getAssets().toString());
+            try {
+                myInput = mContext.getAssets().open("comunas.txt");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            br = null;
+            thisLine = null;
+
+            try {
+                br = new BufferedReader((new InputStreamReader(myInput)));
+                long id = 1;
+                while ((thisLine = br.readLine()) != null) {
+                    mInsertAttributeStatement = db.compileStatement("INSERT INTO COMUNA (_id, NOMBRE) VALUES (?,?)");
+                    mInsertAttributeStatement.bindLong(1, new Long(id));
+                    mInsertAttributeStatement.bindString(2, thisLine.toString());
+                    mInsertAttributeStatement.execute();
+                    ++id;
+                }
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            } finally {                       // always close the file
+                if (br != null) try {
+                    br.close();
+                } catch (IOException ioe2) {
+                    // just ignore it
+                }
+            }
         }
     }
     
@@ -195,6 +231,7 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(TelefonosDao.class);
         registerDaoClass(InstitucionDao.class);
         registerDaoClass(UserDao.class);
+        registerDaoClass(ComunaDao.class);
     }
     
     public DaoSession newSession() {

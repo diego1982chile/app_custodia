@@ -22,8 +22,6 @@ public class FragmentX10 extends android.app.Fragment {
     public TextView text_error;
     public static DatosPDF datospdf = new DatosPDF();
 
-
-
     public FragmentX10 newInstance(int sectionNumber){
         FragmentX10 fragment = new FragmentX10();
         Bundle args = new Bundle();

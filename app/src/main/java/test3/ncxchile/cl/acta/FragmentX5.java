@@ -1,11 +1,8 @@
 package test3.ncxchile.cl.acta;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -36,8 +33,8 @@ import test3.ncxchile.cl.POJO.ImageItem;
 import test3.ncxchile.cl.POJO.VideoItem;
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.session.SessionManager;
-import test3.ncxchile.cl.widgets.GridViewAdapter;
-import test3.ncxchile.cl.widgets.GridViewVideoAdapter;
+import test3.ncxchile.cl.Adapters.GridViewAdapter;
+import test3.ncxchile.cl.Adapters.GridViewVideoAdapter;
 
 /**
  * Created by android-developer on 23-10-2014.
@@ -97,25 +94,36 @@ public class FragmentX5 extends Fragment {
                                                    BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.photo_placeholder),
                                                    Uri.parse(getActivity().getPackageName() + R.drawable.video_placeholder),"");
 
-        imageItems.add(imagePlaceHolder);
-        imageItems.add(imagePlaceHolder);
-        imageItems.add(imagePlaceHolder);
-        imageItems.add(imagePlaceHolder);
-        imageItems.add(imagePlaceHolder);
-        imageItems.add(imagePlaceHolder);
-        imageItems.add(imagePlaceHolder);
-        imageItems.add(imagePlaceHolder);
-        imageItems.add(imagePlaceHolder);
-        imageItems.add(imagePlaceHolder);
-
+        if(imageItems.size()>0) {
+            for(int i=0; i <10; ++i) {
+                if(!imageItems.get(i).getPath().toString().equals("")){
+                    imageItems.set(i, new ImageItem(imageItems.get(i).getImage(),
+                                                    BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.delete_small)
+                                                    ,mCurrentUri, mCurrentPath));
+                }
+                else{
+                    imageItems.set(i, imagePlaceHolder);
+                }
+            }
+        }
+        else
+        {
+            for(int i=0; i <10; ++i)
+                imageItems.add(imagePlaceHolder);
+        }
         VideoItem videoPlaceHolder= new VideoItem(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.video_placeholder),
                                                   BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.photo_placeholder),
                                                   Uri.parse(getActivity().getPackageName() + R.drawable.video_placeholder),"");
-        videoItems.add(videoPlaceHolder);
-        videoItems.add(videoPlaceHolder);
-        videoItems.add(videoPlaceHolder);
-        videoItems.add(videoPlaceHolder);
-        videoItems.add(videoPlaceHolder);
+
+        if(videoItems.size()>0) {
+            for(int i=0; i <5; ++i)
+                videoItems.set(i, videoPlaceHolder);
+        }
+        else
+        {
+            for(int i=0; i <5; ++i)
+                videoItems.add(videoPlaceHolder);
+        }
 
         imageGridView = (GridView) rootView.findViewById(R.id.imageViewThumbnail);
         imageGridAdapter = new GridViewAdapter(getActivity(), R.layout.image_item, imageItems);
@@ -221,8 +229,7 @@ public class FragmentX5 extends Fragment {
                 imageItems.set(session.getKeyCantidadFotos(), new ImageItem(decodeFile(mCurrentPath),
                         BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.delete_small)
                         ,mCurrentUri, mCurrentPath));
-                session.setKeyCantidadFotos(session.getKeyCantidadFotos() + 1);
-                imageGridAdapter.setContImage(session.getKeyCantidadFotos()+1);
+                session.setKeyCantidadFotos(session.getKeyCantidadFotos()+1);
                 imageGridView.setAdapter(imageGridAdapter);
             } else {
                 if(requestCode == REQUEST_VIDEO_CAPTURE) {
@@ -231,9 +238,8 @@ public class FragmentX5 extends Fragment {
                     SessionManager session = new SessionManager(getActivity());
                     videoItems.set(session.getKeyCantidadVideos(), new VideoItem(bitmap,
                             BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.delete_small)
-                            , mCurrentUri ,mCurrentPath));
+                            , mCurrentUri, mCurrentPath));
                     session.setKeyCantidadVideos(session.getKeyCantidadVideos()+1);
-                    videoGridAdapter.setContVideo(session.getKeyCantidadVideos()+1);
                     videoGridView.setAdapter(videoGridAdapter);
                 }
                 else {
@@ -288,7 +294,7 @@ public class FragmentX5 extends Fragment {
         boolean boolvid=adjuntarVideo.isChecked();
         String motivo=motivo_imgvid.getText().toString();
 
-        ((MyActivity) getActivity()).recibeDatosFragmentFotoVideo(boolimg, boolvid, motivo);
+        ((MyActivity) getActivity()).recibeDatosFragmentX5(boolimg, boolvid, motivo);
     }
     /*
     public boolean validarDatosFragmentFotoVideo(){

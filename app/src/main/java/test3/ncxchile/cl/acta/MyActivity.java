@@ -28,6 +28,7 @@ import test3.ncxchile.cl.greenDAO.DaoMaster;
 import test3.ncxchile.cl.greenDAO.DaoSession;
 import test3.ncxchile.cl.greenDAO.FinalizarActaDao;
 import test3.ncxchile.cl.login.R;
+import test3.ncxchile.cl.widgets.CustomAutoComplete;
 
 
 public class MyActivity extends Activity implements ActionBar.TabListener {
@@ -48,10 +49,9 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
     // Fragment 4
     public String view4_00, view4_01, view4_02, view4_03, view4_05, view4_07, view4_08, view4_04, view4_06, view4_09;
     // Fragment fotovideo
-    public boolean viewImagenVideo_01, viewImagenVideo_02;
-    public String viewImagenVideo_03;
     // Fragment 5
     public boolean view5_01, view5_02;
+
     public String view5_03, view5_04, view5_05, view5_06, view5_07, view5_08, view5_09, view5_10, view5_11, view5_12, view5_13, view5_14, view5_15, view5_16, view5_17;
     // Fragment 6
     public String view6_01, view6_02, view6_03, view6_04, view6_05, view6_06, view6_07, view6_08, view6_09, view6_10;
@@ -74,8 +74,6 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
     Fragment h = new FragmentX8().newInstance(7);
     Fragment i = new FragmentX9().newInstance(8);
     Fragment j = new FragmentX10().newInstance(9);
-
-
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -242,13 +240,19 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         }
 
         if(tab.getPosition() == 8 /*|| tab.getPosition() == 9 */){
-            /*
             FragmentX8 f8 = (FragmentX8) getFragment(7);
-            view7 = new String[3];
-            view7 = f7.validarDatosFragment7();
-            if (view7[0] != "0" || view7[1] != "0" || view7[2] != "0") {
-                errorFragment(6);
-                f7.pintarErrores7(view7);
+
+            if (!f8.validarDatosFragment7()) {
+                errorFragment(7);
+            }
+        }
+
+        if(tab.getPosition() == 9 /*|| tab.getPosition() == 9 */){
+            FragmentX9 f9 = (FragmentX9) getFragment(8);
+
+            /*
+            if (!f8.validarDatosFragment7()) {
+                errorFragment(7);
             }
             */
         }
@@ -319,8 +323,8 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
 
         @Override
         public int getCount() {
-            // Muestra 9 pestañas
-            return 9;
+            // Muestra 10 pestañas
+            return 10;
         }
 
         @Override
@@ -337,14 +341,16 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
                 case 3:
                     return getString(R.string.title_section4).toUpperCase(l);
                 case 4:
-                    return getString(R.string.title_section5).toUpperCase(l);
+                    return getString(R.string.title_section5_1).toUpperCase(l);
                 case 5:
-                    return getString(R.string.title_section6).toUpperCase(l);
+                    return getString(R.string.title_section5_2).toUpperCase(l);
                 case 6:
-                    return getString(R.string.title_section7).toUpperCase(l);
+                    return getString(R.string.title_section6).toUpperCase(l);
                 case 7:
-                    return getString(R.string.title_section8).toUpperCase(l);
+                    return getString(R.string.title_section7).toUpperCase(l);
                 case 8:
+                    return getString(R.string.title_section8).toUpperCase(l);
+                case 9:
                     return getString(R.string.title_section9).toUpperCase(l);
             }
             return null;
@@ -394,10 +400,12 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         FragmentX2 b = (FragmentX2) getFragment(1);
         FragmentX3 c = (FragmentX3) getFragment(2);
         FragmentX4 d = (FragmentX4) getFragment(3);
-        FragmentX6 e = (FragmentX6) getFragment(4);
-        FragmentX7 f = (FragmentX7) getFragment(5);
-        FragmentX8 g = (FragmentX8) getFragment(6);
-        FragmentX9 h = (FragmentX9) getFragment(7);
+        FragmentX5 e = (FragmentX5) getFragment(4);
+        FragmentX6 f = (FragmentX6) getFragment(5);
+        FragmentX7 g = (FragmentX7) getFragment(6);
+        FragmentX8 h = (FragmentX8) getFragment(7);
+        FragmentX9 i = (FragmentX9) getFragment(8);
+        //FragmentX9 j = (FragmentX9) getFragment(9);
         a.envioDeDatos();
         b.envioDeDatos();
         c.envioDeDatos();
@@ -406,6 +414,7 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         f.envioDeDatos();
         g.envioDeDatos();
         h.envioDeDatos();
+        i.envioDeDatos();
 
         DatosPDF datospdf = new DatosPDF();
         datospdf.setView1_00(view1_00);
@@ -415,6 +424,7 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         datospdf.setView1_04(view1_04);
         datospdf.setView1_05(view1_05);
         datospdf.setView1_06(view1_06);
+        // Crear
 
         datospdf.setView2_01(view2_01);
         datospdf.setView2_02(view2_02);
@@ -479,6 +489,7 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
 
         return datospdf;
 
+
         // Guardar la base de datos
         /*
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "finalizaracta-db", null);
@@ -537,17 +548,12 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         view1_06 = g.getText().toString();
     }
 
-    public void errorFragmentX(String error){
-        FragmentX10 a = (FragmentX10) getFragment(8);
-        a.errorCampoFragmentX(error);
-    }
-
-    public void recibeDatosFragmentX2(Spinner a, EditText b, EditText c, EditText d, Spinner e, EditText f){
+    public void recibeDatosFragmentX2(Spinner a, EditText b, EditText c, EditText d, CustomAutoComplete e, EditText f){
         view2_01 = a.getSelectedItem().toString();
         view2_02 = b.getText().toString();
         view2_03 = c.getText().toString();
         view2_04 = d.getText().toString();
-        view2_05 = e.getSelectedItem().toString();
+        view2_05 = e.getText().toString();
         view2_06 = f.getText().toString();
     }
 
@@ -575,33 +581,17 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         view4_09 = i;
     }
 
-    public void recibeDatosFragmentFotoVideo(boolean boolimg, boolean boolvid, String motivo_imgvid){
-        viewImagenVideo_01 = boolimg;
-        viewImagenVideo_02 = boolvid;
-        viewImagenVideo_03 = motivo_imgvid;
-    }
-
-    public void recibeDatosFragmentX5(boolean boolimg, boolean boolvid, EditText motivo_imgvid, String q1_response, String q2_response,  String q3_response,  String q4_response,  String q5_response, String q6_response, String switch1_response, String switch2_response, String switch3_response, String switch4_response, String switch5_response, String switch6_response, String switch7_response){
+    public void recibeDatosFragmentX5(boolean boolimg, boolean boolvid, String motivo_imgvid){
         view5_01 = boolimg;
         view5_02 = boolvid;
-        view5_03 = motivo_imgvid.getText().toString();
-        view5_04 = q1_response;
-        view5_05 = q2_response;
-        view5_06 = q3_response;
-        view5_07 = q4_response;
-        view5_08 = q5_response;
-        view5_09 = q6_response;
-        view5_10 = switch1_response;
-        view5_11 = switch2_response;
-        view5_12 = switch3_response;
-        view5_13 = switch4_response;
-        view5_14 = switch5_response;
-        view5_15 = switch6_response;
-        view5_16 = switch7_response;
+        view5_03 = motivo_imgvid;
+    }
+
+    public void recibeDatosFragmentX6( String q1_response, String q2_response,  String q3_response,  String q4_response,  String q5_response, String q6_response, String switch1_response, String switch2_response, String switch3_response, String switch4_response, String switch5_response, String switch6_response, String switch7_response){
 
     }
 
-    public void recibeDatosFragmentX6(EditText a, EditText b, EditText c, EditText d, EditText e, EditText f, EditText g, EditText h, EditText i, EditText j){
+    public void recibeDatosFragmentX7(EditText a, EditText b, EditText c, EditText d, EditText e, EditText f, EditText g, EditText h, EditText i, EditText j){
         view6_01 = a.getText().toString();
         view6_02 = b.getText().toString();
         view6_03 = c.getText().toString();

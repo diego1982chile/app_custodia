@@ -5,6 +5,7 @@ package test3.ncxchile.cl.widgets;
  */
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -24,7 +25,8 @@ public class CustomAutoComplete extends AutoCompleteTextView {
     Institucion[] items = {new Institucion()};
     ArrayAdapter<Institucion> myAdapter;
     // adapter for auto-complete
-    Institucion itemSelected;
+    Institucion itemSelected= new Institucion();
+    String myResource="";
 
     public CustomAutoComplete(Context context) {
         super(context);
@@ -41,6 +43,11 @@ public class CustomAutoComplete extends AutoCompleteTextView {
         init(context);
     }
 
+    public void setSource(String source){
+        // just to add some initial value
+        myResource=source;
+    }
+
     // this is how to disable AutoCompleteTextView filter
     @Override
     protected void performFiltering(final CharSequence text, final int keyCode) {
@@ -54,6 +61,19 @@ public class CustomAutoComplete extends AutoCompleteTextView {
     @Override
     protected void replaceText(final CharSequence text) {
         super.replaceText(text);
+    }
+
+    @Override
+    public boolean enoughToFilter() {
+        return true;
+    }
+
+    @Override
+    protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect) {
+        super.onFocusChanged(focused, direction, previouslyFocusedRect);
+        if (focused) {
+            performFiltering(getText(), 0);
+        }
     }
 
     public void init(final Context context) {
@@ -75,7 +95,7 @@ public class CustomAutoComplete extends AutoCompleteTextView {
 
                     // update the adapater
                     //myAdapter.notifyDataSetChanged();
-                    myAdapter = new ArrayAdapter<Institucion>(context, android.R.layout.simple_dropdown_item_1line, items);
+                    myAdapter = new ArrayAdapter<Institucion>(context, R.layout.item, R.id.item, items);
                     setAdapter(myAdapter);
                 }
 
@@ -92,9 +112,10 @@ public class CustomAutoComplete extends AutoCompleteTextView {
 
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    itemSelected= (Institucion)getAdapter().getItem(0);
+                itemSelected= (Institucion)getAdapter().getItem(0);
                 }
             };
+
 
             OnFocusChangeListener fieldValidatorText = new OnFocusChangeListener() {
                 String mText=getText().toString();
@@ -132,6 +153,7 @@ public class CustomAutoComplete extends AutoCompleteTextView {
 
         // add items on the array dynamically
         DatabaseHandler DbH= new DatabaseHandler(context);
+        DbH.setTable(myResource);
         List<Institucion> instituciones = DbH.read(searchTerm);
         int rowCount = instituciones.size();
 

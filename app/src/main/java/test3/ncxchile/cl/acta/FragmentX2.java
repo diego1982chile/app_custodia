@@ -4,21 +4,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-
+import test3.ncxchile.cl.greenDAO.ComunaDao;
 import test3.ncxchile.cl.greenDAO.Institucion;
 import test3.ncxchile.cl.login.R;
+import test3.ncxchile.cl.widgets.CustomAutoComplete;
 import test3.ncxchile.cl.widgets.CustomSpinner;
 import test3.ncxchile.cl.widgets.RequiredEditText;
 
@@ -38,7 +31,8 @@ public class FragmentX2 extends android.app.Fragment {
 
     public EditText view2_01, view2_04, view2_06;
     public RequiredEditText view2_02, view2_03, view2_05;
-    public CustomSpinner spinner, spinner_motivo1, spinner_motivo2;
+    public CustomSpinner spinner_motivo1, spinner_motivo2;
+    public CustomAutoComplete comunas;
     public RadioGroup view2_00;
     public TextView errores;
     public String errorv02_01, errorv02_02, errorv02_03, texto_error;
@@ -59,8 +53,8 @@ public class FragmentX2 extends android.app.Fragment {
         view2_02 = (RequiredEditText) rootView.findViewById(R.id.view2_02_avocalle);
         view2_03 = (RequiredEditText) rootView.findViewById(R.id.view2_03_numeracion);
         view2_04 = (EditText) rootView.findViewById(R.id.view2_04_entrecalles);
-        spinner = (CustomSpinner) rootView.findViewById(R.id.spinner);
-        spinner.setSource("comunas");
+        comunas = (CustomAutoComplete) rootView.findViewById(R.id.comunas);
+        comunas.setSource(ComunaDao.TABLENAME);
         spinner_motivo1 = (CustomSpinner) rootView.findViewById(R.id.motivos1);
         spinner_motivo1.setSource("motivos");
         spinner_motivo2 = (CustomSpinner) rootView.findViewById(R.id.motivos2);
@@ -86,7 +80,7 @@ public class FragmentX2 extends android.app.Fragment {
         });
 
         spinner_motivo1.setSelection(0);
-        spinner.setSelection(0);
+        comunas.setSelection(0);
         view2_02.setText("San Luis de Macul");
         view2_03.setText("4391-C");
         view2_04.setText("Américo Vespucio y Tobalaba");
@@ -104,10 +98,10 @@ public class FragmentX2 extends android.app.Fragment {
         int id = view2_00.getCheckedRadioButtonId();
 
         if (id == R.id.radioButton1){
-            ((MyActivity) getActivity()).recibeDatosFragmentX2(spinner_motivo1, view2_02, view2_03, view2_04, spinner, view2_06);
+            ((MyActivity) getActivity()).recibeDatosFragmentX2(spinner_motivo1, view2_02, view2_03, view2_04, comunas, view2_06);
         }
         else{
-            ((MyActivity) getActivity()).recibeDatosFragmentX2(spinner_motivo2, view2_02, view2_03, view2_04, spinner, view2_06);
+            ((MyActivity) getActivity()).recibeDatosFragmentX2(spinner_motivo2, view2_02, view2_03, view2_04, comunas, view2_06);
         }
     }
 
@@ -124,6 +118,12 @@ public class FragmentX2 extends android.app.Fragment {
             view2_03.setError(getString(R.string.error_field_required));
             esValido=false;
         }
+
+        if(comunas.getText().toString().equals("")){
+            comunas.setError(getString(R.string.error_field_required));
+            esValido=false;
+        }
+
         return esValido;
     }
 }

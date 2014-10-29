@@ -7,7 +7,8 @@
     <string name="title_section2">Retiro</string>
     <string name="title_section3">Información Policial</string>
     <string name="title_section4">Información Vehículo</string>
-    <string name="title_section5">Información Visual</string>
+    <string name="title_section5_1">Información Visual 1/2</string>
+    <string name="title_section5_2">Información Visual 2/2</string>
     <string name="title_section6">Info. Propietario/Conductor</string>
     <string name="title_section7">Info. de la grúa</string>
     <string name="title_section8">Especies</string>
@@ -39,21 +40,21 @@
     <string name="info_ret">Información del retiro</string>
     <string name="motivo_ret">Motivo del retiro</string>
     <string name="tipo_motivo">Tipo del motivo</string>
-    <string name="avenidaocalle_ret">(*)Avenida o calle:</string>
-    <string name="numeracion_ret">(*)Numeración exacta:</string>
+    <string name="avenidaocalle_ret">Avenida o calle:(*)</string>
+    <string name="numeracion_ret">Numeración exacta:(*)</string>
     <string name="entrecalles_ret">Entre calles:</string>
-    <string name="comuna_ret">(*)Comuna:</string>
+    <string name="comuna_ret">Comuna:(*)</string>
     <string name="ref_ret">Otras referencias:</string>
 
     <!-- Información policial -->
     <string name="fecha_pol">Fecha del parte</string>
-    <string name="num_pol">(*)Nº del parte:</string>
-    <string name="unidad_pol">(*)Nº Unidad policial:</string>
-    <string name="nue_pol">(*)NUE:</string>
-    <string name="ruc_pol">(*)RUC:</string>
-    <string name="acta_pol">(*)Acta de incautación:</string>
-    <string name="oficio_pol">(*)Oficio remisor:</string>
-    <string name="tribunal_pol">(*)Tribunal competente:</string>
+    <string name="num_pol">Nº del parte:(*)</string>
+    <string name="unidad_pol">Nº Unidad policial:(*)</string>
+    <string name="nue_pol">NUE:(*)</string>
+    <string name="ruc_pol">RUC:(*)</string>
+    <string name="acta_pol">Acta de incautación:(*)</string>
+    <string name="oficio_pol">Oficio remisor:(*)</string>
+    <string name="tribunal_pol">Tribunal competente:(*)</string>
 
     <!-- Información Vehículo -->
     <string name="tipo_vehiculo">Tipo del vehiculo:</string>

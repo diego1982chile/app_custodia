@@ -258,15 +258,7 @@ public class FragmentX6 extends android.app.Fragment {
             q6_response = "Sin Observación";
         }
 
-        if(img.isChecked()){
-            boolimg = true;
-        }
-
-        if(vid.isChecked()){
-            boolvid = true;
-        }
-
-        ((MyActivity) getActivity()).recibeDatosFragmentX5(boolimg, boolvid, motivo_imgvid, q1_response, q2_response, q3_response, q4_response, q5_response, q6_response, switch1_response, switch2_response, switch3_response, switch4_response, switch5_response, switch6_response, switch7_response);
+        ((MyActivity) getActivity()).recibeDatosFragmentX6( q1_response, q2_response, q3_response, q4_response, q5_response, q6_response, switch1_response, switch2_response, switch3_response, switch4_response, switch5_response, switch6_response, switch7_response);
 
     }
 

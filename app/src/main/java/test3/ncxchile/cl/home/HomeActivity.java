@@ -20,6 +20,7 @@ import java.util.HashMap;
 
 import test3.ncxchile.cl.acta.MyActivity;
 import test3.ncxchile.cl.fotosvid.activity.SeleccionServicioActivity;
+import test3.ncxchile.cl.login.ConnectionDetector;
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.session.SessionManager;
 
@@ -69,8 +70,8 @@ public class HomeActivity extends Activity {
 
         lblName.setText(nombre+" "+apellido_paterno);
 
-        tablerow = (TableRow) findViewById(R.id.tablarow1);
-        tablerow.setBackgroundColor(Color.WHITE);
+        //tablerow = (TableRow) findViewById(R.id.tablarow1);
+        //tablerow.setBackgroundColor(Color.WHITE);
 
         erroress = (TextView) findViewById(R.id.erroress);
 
@@ -119,13 +120,49 @@ public class HomeActivity extends Activity {
 
     }
 
+    public void cargarTarea(View view){
+        // Se debe chequear si existe conexion:
+        // Si existe, debe existir una tarea seleccionada
+        // Si no, se debe permitir crearla manualmente
+        ConnectionDetector cd = new ConnectionDetector(getApplicationContext()); //instancie el objeto
+        Boolean isInternetPresent = cd.hayConexion(); // true o false dependiendo de si hay conexion
+
+        if(isInternetPresent) {
+            // Consumir WebService para actualizar tareas asignadas
+
+        }
+        else{
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setTitle("Cargar Tarea");
+            alertDialog.setMessage("Actualmente no existe una conexión disponible. ¿Deseas cargar una tarea manuálmente?");
+            alertDialog.setIcon(R.drawable.luzverde);
+            alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    //TareaDialog
+                    // Create an instance of the dialog fragment and show it
+                    TareaDialogFragment tareaDialogFragment = new TareaDialogFragment();
+                    tareaDialogFragment.show(getFragmentManager(), "NoticeDialogFragment");
+                }
+            });
+            alertDialog.setButton(Dialog.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    // here you can add functions
+                }
+            });
+            alertDialog.show();
+        }
+
+    }
+
     public void tomarTarea(View view){
+
         if (marcada == 0){
+
         }
         else{
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.setTitle("Confirmación");
-            alertDialog.setMessage("¿Estas seguro de tomar ésta tarea?");
+            alertDialog.setMessage("¿Estás seguro de tomar ésta tarea?");
             alertDialog.setIcon(R.drawable.luzverde);
             alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {

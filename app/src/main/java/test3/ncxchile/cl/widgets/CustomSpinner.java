@@ -1,12 +1,9 @@
 package test3.ncxchile.cl.widgets;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,9 +15,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
 
 import test3.ncxchile.cl.greenDAO.Institucion;
+import test3.ncxchile.cl.login.R;
 
 /**
  * Created by android-developer on 16-10-2014.
@@ -88,12 +85,12 @@ public class CustomSpinner extends Spinner{
 
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
+                //setBackgroundResource(android.R.drawable.arrow_down_float);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-
+                setBackgroundResource(R.drawable.error);
             }
         });
     }
