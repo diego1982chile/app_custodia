@@ -1,18 +1,15 @@
-package test3.ncxchile.cl.Adapters;
+package test3.ncxchile.cl.adapters;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,9 +17,7 @@ import android.widget.VideoView;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import test3.ncxchile.cl.POJO.ImageItem;
 import test3.ncxchile.cl.POJO.VideoItem;
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.session.SessionManager;
@@ -91,7 +86,7 @@ public class GridViewVideoAdapter extends ArrayAdapter {
                                                  Uri.parse(context.getPackageName() + R.drawable.video_placeholder),""), position);
                             */
                             SessionManager session = new SessionManager(context);
-                            session.setKeyCantidadVideos(session.getKeyCantidadVideos()-1);
+                            session.setCantidadVideos(session.getCantidadVideos() - 1);
                             //imageGridView.setAdapter(imageGridAdapter);
                         }
                     }

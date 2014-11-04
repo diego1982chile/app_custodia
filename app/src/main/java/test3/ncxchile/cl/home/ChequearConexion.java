@@ -3,7 +3,7 @@ package test3.ncxchile.cl.home;
 import android.content.Context;
 import android.os.CountDownTimer;
 
-import test3.ncxchile.cl.login.ConnectionDetector;
+import test3.ncxchile.cl.helpers.ConnectionDetector;
 
 /**
  * Created by android-developer on 07-10-2014.

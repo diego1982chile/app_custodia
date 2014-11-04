@@ -110,15 +110,16 @@
                 android:layout_marginTop="8dp"
                 android:id="@+id/textView" />
 
-            <test3.ncxchile.cl.widgets.CustomSpinner
+            <test3.ncxchile.cl.widgets.CustomAutoComplete
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/motivos1"
                 android:layout_marginLeft="15dp"
                 android:textSize="18dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                />
 
-            <test3.ncxchile.cl.widgets.CustomSpinner
+            <test3.ncxchile.cl.widgets.CustomAutoComplete
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/motivos2"

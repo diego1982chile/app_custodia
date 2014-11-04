@@ -24,6 +24,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
+import test3.ncxchile.cl.helpers.ConnectionDetector;
 import test3.ncxchile.cl.home.HomeActivity;
 import test3.ncxchile.cl.validators.RutValidator;
 import test3.ncxchile.cl.widgets.ErrorDialog;

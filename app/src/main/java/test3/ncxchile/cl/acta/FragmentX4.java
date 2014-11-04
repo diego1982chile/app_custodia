@@ -13,7 +13,9 @@ import android.widget.Spinner;
 import java.util.ArrayList;
 import java.util.List;
 
+import test3.ncxchile.cl.greenDAO.TipoVehiculoDao;
 import test3.ncxchile.cl.login.R;
+import test3.ncxchile.cl.widgets.CustomAutoComplete;
 import test3.ncxchile.cl.widgets.CustomScrollView;
 import test3.ncxchile.cl.widgets.CustomSpinner;
 import test3.ncxchile.cl.widgets.PatenteEditText;
@@ -37,11 +39,12 @@ public class FragmentX4 extends android.app.Fragment  {
     //view4_08: Origen -> RadioButton
     //view4_08:  ->
 
-    public PatenteEditText view4_01;
+    //public PatenteEditText view4_01;
+    public EditText view4_01;
     public EditText view4_02, view4_03, view4_04, view4_05, view4_06, view4_07, view4_08;
     public CustomScrollView customScrollView;
     public ScrollArrow arrow_bottom,arrow_top;
-    public CustomSpinner spinner;
+    public CustomAutoComplete spinner;
     public RadioGroup view4_09;
     public Button validador_04;
     public String view4_09_response;
@@ -58,7 +61,8 @@ public class FragmentX4 extends android.app.Fragment  {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment4, container, false);
-        view4_01 = (PatenteEditText) rootView.findViewById(R.id.view4_01_numplaca);
+        //view4_01 = (PatenteEditText) rootView.findViewById(R.id.view4_01_numplaca);
+        view4_01 = (EditText) rootView.findViewById(R.id.view4_01_numplaca);
         view4_02 = (EditText) rootView.findViewById(R.id.view4_02_marca);
         view4_03 = (EditText) rootView.findViewById(R.id.view4_03_modelo);
         view4_04 = (EditText) rootView.findViewById(R.id.view4_04_ano);
@@ -66,8 +70,8 @@ public class FragmentX4 extends android.app.Fragment  {
         view4_06 = (EditText) rootView.findViewById(R.id.view4_06_kilometraje);
         view4_07 = (EditText) rootView.findViewById(R.id.view4_07_nummotor);
         view4_08 = (EditText) rootView.findViewById(R.id.view4_08_numchasis);
-        spinner = (CustomSpinner) rootView.findViewById(R.id.tipos_vehiculo);
-        spinner.setSource("tipos_vehiculo");
+        spinner = (CustomAutoComplete) rootView.findViewById(R.id.tipos_vehiculo);
+        spinner.setSource(TipoVehiculoDao.TABLENAME);
         view4_09 = (RadioGroup) rootView.findViewById(R.id.view4_09_radiogroup1);
         customScrollView = (CustomScrollView) rootView.findViewById( R.id.scrollViewFragment4);
         arrow_bottom=(ScrollArrow) rootView.findViewById(R.id.arrow_bottom2);

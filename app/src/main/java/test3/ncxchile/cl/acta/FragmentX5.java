@@ -1,8 +1,11 @@
 package test3.ncxchile.cl.acta;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -33,8 +36,8 @@ import test3.ncxchile.cl.POJO.ImageItem;
 import test3.ncxchile.cl.POJO.VideoItem;
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.session.SessionManager;
-import test3.ncxchile.cl.Adapters.GridViewAdapter;
-import test3.ncxchile.cl.Adapters.GridViewVideoAdapter;
+import test3.ncxchile.cl.adapters.GridViewAdapter;
+import test3.ncxchile.cl.adapters.GridViewVideoAdapter;
 
 /**
  * Created by android-developer on 23-10-2014.
@@ -66,6 +69,7 @@ public class FragmentX5 extends Fragment {
     View rootView;
     String mCurrentPath;
     Uri mCurrentUri;
+    SessionManager session;
 
     public FragmentX5 newInstance(int sectionNumber){
         FragmentX5 fragment = new FragmentX5();
@@ -111,13 +115,21 @@ public class FragmentX5 extends Fragment {
             for(int i=0; i <10; ++i)
                 imageItems.add(imagePlaceHolder);
         }
+
         VideoItem videoPlaceHolder= new VideoItem(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.video_placeholder),
                                                   BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.photo_placeholder),
                                                   Uri.parse(getActivity().getPackageName() + R.drawable.video_placeholder),"");
 
         if(videoItems.size()>0) {
-            for(int i=0; i <5; ++i)
-                videoItems.set(i, videoPlaceHolder);
+            for(int i=0; i <5; ++i) {
+                if (!videoItems.get(i).getPath().toString().equals("")) {
+                    videoItems.set(i, new VideoItem(videoItems.get(i).getImage(),
+                            BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.delete_small)
+                            , mCurrentUri, mCurrentPath));
+                } else {
+                    videoItems.set(i, videoPlaceHolder);
+                }
+            }
         }
         else
         {
@@ -182,6 +194,8 @@ public class FragmentX5 extends Fragment {
             }
         });
 
+        session = new SessionManager(getActivity());
+
         //horizontalListView.setAdapter(new HAdapter());
         return rootView;
     }
@@ -225,21 +239,18 @@ public class FragmentX5 extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != Activity.RESULT_CANCELED) {
             if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
-                SessionManager session = new SessionManager(getActivity());
-                imageItems.set(session.getKeyCantidadFotos(), new ImageItem(decodeFile(mCurrentPath),
+                imageItems.set(session.getCantidadFotos(), new ImageItem(decodeFile(mCurrentPath),
                         BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.delete_small)
                         ,mCurrentUri, mCurrentPath));
-                session.setKeyCantidadFotos(session.getKeyCantidadFotos()+1);
+                session.setCantidadFotos(session.getCantidadFotos() + 1);
                 imageGridView.setAdapter(imageGridAdapter);
             } else {
                 if(requestCode == REQUEST_VIDEO_CAPTURE) {
-                    System.out.println("mCurrentPhotoPath="+mCurrentPath);
                     Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(mCurrentPath,MediaStore.Images.Thumbnails.MINI_KIND);
-                    SessionManager session = new SessionManager(getActivity());
-                    videoItems.set(session.getKeyCantidadVideos(), new VideoItem(bitmap,
+                    videoItems.set(session.getCantidadVideos(), new VideoItem(bitmap,
                             BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.delete_small)
                             , mCurrentUri, mCurrentPath));
-                    session.setKeyCantidadVideos(session.getKeyCantidadVideos()+1);
+                    session.setCantidadVideos(session.getCantidadVideos() + 1);
                     videoGridView.setAdapter(videoGridAdapter);
                 }
                 else {
@@ -296,7 +307,7 @@ public class FragmentX5 extends Fragment {
 
         ((MyActivity) getActivity()).recibeDatosFragmentX5(boolimg, boolvid, motivo);
     }
-    /*
+
     public boolean validarDatosFragmentFotoVideo(){
 
         boolean esValido=true;
@@ -306,10 +317,10 @@ public class FragmentX5 extends Fragment {
             esValido=false;
         }
 
-        if (adjuntarImagen.isChecked() && imageGridAdapter.getContImage()==0){
+        if (adjuntarImagen.isChecked() && session.getCantidadFotos()==0){
             AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
             alertDialog.setTitle("Error de Fotos/Videos");
-            alertDialog.setMessage("Debe sacar al menos una foto");
+            alertDialog.setMessage("Debes sacar al menos una foto");
             alertDialog.setIcon(R.drawable.action_fail_small);
 
             alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
@@ -318,12 +329,13 @@ public class FragmentX5 extends Fragment {
             });
             alertDialog.show();
             esValido=false;
+            return esValido;
         }
 
-        if (adjuntarVideo.isChecked() && videoGridAdapter.getContVideo()==0){
+        if (adjuntarVideo.isChecked() && session.getCantidadVideos()==0){
             AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
             alertDialog.setTitle("Error de Fotos/Videos");
-            alertDialog.setMessage("Debe grabar al menos un video");
+            alertDialog.setMessage("Debes grabar al menos un video");
             alertDialog.setIcon(R.drawable.action_fail_small);
 
             alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
@@ -335,7 +347,6 @@ public class FragmentX5 extends Fragment {
         }
         return esValido;
     }
-    */
 
     public int getCameraPhotoOrientation(Context context, Uri imageUri, String imagePath){
         int rotate = 0;

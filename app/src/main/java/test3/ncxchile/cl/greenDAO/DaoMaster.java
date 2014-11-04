@@ -41,7 +41,7 @@ import test3.ncxchile.cl.security.PasswordHelper;
  * Master of DAO (schema version 1000): knows all DAOs.
 */
 public class DaoMaster extends AbstractDaoMaster {
-    public static final int SCHEMA_VERSION = 1003;
+    public static final int SCHEMA_VERSION = 1014;
 
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(SQLiteDatabase db, boolean ifNotExists) {
@@ -64,6 +64,11 @@ public class DaoMaster extends AbstractDaoMaster {
         InstitucionDao.createTable(db, ifNotExists);
         UserDao.createTable(db, ifNotExists);
         ComunaDao.createTable(db, ifNotExists);
+        TareaDao.createTable(db, ifNotExists);
+        AccionDao.createTable(db, ifNotExists);
+        MotivoDao.createTable(db, ifNotExists);
+        MotivoFiscaliaDao.createTable(db, ifNotExists);
+        TipoVehiculoDao.createTable(db, ifNotExists);
     }
     
     /** Drops underlying database table using DAOs. */
@@ -87,6 +92,11 @@ public class DaoMaster extends AbstractDaoMaster {
         InstitucionDao.dropTable(db, ifExists);
         UserDao.dropTable(db, ifExists);
         ComunaDao.dropTable(db, ifExists);
+        TareaDao.dropTable(db, ifExists);
+        AccionDao.dropTable(db, ifExists);
+        MotivoDao.dropTable(db, ifExists);
+        MotivoFiscaliaDao.dropTable(db, ifExists);
+        TipoVehiculoDao.dropTable(db, ifExists);
     }
     
     public static abstract class OpenHelper extends SQLiteOpenHelper {
@@ -188,6 +198,149 @@ public class DaoMaster extends AbstractDaoMaster {
                     // just ignore it
                 }
             }
+
+            ////////////////////////////////////
+            // Poblar tareas
+            myInput=null;
+
+            //System.out.print("ASSETS1="+getAssets().toString());
+            try {
+                myInput = mContext.getAssets().open("tareas.txt");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            br = null;
+            thisLine = null;
+
+            try {
+                br = new BufferedReader((new InputStreamReader(myInput)));
+                long id = 1;
+                while ((thisLine = br.readLine()) != null) {
+                    String[] campos= thisLine.split(";");
+                    mInsertAttributeStatement = db.compileStatement("INSERT INTO TAREA (_id, SERVICIO, FECHA, TAMANO, DIRECCION, COMUNA, ESTADO, STATUS) VALUES (?,?,?,?,?,?,?,?)");
+                    mInsertAttributeStatement.bindLong(1, new Long(id));
+                    mInsertAttributeStatement.bindLong(2, Integer.parseInt(campos[0]));
+                    mInsertAttributeStatement.bindString(3, campos[1].toString());
+                    mInsertAttributeStatement.bindString(4, campos[2].toString());
+                    mInsertAttributeStatement.bindString(5, campos[3].toString());
+                    mInsertAttributeStatement.bindString(6, campos[4].toString());
+                    mInsertAttributeStatement.bindString(7, campos[5].toString());
+                    mInsertAttributeStatement.bindLong(8, 0);
+                    mInsertAttributeStatement.execute();
+                    ++id;
+                }
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            } finally {                       // always close the file
+                if (br != null) try {
+                    br.close();
+                } catch (IOException ioe2) {
+                    // just ignore it
+                }
+            }
+
+            ////////////////////////////////////
+            // Poblar motivos
+            myInput=null;
+
+            //System.out.print("ASSETS1="+getAssets().toString());
+            try {
+                myInput = mContext.getAssets().open("motivos.txt");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            br = null;
+            thisLine = null;
+
+            try {
+                br = new BufferedReader((new InputStreamReader(myInput)));
+                long id = 1;
+                while ((thisLine = br.readLine()) != null) {
+                    mInsertAttributeStatement = db.compileStatement("INSERT INTO MOTIVO (_id, NOMBRE) VALUES (?,?)");
+                    mInsertAttributeStatement.bindLong(1, new Long(id));
+                    mInsertAttributeStatement.bindString(2, thisLine.toString());
+                    mInsertAttributeStatement.execute();
+                    ++id;
+                }
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            } finally {                       // always close the file
+                if (br != null) try {
+                    br.close();
+                } catch (IOException ioe2) {
+                    // just ignore it
+                }
+            }
+
+            ////////////////////////////////////
+            // Poblar motivos fiscalia
+            myInput=null;
+
+            //System.out.print("ASSETS1="+getAssets().toString());
+            try {
+                myInput = mContext.getAssets().open("motivos_fiscalia.txt");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            br = null;
+            thisLine = null;
+
+            try {
+                br = new BufferedReader((new InputStreamReader(myInput)));
+                long id = 1;
+                while ((thisLine = br.readLine()) != null) {
+                    mInsertAttributeStatement = db.compileStatement("INSERT INTO MOTIVO_FISCALIA (_id, NOMBRE) VALUES (?,?)");
+                    mInsertAttributeStatement.bindLong(1, new Long(id));
+                    mInsertAttributeStatement.bindString(2, thisLine.toString());
+                    mInsertAttributeStatement.execute();
+                    ++id;
+                }
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            } finally {                       // always close the file
+                if (br != null) try {
+                    br.close();
+                } catch (IOException ioe2) {
+                    // just ignore it
+                }
+            }
+
+            ////////////////////////////////////
+            // Poblar tipos vehiculo
+            myInput=null;
+
+            //System.out.print("ASSETS1="+getAssets().toString());
+            try {
+                myInput = mContext.getAssets().open("tipos_vehiculo.txt");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            br = null;
+            thisLine = null;
+
+            try {
+                br = new BufferedReader((new InputStreamReader(myInput)));
+                long id = 1;
+                while ((thisLine = br.readLine()) != null) {
+                    mInsertAttributeStatement = db.compileStatement("INSERT INTO TIPO_VEHICULO (_id, NOMBRE) VALUES (?,?)");
+                    mInsertAttributeStatement.bindLong(1, new Long(id));
+                    mInsertAttributeStatement.bindString(2, thisLine.toString());
+                    mInsertAttributeStatement.execute();
+                    ++id;
+                }
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            } finally {                       // always close the file
+                if (br != null) try {
+                    br.close();
+                } catch (IOException ioe2) {
+                    // just ignore it
+                }
+            }
         }
     }
     
@@ -232,6 +385,11 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(InstitucionDao.class);
         registerDaoClass(UserDao.class);
         registerDaoClass(ComunaDao.class);
+        registerDaoClass(TareaDao.class);
+        registerDaoClass(AccionDao.class);
+        registerDaoClass(MotivoDao.class);
+        registerDaoClass(MotivoFiscaliaDao.class);
+        registerDaoClass(TipoVehiculoDao.class);
     }
     
     public DaoSession newSession() {

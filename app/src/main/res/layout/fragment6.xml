@@ -35,7 +35,7 @@
     <test3.ncxchile.cl.widgets.CustomScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/imageView1"
+
         android:id="@+id/scrollView6">
     <LinearLayout
         android:orientation="vertical"
@@ -186,7 +186,7 @@
 
         </LinearLayout>
 
-        <TableRow
+        <!--TableRow
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:showDividers="middle"
@@ -234,7 +234,7 @@
             </RadioGroup>
 
 
-        </TableRow>
+        </TableRow-->
 
         <LinearLayout
             android:orientation="vertical"
@@ -387,7 +387,7 @@
 
         </LinearLayout>
 
-        <TableRow
+        <!--TableRow
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:showDividers="middle"
@@ -434,7 +434,7 @@
                     android:checked="true"/>
             </RadioGroup>
 
-        </TableRow>
+        </TableRow-->
 
         <LinearLayout
             android:orientation="vertical"
@@ -651,7 +651,7 @@
 
         </TableRow>
 
-        <TableRow
+        <!--TableRow
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:showDividers="middle"
@@ -681,7 +681,7 @@
                 android:id="@+id/switch7"
                 android:textOn="Si"
                 android:textOff="No"/>
-        </TableRow>
+        </TableRow-->
     </TableLayout>
     </LinearLayout>
     </test3.ncxchile.cl.widgets.CustomScrollView>

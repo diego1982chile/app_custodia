@@ -46,6 +46,18 @@ public class SessionManager {
     // Amount of image files
     public static final String KEY_CANTIDAD_FOTOS = "cantidad_fotos";
 
+    // Tarea activa
+    public static final String KEY_TAREA_ACTIVA = "tarea_activa";
+
+    // Estado tarea activa
+    public static final String KEY_ESTADO_TAREA_ACTIVA = "estado_tarea_activa";
+
+    // Latitud
+    public static final String KEY_LATITUD = "latitud";
+
+    // Longitud
+    public static final String KEY_LONGITUD = "longitud";
+
 
     // Email address (make variable public to access from outside)
 
@@ -80,6 +92,18 @@ public class SessionManager {
 
         // Storing amount of saved image files
         editor.putInt(KEY_CANTIDAD_FOTOS, 0);
+
+        // Storing id of active task
+        editor.putInt(KEY_TAREA_ACTIVA, 0);
+
+        // Storing status of active task
+        editor.putString(KEY_ESTADO_TAREA_ACTIVA, "");
+
+        // Storing latitud
+        editor.putFloat(KEY_LATITUD, 0);
+
+        // Storing longitud
+        editor.putFloat(KEY_LONGITUD, 0);
 
         // commit changes
         editor.commit();
@@ -155,23 +179,63 @@ public class SessionManager {
         return pref.getBoolean(IS_LOGIN, false);
     }
 
-    public void setKeyCantidadFotos(int cantidadFotos){
+    public int getCantidadFotos(){
+        return pref.getInt(KEY_CANTIDAD_FOTOS, 0);
+    }
+
+    public void setCantidadFotos(int cantidadFotos){
         Editor editor= pref.edit();
         editor.putInt(KEY_CANTIDAD_FOTOS, cantidadFotos);
         editor.commit();
     }
 
-    public int getKeyCantidadFotos(){
-        return pref.getInt(KEY_CANTIDAD_FOTOS, 0);
+    public int getCantidadVideos(){
+        return pref.getInt(KEY_CANTIDAD_VIDEOS, 0);
     }
 
-    public void setKeyCantidadVideos(int cantidadVideos){
+    public void setCantidadVideos(int cantidadVideos){
         Editor editor= pref.edit();
         editor.putInt(KEY_CANTIDAD_VIDEOS, cantidadVideos);
         editor.commit();
     }
 
-    public int getKeyCantidadVideos(){
-        return pref.getInt(KEY_CANTIDAD_VIDEOS, 0);
+    public int getTareaActiva(){
+        return pref.getInt(KEY_TAREA_ACTIVA, 0);
+    }
+
+    public void setTareaActiva(int tareaActiva){
+        Editor editor= pref.edit();
+        editor.putInt(KEY_TAREA_ACTIVA, tareaActiva);
+        editor.commit();
+    }
+
+    public String getEstadoTareaActiva(){
+        return pref.getString(KEY_ESTADO_TAREA_ACTIVA, "");
+    }
+
+    public void setEstadoTareaActiva(String estadoTareaActiva){
+        Editor editor= pref.edit();
+        editor.putString(KEY_ESTADO_TAREA_ACTIVA, estadoTareaActiva);
+        editor.commit();
+    }
+
+    public Float getLatitud(){
+        return pref.getFloat(KEY_LATITUD, 0);
+    }
+
+    public void setLatitud(Float latitud){
+        Editor editor= pref.edit();
+        editor.putFloat(KEY_LATITUD, latitud);
+        editor.commit();
+    }
+
+    public Float getLongitud(){
+        return pref.getFloat(KEY_LONGITUD, 0);
+    }
+
+    public void setLongitud(Float longitud){
+        Editor editor= pref.edit();
+        editor.putFloat(KEY_LONGITUD, longitud);
+        editor.commit();
     }
 }

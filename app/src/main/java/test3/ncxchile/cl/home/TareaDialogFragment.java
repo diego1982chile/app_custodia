@@ -7,7 +7,9 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -71,6 +73,7 @@ public class TareaDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final Dialog dialog = new Dialog(getActivity());
+        this.setCancelable(false);
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -85,16 +88,63 @@ public class TareaDialogFragment extends DialogFragment {
         comunas = (CustomAutoComplete) dialog.findViewById(R.id.comunas_dialog);
         comunas.setSource(ComunaDao.TABLENAME);
 
+        yes.setOnTouchListener(new View.OnTouchListener() {
+
+            public boolean onTouch(View v, MotionEvent event) {
+
+                switch ( event.getAction() ) {
+                    case MotionEvent.ACTION_DOWN:
+                        v.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_bright));
+                        //v.setBackgroundResource(R.drawable.my_button_border_active);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        //v.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+                        v.setBackgroundResource(R.drawable.my_button_border);
+                        break;
+                }
+                return false;
+            }
+        });
+
+        no.setOnTouchListener(new View.OnTouchListener() {
+
+            public boolean onTouch(View v, MotionEvent event) {
+
+                switch ( event.getAction() ) {
+                    case MotionEvent.ACTION_DOWN:
+                        v.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_bright));
+                        //v.setBackgroundResource(R.drawable.my_button_border_active);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        //v.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+                        v.setBackgroundResource(R.drawable.my_button_border);
+                        break;
+                }
+                return false;
+            }
+        });
+
         yes.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+            //mListener.setOnSubmitListener(mEditText.getText().toString());
+            System.out.println("Me apretaron");
+            dismiss();
+            }
+        });
+
+        no.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
                 //mListener.setOnSubmitListener(mEditText.getText().toString());
-                //dismiss();
+                dismiss();
             }
         });
 
         return dialog;
     }
+
 }
 

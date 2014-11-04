@@ -1,4 +1,4 @@
-package test3.ncxchile.cl.Adapters;
+package test3.ncxchile.cl.adapters;
 
 /**
  * Created by android-developer on 22-10-2014.
@@ -15,16 +15,13 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import repack.org.bouncycastle.asn1.x509.Holder;
 import test3.ncxchile.cl.POJO.ImageItem;
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.session.SessionManager;
@@ -90,7 +87,7 @@ public class GridViewAdapter extends ArrayAdapter  {
                                     BitmapFactory.decodeResource(context.getResources(), R.drawable.photo_placeholder),
                                     Uri.parse(context.getPackageName() + R.drawable.video_placeholder),""));
                             SessionManager session = new SessionManager(context);
-                            session.setKeyCantidadFotos(session.getKeyCantidadFotos() - 1);
+                            session.setCantidadFotos(session.getCantidadFotos() - 1);
                             //imageGridView.setAdapter(imageGridAdapter);
                         }
                     }

@@ -56,7 +56,7 @@ public class LoginController implements Serializable {
         usuarios = daoSession.getUserDao().getByRut(mRut);
         // Insertar usuario de prueba si no existe
         //daoSession.getUserDao().deleteAll();
-        db.close();
+        //db.close();
     }
 
     int parseRut(String str){
@@ -109,6 +109,6 @@ public class LoginController implements Serializable {
         System.out.println("Voy a consumir un WebService para autenticar al usuario en el sistema");
         ///////////////////////////////////////////////////////////////////////////////////
         // TODO: register the new account here.
-        return -3;
+        return 1;
     }
 }

@@ -9,6 +9,7 @@ import android.graphics.Rect;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -68,13 +69,15 @@ public class CustomAutoComplete extends AutoCompleteTextView {
         return true;
     }
 
+    /*
     @Override
     protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect) {
         super.onFocusChanged(focused, direction, previouslyFocusedRect);
         if (focused) {
-            performFiltering(getText(), 0);
+
         }
     }
+    */
 
     public void init(final Context context) {
      /*
@@ -113,8 +116,19 @@ public class CustomAutoComplete extends AutoCompleteTextView {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 itemSelected= (Institucion)getAdapter().getItem(0);
+                if(focusSearch(FOCUS_DOWN)!=null)
+                    focusSearch(FOCUS_DOWN).requestFocus();
+                setError(null);
                 }
             };
+
+
+            setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    performFiltering(getText(), 0);
+                }
+            });
 
 
             OnFocusChangeListener fieldValidatorText = new OnFocusChangeListener() {

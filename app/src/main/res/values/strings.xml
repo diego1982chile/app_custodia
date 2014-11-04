@@ -25,12 +25,16 @@
 
     <!-- Numero de orden -->
     <string name="n_orden">Número de orden de servicio:</string>
-    <string name="numero">Nº Orden</string>
+    <string name="numero">Nº Orden: (*)</string>
 
     <!-- Autoridad que solicita -->
     <string name="autoridad_solic">Autoridad que solicita</string>
-    <string name="rut_aut">RUT</string>
-    <string name="nombre_aut">Nombre:</string>
+    <string name="rut_aut">Rut:(*)</string>
+    <string name="nombre_aut">Nombre:(*)</string>
+    <string name="apellido_pat_aut">Apellido Paterno:(*)</string>
+    <string name="apellido_mat_aut">Apellido Materno:</string>
+    <string name="fono_aut">Teléfono(s):</string>
+    <string name="correo_aut">Correo(s):</string>
     <string name="institucion_aut">Institución:</string>
     <string name="cargo_aut">Cargo:</string>
     <string name="unidad_aut">Unidad jurisdiccional:</string>
@@ -108,5 +112,7 @@
     <string name="title_activity_envio_datos">EnvioDatos</string>
     <string name="title_activity_firma">Acta de recepción - Firma</string>
     <string name="escoger_comuna">Comunas</string>
+
+    <string name="prompt_correo">nombre@dominio.com"</string>
 
 </resources>

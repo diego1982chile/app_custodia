@@ -72,7 +72,7 @@ public class CustomSpinner extends Spinner{
      * The same with the XML view, type will be CustomAutoCompleteView
      */
         // just to add some initial value
-        myItems= populateList(context, myResource);
+        //myItems= populateList(context, myResource);
 
         // adapter for spinner
 

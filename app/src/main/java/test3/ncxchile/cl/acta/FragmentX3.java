@@ -66,6 +66,7 @@ public class FragmentX3 extends android.app.Fragment {
         customScrollView.setScrollArrows(arrow_bottom,arrow_top);
         //errores = (RequiredEditText) rootView.findViewById(R.id.errores3);
 
+        /*
         view3_02.setText("1234");
         view3_03.setText("16");
         view3_04.setText("A-05");
@@ -73,7 +74,7 @@ public class FragmentX3 extends android.app.Fragment {
         view3_06.setText("1578");
         view3_07.setText("Fiscal");
         view3_08.setText("Tribunal oral");
-
+        */
         return rootView;
     }
 

@@ -1,8 +1,13 @@
 package test3.ncxchile.cl.acta;
 
+import android.annotation.TargetApi;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +20,10 @@ import test3.ncxchile.cl.login.R;
 /**
  * Created by BOBO on 14-07-2014.
  */
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class FragmentX10 extends android.app.Fragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
+
     final Context context = getActivity();
     public final static int OK = 0;
     public TextView text_error;
@@ -34,7 +41,14 @@ public class FragmentX10 extends android.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment10, container, false);
-        text_error = (TextView) rootView.findViewById(R.id.textView_errors);
+        /*
+        rootView.findViewById(R.id.arrow_bottom1).setVisibility(View.GONE);
+        rootView.findViewById(R.id.arrow_top1).setVisibility(View.GONE);
+
+        MyActivity myActivity=(MyActivity)context;
+        */
+        //((MyActivity) context).view1_00
+
         return rootView;
         }
 

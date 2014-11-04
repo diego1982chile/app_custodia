@@ -9,18 +9,22 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import test3.ncxchile.cl.acta.MyActivity;
 import test3.ncxchile.cl.fotosvid.activity.SeleccionServicioActivity;
-import test3.ncxchile.cl.login.ConnectionDetector;
+import test3.ncxchile.cl.greenDAO.Accion;
+import test3.ncxchile.cl.greenDAO.Tarea;
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.session.SessionManager;
 
@@ -31,8 +35,18 @@ public class HomeActivity extends Activity {
     public Drawable marca;
     public int marcada;
     public TextView erroress;
+    public TableLayout tareas;
 
-    private Sincronizar myChequearConexion;
+    Button tomarTarea, confirmarArribo, completarActa, retiroRealizado;
+
+    TareaController tareaController;
+
+    private ThreadTareas threadTareas;
+    private ThreadLocalizacion threadLocalizacion;
+    public ArrayList<Tarea> tareasAsignadas= new ArrayList<Tarea>();
+    Tarea tareaActiva= new Tarea();
+    //private ThreadActa threadActa;
+    //private ThreadAcciones threadAcciones;
 
     // Session Manager Class
     SessionManager session;
@@ -43,6 +57,7 @@ public class HomeActivity extends Activity {
 
         // Session class instance
         session = new SessionManager(getApplicationContext());
+        tareaController = new TareaController(this);
 
         /**
          * Call this function whenever you want to check user login
@@ -70,16 +85,35 @@ public class HomeActivity extends Activity {
 
         lblName.setText(nombre+" "+apellido_paterno);
 
-        //tablerow = (TableRow) findViewById(R.id.tablarow1);
+        tareas = (TableLayout) findViewById(R.id.tareas);
+        tablerow = (TableRow) findViewById(R.id.tableRow);
         //tablerow.setBackgroundColor(Color.WHITE);
+
+        tomarTarea= (Button) findViewById(R.id.tomarTarea);
+        confirmarArribo= (Button) findViewById(R.id.confirmarArribo);
+        completarActa= (Button) findViewById(R.id.completarActa);
+        retiroRealizado= (Button) findViewById(R.id.retiroRealizado);
+
+        setEnabled(tomarTarea, false);
+        setEnabled(confirmarArribo, false);
+        setEnabled(completarActa, false);
+        setEnabled(retiroRealizado, false);
 
         erroress = (TextView) findViewById(R.id.erroress);
 
         color = 0;
         marcada = 0;
 
-        myChequearConexion = new Sincronizar(10000, 10000, HomeActivity.this, getApplicationContext());
-        myChequearConexion.start();
+        threadTareas = new ThreadTareas(10000, 10000, HomeActivity.this, getApplicationContext());
+        threadTareas.start();
+
+        //threadAcciones = new ThreadAcciones(10000, 10000, HomeActivity.this, getApplicationContext());
+        //threadAcciones.start();
+
+        //threadActa = new ThreadActa(10000, 10000, HomeActivity.this, getApplicationContext());
+
+        threadLocalizacion = new ThreadLocalizacion(10000, 10000, HomeActivity.this, getApplicationContext());
+        threadLocalizacion.start();
 
     }
 
@@ -102,28 +136,175 @@ public class HomeActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+
     public void rowClick(View view) {
         ColorDrawable colorView = (ColorDrawable) view.getBackground();
         int colorId = colorView.getColor();
 
-        if(marcada != 3){
+        setEnabled(tomarTarea, false);
+        setEnabled(confirmarArribo, false);
+        setEnabled(completarActa, false);
+        setEnabled(retiroRealizado, false);
+
+        // Actualizar estado botones segun estado de la tarea seleccionada
+        switch (tareaController.getStatusTarea(view.getId()))
+        {
+            case 0: // Tarea asignada, habilitar accion "tomar tarea"
+                setEnabled(tomarTarea, true);
+                break;
+            case 1: // Tarea tomada, habilitar accion "confirmar arribo"
+                setEnabled(confirmarArribo, true);
+                break;
+            case 2: // Arribo confirmado, habilitar accion "completar acta"
+                setEnabled(completarActa, true);
+                break;
+            case 3: // Arribo confirmado, habilitar accion "completar acta"
+                setEnabled(retiroRealizado, true);
+                break;
+        }
+
+        // Actualizar colores de las tareas segun el estado de cada una
+        for(int i=1;i<tareas.getChildCount();++i) {
+            System.out.println(tareas.getChildAt(i).getId());
+            switch(tareaController.getStatusTarea(tareas.getChildAt(i).getId())){
+                case 0:
+                    tareas.getChildAt(i).setBackgroundColor(Color.WHITE);
+                    break;
+                case 1:
+                    tareas.getChildAt(i).setBackgroundColor(Color.GRAY);
+                    break;
+                case 2:
+                    tareas.getChildAt(i).setBackgroundColor(Color.GREEN);
+                    break;
+            }
+        }
+
+        //if(marcada != 3){
+
             if(color == 0){
                 view.setBackgroundColor(Color.rgb(102, 204, 204));
+                tablerow=(TableRow)view;
                 marcada = 1;
             }
 
             if(colorId == -10040116){
                 view.setBackgroundColor(Color.WHITE);
-                marcada = 0;
+                setEnabled(tomarTarea, false);
+                setEnabled(confirmarArribo, false);
+                setEnabled(completarActa, false);
+                setEnabled(retiroRealizado, false);
+                switch(tareaController.getStatusTarea(tablerow.getId())){
+                    case 0:
+                        tablerow.setBackgroundColor(Color.WHITE);
+                        break;
+                    case 1:
+                        tablerow.setBackgroundColor(Color.GRAY);
+                        break;
+                    case 2:
+                        tablerow.setBackgroundColor(Color.GREEN);
+                        break;
+                }
+                //marcada = 0;
             }
-        }
+        //}
+    }
 
+    public void tomarTarea(final View view){
+
+        if (marcada == 0){
+
+        }
+        else{
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setTitle("Confirmación");
+            alertDialog.setMessage("¿Estás seguro de tomar ésta tarea?");
+            alertDialog.setIcon(R.drawable.luzverde);
+            alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                // Habilitar siguiente accion
+                setEnabled(tomarTarea, false);
+                setEnabled(confirmarArribo, true);
+                setEnabled(completarActa, false);
+                setEnabled(retiroRealizado, false);
+                // Almacenar vector asociado a esta acción
+                tareaActiva=tareaController.getTareaById(tablerow.getId());
+                Accion accion= new Accion(new Long(0),"Tarea Tomada",new Date(),session.getLatitud(),session.getLongitud(),false,tareaActiva.getId(),new Long(0));
+
+                // Actualizar estado interno de la tarea
+                //tareaController.setStatusTarea(tablerow.getId(),1);
+                tareaActiva.setStatus(1);
+                tareaActiva.update();
+                tareaActiva.refresh();
+                // Setear tarea activa en la sesión
+                session.setTareaActiva(tareaActiva.getServicio());
+                // Setear estado de la tarea activa en la sesión
+                session.setEstadoTareaActiva("Tarea Tomada");
+
+                tablerow.setBackgroundColor(Color.GRAY);
+                //marcada = 3;
+                }
+            });
+            alertDialog.setButton(Dialog.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                // here you can add functions
+                }
+            });
+            alertDialog.show();
+        }
+    }
+
+    public void confirmarArribo(View view){
+
+        if (tareaController.getStatusTarea(tablerow.getId())==1){
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setTitle("Confirmación");
+            alertDialog.setMessage("¿Estas seguro de confirmar arribo?");
+            alertDialog.setIcon(R.drawable.luzverde);
+            alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    // Habilitar siguiente accion
+                    setEnabled(tomarTarea, false);
+                    setEnabled(confirmarArribo, false);
+                    setEnabled(completarActa, true);
+                    setEnabled(retiroRealizado, false);
+                    // Almacenar vector asociado a esta acción
+
+                    // Actualizar estado interno de la tarea
+                    tareaController.setStatusTarea(tablerow.getId(),2);
+                    // Setear tarea activa en la sesión
+                    session.setTareaActiva(tablerow.getId());
+                    // Setear estado de la tarea activa en la sesión
+                    // Consumir WebService con los datos del Acta
+                    //threadActa = new ThreadActa(10000, 10000, HomeActivity.this, getApplicationContext());
+                    //threadActa.start();
+                    // Actualizar estado de la tarea activa en la sesión
+                    session.setEstadoTareaActiva("Arribo Confirmado");
+                    tablerow.setBackgroundColor(Color.GREEN);
+                }
+            });
+
+            alertDialog.setButton(Dialog.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    // here you can add functions
+                }
+            });
+            alertDialog.show();
+        }
+    }
+
+    public void completaActa(View view) {
+
+        if (tareaController.getStatusTarea(tablerow.getId())==2) {
+            Intent myIntent = new Intent(HomeActivity.this, MyActivity.class);
+            HomeActivity.this.startActivity(myIntent);
+        }
     }
 
     public void cargarTarea(View view){
         // Se debe chequear si existe conexion:
         // Si existe, debe existir una tarea seleccionada
         // Si no, se debe permitir crearla manualmente
+        /*
         ConnectionDetector cd = new ConnectionDetector(getApplicationContext()); //instancie el objeto
         Boolean isInternetPresent = cd.hayConexion(); // true o false dependiendo de si hay conexion
 
@@ -151,58 +332,8 @@ public class HomeActivity extends Activity {
             });
             alertDialog.show();
         }
+        */
 
-    }
-
-    public void tomarTarea(View view){
-
-        if (marcada == 0){
-
-        }
-        else{
-            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-            alertDialog.setTitle("Confirmación");
-            alertDialog.setMessage("¿Estás seguro de tomar ésta tarea?");
-            alertDialog.setIcon(R.drawable.luzverde);
-            alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    tablerow.setBackgroundColor(Color.GRAY);
-                    marcada = 3;
-                }
-            });
-            alertDialog.setButton(Dialog.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    // here you can add functions
-                }
-            });
-            alertDialog.show();
-        }
-    }
-
-    public void confirmarArribo(View view){
-        if (marcada == 3){
-            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-            alertDialog.setTitle("Confirmación");
-            alertDialog.setMessage("¿Estas seguro de confirmar arribo?");
-            alertDialog.setIcon(R.drawable.luzverde);
-            alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    tablerow.setBackgroundColor(Color.GREEN);
-                }
-            });
-
-            alertDialog.setButton(Dialog.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    // here you can add functions
-                }
-            });
-            alertDialog.show();
-        }
-    }
-
-    public void completaActa(View view) {
-        Intent myIntent = new Intent(HomeActivity.this, MyActivity.class);
-        HomeActivity.this.startActivity(myIntent);
     }
 
     public void fotos(View view) {
@@ -215,4 +346,13 @@ public class HomeActivity extends Activity {
         HomeActivity.this.startActivity(myIntent3);
     }
 
+    public void setEnabled(Button b, boolean enable){
+        //b.setFocusable(enable);
+        //b.setFocusableInTouchMode(enable); // user touches widget on phone with touch screen
+        b.setClickable(enable);
+        if(enable)
+            b.setBackgroundResource(R.drawable.blue_button);
+        else
+            b.setBackgroundResource(R.drawable.blue_button_inactive);
+    }
 }

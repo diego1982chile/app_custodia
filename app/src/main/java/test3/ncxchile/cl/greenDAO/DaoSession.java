@@ -39,6 +39,11 @@ public class DaoSession extends AbstractDaoSession {
     private final DaoConfig institucionDaoConfig;
     private final DaoConfig userDaoConfig;
     private final DaoConfig comunaDaoConfig;
+    private final DaoConfig tareaDaoConfig;
+    private final DaoConfig accionDaoConfig;
+    private final DaoConfig motivoDaoConfig;
+    private final DaoConfig motivoFiscaliaDaoConfig;
+    private final DaoConfig tipoVehiculoDaoConfig;
 
     private final FinalizarActaDao finalizarActaDao;
     private final ActaDao actaDao;
@@ -59,6 +64,11 @@ public class DaoSession extends AbstractDaoSession {
     private final InstitucionDao institucionDao;
     private final UserDao userDao;
     private final ComunaDao comunaDao;
+    private final TareaDao tareaDao;
+    private final AccionDao accionDao;
+    private final MotivoDao motivoDao;
+    private final MotivoFiscaliaDao motivoFiscaliaDao;
+    private final TipoVehiculoDao tipoVehiculoDao;
 
     public DaoSession(SQLiteDatabase db, IdentityScopeType type, Map<Class<? extends AbstractDao<?, ?>>, DaoConfig>
             daoConfigMap) {
@@ -121,6 +131,21 @@ public class DaoSession extends AbstractDaoSession {
         comunaDaoConfig = daoConfigMap.get(ComunaDao.class).clone();
         comunaDaoConfig.initIdentityScope(type);
 
+        tareaDaoConfig = daoConfigMap.get(TareaDao.class).clone();
+        tareaDaoConfig.initIdentityScope(type);
+
+        accionDaoConfig = daoConfigMap.get(AccionDao.class).clone();
+        accionDaoConfig.initIdentityScope(type);
+
+        motivoDaoConfig = daoConfigMap.get(MotivoDao.class).clone();
+        motivoDaoConfig.initIdentityScope(type);
+
+        motivoFiscaliaDaoConfig = daoConfigMap.get(MotivoFiscaliaDao.class).clone();
+        motivoFiscaliaDaoConfig.initIdentityScope(type);
+
+        tipoVehiculoDaoConfig = daoConfigMap.get(TipoVehiculoDao.class).clone();
+        tipoVehiculoDaoConfig.initIdentityScope(type);
+
         finalizarActaDao = new FinalizarActaDao(finalizarActaDaoConfig, this);
         actaDao = new ActaDao(actaDaoConfig, this);
         vehiculoDataDao = new VehiculoDataDao(vehiculoDataDaoConfig, this);
@@ -140,6 +165,11 @@ public class DaoSession extends AbstractDaoSession {
         institucionDao = new InstitucionDao(institucionDaoConfig, this);
         userDao = new UserDao(userDaoConfig, this);
         comunaDao = new ComunaDao(comunaDaoConfig, this);
+        tareaDao = new TareaDao(tareaDaoConfig, this);
+        accionDao = new AccionDao(accionDaoConfig, this);
+        motivoDao = new MotivoDao(motivoDaoConfig, this);
+        motivoFiscaliaDao = new MotivoFiscaliaDao(motivoFiscaliaDaoConfig, this);
+        tipoVehiculoDao = new TipoVehiculoDao(tipoVehiculoDaoConfig, this);
 
         registerDao(FinalizarActa.class, finalizarActaDao);
         registerDao(Acta.class, actaDao);
@@ -160,6 +190,11 @@ public class DaoSession extends AbstractDaoSession {
         registerDao(Institucion.class, institucionDao);
         registerDao(User.class, userDao);
         registerDao(Comuna.class, comunaDao);
+        registerDao(Tarea.class, tareaDao);
+        registerDao(Accion.class, accionDao);
+        registerDao(Motivo.class, motivoDao);
+        registerDao(MotivoFiscalia.class, motivoFiscaliaDao);
+        registerDao(TipoVehiculo.class, tipoVehiculoDao);
     }
     
     public void clear() {
@@ -182,6 +217,11 @@ public class DaoSession extends AbstractDaoSession {
         institucionDaoConfig.getIdentityScope().clear();
         userDaoConfig.getIdentityScope().clear();
         comunaDaoConfig.getIdentityScope().clear();
+        tareaDaoConfig.getIdentityScope().clear();
+        accionDaoConfig.getIdentityScope().clear();
+        motivoDaoConfig.getIdentityScope().clear();
+        motivoFiscaliaDaoConfig.getIdentityScope().clear();
+        tipoVehiculoDaoConfig.getIdentityScope().clear();
     }
 
     public FinalizarActaDao getFinalizarActaDao() {
@@ -260,4 +300,11 @@ public class DaoSession extends AbstractDaoSession {
         return comunaDao;
     }
 
+    public TareaDao getTareaDao() {
+        return tareaDao;
+    }
+
+    public AccionDao getAccionDao() {
+        return accionDao;
+    }
 }

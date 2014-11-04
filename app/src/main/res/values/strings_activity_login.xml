@@ -9,6 +9,7 @@
 
     <string name="error_invalid_email">El Rut no es válido</string>
     <string name="prompt_valid_rut">El Rut es válido</string>
+    <string name="prompt_valid_correo">El Correo es válido</string>
     <string name="error_invalid_password">La contraseña es muy corta</string>
     <string name="error_incorrect_password">La contraseña es incorrecta</string>
     <string name="error_field_required">Éste campo es obligatorio</string>

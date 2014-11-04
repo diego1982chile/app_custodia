@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import test3.ncxchile.cl.greenDAO.ComunaDao;
 import test3.ncxchile.cl.greenDAO.Institucion;
+import test3.ncxchile.cl.greenDAO.MotivoDao;
+import test3.ncxchile.cl.greenDAO.MotivoFiscalia;
+import test3.ncxchile.cl.greenDAO.MotivoFiscaliaDao;
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.widgets.CustomAutoComplete;
 import test3.ncxchile.cl.widgets.CustomSpinner;
@@ -31,8 +34,7 @@ public class FragmentX2 extends android.app.Fragment {
 
     public EditText view2_01, view2_04, view2_06;
     public RequiredEditText view2_02, view2_03, view2_05;
-    public CustomSpinner spinner_motivo1, spinner_motivo2;
-    public CustomAutoComplete comunas;
+    public CustomAutoComplete spinner_motivo1, spinner_motivo2, comunas;
     public RadioGroup view2_00;
     public TextView errores;
     public String errorv02_01, errorv02_02, errorv02_03, texto_error;
@@ -55,10 +57,10 @@ public class FragmentX2 extends android.app.Fragment {
         view2_04 = (EditText) rootView.findViewById(R.id.view2_04_entrecalles);
         comunas = (CustomAutoComplete) rootView.findViewById(R.id.comunas);
         comunas.setSource(ComunaDao.TABLENAME);
-        spinner_motivo1 = (CustomSpinner) rootView.findViewById(R.id.motivos1);
-        spinner_motivo1.setSource("motivos");
-        spinner_motivo2 = (CustomSpinner) rootView.findViewById(R.id.motivos2);
-        spinner_motivo2.setSource("motivos_fiscalia");
+        spinner_motivo1 = (CustomAutoComplete) rootView.findViewById(R.id.motivos1);
+        spinner_motivo1.setSource(MotivoDao.TABLENAME);
+        spinner_motivo2 = (CustomAutoComplete) rootView.findViewById(R.id.motivos2);
+        spinner_motivo2.setSource(MotivoFiscaliaDao.TABLENAME);
         spinner_motivo2.setVisibility(View.GONE);
         view2_06 = (EditText) rootView.findViewById(R.id.view2_06_ref);
         view2_00 = (RadioGroup) rootView.findViewById(R.id.radioGroup1);
@@ -79,13 +81,16 @@ public class FragmentX2 extends android.app.Fragment {
             }
         });
 
+        //spinner_motivo1.setHint("Buscar motivo...");
+
+        /*
         spinner_motivo1.setSelection(0);
         comunas.setSelection(0);
         view2_02.setText("San Luis de Macul");
         view2_03.setText("4391-C");
         view2_04.setText("Américo Vespucio y Tobalaba");
         view2_06.setText("Cerca de metro Macul Linea 4");
-
+        */
         return rootView;
     }
 

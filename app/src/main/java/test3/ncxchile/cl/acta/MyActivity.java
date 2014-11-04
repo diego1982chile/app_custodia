@@ -39,6 +39,7 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
     private DaoSession daoSession;
     private FinalizarActaDao finalizarActaDao;
     private static HashMap<Integer, Fragment> mPageReferenceMap = new HashMap<Integer, Fragment>();
+    FragmentManager mFragmentManager;
 
     // Fragment 1
     public String view1_01, view1_02, view1_03, view1_04, view1_05, view1_06, view1_00;
@@ -64,7 +65,7 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
 
     public String prueba;
 
-    Fragment a = new FragmentX().newInstance(0);
+    public Fragment a = new FragmentX().newInstance(0);
     Fragment b = new FragmentX2().newInstance(1);
     Fragment c = new FragmentX3().newInstance(2);
     Fragment d = new FragmentX4().newInstance(3);
@@ -180,8 +181,6 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
         // Aqui hago las validaciones de los campos, al hacer swap
-        System.out.println("HICIERON onTabSelected");
-        System.out.println("La orientación es: "+getResources().getConfiguration().orientation);
 
         if(getResources().getConfiguration().orientation == 2) // si tiene orientacion landscape, no hacer nada
             return;
@@ -215,11 +214,11 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         if(tab.getPosition() == 5 /*|| tab.getPosition() == 6 || tab.getPosition() == 7 || tab.getPosition() == 8*/ ){
             //FragmentX3 f3 = (FragmentX3) getFragment(2);
             FragmentX5 f5 = (FragmentX5) getFragment(4);
-            /*
+
             if (!f5.validarDatosFragmentFotoVideo()) {
                 errorFragment(4);
             }
-            */
+
         }
 
         if(tab.getPosition() == 6 /*|| tab.getPosition() == 6 || tab.getPosition() == 7 || tab.getPosition() == 8*/ ){
@@ -249,6 +248,17 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
 
         if(tab.getPosition() == 9 /*|| tab.getPosition() == 9 */){
             FragmentX9 f9 = (FragmentX9) getFragment(8);
+            FragmentX f1 = (FragmentX) getFragment(0);
+
+            /*
+            android.app.FragmentTransaction ft = mFragmentManager.beginTransaction();
+            ft.remove(a);
+
+            Fragment newInstance = recreateFragment(a);
+            ft.add(R.layout.fragment_my, newInstance);
+            ft.commit();
+            */
+
 
             /*
             if (!f8.validarDatosFragment7()) {
@@ -548,8 +558,8 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         view1_06 = g.getText().toString();
     }
 
-    public void recibeDatosFragmentX2(Spinner a, EditText b, EditText c, EditText d, CustomAutoComplete e, EditText f){
-        view2_01 = a.getSelectedItem().toString();
+    public void recibeDatosFragmentX2(CustomAutoComplete a, EditText b, EditText c, EditText d, CustomAutoComplete e, EditText f){
+        view2_01 = a.getText().toString();
         view2_02 = b.getText().toString();
         view2_03 = c.getText().toString();
         view2_04 = d.getText().toString();
@@ -568,8 +578,8 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         view3_08 = h.getText().toString();
     }
 
-    public void recibeDatosFragmentX4(Spinner z, EditText a, EditText b, EditText c, EditText d, EditText e, EditText f, EditText g, EditText h, String i){
-        view4_00 = z.getSelectedItem().toString();
+    public void recibeDatosFragmentX4(CustomAutoComplete z, EditText a, EditText b, EditText c, EditText d, EditText e, EditText f, EditText g, EditText h, String i){
+        view4_00 = z.getText().toString();
         view4_01 = a.getText().toString();
         view4_02 = b.getText().toString();
         view4_03 = c.getText().toString();
@@ -690,5 +700,21 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
     {
         FragmentX6 frg = (FragmentX6) getFragment(5);
         frg.sinObs6();
+    }
+
+    private Fragment recreateFragment(Fragment f)
+    {
+        try {
+            Fragment.SavedState savedState = mFragmentManager.saveFragmentInstanceState(f);
+
+            Fragment newInstance = f.getClass().newInstance();
+            newInstance.setInitialSavedState(savedState);
+
+            return newInstance;
+        }
+        catch (Exception e) // InstantiationException, IllegalAccessException
+        {
+            throw new RuntimeException("Cannot reinstantiate fragment " + f.getClass().getName(), e);
+        }
     }
 }

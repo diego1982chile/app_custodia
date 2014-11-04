@@ -186,10 +186,11 @@
                 android:id="@+id/textView11" />
 
 
-            <EditText
+            <test3.ncxchile.cl.widgets.CorreoEditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/view6_04_correo"
+                android:hint="@string/prompt_correo"
                 android:layout_weight="0.51"
                 android:singleLine="true"
                 android:imeOptions="actionNext"
@@ -224,6 +225,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/view6_05_telefono"
+                android:digits="+0123456789"
+                android:hint="(+56 2) 11111111"
                 android:singleLine="true"
                 android:imeOptions="actionNext"
                 android:layout_weight="0.51"
@@ -369,10 +372,11 @@
                 android:id="@+id/textView24" />
 
 
-            <EditText
+            <test3.ncxchile.cl.widgets.CorreoEditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/view6_09_correo"
+                android:hint="@string/prompt_correo"
                 android:layout_weight="0.51"
                 android:singleLine="true"
                 android:imeOptions="actionNext"
@@ -407,6 +411,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/view6_10_telefono"
                 android:singleLine="true"
+                android:digits="+0123456789"
+                android:hint="(+56 2) 11111111"
                 android:imeOptions="actionNext"
                 android:layout_weight="0.51"
                 android:layout_marginLeft="15dp" />

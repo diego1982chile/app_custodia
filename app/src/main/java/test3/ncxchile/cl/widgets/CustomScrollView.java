@@ -7,6 +7,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ScrollView;
 
 
@@ -18,8 +19,10 @@ public class CustomScrollView extends ScrollView {
 
     private OnScrollViewListener mOnScrollViewListener;
 
-    ScrollArrow scrollArrowBottom;
-    ScrollArrow scrollArrowTop;
+    protected ScrollArrow scrollArrowBottom=null;
+    protected ScrollArrow scrollArrowTop=null;
+
+    boolean tecladoVisible=true;
 
     public CustomScrollView(Context context) {
         super(context);
@@ -40,20 +43,45 @@ public class CustomScrollView extends ScrollView {
         this.scrollArrowBottom=scrollArrowBottom;
         this.scrollArrowTop=scrollArrowTop;
         this.scrollArrowTop.setVisibility(View.INVISIBLE);
+
         this.scrollArrowBottom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            System.out.println("ME APRETARON");
-            fullScroll(View.FOCUS_DOWN);
+                fullScroll(View.FOCUS_DOWN);
             }
         });
         this.scrollArrowTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("ME APRETARON");
                 fullScroll(View.FOCUS_UP);
             }
         });
+    }
+
+    @Override
+    protected void onSizeChanged(int xNew, int yNew, int xOld, int yOld)
+    {
+        super.onSizeChanged(xNew, yNew, xOld, yOld);
+
+        View view = (View) getChildAt(getChildCount() - 1);
+
+        // Si es la primera vez que se crea la vista, recurrir a verificar teclado
+        if(yNew<view.getBottom()){
+            if(scrollArrowBottom!=null)
+                scrollArrowBottom.setVisibility(View.VISIBLE);
+            if(scrollArrowTop!=null)
+                scrollArrowTop.setVisibility(View.INVISIBLE);
+            tecladoVisible=true;
+            return;
+        }
+        else{
+            if(scrollArrowBottom!=null)
+                scrollArrowBottom.setVisibility(View.INVISIBLE);
+            if(scrollArrowTop!=null)
+                scrollArrowTop.setVisibility(View.INVISIBLE);
+            tecladoVisible=false;
+            return;
+        }
     }
 
     public interface OnScrollViewListener {
@@ -70,26 +98,26 @@ public class CustomScrollView extends ScrollView {
     }
 
     public void init() {
+
         setOnScrollViewListener(new OnScrollViewListener() {
             @Override
             public void onScrollChanged(CustomScrollView v, int l, int t, int oldl, int oldt) {
-                System.out.println("l=" + l + " t=" + t);
                 View view = (View) getChildAt(getChildCount() - 1);
                 int diff = (view.getBottom() - (getHeight() + getScrollY() + view.getTop()));// Calculate the scrolldiff
 
-                if (diff == 0 && t > 0) { // if diff is zero, then the bottom has been reached
-                    System.out.println("MyScrollView: Bottom has been reached");
-                    scrollArrowBottom.setAnimation(fadeOut());
-                    scrollArrowBottom.setVisibility(View.INVISIBLE);
-                    scrollArrowTop.setAnimation(fadeIn());
-                    scrollArrowTop.setVisibility(View.VISIBLE);
-                }
-                if (t == 0) {
-                    System.out.println("No está en el tope, se debe redibujar la imagen");
-                    scrollArrowBottom.setAnimation(fadeIn());
-                    scrollArrowBottom.setVisibility(View.VISIBLE);
-                    scrollArrowTop.setAnimation(fadeOut());
-                    scrollArrowTop.setVisibility(View.INVISIBLE);
+                if(tecladoVisible) {
+                    if (diff == 0 && t > 0) { // if diff is zero, then the bottom has been reached
+                        scrollArrowBottom.setAnimation(fadeOut());
+                        scrollArrowBottom.setVisibility(View.INVISIBLE);
+                        scrollArrowTop.setAnimation(fadeIn());
+                        scrollArrowTop.setVisibility(View.VISIBLE);
+                    }
+                    if (t == 0) {
+                        scrollArrowBottom.setAnimation(fadeIn());
+                        scrollArrowBottom.setVisibility(View.VISIBLE);
+                        scrollArrowTop.setAnimation(fadeOut());
+                        scrollArrowTop.setVisibility(View.INVISIBLE);
+                    }
                 }
             }
         });
