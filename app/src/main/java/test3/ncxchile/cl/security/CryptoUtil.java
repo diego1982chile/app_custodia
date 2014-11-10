@@ -27,7 +27,7 @@ public class CryptoUtil {
         }
         catch(UnsupportedEncodingException uee)
         {
-            System.out.println("charset " + hashCharset + " not found. Using platform default."+ uee);
+            //System.out.println("charset " + hashCharset + " not found. Using platform default."+ uee);
             passBytes = password.getBytes();
         }
 
@@ -46,7 +46,7 @@ public class CryptoUtil {
         }
         catch(Exception e)
         {
-            System.out.println("Password hash calculation failed " + e);
+            //System.out.println("Password hash calculation failed " + e);
         }
         return passwordHash;
     }

@@ -159,6 +159,7 @@ public class Persona {
 
     /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */
     public List<Correos> getCorreos() {
+
         if (correos == null) {
             if (daoSession == null) {
                 throw new DaoException("Entity is detached from DAO context");
@@ -182,11 +183,13 @@ public class Persona {
     /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */
     public List<Telefonos> getTelefonos() {
         if (telefonos == null) {
+            System.out.println("ENTRE");
             if (daoSession == null) {
                 throw new DaoException("Entity is detached from DAO context");
             }
             TelefonosDao targetDao = daoSession.getTelefonosDao();
             List<Telefonos> telefonosNew = targetDao._queryPersona_Telefonos(id);
+            System.out.println("telefonosNew="+telefonosNew.isEmpty());
             synchronized (this) {
                 if(telefonos == null) {
                     telefonos = telefonosNew;

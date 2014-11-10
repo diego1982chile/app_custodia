@@ -42,7 +42,7 @@ public class ThreadTareas extends CountDownTimer
     public ThreadTareas(long startTime, long interval, Context activityContext, Context appContext)
     {
         super(startTime, interval);
-        System.out.println("ME LLAMARON A SINCRONIZAR");
+        //System.out.println("ME LLAMARON A SINCRONIZAR");
         this.startTime = startTime;
         this.interval = interval;
         this._context = appContext;
@@ -182,6 +182,7 @@ public class ThreadTareas extends CountDownTimer
                         row.addView(fecha);
 
                         row.setHorizontalGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+                        row.setVerticalGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
 
                         // add the TableRow to the TableLayout
                         table.addView(row, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));

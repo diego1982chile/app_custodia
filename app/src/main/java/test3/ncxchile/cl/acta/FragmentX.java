@@ -1,6 +1,8 @@
 package test3.ncxchile.cl.acta;
 
 import android.app.Fragment;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import java.lang.reflect.Field;
 
 import test3.ncxchile.cl.greenDAO.InstitucionDao;
 import test3.ncxchile.cl.login.R;
+import test3.ncxchile.cl.session.SessionManager;
 import test3.ncxchile.cl.validators.RutValidator;
 import test3.ncxchile.cl.widgets.CorreoEditText;
 import test3.ncxchile.cl.widgets.CustomAutoComplete;
@@ -65,7 +68,6 @@ public class FragmentX extends android.app.Fragment {
         // Inicializando inputs de fragmentX
 
         view1_00 = (RequiredEditText) rootView.findViewById(R.id.view1_00_orden);
-        view1_00.setText("1");
         view1_tv_01 = (TextView) rootView.findViewById(R.id.textView2);
         view1_01 = (RutEditText) rootView.findViewById(R.id.view1_01_rut);
 
@@ -78,7 +80,6 @@ public class FragmentX extends android.app.Fragment {
         view1_tv_03 = (TextView) rootView.findViewById(R.id.textView4);
         view1_03 = (CustomAutoComplete) rootView.findViewById(R.id.view1_03_institucion);
         view1_03.setSource(InstitucionDao.TABLENAME);
-        view1_03.setThreshold(1);
         view1_tv_04 = (TextView) rootView.findViewById(R.id.textView4);
         view1_04 = (EditText) rootView.findViewById(R.id.view1_04_cargo);
         view1_tv_05 = (TextView) rootView.findViewById(R.id.textView5);
@@ -91,16 +92,29 @@ public class FragmentX extends android.app.Fragment {
         arrow_top=(ScrollArrow) rootView.findViewById(R.id.arrow_top1);
         customScrollView.setScrollArrows(arrow_bottom,arrow_top);
 
-        customScrollView.requestFocus();
+        Context context= getActivity();
 
-        /*
-        view1_01.setText("111111111");
-        view1_02.setText("Juan Pérez");
-        view1_03.setText("Juzgado de garantía");
-        view1_04.setText("Jefe");
-        view1_05.setText("Unidad A");
-        view1_06.setText("1578");
-        */
+        MyActivity myActivity=(MyActivity)context;
+
+        view1_00.setText(String.valueOf(myActivity.session.getServicio()));
+
+
+        // Precargar datos de la autoridad
+        view1_01.setText(myActivity.acta.getAutoridad().getPersona().getRut());
+        view1_02.setText(myActivity.acta.getAutoridad().getPersona().getNombre());
+        view1_02_paterno.setText(myActivity.acta.getAutoridad().getPersona().getApellidoPaterno());
+        view1_02_materno.setText(myActivity.acta.getAutoridad().getPersona().getApellidoMaterno());
+        System.out.println("telefonos_id="+myActivity.acta.getAutoridad().getPersona().getTelefonosID());
+        if(!myActivity.acta.getAutoridad().getPersona().getTelefonos().isEmpty())
+            view1_02_telefonos.setText(myActivity.acta.getAutoridad().getPersona().getTelefonos().get(0).getEmail());
+        myActivity.acta.getAutoridad().getPersona().resetTelefonos();
+        if(!myActivity.acta.getAutoridad().getPersona().getCorreos().isEmpty())
+            view1_02_correos.setText(myActivity.acta.getAutoridad().getPersona().getCorreos().get(0).getEmail());
+        view1_03.setText(myActivity.acta.getAutoridad().getInstitucion());
+        view1_04.setText(myActivity.acta.getAutoridad().getCargo());
+        view1_05.setText(myActivity.acta.getAutoridad().getUnidadPolicial());
+        view1_06.setText(myActivity.acta.getAutoridad().getNumeroFuncionario());
+
         return rootView;
     }
 

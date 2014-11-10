@@ -40,6 +40,7 @@ public class HomeActivity extends Activity {
     Button tomarTarea, confirmarArribo, completarActa, retiroRealizado;
 
     TareaController tareaController;
+    AccionController accionController;
 
     private ThreadTareas threadTareas;
     private ThreadLocalizacion threadLocalizacion;
@@ -58,6 +59,7 @@ public class HomeActivity extends Activity {
         // Session class instance
         session = new SessionManager(getApplicationContext());
         tareaController = new TareaController(this);
+        accionController = new AccionController(this);
 
         /**
          * Call this function whenever you want to check user login
@@ -112,7 +114,7 @@ public class HomeActivity extends Activity {
 
         //threadActa = new ThreadActa(10000, 10000, HomeActivity.this, getApplicationContext());
 
-        threadLocalizacion = new ThreadLocalizacion(10000, 10000, HomeActivity.this, getApplicationContext());
+        threadLocalizacion = new ThreadLocalizacion(30000, 30000, HomeActivity.this, getApplicationContext());
         threadLocalizacion.start();
 
     }
@@ -165,7 +167,7 @@ public class HomeActivity extends Activity {
 
         // Actualizar colores de las tareas segun el estado de cada una
         for(int i=1;i<tareas.getChildCount();++i) {
-            System.out.println(tareas.getChildAt(i).getId());
+            //System.out.println(tareas.getChildAt(i).getId());
             switch(tareaController.getStatusTarea(tareas.getChildAt(i).getId())){
                 case 0:
                     tareas.getChildAt(i).setBackgroundColor(Color.WHITE);
@@ -228,19 +230,16 @@ public class HomeActivity extends Activity {
                 setEnabled(retiroRealizado, false);
                 // Almacenar vector asociado a esta acción
                 tareaActiva=tareaController.getTareaById(tablerow.getId());
-                Accion accion= new Accion(new Long(0),"Tarea Tomada",new Date(),session.getLatitud(),session.getLongitud(),false,tareaActiva.getId(),new Long(0));
-
+                Accion accion= new Accion(null,"Tarea Tomada",new Date(),session.getLatitud(),session.getLongitud(),false,tareaActiva.getId(),new Long(0));
+                accionController.encolarAccion(accion);
                 // Actualizar estado interno de la tarea
-                //tareaController.setStatusTarea(tablerow.getId(),1);
-                tareaActiva.setStatus(1);
-                tareaActiva.update();
-                tareaActiva.refresh();
+                tareaController.setStatusTarea(tablerow.getId(),1);
                 // Setear tarea activa en la sesión
-                session.setTareaActiva(tareaActiva.getServicio());
+                session.setTareaActiva(tablerow.getId());
                 // Setear estado de la tarea activa en la sesión
-                session.setEstadoTareaActiva("Tarea Tomada");
+                session.setServicio(tareaActiva.getServicio());
 
-                tablerow.setBackgroundColor(Color.GRAY);
+                //tablerow.setBackgroundColor(Color.GRAY);
                 //marcada = 3;
                 }
             });
@@ -268,7 +267,9 @@ public class HomeActivity extends Activity {
                     setEnabled(completarActa, true);
                     setEnabled(retiroRealizado, false);
                     // Almacenar vector asociado a esta acción
-
+                    tareaActiva=tareaController.getTareaById(tablerow.getId());
+                    Accion accion= new Accion(null,"Arribo Confirmado",new Date(),session.getLatitud(),session.getLongitud(),false,tareaActiva.getId(),new Long(0));
+                    accionController.encolarAccion(accion);
                     // Actualizar estado interno de la tarea
                     tareaController.setStatusTarea(tablerow.getId(),2);
                     // Setear tarea activa en la sesión
@@ -278,8 +279,8 @@ public class HomeActivity extends Activity {
                     //threadActa = new ThreadActa(10000, 10000, HomeActivity.this, getApplicationContext());
                     //threadActa.start();
                     // Actualizar estado de la tarea activa en la sesión
-                    session.setEstadoTareaActiva("Arribo Confirmado");
-                    tablerow.setBackgroundColor(Color.GREEN);
+                    session.setServicio(tareaActiva.getServicio());
+                    //tablerow.setBackgroundColor(Color.GREEN);
                 }
             });
 
@@ -293,6 +294,12 @@ public class HomeActivity extends Activity {
     }
 
     public void completaActa(View view) {
+
+        tareaActiva=tareaController.getTareaById(tablerow.getId());
+        // Setear tarea activa en la sesión
+        session.setTareaActiva(tablerow.getId());
+        session.setServicio(tareaActiva.getServicio());
+        System.out.println(session.getTareaActiva());
 
         if (tareaController.getStatusTarea(tablerow.getId())==2) {
             Intent myIntent = new Intent(HomeActivity.this, MyActivity.class);

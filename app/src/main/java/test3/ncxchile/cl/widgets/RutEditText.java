@@ -72,7 +72,7 @@ public class RutEditText extends EditText {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!RutValidator.isCurrentFormatValid(s))
                 {
-                    System.out.println("Rut actual="+s+" no es valido");
+                    //System.out.println("Rut actual="+s+" no es valido");
                     setText(cadenaValida);
                     error=true;
                     setSelection(s.length()-1);

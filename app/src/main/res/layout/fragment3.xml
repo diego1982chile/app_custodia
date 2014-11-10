@@ -29,10 +29,10 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
-    <test3.ncxchile.cl.widgets.CustomScrollView
+    <!--test3.ncxchile.cl.widgets.CustomScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/scrollView2">
+        android:id="@+id/scrollView2"-->
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
@@ -296,8 +296,8 @@
                     android:layout_marginLeft="15dp" />
             </TableRow>
         </LinearLayout>
-      </test3.ncxchile.cl.widgets.CustomScrollView>
-        <test3.ncxchile.cl.widgets.ScrollArrow
+      <!--/test3.ncxchile.cl.widgets.CustomScrollView-->
+        <!--test3.ncxchile.cl.widgets.ScrollArrow
             android:src="@drawable/scroll_arrow_top"
             android:id="@+id/arrow_top"
             android:layout_height="80dip"
@@ -310,7 +310,7 @@
             android:layout_height="80dip"
             android:layout_width="80dip"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true" /-->
     </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>

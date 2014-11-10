@@ -105,7 +105,7 @@ public class GridViewAdapter extends ArrayAdapter  {
             @Override
             public void onClick(View v) {
                 AlertDialog alertDialog = new AlertDialog.Builder(context).create();
-                System.out.println("id="+v.getId());
+                //System.out.println("id="+v.getId());
 
                 alertDialog.setTitle(item.getPath());
 
@@ -188,8 +188,8 @@ public class GridViewAdapter extends ArrayAdapter  {
                     break;
             }
 
-            System.out.println("Exif orientation: " + orientation);
-            System.out.println("Rotate value: " + rotate);
+            //System.out.println("Exif orientation: " + orientation);
+            //System.out.println("Rotate value: " + rotate);
         } catch (Exception e) {
             e.printStackTrace();
         }

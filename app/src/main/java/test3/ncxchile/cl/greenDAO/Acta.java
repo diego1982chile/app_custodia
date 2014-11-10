@@ -41,12 +41,16 @@ public class Acta {
     private long autoridadID;
     private long grueroID;
     private long tribunalID;
+    private long tareaId;
 
     /** Used to resolve relations */
     private transient DaoSession daoSession;
 
     /** Used for active entity operations. */
     private transient ActaDao myDao;
+
+    private Tarea tarea;
+    private Long tarea__resolvedKey;
 
     private VehiculoData vehiculoData;
     private Long vehiculoData__resolvedKey;
@@ -71,8 +75,9 @@ public class Acta {
         this.id = id;
     }
 
-    public Acta(Long id, String observacion, String causaRetiro, Boolean existImage, Boolean existVideo, java.util.Date fechaCreacion, java.util.Date fechaFirma, Integer idSolicitud, Integer idOt, Integer idGrua, Boolean fiscalia, String nue, String ruc, String parte, String unidadPolicial, java.util.Date fechaParte, Integer servicio, Boolean gruaExterna, String observacionImgenes, String nombreExterno, Integer numeroFactura, Integer montoFactura, String numeroPatente, Boolean cargaInicial, String actaIncautacion, String oficioRemisor, long vehiculoDataID, long direccionID, long autoridadID, long grueroID, long tribunalID) {
+    public Acta(Long id, Long tareaId, String observacion, String causaRetiro, Boolean existImage, Boolean existVideo, java.util.Date fechaCreacion, java.util.Date fechaFirma, Integer idSolicitud, Integer idOt, Integer idGrua, Boolean fiscalia, String nue, String ruc, String parte, String unidadPolicial, java.util.Date fechaParte, Integer servicio, Boolean gruaExterna, String observacionImgenes, String nombreExterno, Integer numeroFactura, Integer montoFactura, String numeroPatente, Boolean cargaInicial, String actaIncautacion, String oficioRemisor, long vehiculoDataID, long direccionID, long autoridadID, long grueroID, long tribunalID) {
         this.id = id;
+        this.tareaId = tareaId;
         this.observacion = observacion;
         this.causaRetiro = causaRetiro;
         this.existImage = existImage;
@@ -117,6 +122,14 @@ public class Acta {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public long getTareaId() {
+        return tareaId;
+    }
+
+    public void setTareaId(long tareaId) {
+        this.tareaId = tareaId;
     }
 
     public String getObservacion() {
@@ -357,6 +370,34 @@ public class Acta {
 
     public void setTribunalID(long tribunalID) {
         this.tribunalID = tribunalID;
+    }
+
+    /** To-one relationship, resolved on first access. */
+    public Tarea getTarea() {
+        long __key = this.tareaId;
+        if (tarea__resolvedKey == null || !tarea__resolvedKey.equals(__key)) {
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            TareaDao targetDao = daoSession.getTareaDao();
+            Tarea tareaNew = targetDao.load(__key);
+            synchronized (this) {
+                tarea = tareaNew;
+                tarea__resolvedKey = __key;
+            }
+        }
+        return tarea;
+    }
+
+    public void setTarea(Tarea tarea) {
+        if (tarea == null) {
+            throw new DaoException("To-one property 'idTarea' has not-null constraint; cannot set to-one to null");
+        }
+        synchronized (this) {
+            this.tarea = tarea;
+            tareaId = tarea.getId();
+            tarea__resolvedKey = tareaId;
+        }
     }
 
     /** To-one relationship, resolved on first access. */

@@ -115,21 +115,19 @@ public class CustomAutoComplete extends AutoCompleteTextView {
 
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                itemSelected= (Institucion)getAdapter().getItem(0);
-                if(focusSearch(FOCUS_DOWN)!=null)
-                    focusSearch(FOCUS_DOWN).requestFocus();
-                setError(null);
+                    itemSelected= (Institucion)getAdapter().getItem(0);
+                    if(focusSearch(FOCUS_DOWN)!=null)
+                        focusSearch(FOCUS_DOWN).requestFocus();
+                    setError(null);
                 }
             };
-
 
             setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    performFiltering(getText(), 0);
+                performFiltering(getText(), 0);
                 }
             });
-
 
             OnFocusChangeListener fieldValidatorText = new OnFocusChangeListener() {
                 String mText=getText().toString();
@@ -180,7 +178,7 @@ public class CustomAutoComplete extends AutoCompleteTextView {
             x++;
         }
 
-        System.out.println(mItem.toString());
+        //System.out.println(mItem.toString());
         return mItem;
     }
   }

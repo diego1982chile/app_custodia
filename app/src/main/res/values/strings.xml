@@ -33,8 +33,8 @@
     <string name="nombre_aut">Nombre:(*)</string>
     <string name="apellido_pat_aut">Apellido Paterno:(*)</string>
     <string name="apellido_mat_aut">Apellido Materno:</string>
-    <string name="fono_aut">Teléfono(s):</string>
-    <string name="correo_aut">Correo(s):</string>
+    <string name="fono_aut">Teléfono:</string>
+    <string name="correo_aut">Correo:</string>
     <string name="institucion_aut">Institución:</string>
     <string name="cargo_aut">Cargo:</string>
     <string name="unidad_aut">Unidad jurisdiccional:</string>

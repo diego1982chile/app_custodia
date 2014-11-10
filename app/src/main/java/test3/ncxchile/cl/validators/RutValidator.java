@@ -32,7 +32,7 @@ public abstract class RutValidator {
 
         if(!isFormatValid(s))
         {
-            System.out.println("Error de formato:" + s);
+            //System.out.println("Error de formato:" + s);
             return false;
         }
 
@@ -51,17 +51,17 @@ public abstract class RutValidator {
         try {
             rut = Integer.parseInt(str.subSequence(0,str.length()-1).toString());
         } catch(NumberFormatException nfe) {
-            System.out.println("Could not parse " + nfe);
+            //System.out.println("Could not parse " + nfe);
             return false;
         }
 
         dv=str.charAt(str.length()-1);
 
-        System.out.println("rut="+rut);
-        System.out.println("dv="+dv);
+        //System.out.println("rut="+rut);
+        //System.out.println("dv="+dv);
 
         if(!isWellFormed(rut, Character.toUpperCase(dv))) {
-            System.out.println("Rut mal formado:" + str);
+            //System.out.println("Rut mal formado:" + str);
             return false;
         }
 

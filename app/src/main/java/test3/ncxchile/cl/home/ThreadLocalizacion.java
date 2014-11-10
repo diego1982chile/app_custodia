@@ -122,10 +122,6 @@ public class ThreadLocalizacion extends CountDownTimer implements
         if (mUpdatesRequested) {
             mLocationClient.requestLocationUpdates(mLocationRequest, (com.google.android.gms.location.LocationListener) this);
         }
-        if(mLocationClient.isConnected()) {
-            session.setLatitud((float) mLocationClient.getLastLocation().getLatitude());
-            session.setLongitud((float) mLocationClient.getLastLocation().getLongitude());
-        }
     }
 
     /*
@@ -226,19 +222,6 @@ public class ThreadLocalizacion extends CountDownTimer implements
         ConnectionDetector cd = new ConnectionDetector(_context); //instancie el objeto
         Boolean isInternetPresent = cd.hayConexion(); // true o false dependiendo de si hay conexion
 
-        System.out.println("ENTRE");
-
-        if(servicesConnected()) {
-            if(mLocationClient.isConnected()) {
-                session.setLatitud((float) mLocationClient.getLastLocation().getLatitude());
-                session.setLongitud((float) mLocationClient.getLastLocation().getLongitude());
-            }
-            else{
-                mLocationClient.connect();
-            }
-
-        }
-
         if(!isInternetPresent && !isGpsPresent){
 
             context.runOnUiThread(new Runnable() {
@@ -258,9 +241,28 @@ public class ThreadLocalizacion extends CountDownTimer implements
             });
         }
         else{
-            if(mLocationClient.isConnected()) {
-                session.setLatitud((float) mLocationClient.getLastLocation().getLatitude());
-                session.setLongitud((float) mLocationClient.getLastLocation().getLongitude());
+            if(servicesConnected()) {
+                if(mLocationClient.isConnected()) {
+                    if(mLocationClient.getLastLocation()!=null){
+                        session.setLatitud((float) mLocationClient.getLastLocation().getLatitude());
+                        session.setLongitud((float) mLocationClient.getLastLocation().getLongitude());
+                    }
+                    else{
+                        session.setLatitud((float) 0);
+                        session.setLongitud((float) 0);
+                    }
+                    /*
+                    context.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                        Toast.makeText(_context, "("+session.getLatitud()+","+session.getLongitud()+")", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    */
+                }
+                else{
+                    mLocationClient.connect();
+                }
             }
         }
     }

@@ -10,7 +10,6 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 public class Acta {
 
-
     private long id;
     private VehiculoData vehiculoData;
     private String observacion;

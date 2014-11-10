@@ -84,7 +84,7 @@ public class TareaDao extends AbstractDao<Tarea, Long> {
 
         String tamano = entity.getTamano();
         if (tamano != null) {
-            stmt.bindString(4, fecha);
+            stmt.bindString(4, tamano);
         }
 
         String direccion = entity.getDireccion();
@@ -180,10 +180,9 @@ public class TareaDao extends AbstractDao<Tarea, Long> {
     }
 
     public Tarea getById(Integer idTarea){
-        Tarea tarea= queryBuilder()
+        return queryBuilder()
                 .where(Properties.Id.eq(idTarea))
                 .unique();
-        return tarea;
     }
 
     public Integer getStatusTarea(Integer idTarea){
@@ -193,18 +192,16 @@ public class TareaDao extends AbstractDao<Tarea, Long> {
         return tarea.getStatus();
     }
 
-    public void setStatusTarea(Integer idTarea, Integer status){
+    public void setStatusTarea(DaoSession daoSession,Integer idTarea, Integer status){
         Tarea tarea= queryBuilder()
                 .where(Properties.Id.eq(idTarea))
                 .unique();
         if(tarea!=null) {
             //System.out.println(tarea.getFecha()+" "+tarea.getTamano()+" "+tarea.getComuna()+" "+tarea.getDireccion()+" "+tarea.getEstado()+" "+tarea.getStatus());
             tarea.setStatus(status);
-            tarea.update();
-            tarea.refresh();
             //System.out.println(tarea.getFecha()+" "+tarea.getTamano()+" "+tarea.getComuna()+" "+tarea.getDireccion()+" "+tarea.getEstado()+" "+tarea.getStatus());
-            //update(tarea);
-            //refresh(tarea);
+            update(tarea);
+            refresh(tarea);
             //System.out.println(tarea.getFecha()+" "+tarea.getTamano()+" "+tarea.getComuna()+" "+tarea.getDireccion()+" "+tarea.getEstado()+" "+tarea.getStatus());
         }
         return;

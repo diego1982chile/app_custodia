@@ -22,12 +22,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
+import test3.ncxchile.cl.greenDAO.Acta;
+import test3.ncxchile.cl.home.AccionController;
+import test3.ncxchile.cl.home.TareaController;
 import test3.ncxchile.cl.models.DatosPDF;
 
 import test3.ncxchile.cl.greenDAO.DaoMaster;
 import test3.ncxchile.cl.greenDAO.DaoSession;
 import test3.ncxchile.cl.greenDAO.FinalizarActaDao;
 import test3.ncxchile.cl.login.R;
+import test3.ncxchile.cl.session.SessionManager;
 import test3.ncxchile.cl.widgets.CustomAutoComplete;
 
 
@@ -39,7 +43,11 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
     private DaoSession daoSession;
     private FinalizarActaDao finalizarActaDao;
     private static HashMap<Integer, Fragment> mPageReferenceMap = new HashMap<Integer, Fragment>();
+    ActaController actaController;
     FragmentManager mFragmentManager;
+    // Session Manager Class
+    SessionManager session;
+    public Acta acta;
 
     // Fragment 1
     public String view1_01, view1_02, view1_03, view1_04, view1_05, view1_06, view1_00;
@@ -97,6 +105,12 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+        actaController = new ActaController(this);
+        // Session class instance
+        session = new SessionManager(getApplicationContext());
+        acta= actaController.getActa(session.getTareaActiva());
+        System.out.println("Myctivity: idActa="+acta.getId()+" Nombre="+acta.getPersona().getNombre());
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -195,7 +209,6 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         }
 
         if(tab.getPosition() == 2 /*|| tab.getPosition() == 3 || tab.getPosition() == 4 || tab.getPosition() == 5 || tab.getPosition() == 6 || tab.getPosition() == 7 || tab.getPosition() == 8 */){
-            //FragmentX f1 = (FragmentX) getFragment(0);
             FragmentX2 f2 = (FragmentX2) getFragment(1);
 
             if (!f2.validarDatosFragment2())
@@ -598,7 +611,19 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
     }
 
     public void recibeDatosFragmentX6( String q1_response, String q2_response,  String q3_response,  String q4_response,  String q5_response, String q6_response, String switch1_response, String switch2_response, String switch3_response, String switch4_response, String switch5_response, String switch6_response, String switch7_response){
-
+        view5_04 = q1_response;
+        view5_05 = q2_response;
+        view5_06 = q3_response;
+        view5_07 = q4_response;
+        view5_08 = q5_response;
+        view5_09 = q6_response;
+        view5_10 = switch1_response;
+        view5_11 = switch2_response;
+        view5_12 = switch3_response;
+        view5_13 = switch4_response;
+        view5_14 = switch5_response;
+        view5_15 = switch6_response;
+        view5_16 = switch7_response;
     }
 
     public void recibeDatosFragmentX7(EditText a, EditText b, EditText c, EditText d, EditText e, EditText f, EditText g, EditText h, EditText i, EditText j){

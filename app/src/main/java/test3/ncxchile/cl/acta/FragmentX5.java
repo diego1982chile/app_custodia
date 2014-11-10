@@ -204,6 +204,7 @@ public class FragmentX5 extends Fragment {
         // Store image in dcim
         //File file = new File(Environment.getExternalStorageDirectory() + "/DCIM/", "image" + new Date().getTime() + ".png");
         File storageDir= Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        int os= session.getServicio();
 
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 
@@ -211,14 +212,14 @@ public class FragmentX5 extends Fragment {
 
         switch (media){
             case 1:
-                storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS+"/OS_1/FOTOS/");
+                storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS+"/OS_"+os+"/FOTOS/");
                 //timeStamp = "foto_"+contImage;
                 if(!storageDir.exists())
                     storageDir.mkdirs();
                 imageFileName = timeStamp + ".png";
                 break;
             case 2:
-                storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS+"/OS_1/VIDEOS/");
+                storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS+"/OS_"+os+"/VIDEOS/");
                 //timeStamp = "video_"+contVideo;
                 if(!storageDir.exists())
                     storageDir.mkdirs();
@@ -369,8 +370,8 @@ public class FragmentX5 extends Fragment {
                     break;
             }
 
-            System.out.println("Exif orientation: " + orientation);
-            System.out.println("Rotate value: " + rotate);
+            //System.out.println("Exif orientation: " + orientation);
+            //System.out.println("Rotate value: " + rotate);
         } catch (Exception e) {
             e.printStackTrace();
         }

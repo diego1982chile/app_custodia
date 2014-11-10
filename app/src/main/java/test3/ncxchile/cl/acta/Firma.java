@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Xml;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,13 +45,20 @@ import com.lowagie.text.pdf.PdfWriter;
 
 import org.xmlpull.v1.XmlSerializer;
 
+import test3.ncxchile.cl.POJO.ImageItem;
+import test3.ncxchile.cl.POJO.VideoItem;
+import test3.ncxchile.cl.home.HomeActivity;
 import test3.ncxchile.cl.models.DatosPDF;
 import test3.ncxchile.cl.login.R;
+import test3.ncxchile.cl.session.SessionManager;
 
 public class Firma extends Activity {
 
-    private final static String NOMBRE_DIRECTORIO = "ActaRecepción";
+    SessionManager session;
+    private final static String NOMBRE_DIRECTORIO = "";
     public String NOMBRE_DOCUMENTO = "";
+    public String NOMBRE_DOCUMENTO_XML = "";
+    File storageDir;
     private final static String ETIQUETA_ERROR = "ERROR";
     public DrawingView mDrawingView;
     public DrawingView mDrawingView2;
@@ -61,6 +70,18 @@ public class Firma extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        session = new SessionManager(this);
+        storageDir= Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        int os= session.getServicio();
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+
+        storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS+"/OS_"+os+"/");
+        if(!storageDir.exists())
+            storageDir.mkdirs();
+        NOMBRE_DOCUMENTO=timeStamp + ".pdf";
+        NOMBRE_DOCUMENTO_XML=timeStamp + ".xml";
+
         // DravinView corresponde al contenedor para pintar en pantalla (Firma)
         mDrawingView = new DrawingView(this);
         mDrawingView2 = new DrawingView(this);
@@ -88,7 +109,6 @@ public class Firma extends Activity {
             @Override
             public void onClick(View arg0) {
 
-
                 // Creamos el documento.
                 Document documento = new Document();
                 // Creamos el XML
@@ -98,21 +118,23 @@ public class Firma extends Activity {
                     e.printStackTrace();
                 }
                 try {
-                    NOMBRE_DOCUMENTO= datospdf2.getView1_00().toString() + ".pdf";
+                    //NOMBRE_DOCUMENTO= datospdf2.getView1_00().toString() + ".pdf";
                     // Creamos el fichero con el nombre que deseemos.
-                    File f = crearFichero(NOMBRE_DOCUMENTO);
+                    //File f = crearFichero(NOMBRE_DOCUMENTO);
+                    //System.out.println(storageDir.getAbsolutePath());
+
+                    File file = new File(storageDir.getAbsolutePath(), NOMBRE_DOCUMENTO);
 
                     // Creamos el flujo de datos de salida para el fichero donde
                     // guardaremos el pdf.
-                    FileOutputStream ficheroPdf = new FileOutputStream(f.getAbsolutePath());
+                    FileOutputStream ficheroPdf = new FileOutputStream(file.getAbsolutePath());
 
                     // Asociamos el flujo que acabamos de crear al documento.
                     PdfWriter writer = PdfWriter.getInstance(documento, ficheroPdf);
 
                     // Incluimos el píe de página y una cabecera
 
-                    HeaderFooter pie = new HeaderFooter(new Phrase(
-                            "Orden de servicio Nº: " + datospdf2.getView1_00().toString()), false);
+                    HeaderFooter pie = new HeaderFooter(new Phrase("Orden de servicio Nº: " + datospdf2.getView1_00().toString()), false);
 
                     documento.setFooter(pie);
 
@@ -127,8 +149,7 @@ public class Firma extends Activity {
                     documento.add(new Paragraph("Camino Lo Echevers 920 Quilicura - Santiago"));
                     documento.add(new Paragraph("FONO: 800 000 106"));
 
-                    Bitmap bitmap = BitmapFactory.decodeResource(Firma.this.getResources(),
-                            R.drawable.logo_pdf);
+                    Bitmap bitmap = BitmapFactory.decodeResource(Firma.this.getResources(),R.drawable.logo_pdf);
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                     Image imagen = Image.getInstance(stream.toByteArray());
@@ -145,7 +166,7 @@ public class Firma extends Activity {
                     documento.add(preface);
 
                     Paragraph preface2 = new Paragraph();
-                    Chunk chunk2 = new Chunk("Orden de Servicio N° " + datospdf2.getView1_00().toString());
+                    Chunk chunk2 = new Chunk("Orden de Servicio N° " + session.getTareaActiva());
                     preface2.setAlignment(Element.ALIGN_CENTER);
                     preface2.setFont(h1);
                     preface2.setSpacingBefore(15f);
@@ -165,7 +186,6 @@ public class Firma extends Activity {
                     String horaHoy = hora.format(new Date());
                     tabla2.addCell("Fecha de recepción: " + fechaHoy);
                     tabla2.addCell("Hora de recepción: " + horaHoy);
-
 
                     tabla3.addCell("Fecha de firma del Acta: " + fechaHoy);
                     tabla3.addCell("Hora de firma del Acta: " + horaHoy);
@@ -317,7 +337,6 @@ public class Firma extends Activity {
                         tabla37.addCell("Asociación de Imagenes/Videos: " + datospdf2.getView5_03());
                     }
 
-
                     tabla22.addCell(tabla23);
                     tabla22.addCell(tabla24);
                     tabla22.addCell(tabla25);
@@ -406,6 +425,7 @@ public class Firma extends Activity {
                     }
                     tabla51.addCell(tabla52);
 
+
                     Bitmap bm = mDrawingView.getDrawingCache();
                     ByteArrayOutputStream stream2 = new ByteArrayOutputStream();
                     bm.compress(Bitmap.CompressFormat.PNG, 100, stream2);
@@ -465,11 +485,10 @@ public class Firma extends Activity {
 
                     // Cerramos el documento.
                     documento.close();
-                    showPdfFile(NOMBRE_DIRECTORIO + File.separator + NOMBRE_DOCUMENTO, Firma.this);
+                    //showPdfFile(NOMBRE_DIRECTORIO + File.separator + NOMBRE_DOCUMENTO, Firma.this);
+                    showPdfFile( NOMBRE_DOCUMENTO, Firma.this);
                 }
             }
-
-
         });
     }
 
@@ -526,35 +545,56 @@ public class Firma extends Activity {
 
         Toast.makeText(context, "Leyendo documento", Toast.LENGTH_LONG).show();
         File source = null;
-        source = new File(
-                Environment
-                        .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
-                File.separator + fileName
-        );
+        //source = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),File.separator + fileName);
+        source = new File(storageDir,fileName);
 
+        /*
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(Uri.fromFile(source), "application/pdf");
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        */
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setPackage("com.dynamixsoftware.printershare");
+        intent.setDataAndType(Uri.fromFile(source),"text/plain");
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
         try {
-            context.startActivity(intent);
+            //context.startActivity(intent);
+            startActivityForResult(intent, 1);
         } catch (ActivityNotFoundException e) {
             Toast.makeText(context, "No hay pdf disponible.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_CANCELED) {
+            //System.out.println("Impresion exitosa");
+            Intent myIntent = new Intent(Firma.this, HomeActivity.class);
+            Firma.this.startActivity(myIntent);
+        }
+        else{
+            //System.out.println("Impresion fallida");
+            Intent myIntent = new Intent(Firma.this, HomeActivity.class);
+            Firma.this.startActivity(myIntent);
         }
     }
 
     private void escribirXML() throws IOException {
 
         // Generador de XML por java, con datos sacados desde el objeto datospdfs
-        File newxmlfile = new File(Environment
-                .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
-                NOMBRE_DIRECTORIO + File.separator + datospdf2.getView1_00().toString() + ".xml");
+        //File newxmlfile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),NOMBRE_DIRECTORIO + File.separator + datospdf2.getView1_00().toString() + ".xml");
 
+
+        File newxmlfile = new File(storageDir.getAbsolutePath(), NOMBRE_DOCUMENTO_XML);
 
         newxmlfile.createNewFile();
         //we have to bind the new file with a FileOutputStream
         FileOutputStream fileos = null;
-            fileos = new FileOutputStream(newxmlfile);
+        fileos = new FileOutputStream(newxmlfile);
         //we create a XmlSerializer in order to write xml data
         XmlSerializer serializer = Xml.newSerializer();
         try {
@@ -715,7 +755,7 @@ public class Firma extends Activity {
 
                     serializer.startTag(null, "info_visual");
                     serializer.attribute(null, "numero_campos", "14");
-                        if (datospdf2.isView5_01() == true && datospdf2.isView5_02() == true) {
+                        if (datospdf2.isView5_01() && datospdf2.isView5_02()) {
                             serializer.startTag(null, "v05_imgvid");
                             serializer.text("Se adjuntan imágenes y videos");
                             serializer.endTag(null, "v05_imgvid");
@@ -730,18 +770,18 @@ public class Firma extends Activity {
                         serializer.startTag(null, "v05_estadocarroceria");
                         serializer.text(datospdf2.getView5_05().toString());
                         serializer.endTag(null, "v05_estadocarroceria");
-                        serializer.startTag(null, "v05_estadoruedas");
-                        serializer.text(datospdf2.getView5_06().toString());
-                        serializer.endTag(null, "v05_estadoruedas");
+                        //serializer.startTag(null, "v05_estadoruedas");
+                        //serializer.text(datospdf2.getView5_06().toString());
+                        //serializer.endTag(null, "v05_estadoruedas");
                         serializer.startTag(null, "v05_estadocristales");
                         serializer.text(datospdf2.getView5_07().toString());
                         serializer.endTag(null, "v05_estadocristales");
                         serializer.startTag(null, "v05_estadofocos");
                         serializer.text(datospdf2.getView5_08().toString());
                         serializer.endTag(null, "v05_estadofocos");
-                        serializer.startTag(null, "v05_estadochapas");
-                        serializer.text(datospdf2.getView5_09().toString());
-                        serializer.endTag(null, "v05_estadochapas");
+                        //serializer.startTag(null, "v05_estadochapas");
+                        //serializer.text(datospdf2.getView5_09().toString());
+                        //serializer.endTag(null, "v05_estadochapas");
                         if (datospdf2.getView5_10() == null) {
                             serializer.startTag(null, "v05_abierto");
                             serializer.text("NO");
@@ -751,15 +791,17 @@ public class Firma extends Activity {
                             serializer.text(datospdf2.getView5_10().toString());
                             serializer.endTag(null, "v05_abierto");
                         }
-                        if (datospdf2.getView5_16() == null) {
-                            serializer.startTag(null, "v05_chapas");
-                            serializer.text("NO");
-                            serializer.endTag(null, "v05_chapas");
-                        } else {
-                            serializer.startTag(null, "v05_chapas");
-                            serializer.text(datospdf2.getView5_16().toString());
-                            serializer.endTag(null, "v05_chapas");
-                        }
+
+                        //if (datospdf2.getView5_16() == null) {
+                        //    serializer.startTag(null, "v05_chapas");
+                        //    serializer.text("NO");
+                        //    serializer.endTag(null, "v05_chapas");
+                        //} else {
+                        //    serializer.startTag(null, "v05_chapas");
+                        //    serializer.text(datospdf2.getView5_16().toString());
+                        //    serializer.endTag(null, "v05_chapas");
+                        //}
+
                         if (datospdf2.getView5_15() == null) {
                             serializer.startTag(null, "v05_kitseg");
                             serializer.text("NO");
@@ -861,8 +903,11 @@ public class Firma extends Activity {
                         serializer.endTag(null, "v08_especies");
                     serializer.endTag(null, "especies");
             serializer.endTag(null, "tns:acta");
+
             serializer.endDocument();
+
             serializer.flush();
+            //fileos.flush();
             fileos.close();
 
             Toast.makeText(getApplication(), "xml created", Toast.LENGTH_LONG);

@@ -55,5 +55,5 @@ public class AccionController {
 
     Integer getStatusTarea(int idServicio) { return daoSession.getTareaDao().getStatusTarea(idServicio); }
 
-    void setStatusTarea(int idServicio, int status) { daoSession.getTareaDao().setStatusTarea(idServicio,status); }
+    void setStatusTarea(int idServicio, int status) { daoSession.getTareaDao().setStatusTarea(daoSession,idServicio,status); }
 }

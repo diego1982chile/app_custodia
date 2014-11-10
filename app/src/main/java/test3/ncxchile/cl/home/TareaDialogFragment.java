@@ -129,7 +129,7 @@ public class TareaDialogFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
             //mListener.setOnSubmitListener(mEditText.getText().toString());
-            System.out.println("Me apretaron");
+            //System.out.println("Me apretaron");
             dismiss();
             }
         });

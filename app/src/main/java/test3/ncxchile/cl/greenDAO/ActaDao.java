@@ -55,6 +55,7 @@ public class ActaDao extends AbstractDao<Acta, Long> {
         public final static Property AutoridadID = new Property(28, long.class, "autoridadID", false, "AUTORIDAD_ID");
         public final static Property GrueroID = new Property(29, long.class, "grueroID", false, "GRUERO_ID");
         public final static Property TribunalID = new Property(30, long.class, "tribunalID", false, "TRIBUNAL_ID");
+        public final static Property TareaId = new Property(31, long.class, "tareaId", false, "TAREA_ID");
     };
 
     private DaoSession daoSession;
@@ -103,7 +104,8 @@ public class ActaDao extends AbstractDao<Acta, Long> {
                 "'DIRECCION_ID' INTEGER NOT NULL ," + // 27: direccionID
                 "'AUTORIDAD_ID' INTEGER NOT NULL ," + // 28: autoridadID
                 "'GRUERO_ID' INTEGER NOT NULL ," + // 29: grueroID
-                "'TRIBUNAL_ID' INTEGER NOT NULL );"); // 30: tribunalID
+                "'TRIBUNAL_ID' INTEGER NOT NULL ," + // 30: grueroID
+                "'TAREA_ID' INTEGER NOT NULL );"); // 31: tribunalID
     }
 
     /** Drops the underlying database table. */
@@ -251,6 +253,7 @@ public class ActaDao extends AbstractDao<Acta, Long> {
         stmt.bindLong(29, entity.getAutoridadID());
         stmt.bindLong(30, entity.getGrueroID());
         stmt.bindLong(31, entity.getTribunalID());
+        stmt.bindLong(32, entity.getTareaId());
     }
 
     @Override
@@ -268,8 +271,11 @@ public class ActaDao extends AbstractDao<Acta, Long> {
     /** @inheritdoc */
     @Override
     public Acta readEntity(Cursor cursor, int offset) {
+        System.out.println("readEntity_1");
         Acta entity = new Acta( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
+            cursor.getLong(offset + 31), // tareaID
+            //cursor.getLong(offset + 1), // tribunalID
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // observacion
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // causaRetiro
             cursor.isNull(offset + 3) ? null : cursor.getShort(offset + 3) != 0, // existImage
@@ -307,7 +313,9 @@ public class ActaDao extends AbstractDao<Acta, Long> {
     /** @inheritdoc */
     @Override
     public void readEntity(Cursor cursor, Acta entity, int offset) {
+        System.out.println("readEntity_2");
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
+        entity.setTareaId(cursor.getLong(offset + 31));
         entity.setObservacion(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setCausaRetiro(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setExistImage(cursor.isNull(offset + 3) ? null : cursor.getShort(offset + 3) != 0);
@@ -370,21 +378,24 @@ public class ActaDao extends AbstractDao<Acta, Long> {
             StringBuilder builder = new StringBuilder("SELECT ");
             SqlUtils.appendColumns(builder, "T", getAllColumns());
             builder.append(',');
-            SqlUtils.appendColumns(builder, "T0", daoSession.getVehiculoDataDao().getAllColumns());
+            SqlUtils.appendColumns(builder, "T0", daoSession.getTareaDao().getAllColumns());
             builder.append(',');
-            SqlUtils.appendColumns(builder, "T1", daoSession.getDireccionDao().getAllColumns());
+            SqlUtils.appendColumns(builder, "T1", daoSession.getVehiculoDataDao().getAllColumns());
             builder.append(',');
-            SqlUtils.appendColumns(builder, "T2", daoSession.getAutoridadDao().getAllColumns());
+            SqlUtils.appendColumns(builder, "T2", daoSession.getDireccionDao().getAllColumns());
             builder.append(',');
-            SqlUtils.appendColumns(builder, "T3", daoSession.getPersonaDao().getAllColumns());
+            SqlUtils.appendColumns(builder, "T3", daoSession.getAutoridadDao().getAllColumns());
             builder.append(',');
-            SqlUtils.appendColumns(builder, "T4", daoSession.getInstitucionDao().getAllColumns());
+            SqlUtils.appendColumns(builder, "T4", daoSession.getPersonaDao().getAllColumns());
+            builder.append(',');
+            SqlUtils.appendColumns(builder, "T5", daoSession.getInstitucionDao().getAllColumns());
             builder.append(" FROM Acta T");
-            builder.append(" LEFT JOIN vehiculoData T0 ON T.'VEHICULO_DATA_ID'=T0.'_id'");
-            builder.append(" LEFT JOIN direccion T1 ON T.'DIRECCION_ID'=T1.'_id'");
-            builder.append(" LEFT JOIN autoridad T2 ON T.'AUTORIDAD_ID'=T2.'_id'");
-            builder.append(" LEFT JOIN persona T3 ON T.'GRUERO_ID'=T3.'_id'");
-            builder.append(" LEFT JOIN institucion T4 ON T.'TRIBUNAL_ID'=T4.'_id'");
+            builder.append(" LEFT JOIN TAREA T0 ON T.'TAREA_ID'=T0.'_id'");
+            builder.append(" LEFT JOIN vehiculoData T1 ON T.'VEHICULO_DATA_ID'=T1.'_id'");
+            builder.append(" LEFT JOIN direccion T2 ON T.'DIRECCION_ID'=T2.'_id'");
+            builder.append(" LEFT JOIN autoridad T3 ON T.'AUTORIDAD_ID'=T3.'_id'");
+            builder.append(" LEFT JOIN persona T4 ON T.'GRUERO_ID'=T4.'_id'");
+            builder.append(" LEFT JOIN institucion T5 ON T.'TRIBUNAL_ID'=T5.'_id'");
             builder.append(' ');
             selectDeep = builder.toString();
         }
@@ -394,6 +405,11 @@ public class ActaDao extends AbstractDao<Acta, Long> {
     protected Acta loadCurrentDeep(Cursor cursor, boolean lock) {
         Acta entity = loadCurrent(cursor, 0, lock);
         int offset = getAllColumns().length;
+
+        Tarea tarea = loadCurrentOther(daoSession.getTareaDao(), cursor, offset);
+        if(tarea != null) {
+            entity.setTarea(tarea);
+        }
 
         VehiculoData vehiculoData = loadCurrentOther(daoSession.getVehiculoDataDao(), cursor, offset);
          if(vehiculoData != null) {
@@ -484,12 +500,19 @@ public class ActaDao extends AbstractDao<Acta, Long> {
             cursor.close();
         }
     }
-    
 
     /** A raw-style query where you can pass any WHERE clause and arguments. */
     public List<Acta> queryDeep(String where, String... selectionArg) {
         Cursor cursor = db.rawQuery(getSelectDeep() + where, selectionArg);
         return loadDeepAllAndCloseCursor(cursor);
+    }
+
+    public Acta getByIdTarea(Long idTarea){
+        Acta acta= queryBuilder()
+                .where(Properties.TareaId.eq(idTarea))
+                .unique();
+        System.out.println("ActaDao: idActa="+acta.getId()+" Telefonos="+acta.getAutoridad().getPersona().getTelefonos().isEmpty());
+        return acta;
     }
  
 }

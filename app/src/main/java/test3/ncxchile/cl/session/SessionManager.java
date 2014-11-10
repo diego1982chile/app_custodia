@@ -50,7 +50,7 @@ public class SessionManager {
     public static final String KEY_TAREA_ACTIVA = "tarea_activa";
 
     // Estado tarea activa
-    public static final String KEY_ESTADO_TAREA_ACTIVA = "estado_tarea_activa";
+    public static final String KEY_SERVICIO = "servicio";
 
     // Latitud
     public static final String KEY_LATITUD = "latitud";
@@ -94,10 +94,10 @@ public class SessionManager {
         editor.putInt(KEY_CANTIDAD_FOTOS, 0);
 
         // Storing id of active task
-        editor.putInt(KEY_TAREA_ACTIVA, 0);
+        editor.putLong(KEY_TAREA_ACTIVA, 0);
 
         // Storing status of active task
-        editor.putString(KEY_ESTADO_TAREA_ACTIVA, "");
+        editor.putInt(KEY_SERVICIO, 0);
 
         // Storing latitud
         editor.putFloat(KEY_LATITUD, 0);
@@ -199,23 +199,23 @@ public class SessionManager {
         editor.commit();
     }
 
-    public int getTareaActiva(){
-        return pref.getInt(KEY_TAREA_ACTIVA, 0);
+    public Long getTareaActiva(){
+        return pref.getLong(KEY_TAREA_ACTIVA, 0);
     }
 
     public void setTareaActiva(int tareaActiva){
         Editor editor= pref.edit();
-        editor.putInt(KEY_TAREA_ACTIVA, tareaActiva);
+        editor.putLong(KEY_TAREA_ACTIVA, tareaActiva);
         editor.commit();
     }
 
-    public String getEstadoTareaActiva(){
-        return pref.getString(KEY_ESTADO_TAREA_ACTIVA, "");
+    public int getServicio(){
+        return pref.getInt(KEY_SERVICIO, 0);
     }
 
-    public void setEstadoTareaActiva(String estadoTareaActiva){
+    public void setServicio(int servicio){
         Editor editor= pref.edit();
-        editor.putString(KEY_ESTADO_TAREA_ACTIVA, estadoTareaActiva);
+        editor.putInt(KEY_SERVICIO, servicio);
         editor.commit();
     }
 

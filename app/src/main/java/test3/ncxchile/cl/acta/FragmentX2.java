@@ -1,5 +1,6 @@
 package test3.ncxchile.cl.acta;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import test3.ncxchile.cl.greenDAO.MotivoDao;
 import test3.ncxchile.cl.greenDAO.MotivoFiscalia;
 import test3.ncxchile.cl.greenDAO.MotivoFiscaliaDao;
 import test3.ncxchile.cl.login.R;
+import test3.ncxchile.cl.session.SessionManager;
 import test3.ncxchile.cl.widgets.CustomAutoComplete;
 import test3.ncxchile.cl.widgets.CustomSpinner;
 import test3.ncxchile.cl.widgets.RequiredEditText;
@@ -82,15 +84,22 @@ public class FragmentX2 extends android.app.Fragment {
         });
 
         //spinner_motivo1.setHint("Buscar motivo...");
+        Context context= getActivity();
 
-        /*
-        spinner_motivo1.setSelection(0);
-        comunas.setSelection(0);
-        view2_02.setText("San Luis de Macul");
-        view2_03.setText("4391-C");
-        view2_04.setText("Américo Vespucio y Tobalaba");
-        view2_06.setText("Cerca de metro Macul Linea 4");
-        */
+        MyActivity myActivity=(MyActivity)context;
+
+        if(myActivity.acta.getFiscalia())
+            view2_00.check(R.id.radioButton2);
+
+        System.out.println("Causa retiro: "+String.valueOf(myActivity.acta.getCausaRetiro()));
+
+        spinner_motivo1.setText(myActivity.acta.getCausaRetiro().toString());
+        comunas.setText(myActivity.acta.getDireccion().getComuna());
+        view2_02.setText(myActivity.acta.getDireccion().getCalle());
+        view2_03.setText(myActivity.acta.getDireccion().getNumeracion());
+        view2_04.setText(myActivity.acta.getDireccion().getInterseccion());
+        view2_06.setText(myActivity.acta.getDireccion().getReferencias());
+
         return rootView;
     }
 

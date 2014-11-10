@@ -110,7 +110,7 @@ public class GridViewVideoAdapter extends ArrayAdapter {
                 LayoutInflater factory = LayoutInflater.from(context);
                 final View mView = factory.inflate(R.layout.video_sample, null);
                 VideoView mVideoView = (VideoView) mView.findViewById(R.id.bigVideo);
-                System.out.println(item.getUri());
+                //System.out.println(item.getUri());
                 mVideoView.setVideoURI(item.getUri());
                 alertDialog.setView(mView);
 

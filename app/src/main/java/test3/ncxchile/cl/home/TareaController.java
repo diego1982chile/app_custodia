@@ -56,5 +56,5 @@ public class TareaController {
 
     Integer getStatusTarea(int idTarea) { return daoSession.getTareaDao().getStatusTarea(idTarea); }
 
-    void setStatusTarea(int idTarea, int status) { daoSession.getTareaDao().setStatusTarea(idTarea,status); }
+    void setStatusTarea(int idTarea, int status) { daoSession.getTareaDao().setStatusTarea(daoSession,idTarea,status); }
 }

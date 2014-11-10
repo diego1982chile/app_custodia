@@ -19,7 +19,7 @@ public class MyDaoGenerator {
         upload.addStringProperty("text");
         */
 
-        //addTareaActaAccion(schema);
+        addTareaActaAccion(schema);
 
         //addCustomerOrder(schema);
 
@@ -60,10 +60,6 @@ public class MyDaoGenerator {
         accion.addFloatProperty("latitud");
         accion.addBooleanProperty("sincronizada");
 
-        Entity order = schema.addEntity("Order");
-        order.setTableName("ORDERS"); // "ORDER" is a reserved keyword
-        order.addIdProperty();
-
         Property idTarea = accion.addLongProperty("idTarea").notNull().getProperty();
 
         accion.addToOne(tarea, idTarea);
@@ -74,8 +70,11 @@ public class MyDaoGenerator {
 
         Entity acta = schema.addEntity("Acta");
         acta.addIdProperty();
+        acta.addLongProperty("tareaId").notNull().getProperty();
 
         Property idActa = accion.addLongProperty("idActa").getProperty();
+
+        acta.addToOne(tarea, idTarea);
 
         accion.addToOne(acta, idActa);
 

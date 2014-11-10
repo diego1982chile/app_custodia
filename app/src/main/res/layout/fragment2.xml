@@ -110,6 +110,13 @@
                 android:layout_marginTop="8dp"
                 android:id="@+id/textView" />
 
+            <LinearLayout android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:layout_width="0px"
+                android:layout_height="0px" >
+                <requestFocus />
+            </LinearLayout>
+
             <test3.ncxchile.cl.widgets.CustomAutoComplete
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -117,6 +124,7 @@
                 android:layout_marginLeft="15dp"
                 android:textSize="18dp"
                 android:layout_weight="1"
+                android:hint="Buscar motivo..."
                 />
 
             <test3.ncxchile.cl.widgets.CustomAutoComplete
@@ -125,7 +133,9 @@
                 android:id="@+id/motivos2"
                 android:layout_marginLeft="15dp"
                 android:textSize="18dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:hint="Buscar motivo..."
+                />
 
 
         </TableRow>
@@ -160,7 +170,8 @@
                 android:maxLength="40"
                 android:singleLine="true"
                 android:imeOptions="actionNext"
-                android:layout_marginLeft="15dp" />
+                android:layout_marginLeft="15dp"
+                />
         </TableRow>
 
         <TableRow

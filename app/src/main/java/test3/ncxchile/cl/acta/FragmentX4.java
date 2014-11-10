@@ -1,5 +1,6 @@
 package test3.ncxchile.cl.acta;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,6 +78,23 @@ public class FragmentX4 extends android.app.Fragment  {
         arrow_bottom=(ScrollArrow) rootView.findViewById(R.id.arrow_bottom2);
         arrow_top=(ScrollArrow) rootView.findViewById(R.id.arrow_top2);
         customScrollView.setScrollArrows(arrow_bottom,arrow_top);
+
+        Context context= getActivity();
+
+        MyActivity myActivity=(MyActivity)context;
+
+        view4_01.setText(myActivity.acta.getVehiculoData().getVehiculo().getMatricula());
+        view4_02.setText(myActivity.acta.getVehiculoData().getVehiculo().getMarca());
+        view4_03.setText(myActivity.acta.getVehiculoData().getVehiculo().getModelo());
+        if(myActivity.acta.getVehiculoData().getVehiculo().getAnio()!=0)
+            view4_04.setText(String.valueOf(myActivity.acta.getVehiculoData().getVehiculo().getAnio()));
+        view4_05.setText(myActivity.acta.getVehiculoData().getVehiculo().getColor());
+        if(myActivity.acta.getVehiculoData().getVehiculo().getKilometraje()!=0)
+            view4_06.setText(myActivity.acta.getVehiculoData().getVehiculo().getKilometraje().toString());
+        view4_07.setText(myActivity.acta.getVehiculoData().getVehiculo().getNumeroMotor());
+        view4_08.setText(myActivity.acta.getVehiculoData().getVehiculo().getNumeroChasis());
+        spinner.setText(myActivity.acta.getVehiculoData().getVehiculo().getTamano());
+
         return rootView;
     }
 

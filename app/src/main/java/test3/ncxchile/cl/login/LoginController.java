@@ -52,7 +52,7 @@ public class LoginController implements Serializable {
         db = helper.getWritableDatabase();
         daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();
-        System.out.println("Usuarios="+daoSession.getUserDao().getByRut(mRut).toString());
+        //System.out.println("Usuarios="+daoSession.getUserDao().getByRut(mRut).toString());
         usuarios = daoSession.getUserDao().getByRut(mRut);
         // Insertar usuario de prueba si no existe
         //daoSession.getUserDao().deleteAll();
@@ -69,7 +69,7 @@ public class LoginController implements Serializable {
         try {
             rut = Integer.parseInt(str.subSequence(0,str.length()-1).toString());
         } catch(NumberFormatException nfe) {
-            System.out.println("Could not parse " + nfe);
+            //System.out.println("Could not parse " + nfe);
             return -1;
         }
         return rut;
@@ -77,7 +77,7 @@ public class LoginController implements Serializable {
 
     protected int loginOffLine() throws NoSuchAlgorithmException {
         // AQUI SE DEBE AUTENTICAR EL USUARIO EN LA BD LOCAL
-        System.out.println("Voy a autenticar al usuario mediante la BD local de este dispositivo");
+        //System.out.println("Voy a autenticar al usuario mediante la BD local de este dispositivo");
         ///////////////////////////////////////////////////////////////////////////////////
         // Si el usuario aun no está sincronizado con la BD, permitir el uso de la credencial MAESTRA
 
@@ -92,7 +92,7 @@ public class LoginController implements Serializable {
         //passwordHelper.encriptarMD5base64(mPassword);
         String passwordEncriptado=passwordHelper.encriptarMD5base64(mPassword);
 
-        System.out.println("Password1="+passwordEncriptado+" Password2="+usuario.getPassword());
+        //System.out.println("Password1="+passwordEncriptado+" Password2="+usuario.getPassword());
         if(!passwordEncriptado.equals(usuario.getPassword()))
             return -3; // Código de error -> password incorrecta
 
@@ -106,7 +106,7 @@ public class LoginController implements Serializable {
     protected int loginOnLine() {
         // TODO: attempt authentication against a network service.
         // AQUI SE DEBE CONSUMIR EL WEBSERVICE MEDIANTE LA INSTANCIACIÓN DE UN CLIENTE SOAP
-        System.out.println("Voy a consumir un WebService para autenticar al usuario en el sistema");
+        //System.out.println("Voy a consumir un WebService para autenticar al usuario en el sistema");
         ///////////////////////////////////////////////////////////////////////////////////
         // TODO: register the new account here.
         return 1;

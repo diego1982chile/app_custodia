@@ -1,7 +1,11 @@
 package test3.ncxchile.cl.widgets;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.os.Handler;
+import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
@@ -59,30 +63,55 @@ public class CustomScrollView extends ScrollView {
     }
 
     @Override
-    protected void onSizeChanged(int xNew, int yNew, int xOld, int yOld)
+     protected void onSizeChanged(int xNew, int yNew, int xOld, int yOld)
     {
         super.onSizeChanged(xNew, yNew, xOld, yOld);
 
         View view = (View) getChildAt(getChildCount() - 1);
 
-        // Si es la primera vez que se crea la vista, recurrir a verificar teclado
+        //System.out.println("yNew="+yNew);
+
         if(yNew<view.getBottom()){
             if(scrollArrowBottom!=null)
                 scrollArrowBottom.setVisibility(View.VISIBLE);
-            if(scrollArrowTop!=null)
-                scrollArrowTop.setVisibility(View.INVISIBLE);
             tecladoVisible=true;
-            return;
+        }
+        else{
+            //System.out.println("Lo voy a hacer invisible");
+            if(scrollArrowBottom!=null)
+                scrollArrowBottom.setVisibility(View.INVISIBLE);
+            tecladoVisible=false;
+        }
+
+    }
+
+
+    @Override
+    protected void onFinishInflate(){
+        super.onFinishInflate();
+        //System.out.println("onFinishInflate");
+        View view = (View) getChildAt(getChildCount() - 1);
+
+        if(getHeight()<view.getBottom()){
+            if(scrollArrowBottom!=null)
+                scrollArrowBottom.setVisibility(View.VISIBLE);
+            tecladoVisible=true;
         }
         else{
             if(scrollArrowBottom!=null)
-                scrollArrowBottom.setVisibility(View.INVISIBLE);
-            if(scrollArrowTop!=null)
-                scrollArrowTop.setVisibility(View.INVISIBLE);
+                scrollArrowBottom.setVisibility(View.VISIBLE);
             tecladoVisible=false;
-            return;
+
         }
     }
+
+    /*
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        System.out.println("onDraw");
+    }
+    */
 
     public interface OnScrollViewListener {
         void onScrollChanged( CustomScrollView v, int l, int t, int oldl, int oldt );
@@ -97,15 +126,17 @@ public class CustomScrollView extends ScrollView {
         super.onScrollChanged( l, t, oldl, oldt );
     }
 
+
     public void init() {
 
         setOnScrollViewListener(new OnScrollViewListener() {
+
             @Override
             public void onScrollChanged(CustomScrollView v, int l, int t, int oldl, int oldt) {
                 View view = (View) getChildAt(getChildCount() - 1);
                 int diff = (view.getBottom() - (getHeight() + getScrollY() + view.getTop()));// Calculate the scrolldiff
 
-                if(tecladoVisible) {
+                if (tecladoVisible) {
                     if (diff == 0 && t > 0) { // if diff is zero, then the bottom has been reached
                         scrollArrowBottom.setAnimation(fadeOut());
                         scrollArrowBottom.setVisibility(View.INVISIBLE);

@@ -74,8 +74,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
-        mEmailView.setText("111111111");
-        mPasswordView.setText("12345");
+        //mEmailView.setText("111111111");
+        //mPasswordView.setText("12345");
     }
 
     /**
@@ -144,26 +144,26 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             switch (loginResponse)
             {
                 case -1:
-                    System.out.println("No existe el usuario");
+                    //System.out.println("No existe el usuario");
                     ed.show();
                     break;
                 case -2:
-                    System.out.println("el rut es ambiguo: mas de un usuario con el mismo rut");
+                    //System.out.println("el rut es ambiguo: mas de un usuario con el mismo rut");
                     ed.show();
                     break;
                 case -3:
-                    System.out.println("password incorrecta");
+                    //System.out.println("password incorrecta");
                     ed.show();
                     break;
                 case 1:
                     try {// Si el login fue exitoso
                         // Simulate network access.
-                        System.out.println("EL LOGIN FUE EXITOSO!!");
+                        //System.out.println("EL LOGIN FUE EXITOSO!!");
                         Thread.sleep(0);
                         Intent myIntent = new Intent(LoginActivity.this, HomeActivity.class);
                         LoginActivity.this.startActivity(myIntent);
                     } catch (InterruptedException e) {
-                        System.out.println("Error al cargar Home: "+ e);
+                        //System.out.println("Error al cargar Home: "+ e);
                     }
                     break;
             }
