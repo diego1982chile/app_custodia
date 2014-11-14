@@ -24,7 +24,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
-import test3.ncxchile.cl.helpers.ConnectionDetector;
+import test3.ncxchile.cl.helpers.InternetDetector;
 import test3.ncxchile.cl.home.HomeActivity;
 import test3.ncxchile.cl.validators.RutValidator;
 import test3.ncxchile.cl.widgets.ErrorDialog;
@@ -128,7 +128,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             showProgress(true);
             mAuthTask = new LoginController(rut, password, getApplicationContext());
 
-            ConnectionDetector cd = new ConnectionDetector(getApplicationContext()); //instancie el objeto
+            InternetDetector cd = new InternetDetector(getApplicationContext()); //instancie el objeto
             Boolean isInternetPresent = cd.hayConexion(); // true o false dependiendo de si hay conexion
             // Si hay conexion autenticar online. Si no hay conexion autenticar offline
             int loginResponse;

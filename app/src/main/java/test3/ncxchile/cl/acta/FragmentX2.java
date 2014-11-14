@@ -112,10 +112,10 @@ public class FragmentX2 extends android.app.Fragment {
         int id = view2_00.getCheckedRadioButtonId();
 
         if (id == R.id.radioButton1){
-            ((MyActivity) getActivity()).recibeDatosFragmentX2(spinner_motivo1, view2_02, view2_03, view2_04, comunas, view2_06);
+            ((MyActivity) getActivity()).recibeDatosFragmentX2(false, spinner_motivo1, view2_02, view2_03, view2_04, comunas, view2_06);
         }
         else{
-            ((MyActivity) getActivity()).recibeDatosFragmentX2(spinner_motivo2, view2_02, view2_03, view2_04, comunas, view2_06);
+            ((MyActivity) getActivity()).recibeDatosFragmentX2(true, spinner_motivo2, view2_02, view2_03, view2_04, comunas, view2_06);
         }
     }
 

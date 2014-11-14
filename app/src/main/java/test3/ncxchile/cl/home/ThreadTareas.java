@@ -5,18 +5,17 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.CountDownTimer;
-import android.text.Html;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import test3.ncxchile.cl.greenDAO.Tarea;
-import test3.ncxchile.cl.helpers.ConnectionDetector;
+import test3.ncxchile.cl.helpers.InternetDetector;
 import test3.ncxchile.cl.login.R;
 
 /**
@@ -29,6 +28,7 @@ public class ThreadTareas extends CountDownTimer
     private boolean timerHasStarted = false;
     // variable tipo flag para no consumir el web service innecesariamente
     private boolean conexionPrevia = false;
+    private boolean desconexionPrevia = false;
 
     private long startTime;
     private long interval;
@@ -66,23 +66,30 @@ public class ThreadTareas extends CountDownTimer
     }
 
     public void actualizarTareas(){
-        ConnectionDetector cd = new ConnectionDetector(_context); //instancie el objeto
+        InternetDetector cd = new InternetDetector(_context); //instancie el objeto
         Boolean isInternetPresent = cd.hayConexion(); // true o false dependiendo de si hay conexion
         if(isInternetPresent){
+            desconexionPrevia=false;
+
             if(!conexionPrevia) {
                 // Si no hay conexion previa se consumen los webservices para obtener las tareas asignadas
                 // Guardar las tareas asignadas en la BD local
                 //tareaController.updateTareasAsignadas();
                 conexionPrevia=true;
+                notificarConexion(true);
                 //System.out.println("Voy a consumir un WebService para sincronizar la app con el sistema RTEWEB");
             }
         }else{
             // Se pierde la conexion, luego si se vuelve a detectar conexion, es necesario volver a consumir el webservice
             conexionPrevia=false;
+
+            if(!desconexionPrevia){
+                desconexionPrevia=true;
+                notificarConexion(false);
+            }
             //System.out.println("Se perdio la conexion. Se deberá utilizar los repositorios locales para operar");
         }
         actualizarTablaTareas(tareaController.getTareasAsignadas());
-        notificarConexion();
     }
 
     @Override
@@ -94,14 +101,19 @@ public class ThreadTareas extends CountDownTimer
     //<img src='"+successIcon+"'>
     //><img src='"+failIcon+"'>
 
-    public void notificarConexion(){
+    public void notificarConexion(final boolean conectado){
         context.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if(!conexionPrevia)
-                    context.erroress.setText(Html.fromHtml("<font color='#ffe30919'>No hay conexión a internet</font>"));
-                else
-                    context.erroress.setText(Html.fromHtml("<font color='#01DF01'>Dispositivo conectado</font"));
+
+                if(!conectado) {
+                    context.erroress.setImageResource(R.drawable.wifi_no_ok);
+                    Toast.makeText(context, "No hay conexión a internet", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    context.erroress.setImageResource(R.drawable.wifi_ok);
+                    Toast.makeText(context, "Dispositivo conectado", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }

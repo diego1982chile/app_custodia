@@ -267,5 +267,11 @@ public class FichaEstadoVisualDao extends AbstractDao<FichaEstadoVisual, Long> {
         Cursor cursor = db.rawQuery(getSelectDeep() + where, selectionArg);
         return loadDeepAllAndCloseCursor(cursor);
     }
+
+    public Long getNextId(){
+        Long id= queryBuilder().count();
+
+        return id+1;
+    }
  
 }

@@ -30,7 +30,8 @@ public class FragmentX6 extends android.app.Fragment {
     public RadioGroup view5_06_radiogroup5;
     public RadioGroup view5_07_radiogroup6;
     //public RadioGroup view5_08_radiogroup7;
-    public String q1_response, q2_response, q3_response, q4_response, q5_response, q6_response, switch1_response, switch2_response, switch3_response, switch4_response, switch5_response, switch6_response, switch7_response, switch8_response;
+    public String q1_response, q2_response, q3_response, q4_response, q5_response, q6_response;
+    boolean switch1_response, switch2_response, switch3_response, switch4_response, switch5_response, switch6_response, switch7_response, switch8_response;
     public EditText observacion_01, observacion_02, observacion_03, observacion_04, observacion_05, observacion_06, motivo_imgvid;
     public CheckBox img, vid, adjuntar;
     public Switch switch1, switch2, switch3, switch4, switch5, switch6; //switch7;
@@ -103,9 +104,9 @@ public class FragmentX6 extends android.app.Fragment {
                                          boolean isChecked) {
 
                 if(isChecked){
-                    switch1_response = "SI";
+                    switch1_response = true;
                 }else{
-                    switch1_response = "NO";
+                    switch1_response = false;
                 }
 
             }
@@ -118,9 +119,9 @@ public class FragmentX6 extends android.app.Fragment {
                                          boolean isChecked) {
 
                 if(isChecked){
-                    switch2_response = "SI";
+                    switch2_response = true;
                 }else{
-                    switch2_response = "NO";
+                    switch2_response = false;
                 }
             }
         });
@@ -132,9 +133,9 @@ public class FragmentX6 extends android.app.Fragment {
                                          boolean isChecked) {
 
                 if(isChecked){
-                    switch3_response = "SI";
+                    switch3_response = true;
                 }else{
-                    switch3_response = "NO";
+                    switch3_response = false;
                 }
 
             }
@@ -147,9 +148,9 @@ public class FragmentX6 extends android.app.Fragment {
                                          boolean isChecked) {
 
                 if(isChecked){
-                    switch4_response = "SI";
+                    switch4_response = true;
                 }else{
-                    switch4_response = "NO";
+                    switch4_response = false;
                 }
 
             }
@@ -162,9 +163,9 @@ public class FragmentX6 extends android.app.Fragment {
                                          boolean isChecked) {
 
                 if(isChecked){
-                    switch5_response = "SI";
+                    switch5_response = true;
                 }else{
-                    switch5_response = "NO";
+                    switch5_response = false;
                 }
 
             }
@@ -177,9 +178,9 @@ public class FragmentX6 extends android.app.Fragment {
                                          boolean isChecked) {
 
                 if(isChecked){
-                    switch6_response = "SI";
+                    switch6_response = true;
                 }else{
-                    switch6_response = "NO";
+                    switch6_response = false;
                 }
 
             }

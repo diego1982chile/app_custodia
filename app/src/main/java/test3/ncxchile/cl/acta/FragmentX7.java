@@ -24,7 +24,7 @@ import test3.ncxchile.cl.widgets.RutEditText;
  */
 public class FragmentX7 extends android.app.Fragment {
     public RutEditText view6_01, view6_06;
-    public EditText view6_02, view6_03, view6_05, view6_07, view6_08, view6_10;
+    public EditText view6_02, view6_02_paterno, view6_02_materno, view6_02_paterno2, view6_02_materno2, view6_03, view6_05, view6_07, view6_08, view6_10;
     CorreoEditText view6_04, view6_09;
     private static final String ARG_SECTION_NUMBER = "section_number";
     public String errorv06_01, errorv06_02, texto_error, rut1, rut2, name1, name2, licencia1, licencia2, correo1, correo2, telefono1, telefono2;
@@ -47,6 +47,10 @@ public class FragmentX7 extends android.app.Fragment {
         View rootView = inflater.inflate(R.layout.fragment7, container, false);
         view6_01 = (RutEditText) rootView.findViewById(R.id.view6_01_rut);
         view6_02 = (EditText) rootView.findViewById(R.id.view6_02_nombre);
+        view6_02_paterno = (EditText) rootView.findViewById(R.id.view6_02_apellidopaterno);
+        view6_02_materno = (EditText) rootView.findViewById(R.id.view6_02_apellidomaterno);
+        view6_02_paterno2 = (EditText) rootView.findViewById(R.id.view6_02_apellidopaterno2);
+        view6_02_materno2 = (EditText) rootView.findViewById(R.id.view6_02_apellidomaterno2);
         view6_03 = (EditText) rootView.findViewById(R.id.view6_03_licencia);
         view6_04 = (CorreoEditText) rootView.findViewById(R.id.view6_04_correo);
         view6_05 = (EditText) rootView.findViewById(R.id.view6_05_telefono);
@@ -55,13 +59,13 @@ public class FragmentX7 extends android.app.Fragment {
         view6_08 = (EditText) rootView.findViewById(R.id.view6_08_licencia);
         view6_09 = (CorreoEditText) rootView.findViewById(R.id.view6_09_correo);
         view6_10 = (EditText) rootView.findViewById(R.id.view6_10_telefono);
-        errores = (TextView) rootView.findViewById(R.id.errores6);
+        //errores = (TextView) rootView.findViewById(R.id.errores6);
         view6_06.addTextChangedListener(replicadorCampos);
         return rootView;
     }
 
     public void envioDeDatos() {
-        ((MyActivity) getActivity()).recibeDatosFragmentX7(view6_01, view6_02, view6_03, view6_04, view6_05, view6_06, view6_07, view6_08, view6_09, view6_10);
+        ((MyActivity) getActivity()).recibeDatosFragmentX7(view6_01, view6_02, view6_02_paterno, view6_02_materno, view6_02_paterno2, view6_02_materno2, view6_03, view6_04, view6_05, view6_06, view6_07, view6_08, view6_09, view6_10);
     }
 
     public boolean validarDatosFragment6(){
@@ -120,7 +124,7 @@ public class FragmentX7 extends android.app.Fragment {
 
             int rut_propietario=view6_01.getText().toString().length();
 
-            if(s.length()==rut_propietario) {
+            if(s.length()==rut_propietario && s.length()>0) {
                 if(s.toString().equals(view6_01.getText().toString()))
                 {
                     view6_07.setText(view6_02.getText().toString());

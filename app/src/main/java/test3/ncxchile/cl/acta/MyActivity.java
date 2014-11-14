@@ -33,6 +33,7 @@ import test3.ncxchile.cl.greenDAO.FinalizarActaDao;
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.session.SessionManager;
 import test3.ncxchile.cl.widgets.CustomAutoComplete;
+import test3.ncxchile.cl.widgets.RequiredEditText;
 
 
 public class MyActivity extends Activity implements ActionBar.TabListener {
@@ -50,20 +51,23 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
     public Acta acta;
 
     // Fragment 1
-    public String view1_01, view1_02, view1_03, view1_04, view1_05, view1_06, view1_00;
+    public String view1_01, view1_02, view1_02_paterno, view1_02_materno, view1_02_telefono, view1_02_correo, view1_03, view1_04, view1_05, view1_06, view1_00;
     // Fragment 2
+    public boolean view2_00;
     public String view2_01, view2_02, view2_03, view2_04, view2_05, view2_06;
     // Fragment 3
     public String view3_01, view3_02, view3_03, view3_04, view3_05, view3_06, view3_07, view3_08;
     // Fragment 4
-    public String view4_00, view4_01, view4_02, view4_03, view4_05, view4_07, view4_08, view4_04, view4_06, view4_09;
+    public String view4_00, view4_01, view4_02, view4_03, view4_05, view4_07, view4_08, view4_04, view4_06;
+    public boolean view4_09;
     // Fragment fotovideo
     // Fragment 5
     public boolean view5_01, view5_02;
 
-    public String view5_03, view5_04, view5_05, view5_06, view5_07, view5_08, view5_09, view5_10, view5_11, view5_12, view5_13, view5_14, view5_15, view5_16, view5_17;
+    public String view5_03, view5_04, view5_05, view5_06, view5_07, view5_08, view5_09;
+    public boolean view5_10, view5_11, view5_12, view5_13, view5_14, view5_15, view5_16, view5_17;
     // Fragment 6
-    public String view6_01, view6_02, view6_03, view6_04, view6_05, view6_06, view6_07, view6_08, view6_09, view6_10;
+    public String view6_01, view6_02, view6_02_paterno, view6_02_materno, view6_03, view6_04, view6_05, view6_06, view6_06_paterno, view6_06_materno, view6_07, view6_08, view6_09, view6_10;
     // Fragment 7
     public String view7_01, view7_02, view7_03;
     // Fragment 8
@@ -443,12 +447,18 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         datospdf.setView1_00(view1_00);
         datospdf.setView1_01(view1_01);
         datospdf.setView1_02(view1_02);
+        datospdf.setView1_02_paterno(view1_02_paterno);
+        datospdf.setView1_02_materno(view1_02_materno);
+        datospdf.setView1_02_telefono(view1_02_telefono);
+        datospdf.setView1_02_correo(view1_02_correo);
+        datospdf.setView1_02(view1_02);
         datospdf.setView1_03(view1_03);
         datospdf.setView1_04(view1_04);
         datospdf.setView1_05(view1_05);
         datospdf.setView1_06(view1_06);
         // Crear
 
+        datospdf.setView2_00(view2_00);
         datospdf.setView2_01(view2_01);
         datospdf.setView2_02(view2_02);
         datospdf.setView2_03(view2_03);
@@ -495,10 +505,14 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
 
         datospdf.setView6_01(view6_01);
         datospdf.setView6_02(view6_02);
+        datospdf.setView6_02_paterno(view6_02_paterno);
+        datospdf.setView6_02_materno(view6_02_materno);
         datospdf.setView6_03(view6_03);
         datospdf.setView6_04(view6_04);
         datospdf.setView6_05(view6_05);
         datospdf.setView6_06(view6_06);
+        datospdf.setView6_06_paterno(view6_06_paterno);
+        datospdf.setView6_06_materno(view6_06_materno);
         datospdf.setView6_07(view6_07);
         datospdf.setView6_08(view6_08);
         datospdf.setView6_09(view6_09);
@@ -511,7 +525,6 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         datospdf.setView8_01(view8_01);
 
         return datospdf;
-
 
         // Guardar la base de datos
         /*
@@ -561,17 +574,22 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
 
     }
 
-    public void recibeDatosFragmentX(EditText a, EditText b, EditText c, EditText d, EditText e, EditText f, EditText g ){
+    public void recibeDatosFragmentX(EditText a, EditText b, RequiredEditText b1, EditText b2, EditText b3, EditText b4, EditText c, EditText d, EditText e, EditText f, EditText g ){
         view1_00 = a.getText().toString();
         view1_01 = b.getText().toString();
         view1_02 = c.getText().toString();
+        view1_02_paterno = b1.getText().toString();
+        view1_02_materno = b2.getText().toString();
+        view1_02_telefono = b3.getText().toString();
+        view1_02_correo = b4.getText().toString();
         view1_03 = d.getText().toString();
         view1_04 = e.getText().toString();
         view1_05 = f.getText().toString();
         view1_06 = g.getText().toString();
     }
 
-    public void recibeDatosFragmentX2(CustomAutoComplete a, EditText b, EditText c, EditText d, CustomAutoComplete e, EditText f){
+    public void recibeDatosFragmentX2(boolean fiscalia, CustomAutoComplete a, EditText b, EditText c, EditText d, CustomAutoComplete e, EditText f){
+        view2_00 = fiscalia;
         view2_01 = a.getText().toString();
         view2_02 = b.getText().toString();
         view2_03 = c.getText().toString();
@@ -591,7 +609,7 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         view3_08 = h.getText().toString();
     }
 
-    public void recibeDatosFragmentX4(CustomAutoComplete z, EditText a, EditText b, EditText c, EditText d, EditText e, EditText f, EditText g, EditText h, String i){
+    public void recibeDatosFragmentX4(CustomAutoComplete z, EditText a, EditText b, EditText c, EditText d, EditText e, EditText f, EditText g, EditText h, boolean i){
         view4_00 = z.getText().toString();
         view4_01 = a.getText().toString();
         view4_02 = b.getText().toString();
@@ -610,7 +628,7 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         view5_03 = motivo_imgvid;
     }
 
-    public void recibeDatosFragmentX6( String q1_response, String q2_response,  String q3_response,  String q4_response,  String q5_response, String q6_response, String switch1_response, String switch2_response, String switch3_response, String switch4_response, String switch5_response, String switch6_response, String switch7_response){
+    public void recibeDatosFragmentX6( String q1_response, String q2_response,  String q3_response,  String q4_response,  String q5_response, String q6_response, boolean switch1_response, boolean switch2_response, boolean switch3_response, boolean switch4_response, boolean switch5_response, boolean switch6_response, boolean switch7_response){
         view5_04 = q1_response;
         view5_05 = q2_response;
         view5_06 = q3_response;
@@ -626,13 +644,17 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         view5_16 = switch7_response;
     }
 
-    public void recibeDatosFragmentX7(EditText a, EditText b, EditText c, EditText d, EditText e, EditText f, EditText g, EditText h, EditText i, EditText j){
+    public void recibeDatosFragmentX7(EditText a, EditText b, EditText b1, EditText b2, EditText b3, EditText b4, EditText c, EditText d, EditText e, EditText f, EditText g, EditText h, EditText i, EditText j){
         view6_01 = a.getText().toString();
         view6_02 = b.getText().toString();
+        view6_02_paterno = b1.getText().toString();
+        view6_02_materno = b2.getText().toString();
         view6_03 = c.getText().toString();
         view6_04 = d.getText().toString();
         view6_05 = e.getText().toString();
         view6_06 = f.getText().toString();
+        view6_06_paterno = b3.getText().toString();
+        view6_06_materno = b4.getText().toString();
         view6_07 = g.getText().toString();
         view6_08 = h.getText().toString();
         view6_09 = i.getText().toString();

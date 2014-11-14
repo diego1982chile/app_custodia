@@ -13,6 +13,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -34,8 +36,10 @@ public class HomeActivity extends Activity {
     public int color;
     public Drawable marca;
     public int marcada;
-    public TextView erroress;
+    public ImageView erroress,iconoGps,iconoHora,iconoStatusGps,iconoStatusHora;
     public TableLayout tareas;
+    public TextView statusGps,statusHora;
+    public FrameLayout statusMensajes,historialAcciones;
 
     Button tomarTarea, confirmarArribo, completarActa, retiroRealizado;
 
@@ -101,7 +105,17 @@ public class HomeActivity extends Activity {
         setEnabled(completarActa, false);
         setEnabled(retiroRealizado, false);
 
-        erroress = (TextView) findViewById(R.id.erroress);
+        erroress = (ImageView) findViewById(R.id.activity_main_redtv);
+        iconoGps = (ImageView) findViewById(R.id.icono_gps);
+        iconoStatusGps = (ImageView) findViewById(R.id.icono_status_gps);
+        iconoHora= (ImageView) findViewById(R.id.icono_hora);
+        iconoStatusHora= (ImageView) findViewById(R.id.icono_status_hora);
+
+        statusGps = (TextView) findViewById(R.id.status_gps);
+        statusHora = (TextView) findViewById(R.id.status_hora);
+
+        statusMensajes = (FrameLayout) findViewById(R.id.status_mensajes);
+        historialAcciones = (FrameLayout) findViewById(R.id.historial_acciones);
 
         color = 0;
         marcada = 0;
@@ -362,4 +376,6 @@ public class HomeActivity extends Activity {
         else
             b.setBackgroundResource(R.drawable.blue_button_inactive);
     }
+
+
 }

@@ -125,7 +125,7 @@ public class FragmentX extends android.app.Fragment {
 
     public void envioDeDatos() {
         // metodo de envio de datos hacia clase contenedora, MyActivity
-       ((MyActivity) getActivity()).recibeDatosFragmentX(view1_00, view1_01, view1_02, view1_03, view1_04, view1_05, view1_06);
+       ((MyActivity) getActivity()).recibeDatosFragmentX(view1_00, view1_01, view1_02, view1_02_paterno, view1_02_materno, view1_02_telefonos, view1_02_correos, view1_03, view1_04, view1_05, view1_06);
     }
 
     //view1_00: N°Orden -> Numerico*

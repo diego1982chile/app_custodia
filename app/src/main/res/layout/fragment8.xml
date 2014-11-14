@@ -36,7 +36,7 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/editText1">
 
-        <TextView
+        <!--TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
@@ -45,7 +45,7 @@
             android:textSize="18dp"
             android:textColor="#FF0000"
             android:layout_gravity="center_horizontal"
-            android:id="@+id/errores7" />
+            android:id="@+id/errores7" /-->
 
         <LinearLayout
             android:orientation="vertical"

@@ -274,10 +274,13 @@ public class Firma extends Activity {
                     tabla22.addCell("Estado Visual");
                     PdfPTable tabla23 = new PdfPTable(1);
                     tabla23.addCell("Estado Focos: " + datospdf2.getView5_08());
+                    /*
                     PdfPTable tabla24 = new PdfPTable(1);
                     tabla24.addCell("Estado chapas: " + datospdf2.getView5_09());
+
                     PdfPTable tabla25 = new PdfPTable(1);
                     tabla25.addCell("Estado ruedas: " + datospdf2.getView5_06());
+                    */
                     PdfPTable tabla26 = new PdfPTable(1);
                     tabla26.addCell("Estado cristales: " + datospdf2.getView5_07());
                     PdfPTable tabla27 = new PdfPTable(1);
@@ -285,50 +288,54 @@ public class Firma extends Activity {
                     PdfPTable tabla28 = new PdfPTable(1);
                     tabla28.addCell("Estado pintura: " + datospdf2.getView5_04());
                     PdfPTable tabla29 = new PdfPTable(1);
-                    if (datospdf2.getView5_10() == null) {
+                    if (!datospdf2.getView5_10()) {
                         tabla29.addCell("Abierto: NO");
                     } else {
-                        tabla29.addCell("Abierto: " + datospdf2.getView5_10());
+                        tabla29.addCell("Abierto: SI");
                     }
+                    /*
                     PdfPTable tabla30 = new PdfPTable(1);
-                    if (datospdf2.getView5_16() == null) {
+                    if (datospdf2.getView5_16()) {
                         tabla30.addCell("Chapas: NO");
                     } else {
                         tabla30.addCell("Chapas: " + datospdf2.getView5_16());
                     }
+                    */
                     PdfPTable tabla31 = new PdfPTable(1);
-
-                    if (datospdf2.getView5_15() == null) {
+                    if (!datospdf2.getView5_16()) {
                         tabla31.addCell("Kit seguridad: NO");
                     } else {
-                        tabla31.addCell("Kit seguridad: " + datospdf2.getView5_15());
+                        tabla31.addCell("Kit seguridad: SI");
                     }
                     PdfPTable tabla32 = new PdfPTable(1);
-                    if (datospdf2.getView5_14() == null) {
+                    if (!datospdf2.getView5_15()) {
                         tabla32.addCell("Antena: NO");
                     } else {
-                        tabla32.addCell("Antena: " + datospdf2.getView5_14());
+                        tabla32.addCell("Antena: SI");
                     }
                     PdfPTable tabla33 = new PdfPTable(1);
-                    if (datospdf2.getView5_13() == null) {
+                    if (!datospdf2.getView5_14()) {
                         tabla33.addCell("Rueda de repuesto: NO");
                     } else {
-                        tabla33.addCell("Rueda de repuesto: " + datospdf2.getView5_13());
+                        tabla33.addCell("Rueda de repuesto: SI");
                     }
                     PdfPTable tabla34 = new PdfPTable(1);
-                    if (datospdf2.getView5_12() == null) {
+                    if (!datospdf2.getView5_13()) {
                         tabla34.addCell("Radio: NO");
                     } else {
-                        tabla34.addCell("Radio: " + datospdf2.getView5_12());
+                        tabla34.addCell("Radio: SI");
                     }
                     PdfPTable tabla35 = new PdfPTable(1);
-                    if (datospdf2.getView5_11() == null) {
+                    if (!datospdf2.getView5_12()) {
                         tabla35.addCell("Llaves del vehículos: NO");
                     } else {
-                        tabla35.addCell("Llaves del vehículos: " + datospdf2.getView5_11());
+                        tabla35.addCell("Llaves del vehículos: SI");
                     }
                     PdfPTable tabla36 = new PdfPTable(1);
-                    tabla36.addCell("Origen: " + datospdf2.getView4_09().toString());
+                    String origen="Nacional";
+                    if(datospdf2.getView4_09())
+                        origen="Extranjero";
+                    tabla36.addCell("Origen: "+ origen);
                     PdfPTable tabla37 = new PdfPTable(1);
 
                     if (datospdf2.isView5_01() == true && datospdf2.isView5_02() == true) {
@@ -338,13 +345,13 @@ public class Firma extends Activity {
                     }
 
                     tabla22.addCell(tabla23);
-                    tabla22.addCell(tabla24);
-                    tabla22.addCell(tabla25);
+                    //tabla22.addCell(tabla24);
+                    //tabla22.addCell(tabla25);
                     tabla22.addCell(tabla26);
                     tabla22.addCell(tabla27);
                     tabla22.addCell(tabla28);
                     tabla22.addCell(tabla29);
-                    tabla22.addCell(tabla30);
+                    //tabla22.addCell(tabla30);
                     tabla22.addCell(tabla31);
                     tabla22.addCell(tabla32);
                     tabla22.addCell(tabla33);
@@ -358,7 +365,7 @@ public class Firma extends Activity {
                     tabla38.setWidthPercentage(100f);
                     tabla38.addCell("Información Policial");
                     PdfPTable tabla39 = new PdfPTable(2);
-                    tabla39.addCell("Fecha Parte Policial: Hoy");
+                    tabla39.addCell("Fecha Parte Policial: "+ datospdf2.getView3_01().toString());
                     tabla39.addCell("N° Parte Policial: " + datospdf2.getView3_02().toString());
                     PdfPTable tabla40 = new PdfPTable(2);
                     tabla40.addCell("N° Unidad Polical: " + datospdf2.getView3_03().toString());
@@ -382,8 +389,8 @@ public class Firma extends Activity {
                     tabla44.addCell("Nombre: " + datospdf2.getView6_07().toString());
                     tabla44.addCell("Rut: " + datospdf2.getView6_06().toString());
                     PdfPTable tabla45 = new PdfPTable(2);
-                    tabla45.addCell("Teléfono(s): " + datospdf2.getView6_10().toString());
-                    tabla45.addCell("Correo(s): " + datospdf2.getView6_09().toString());
+                    tabla45.addCell("Teléfono: " + datospdf2.getView6_10().toString());
+                    tabla45.addCell("Correo: " + datospdf2.getView6_09().toString());
                     PdfPTable tabla46 = new PdfPTable(1);
                     tabla46.addCell("Licencia: " + datospdf2.getView6_08().toString());
                     tabla43.addCell(tabla44);
@@ -398,8 +405,8 @@ public class Firma extends Activity {
                     tabla48.addCell("Nombre: " + datospdf2.getView6_02().toString());
                     tabla48.addCell("Rut: " + datospdf2.getView6_01().toString());
                     PdfPTable tabla49 = new PdfPTable(2);
-                    tabla49.addCell("Teléfono(s): " + datospdf2.getView6_05().toString());
-                    tabla49.addCell("Correo(s): " + datospdf2.getView6_04().toString());
+                    tabla49.addCell("Teléfono: " + datospdf2.getView6_05().toString());
+                    tabla49.addCell("Correo: " + datospdf2.getView6_04().toString());
                     PdfPTable tabla50 = new PdfPTable(1);
                     tabla50.addCell("Licencia: " + datospdf2.getView6_03().toString());
                     tabla47.addCell(tabla48);
@@ -749,7 +756,10 @@ public class Firma extends Activity {
                         serializer.text(datospdf2.getView4_07().toString());
                         serializer.endTag(null, "v04_numeromotor");
                         serializer.startTag(null, "v04_origen");
-                        serializer.text(datospdf2.getView4_09().toString());
+                        String origen="Nacional";
+                        if(datospdf2.getView4_09())
+                            origen="Extranjero";
+                        serializer.text(origen);
                         serializer.endTag(null, "v04_origen");
                     serializer.endTag(null, "info_vehiculo");
 
@@ -782,13 +792,13 @@ public class Firma extends Activity {
                         //serializer.startTag(null, "v05_estadochapas");
                         //serializer.text(datospdf2.getView5_09().toString());
                         //serializer.endTag(null, "v05_estadochapas");
-                        if (datospdf2.getView5_10() == null) {
+                        if (!datospdf2.getView5_10()) {
                             serializer.startTag(null, "v05_abierto");
                             serializer.text("NO");
                             serializer.endTag(null, "v05_abierto");
                         } else {
                             serializer.startTag(null, "v05_abierto");
-                            serializer.text(datospdf2.getView5_10().toString());
+                            serializer.text("SI");
                             serializer.endTag(null, "v05_abierto");
                         }
 
@@ -802,49 +812,49 @@ public class Firma extends Activity {
                         //    serializer.endTag(null, "v05_chapas");
                         //}
 
-                        if (datospdf2.getView5_15() == null) {
+                        if (!datospdf2.getView5_15()) {
                             serializer.startTag(null, "v05_kitseg");
                             serializer.text("NO");
                             serializer.endTag(null, "v05_kitseg");
                         } else {
                             serializer.startTag(null, "v05_kitseg");
-                            serializer.text(datospdf2.getView5_15().toString());
+                            serializer.text("SI");
                             serializer.endTag(null, "v05_kitseg");
                         }
-                        if (datospdf2.getView5_14() == null) {
+                        if (!datospdf2.getView5_14()) {
                             serializer.startTag(null, "v05_antena");
                             serializer.text("NO");
                             serializer.endTag(null, "v05_antena");
                         } else {
                             serializer.startTag(null, "v05_antena");
-                            serializer.text(datospdf2.getView5_14().toString());
+                            serializer.text("SI");
                             serializer.endTag(null, "v05_antena");
                         }
-                        if (datospdf2.getView5_13() == null) {
+                        if (!datospdf2.getView5_13()) {
                             serializer.startTag(null, "v05_ruedasrepuesto");
                             serializer.text("NO");
                             serializer.endTag(null, "v05_ruedasrepuesto");
                         } else {
                             serializer.startTag(null, "v05_ruedasrepuesto");
-                            serializer.text(datospdf2.getView5_13().toString());
+                            serializer.text("SI");
                             serializer.endTag(null, "v05_ruedasrepuesto");
                         }
-                        if (datospdf2.getView5_12() == null) {
+                        if (!datospdf2.getView5_12()) {
                             serializer.startTag(null, "v05_radio");
                             serializer.text("NO");
                             serializer.endTag(null, "v05_radio");
                         } else {
                             serializer.startTag(null, "v05_radio");
-                            serializer.text(datospdf2.getView5_12().toString());
+                            serializer.text("SI");
                             serializer.endTag(null, "v05_radio");
                         }
-                        if (datospdf2.getView5_11() == null) {
+                        if (!datospdf2.getView5_11()) {
                             serializer.startTag(null, "v05_llavesvehiculo");
                             serializer.text("NO");
                             serializer.endTag(null, "v05_llavesvehiculo");
                         } else {
                             serializer.startTag(null, "v05_llavesvehiculo");
-                            serializer.text(datospdf2.getView5_11().toString());
+                            serializer.text("SI");
                             serializer.endTag(null, "v05_llavesvehiculo");
                         }
                     serializer.endTag(null, "info_visual");

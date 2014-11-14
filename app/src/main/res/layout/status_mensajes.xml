@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/status_mensajes">
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="5dp"
+    android:columnCount="2"
+    >
+    <ImageView
+        android:id="@+id/icono_status_gps"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/red_circle_exclamation"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal"
+        />
+    <TextView
+        android:id="@+id/status_gps"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:text="GPS no activado. Debes activar el GPS del dispositivo"
+        />
+    <ImageView
+        android:id="@+id/icono_status_hora"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/red_circle_exclamation"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal"
+        />
+    <TextView
+        android:id="@+id/status_hora"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:text="La fecha y hora del dispositivo puede no estar sincronizada. Debes activar fecha y hora automática"
+        />
+</GridLayout>
+    </FrameLayout>

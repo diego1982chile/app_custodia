@@ -37,7 +37,7 @@ public class FragmentX4 extends android.app.Fragment  {
     //view4_06: Kilometraje -> Numérico
     //view4_07: N°Motor -> Texto
     //view4_08: N°Chasis -> Texto
-    //view4_08: Origen -> RadioButton
+    //view4_09: Origen -> RadioButton
     //view4_08:  ->
 
     //public PatenteEditText view4_01;
@@ -48,7 +48,7 @@ public class FragmentX4 extends android.app.Fragment  {
     public CustomAutoComplete spinner;
     public RadioGroup view4_09;
     public Button validador_04;
-    public String view4_09_response;
+    public boolean view4_09_response;
 
     public FragmentX4 newInstance(int sectionNumber){
         FragmentX4 fragment = new FragmentX4();
@@ -102,11 +102,12 @@ public class FragmentX4 extends android.app.Fragment  {
         int id = view4_09.getCheckedRadioButtonId();
 
         if (id == R.id.radioButton1){
-            view4_09_response = "Nacional";
+            view4_09_response = false;
         }
         else{
-            view4_09_response = "Extranjero";
+            view4_09_response = true;
         }
+
         ((MyActivity) getActivity()).recibeDatosFragmentX4(spinner, view4_01, view4_02, view4_03, view4_04, view4_05, view4_06, view4_07, view4_08, view4_09_response);
     }
 

@@ -35,7 +35,7 @@
         android:layout_height="fill_parent"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/editText1">
-        <TextView
+        <!--TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
@@ -44,9 +44,7 @@
             android:textSize="18dp"
             android:textColor="#FF0000"
             android:layout_gravity="center_horizontal"
-            android:id="@+id/errores6" />
-
-
+            android:id="@+id/errores6" /-->
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
@@ -127,6 +125,68 @@
                 android:singleLine="true"
                 android:imeOptions="actionNext"
                 android:layout_weight="0.51"
+                android:layout_marginLeft="15dp" />
+        </TableRow>
+
+    <TableRow android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:showDividers="middle"
+        android:nestedScrollingEnabled="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_below="@+id/tableRow"
+        android:layout_alignLeft="@+id/tableRow"
+        android:layout_alignStart="@+id/tableRow"
+        android:id="@+id/tableRow2_1">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#003076"
+            android:textSize="18dp"
+            android:text="Apellido Paterno:"
+            android:layout_marginTop="8dp"
+            android:id="@+id/textView3_1" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/view6_02_apellidopaterno"
+            android:layout_weight="0.51"
+            android:singleLine="true"
+            android:imeOptions="actionNext"
+            android:maxLength="35"
+            android:layout_marginLeft="15dp" />
+    </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:showDividers="middle"
+            android:nestedScrollingEnabled="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_below="@+id/tableRow"
+            android:layout_alignLeft="@+id/tableRow"
+            android:layout_alignStart="@+id/tableRow"
+            android:id="@+id/tableRow2_2">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#003076"
+                android:textSize="18dp"
+                android:text="@string/apellido_mat_aut"
+                android:layout_marginTop="8dp"
+                android:id="@+id/textView3_2" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/view6_02_apellidomaterno"
+                android:layout_weight="0.51"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:maxLength="35"
                 android:layout_marginLeft="15dp" />
         </TableRow>
 
@@ -313,6 +373,68 @@
                 android:singleLine="true"
                 android:imeOptions="actionNext"
                 android:layout_weight="0.51"
+                android:layout_marginLeft="15dp" />
+        </TableRow>
+
+        <TableRow android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:showDividers="middle"
+            android:nestedScrollingEnabled="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_below="@+id/tableRow"
+            android:layout_alignLeft="@+id/tableRow"
+            android:layout_alignStart="@+id/tableRow"
+            android:id="@+id/tableRow19">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#003076"
+                android:textSize="18dp"
+                android:text="Apellido Paterno:"
+                android:layout_marginTop="8dp"
+                android:id="@+id/textView3_11" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/view6_02_apellidopaterno2"
+                android:layout_weight="0.51"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:maxLength="35"
+                android:layout_marginLeft="15dp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:showDividers="middle"
+            android:nestedScrollingEnabled="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_below="@+id/tableRow"
+            android:layout_alignLeft="@+id/tableRow"
+            android:layout_alignStart="@+id/tableRow"
+            android:id="@+id/tableRow2_20">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#003076"
+                android:textSize="18dp"
+                android:text="@string/apellido_mat_aut"
+                android:layout_marginTop="8dp"
+                android:id="@+id/textView3_21" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/view6_02_apellidomaterno2"
+                android:layout_weight="0.51"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:maxLength="35"
                 android:layout_marginLeft="15dp" />
         </TableRow>
 

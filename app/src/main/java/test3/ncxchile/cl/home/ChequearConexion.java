@@ -3,7 +3,7 @@ package test3.ncxchile.cl.home;
 import android.content.Context;
 import android.os.CountDownTimer;
 
-import test3.ncxchile.cl.helpers.ConnectionDetector;
+import test3.ncxchile.cl.helpers.InternetDetector;
 
 /**
  * Created by android-developer on 07-10-2014.
@@ -33,7 +33,7 @@ public class ChequearConexion extends CountDownTimer
     public void onFinish()
     {
         // Cada vez que finaliza la cuenta regresiva, chequear conexion
-        ConnectionDetector cd = new ConnectionDetector(_context); //instancie el objeto
+        InternetDetector cd = new InternetDetector(_context); //instancie el objeto
         Boolean isInternetPresent = cd.hayConexion(); // true o false dependiendo de si hay conexion
         if(isInternetPresent){
             if(!conexionPrevia) {

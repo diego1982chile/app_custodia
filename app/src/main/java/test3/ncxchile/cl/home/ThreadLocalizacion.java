@@ -1,22 +1,16 @@
 package test3.ncxchile.cl.home;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.v4.app.FragmentActivity;
-import android.text.Html;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -25,8 +19,9 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationRequest;
 
-import test3.ncxchile.cl.helpers.ConnectionDetector;
+import test3.ncxchile.cl.helpers.InternetDetector;
 import test3.ncxchile.cl.helpers.GpsDetector;
+import test3.ncxchile.cl.helpers.NtpDetector;
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.session.SessionManager;
 
@@ -219,8 +214,46 @@ public class ThreadLocalizacion extends CountDownTimer implements
         GpsDetector gd = new GpsDetector(_context); //instancie el objeto
         Boolean isGpsPresent = gd.hayGps(); // true o false dependiendo de si hay gps
 
-        ConnectionDetector cd = new ConnectionDetector(_context); //instancie el objeto
+        InternetDetector cd = new InternetDetector(_context); //instancie el objeto
         Boolean isInternetPresent = cd.hayConexion(); // true o false dependiendo de si hay conexion
+
+        NtpDetector nd= new NtpDetector(_context);
+        Boolean isNtpPresent = nd.hayNtp();
+
+        int componentesHabilitados=0;
+
+        if(!isNtpPresent){
+            context.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    // Decirle al usuario que active Fecha y hora automática
+                    context.iconoHora.setImageResource(R.drawable.hora_no_ok);
+
+                    context.historialAcciones.setVisibility(View.GONE);
+                    context.statusMensajes.setVisibility(View.VISIBLE);
+                    context.statusHora.setText("La hora del dispositivo puede no estar sincronizada. Debes activar fecha y hora automática");
+                    context.iconoStatusHora.setImageResource(R.drawable.red_circle_exclamation);
+                    /*
+                    AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+                    alertDialog.setTitle("Alerta Fecha y hora");
+                    alertDialog.setMessage("La fecha y hora del dispositivo puede no estar sincronizada. Debes activar fecha y hora automática");
+                    alertDialog.setIcon(R.drawable.luzverde);
+                    alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Aceptar",new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+                    alertDialog.show();
+                    */
+                }
+            });
+        }
+        else
+        {
+            context.iconoHora.setImageResource(R.drawable.hora_ok);
+            context.statusHora.setText("Fecha y hora automática activada");
+            context.iconoStatusHora.setImageResource(R.drawable.green_circle_tick_2);
+            componentesHabilitados++;
+        }
 
         if(!isInternetPresent && !isGpsPresent){
 
@@ -228,6 +261,13 @@ public class ThreadLocalizacion extends CountDownTimer implements
                 @Override
                 public void run() {
                     // Decirle al usuario que active GPS
+                    context.iconoGps.setImageResource(R.drawable.gps_no_ok);
+
+                    context.historialAcciones.setVisibility(View.GONE);
+                    context.statusMensajes.setVisibility(View.VISIBLE);
+                    context.statusGps.setText("GPS desactivado. Debes activar el GPS del dispositivo");
+                    context.iconoStatusGps.setImageResource(R.drawable.red_circle_exclamation);
+                    /*
                     AlertDialog alertDialog = new AlertDialog.Builder(context).create();
                     alertDialog.setTitle("Alerta GPS");
                     alertDialog.setMessage("Debes activar el GPS del dispositivo");
@@ -237,17 +277,25 @@ public class ThreadLocalizacion extends CountDownTimer implements
                         }
                     });
                     alertDialog.show();
+                    */
                 }
             });
         }
         else{
+            context.iconoGps.setImageResource(R.drawable.gps_ok);
+            context.statusGps.setText("GPS activado");
+            context.iconoStatusGps.setImageResource(R.drawable.green_circle_tick_2);
+
             if(servicesConnected()) {
                 if(mLocationClient.isConnected()) {
                     if(mLocationClient.getLastLocation()!=null){
+                        Location location= new Location(mLocationClient.getLastLocation());
+
                         session.setLatitud((float) mLocationClient.getLastLocation().getLatitude());
                         session.setLongitud((float) mLocationClient.getLastLocation().getLongitude());
                     }
                     else{
+                        System.out.println("todavia no está listo el GPS");
                         session.setLatitud((float) 0);
                         session.setLongitud((float) 0);
                     }
@@ -264,6 +312,12 @@ public class ThreadLocalizacion extends CountDownTimer implements
                     mLocationClient.connect();
                 }
             }
+            componentesHabilitados++;
+        }
+        if(componentesHabilitados==2)
+        {
+            context.statusMensajes.setVisibility(View.GONE);
+            context.historialAcciones.setVisibility(View.VISIBLE);
         }
     }
 
