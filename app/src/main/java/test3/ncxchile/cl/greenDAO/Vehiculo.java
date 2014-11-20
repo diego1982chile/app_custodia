@@ -273,7 +273,7 @@ public class Vehiculo {
                 throw new DaoException("Entity is detached from DAO context");
             }
             FichaEstadoVisualDao targetDao = daoSession.getFichaEstadoVisualDao();
-            List<FichaEstadoVisual> fichaEstadoVisualListNew = targetDao._queryVehiculo_FichaEstadoVisualList(id);
+            List<FichaEstadoVisual> fichaEstadoVisualListNew = targetDao._queryVehiculo_FichaEstadoVisual(id);
             synchronized (this) {
                 if(fichaEstadoVisualList == null) {
                     fichaEstadoVisualList = fichaEstadoVisualListNew;

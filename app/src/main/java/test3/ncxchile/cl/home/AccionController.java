@@ -23,7 +23,7 @@ public class AccionController {
     private Context localContext;
     private List<Tarea> tareas;
 
-    AccionController(Context context) {
+    public AccionController(Context context) {
 
         localContext=context;
 
@@ -37,7 +37,7 @@ public class AccionController {
         //db.close();
     }
 
-    long encolarAccion(Accion accion){
+    public long encolarAccion(Accion accion){
         return daoSession.getAccionDao().insert(accion);
     }
 
@@ -55,5 +55,5 @@ public class AccionController {
 
     Integer getStatusTarea(int idServicio) { return daoSession.getTareaDao().getStatusTarea(idServicio); }
 
-    void setStatusTarea(int idServicio, int status) { daoSession.getTareaDao().setStatusTarea(daoSession,idServicio,status); }
+    void setStatusTarea(int idServicio, int status) { daoSession.getTareaDao().setStatusTarea(idServicio,status); }
 }

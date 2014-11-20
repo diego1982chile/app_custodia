@@ -406,8 +406,20 @@
             android:layout_width="fill_parent"
             android:layout_gravity="center"
             android:gravity="center"
-            android:layout_height="fill_parent">
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="10dp">
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="bottom"
+                android:text=" Ver PDF"
+                android:textColor="#fff"
+                style="@style/CustomStyleButton"
+                android:id="@+id/button_ver_pdf"
+                android:drawableLeft="@drawable/ver_pdf_small"
+                />
             <Button
                 style="@style/CustomStyleButton"
                 android:layout_width="wrap_content"

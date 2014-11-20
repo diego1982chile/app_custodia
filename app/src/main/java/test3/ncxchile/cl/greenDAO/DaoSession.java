@@ -44,6 +44,7 @@ public class DaoSession extends AbstractDaoSession {
     private final DaoConfig motivoDaoConfig;
     private final DaoConfig motivoFiscaliaDaoConfig;
     private final DaoConfig tipoVehiculoDaoConfig;
+    private final DaoConfig firmaDaoConfig;
 
     private final FinalizarActaDao finalizarActaDao;
     private final ActaDao actaDao;
@@ -69,6 +70,7 @@ public class DaoSession extends AbstractDaoSession {
     private final MotivoDao motivoDao;
     private final MotivoFiscaliaDao motivoFiscaliaDao;
     private final TipoVehiculoDao tipoVehiculoDao;
+    private final FirmaDao firmaDao;
 
     public DaoSession(SQLiteDatabase db, IdentityScopeType type, Map<Class<? extends AbstractDao<?, ?>>, DaoConfig>
             daoConfigMap) {
@@ -146,6 +148,9 @@ public class DaoSession extends AbstractDaoSession {
         tipoVehiculoDaoConfig = daoConfigMap.get(TipoVehiculoDao.class).clone();
         tipoVehiculoDaoConfig.initIdentityScope(type);
 
+        firmaDaoConfig = daoConfigMap.get(FirmaDao.class).clone();
+        firmaDaoConfig.initIdentityScope(type);
+
         finalizarActaDao = new FinalizarActaDao(finalizarActaDaoConfig, this);
         actaDao = new ActaDao(actaDaoConfig, this);
         vehiculoDataDao = new VehiculoDataDao(vehiculoDataDaoConfig, this);
@@ -170,6 +175,7 @@ public class DaoSession extends AbstractDaoSession {
         motivoDao = new MotivoDao(motivoDaoConfig, this);
         motivoFiscaliaDao = new MotivoFiscaliaDao(motivoFiscaliaDaoConfig, this);
         tipoVehiculoDao = new TipoVehiculoDao(tipoVehiculoDaoConfig, this);
+        firmaDao = new FirmaDao(firmaDaoConfig, this);
 
         registerDao(FinalizarActa.class, finalizarActaDao);
         registerDao(Acta.class, actaDao);
@@ -195,6 +201,7 @@ public class DaoSession extends AbstractDaoSession {
         registerDao(Motivo.class, motivoDao);
         registerDao(MotivoFiscalia.class, motivoFiscaliaDao);
         registerDao(TipoVehiculo.class, tipoVehiculoDao);
+        registerDao(Firma.class, firmaDao);
     }
     
     public void clear() {
@@ -222,6 +229,7 @@ public class DaoSession extends AbstractDaoSession {
         motivoDaoConfig.getIdentityScope().clear();
         motivoFiscaliaDaoConfig.getIdentityScope().clear();
         tipoVehiculoDaoConfig.getIdentityScope().clear();
+        firmaDaoConfig.getIdentityScope().clear();
     }
 
     public FinalizarActaDao getFinalizarActaDao() {
@@ -306,5 +314,9 @@ public class DaoSession extends AbstractDaoSession {
 
     public AccionDao getAccionDao() {
         return accionDao;
+    }
+
+    public FirmaDao getFirmaDao() {
+        return firmaDao;
     }
 }

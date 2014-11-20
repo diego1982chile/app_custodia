@@ -1,5 +1,6 @@
 package test3.ncxchile.cl.acta;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,7 +67,12 @@ public class FragmentX3 extends android.app.Fragment {
         customScrollView.setScrollArrows(arrow_bottom,arrow_top);
         //errores = (RequiredEditText) rootView.findViewById(R.id.errores3);
 
-        /*
+        Context context= getActivity();
+
+        MyActivity myActivity=(MyActivity)context;
+
+        //view3_01.setText(new SimpleDateFormat("dd-MM-yyyy").format(myActivity.acta.getFechaParte()));
+
         view3_02.setText("1234");
         view3_03.setText("16");
         view3_04.setText("A-05");
@@ -74,7 +80,7 @@ public class FragmentX3 extends android.app.Fragment {
         view3_06.setText("1578");
         view3_07.setText("Fiscal");
         view3_08.setText("Tribunal oral");
-        */
+
         return rootView;
     }
 

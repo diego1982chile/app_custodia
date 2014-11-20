@@ -43,11 +43,16 @@ import com.lowagie.text.Phrase;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
+import org.apache.commons.io.Charsets;
 import org.xmlpull.v1.XmlSerializer;
 
 import test3.ncxchile.cl.POJO.ImageItem;
 import test3.ncxchile.cl.POJO.VideoItem;
+import test3.ncxchile.cl.greenDAO.Accion;
+import test3.ncxchile.cl.greenDAO.Acta;
+import test3.ncxchile.cl.home.AccionController;
 import test3.ncxchile.cl.home.HomeActivity;
+import test3.ncxchile.cl.home.TareaController;
 import test3.ncxchile.cl.models.DatosPDF;
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.session.SessionManager;
@@ -66,12 +71,19 @@ public class Firma extends Activity {
     public DatosPDF datospdf2;
     public LinearLayout mDrawingPad2;
     public String especies_pdf;
+    ActaController actaController;
+    TareaController tareaController;
+    AccionController accionController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         session = new SessionManager(this);
+        actaController = new ActaController(this);
+        tareaController = new TareaController(this);
+        accionController = new AccionController(this);
+
         storageDir= Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
         int os= session.getServicio();
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -197,11 +209,11 @@ public class Firma extends Activity {
                     tabla4.setWidthPercentage(100f);
                     tabla4.addCell("Autoridad que solicita");
                     PdfPTable tabla5 = new PdfPTable(2);
-                    tabla5.addCell("Nombre: " + datospdf2.getView1_02().toString());
+                    tabla5.addCell("Nombre: " + datospdf2.getView1_02().toString()+" "+datospdf2.getView1_02_apellidopaterno().toString());
                     tabla5.addCell("Rut: " + datospdf2.getView1_01().toString());
                     PdfPTable tabla6 = new PdfPTable(2);
-                    tabla6.addCell("Teléfono(s): ");
-                    tabla6.addCell("Correo(s): ");
+                    tabla6.addCell("Teléfono: " + datospdf2.getView1_02_telefono().toString());
+                    tabla6.addCell("Correo: " + datospdf2.getView1_02_correo().toString());
                     PdfPTable tabla7 = new PdfPTable(2);
                     tabla7.addCell("Institución: " + datospdf2.getView1_03().toString());
                     tabla7.addCell("Cargo: " + datospdf2.getView1_04().toString());
@@ -302,31 +314,31 @@ public class Firma extends Activity {
                     }
                     */
                     PdfPTable tabla31 = new PdfPTable(1);
-                    if (!datospdf2.getView5_16()) {
+                    if (!datospdf2.getView5_15()) {
                         tabla31.addCell("Kit seguridad: NO");
                     } else {
                         tabla31.addCell("Kit seguridad: SI");
                     }
                     PdfPTable tabla32 = new PdfPTable(1);
-                    if (!datospdf2.getView5_15()) {
+                    if (!datospdf2.getView5_14()) {
                         tabla32.addCell("Antena: NO");
                     } else {
                         tabla32.addCell("Antena: SI");
                     }
                     PdfPTable tabla33 = new PdfPTable(1);
-                    if (!datospdf2.getView5_14()) {
+                    if (!datospdf2.getView5_13()) {
                         tabla33.addCell("Rueda de repuesto: NO");
                     } else {
                         tabla33.addCell("Rueda de repuesto: SI");
                     }
                     PdfPTable tabla34 = new PdfPTable(1);
-                    if (!datospdf2.getView5_13()) {
+                    if (!datospdf2.getView5_12()) {
                         tabla34.addCell("Radio: NO");
                     } else {
                         tabla34.addCell("Radio: SI");
                     }
                     PdfPTable tabla35 = new PdfPTable(1);
-                    if (!datospdf2.getView5_12()) {
+                    if (!datospdf2.getView5_11()) {
                         tabla35.addCell("Llaves del vehículos: NO");
                     } else {
                         tabla35.addCell("Llaves del vehículos: SI");
@@ -432,7 +444,6 @@ public class Firma extends Activity {
                     }
                     tabla51.addCell(tabla52);
 
-
                     Bitmap bm = mDrawingView.getDrawingCache();
                     ByteArrayOutputStream stream2 = new ByteArrayOutputStream();
                     bm.compress(Bitmap.CompressFormat.PNG, 100, stream2);
@@ -450,6 +461,10 @@ public class Firma extends Activity {
                     bm2.compress(Bitmap.CompressFormat.PNG, 100, stream3);
                     Image imagen3 = Image.getInstance(stream3.toByteArray());
                     imagen3.setWidthPercentage(10f);
+
+                    Image testImage = actaController.firmarActa(stream2.toByteArray(),stream3.toByteArray());
+
+                    testImage.setWidthPercentage(10f);
 
                     PdfPTable tabla54 = new PdfPTable(1);
                     tabla54.setWidthPercentage(100f);
@@ -479,6 +494,8 @@ public class Firma extends Activity {
                     documento.add(tabla51);
                     documento.add(tabla53);
                     documento.add(tabla54);
+
+                    // Habilitar siguiente accion
 
                 } catch (DocumentException e) {
 
@@ -526,11 +543,9 @@ public class Firma extends Activity {
         // El fichero será almacenado en un directorio dentro del directorio
         // Descargas
         File ruta = null;
-        if (Environment.MEDIA_MOUNTED.equals(Environment
-                .getExternalStorageState())) {
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
             ruta = new File(
-                    Environment
-                            .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
                     NOMBRE_DIRECTORIO
             );
 
@@ -579,15 +594,30 @@ public class Firma extends Activity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != Activity.RESULT_CANCELED) {
-            //System.out.println("Impresion exitosa");
-            Intent myIntent = new Intent(Firma.this, HomeActivity.class);
-            Firma.this.startActivity(myIntent);
+            System.out.println("Impresion exitosa");
+            //Intent myIntent = new Intent(Firma.this, HomeActivity.class);
+            //Firma.this.startActivity(myIntent);
         }
         else{
-            //System.out.println("Impresion fallida");
-            Intent myIntent = new Intent(Firma.this, HomeActivity.class);
-            Firma.this.startActivity(myIntent);
+            System.out.println("Impresion fallida");
+            //Intent myIntent = new Intent(Firma.this, HomeActivity.class);
+            //Firma.this.startActivity(myIntent);
         }
+
+        // Habilitar siguiente accion
+        HomeActivity.setEnabled(HomeActivity.tomarTarea, false);
+        HomeActivity.setEnabled(HomeActivity.confirmarArribo, false);
+        HomeActivity.setEnabled(HomeActivity.completarActa, false);
+        HomeActivity.setEnabled(HomeActivity.retiroRealizado, true);
+
+        // Almacenar vector asociado a esta acción
+        Acta acta= actaController.getActa(session.getTareaActiva());
+        Accion accion= new Accion(null,"Acta Completada",new Date(),session.getLatitud(),session.getLongitud(),false,session.getTareaActiva(),acta.getId());
+        accionController.encolarAccion(accion);
+        // Actualizar estado interno de la tarea
+        tareaController.setStatusTarea(session.getTareaActiva(),3);
+        // Setear tarea activa en la sesión
+        finish();
     }
 
     private void escribirXML() throws IOException {

@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +25,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 import test3.ncxchile.cl.acta.MyActivity;
+import test3.ncxchile.cl.db.AndroidDatabaseManager;
 import test3.ncxchile.cl.fotosvid.activity.SeleccionServicioActivity;
 import test3.ncxchile.cl.greenDAO.Accion;
 import test3.ncxchile.cl.greenDAO.Tarea;
@@ -32,7 +34,7 @@ import test3.ncxchile.cl.session.SessionManager;
 
 
 public class HomeActivity extends Activity {
-    public TableRow tablerow;
+    public static TableRow tablerow;
     public int color;
     public Drawable marca;
     public int marcada;
@@ -41,7 +43,7 @@ public class HomeActivity extends Activity {
     public TextView statusGps,statusHora;
     public FrameLayout statusMensajes,historialAcciones;
 
-    Button tomarTarea, confirmarArribo, completarActa, retiroRealizado;
+    public static Button tomarTarea, confirmarArribo, completarActa, retiroRealizado;
 
     TareaController tareaController;
     AccionController accionController;
@@ -132,14 +134,22 @@ public class HomeActivity extends Activity {
         threadLocalizacion.start();
 
     }
-
+    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
         return true;
     }
-
+    */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_activity_actions, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    /*
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -151,7 +161,21 @@ public class HomeActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
-
+    */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                return true;
+            case R.id.action_dba:
+                Intent dbmanager = new Intent(this, AndroidDatabaseManager.class);
+                startActivity(dbmanager);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     public void rowClick(View view) {
         ColorDrawable colorView = (ColorDrawable) view.getBackground();
@@ -244,7 +268,7 @@ public class HomeActivity extends Activity {
                 setEnabled(retiroRealizado, false);
                 // Almacenar vector asociado a esta acción
                 tareaActiva=tareaController.getTareaById(tablerow.getId());
-                Accion accion= new Accion(null,"Tarea Tomada",new Date(),session.getLatitud(),session.getLongitud(),false,tareaActiva.getId(),new Long(0));
+                Accion accion= new Accion(null,"Tarea Tomada",new Date(),session.getLatitud(),session.getLongitud(),false,tareaActiva.getId(),null);
                 accionController.encolarAccion(accion);
                 // Actualizar estado interno de la tarea
                 tareaController.setStatusTarea(tablerow.getId(),1);
@@ -282,7 +306,7 @@ public class HomeActivity extends Activity {
                     setEnabled(retiroRealizado, false);
                     // Almacenar vector asociado a esta acción
                     tareaActiva=tareaController.getTareaById(tablerow.getId());
-                    Accion accion= new Accion(null,"Arribo Confirmado",new Date(),session.getLatitud(),session.getLongitud(),false,tareaActiva.getId(),new Long(0));
+                    Accion accion= new Accion(null,"Arribo Confirmado",new Date(),session.getLatitud(),session.getLongitud(),false,tareaActiva.getId(),null);
                     accionController.encolarAccion(accion);
                     // Actualizar estado interno de la tarea
                     tareaController.setStatusTarea(tablerow.getId(),2);
@@ -367,7 +391,7 @@ public class HomeActivity extends Activity {
         HomeActivity.this.startActivity(myIntent3);
     }
 
-    public void setEnabled(Button b, boolean enable){
+    public static void setEnabled(Button b, boolean enable){
         //b.setFocusable(enable);
         //b.setFocusableInTouchMode(enable); // user touches widget on phone with touch screen
         b.setClickable(enable);
@@ -376,6 +400,7 @@ public class HomeActivity extends Activity {
         else
             b.setBackgroundResource(R.drawable.blue_button_inactive);
     }
+
 
 
 }

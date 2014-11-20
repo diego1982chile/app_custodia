@@ -20,7 +20,7 @@
         android:layout_height="30dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:src="@drawable/wifi_ok"
+        android:src="@drawable/wifi_ok_small"
         android:gravity="center_horizontal"
         android:layout_gravity="center_horizontal"
         />

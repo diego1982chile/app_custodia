@@ -185,24 +185,21 @@ public class TareaDao extends AbstractDao<Tarea, Long> {
                 .unique();
     }
 
-    public Integer getStatusTarea(Integer idTarea){
+    public Integer getStatusTarea(long idTarea){
         Tarea tarea= queryBuilder()
                 .where(Properties.Id.eq(idTarea))
                 .unique();
         return tarea.getStatus();
     }
 
-    public void setStatusTarea(DaoSession daoSession,Integer idTarea, Integer status){
+    public void setStatusTarea(long idTarea, Integer status){
         Tarea tarea= queryBuilder()
                 .where(Properties.Id.eq(idTarea))
                 .unique();
         if(tarea!=null) {
-            //System.out.println(tarea.getFecha()+" "+tarea.getTamano()+" "+tarea.getComuna()+" "+tarea.getDireccion()+" "+tarea.getEstado()+" "+tarea.getStatus());
             tarea.setStatus(status);
-            //System.out.println(tarea.getFecha()+" "+tarea.getTamano()+" "+tarea.getComuna()+" "+tarea.getDireccion()+" "+tarea.getEstado()+" "+tarea.getStatus());
             update(tarea);
             refresh(tarea);
-            //System.out.println(tarea.getFecha()+" "+tarea.getTamano()+" "+tarea.getComuna()+" "+tarea.getDireccion()+" "+tarea.getEstado()+" "+tarea.getStatus());
         }
         return;
     }

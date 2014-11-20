@@ -174,7 +174,7 @@ public class VehiculoDataDao extends AbstractDao<VehiculoData, Long> {
 
         Cliente clienteConductor = loadCurrentOther(daoSession.getClienteDao(), cursor, offset);
          if(clienteConductor != null) {
-            entity.setClienteConductor(clienteConductor);
+            entity.getClientePropietario().add(clienteConductor);
         }
         offset += daoSession.getClienteDao().getAllColumns().length;
 

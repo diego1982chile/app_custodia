@@ -56,6 +56,7 @@ public class ActaDao extends AbstractDao<Acta, Long> {
         public final static Property GrueroID = new Property(29, long.class, "grueroID", false, "GRUERO_ID");
         public final static Property TribunalID = new Property(30, long.class, "tribunalID", false, "TRIBUNAL_ID");
         public final static Property TareaId = new Property(31, long.class, "tareaId", false, "TAREA_ID");
+        public final static Property FirmaID = new Property(32, long.class, "FirmaID", false, "FIRMA_ID");
     };
 
     private DaoSession daoSession;
@@ -105,7 +106,8 @@ public class ActaDao extends AbstractDao<Acta, Long> {
                 "'AUTORIDAD_ID' INTEGER NOT NULL ," + // 28: autoridadID
                 "'GRUERO_ID' INTEGER NOT NULL ," + // 29: grueroID
                 "'TRIBUNAL_ID' INTEGER NOT NULL ," + // 30: grueroID
-                "'TAREA_ID' INTEGER NOT NULL );"); // 31: tribunalID
+                "'TAREA_ID' INTEGER NOT NULL ," +  // 31: tribunalID
+                "'FIRMA_ID' INTEGER );"); // 31: tribunalID
     }
 
     /** Drops the underlying database table. */
@@ -254,6 +256,7 @@ public class ActaDao extends AbstractDao<Acta, Long> {
         stmt.bindLong(30, entity.getGrueroID());
         stmt.bindLong(31, entity.getTribunalID());
         stmt.bindLong(32, entity.getTareaId());
+        stmt.bindLong(33, entity.getFirmaID());
     }
 
     @Override
@@ -305,7 +308,8 @@ public class ActaDao extends AbstractDao<Acta, Long> {
             cursor.getLong(offset + 27), // direccionID
             cursor.getLong(offset + 28), // autoridadID
             cursor.getLong(offset + 29), // grueroID
-            cursor.getLong(offset + 30) // tribunalID
+            cursor.getLong(offset + 30), // tribunalID
+            cursor.getLong(offset + 32) // tribunalID
         );
         return entity;
     }
@@ -346,6 +350,7 @@ public class ActaDao extends AbstractDao<Acta, Long> {
         entity.setAutoridadID(cursor.getLong(offset + 28));
         entity.setGrueroID(cursor.getLong(offset + 29));
         entity.setTribunalID(cursor.getLong(offset + 30));
+        entity.setFirmaID(cursor.getLong(offset + 32));
      }
     
     /** @inheritdoc */
@@ -511,7 +516,7 @@ public class ActaDao extends AbstractDao<Acta, Long> {
         Acta acta= queryBuilder()
                 .where(Properties.TareaId.eq(idTarea))
                 .unique();
-        System.out.println("ActaDao: idActa="+acta.getId()+" Telefonos="+acta.getAutoridad().getPersona().getTelefonos().isEmpty());
+        //System.out.println("ActaDao: idActa="+acta.getId()+" Telefonos="+acta.getAutoridad().getPersona().getTelefonos().isEmpty());
         return acta;
     }
  

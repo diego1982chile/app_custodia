@@ -28,7 +28,7 @@ public class TareaController {
     private Context localContext;
     private List<Tarea> tareas;
 
-    TareaController(Context context) {
+    public TareaController(Context context) {
 
         localContext=context;
 
@@ -54,7 +54,7 @@ public class TareaController {
         return daoSession.getTareaDao().getById(idTarea);
     }
 
-    Integer getStatusTarea(int idTarea) { return daoSession.getTareaDao().getStatusTarea(idTarea); }
+    Integer getStatusTarea(long idTarea) { return daoSession.getTareaDao().getStatusTarea(idTarea); }
 
-    void setStatusTarea(int idTarea, int status) { daoSession.getTareaDao().setStatusTarea(daoSession,idTarea,status); }
+    public void setStatusTarea(long idTarea, int status) { daoSession.getTareaDao().setStatusTarea(idTarea,status); }
 }

@@ -26,8 +26,13 @@ public class VehiculoData {
     private Vehiculo vehiculo;
     private Long vehiculo__resolvedKey;
 
+    /*
     private Cliente clienteConductor;
     private Long clienteConductor__resolvedKey;
+
+    private Cliente clientePropietario;
+    private Long clientePropietario__resolvedKey;
+    */
 
     private Parqueadero parqueadero;
     private Long parqueadero__resolvedKey;
@@ -134,6 +139,7 @@ public class VehiculoData {
     }
 
     /** To-one relationship, resolved on first access. */
+    /*
     public Cliente getClienteConductor() {
         long __key = this.clienteConductorID;
         if (clienteConductor__resolvedKey == null || !clienteConductor__resolvedKey.equals(__key)) {
@@ -150,6 +156,27 @@ public class VehiculoData {
         return clienteConductor;
     }
 
+
+    // To-one relationship, resolved on first access.
+
+    public Cliente getClientePropietario() {
+        long __key = this.clientePropietarioID;
+        if (clientePropietario__resolvedKey == null || !clientePropietario__resolvedKey.equals(__key)) {
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            ClienteDao targetDao = daoSession.getClienteDao();
+            Cliente clientePropietarioNew = targetDao.load(__key);
+            synchronized (this) {
+                clientePropietario = clientePropietarioNew;
+                clientePropietario__resolvedKey = __key;
+            }
+        }
+        return clientePropietario;
+    }
+    */
+
+    /*
     public void setClienteConductor(Cliente clienteConductor) {
         if (clienteConductor == null) {
             throw new DaoException("To-one property 'clienteConductorID' has not-null constraint; cannot set to-one to null");
@@ -160,6 +187,21 @@ public class VehiculoData {
             clienteConductor__resolvedKey = clienteConductorID;
         }
     }
+
+
+    public void setClientePropietario(Cliente clientePropietario) {
+        if (clientePropietario == null) {
+            throw new DaoException("To-one property 'clienteConductorID' has not-null constraint; cannot set to-one to null");
+        }
+        synchronized (this) {
+            this.clientePropietario = clientePropietario;
+            System.out.println("clientePropietario.getId(): "+clientePropietario.getId());
+            clientePropietarioID = clientePropietario.getId();
+            System.out.println("clientePropietarioID: "+clientePropietarioID);
+            clientePropietario__resolvedKey = clientePropietarioID;
+        }
+    }
+    */
 
     /** To-one relationship, resolved on first access. */
     public Parqueadero getParqueadero() {
@@ -212,6 +254,7 @@ public class VehiculoData {
     }
 
     /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */
+
     public List<Cliente> getClientePropietario() {
         if (clientePropietario == null) {
             if (daoSession == null) {
@@ -227,6 +270,7 @@ public class VehiculoData {
         }
         return clientePropietario;
     }
+
 
     /** Resets a to-many relationship, making the next get call to query for a fresh result. */
     public synchronized void resetClientePropietario() {

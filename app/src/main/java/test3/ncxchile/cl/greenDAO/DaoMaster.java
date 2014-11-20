@@ -1,6 +1,9 @@
 package test3.ncxchile.cl.greenDAO;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.MatrixCursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -17,6 +20,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import de.greenrobot.dao.AbstractDaoMaster;
 import de.greenrobot.dao.identityscope.IdentityScopeType;
@@ -45,7 +49,7 @@ import test3.ncxchile.cl.security.PasswordHelper;
  * Master of DAO (schema version 1000): knows all DAOs.
 */
 public class DaoMaster extends AbstractDaoMaster {
-    public static final int SCHEMA_VERSION = 1035;
+    public static final int SCHEMA_VERSION = 1065;
 
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(SQLiteDatabase db, boolean ifNotExists) {
@@ -73,6 +77,7 @@ public class DaoMaster extends AbstractDaoMaster {
         MotivoDao.createTable(db, ifNotExists);
         MotivoFiscaliaDao.createTable(db, ifNotExists);
         TipoVehiculoDao.createTable(db, ifNotExists);
+        FirmaDao.createTable(db, ifNotExists);
     }
     
     /** Drops underlying database table using DAOs. */
@@ -101,6 +106,7 @@ public class DaoMaster extends AbstractDaoMaster {
         MotivoDao.dropTable(db, ifExists);
         MotivoFiscaliaDao.dropTable(db, ifExists);
         TipoVehiculoDao.dropTable(db, ifExists);
+        FirmaDao.dropTable(db, ifExists);
     }
     
     public static abstract class OpenHelper extends SQLiteOpenHelper {
@@ -462,6 +468,7 @@ public class DaoMaster extends AbstractDaoMaster {
                         mInsertAttributeStatement.bindLong(30, 0);
                         mInsertAttributeStatement.bindLong(31, 0);
                         mInsertAttributeStatement.bindLong(32, tareaId);
+                        //mInsertAttributeStatement.bindLong(33, null);
                         //mInsertAttributeStatement.execute();
                         Long actaId= mInsertAttributeStatement.executeInsert();
 
@@ -633,6 +640,7 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(MotivoDao.class);
         registerDaoClass(MotivoFiscaliaDao.class);
         registerDaoClass(TipoVehiculoDao.class);
+        registerDaoClass(FirmaDao.class);
     }
     
     public DaoSession newSession() {

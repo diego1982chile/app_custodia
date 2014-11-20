@@ -267,5 +267,12 @@ public class PersonaDao extends AbstractDao<Persona, Long> {
         Cursor cursor = db.rawQuery(getSelectDeep() + where, selectionArg);
         return loadDeepAllAndCloseCursor(cursor);
     }
+
+    public Persona getByRut(String rut){
+        Persona persona= queryBuilder()
+                .where(Properties.Rut.eq(rut))
+                .unique();
+        return persona;
+    }
  
 }

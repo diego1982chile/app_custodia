@@ -1,5 +1,6 @@
 package test3.ncxchile.cl.acta;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -27,11 +28,7 @@ public class FragmentX7 extends android.app.Fragment {
     public EditText view6_02, view6_02_paterno, view6_02_materno, view6_02_paterno2, view6_02_materno2, view6_03, view6_05, view6_07, view6_08, view6_10;
     CorreoEditText view6_04, view6_09;
     private static final String ARG_SECTION_NUMBER = "section_number";
-    public String errorv06_01, errorv06_02, texto_error, rut1, rut2, name1, name2, licencia1, licencia2, correo1, correo2, telefono1, telefono2;
-    public TextView errores;
     public String[] a;
-    public String[] errores_name;
-    public Button validador_06;
 
     public FragmentX7 newInstance(int sectionNumber) {
         FragmentX7 fragment = new FragmentX7();
@@ -49,18 +46,50 @@ public class FragmentX7 extends android.app.Fragment {
         view6_02 = (EditText) rootView.findViewById(R.id.view6_02_nombre);
         view6_02_paterno = (EditText) rootView.findViewById(R.id.view6_02_apellidopaterno);
         view6_02_materno = (EditText) rootView.findViewById(R.id.view6_02_apellidomaterno);
-        view6_02_paterno2 = (EditText) rootView.findViewById(R.id.view6_02_apellidopaterno2);
-        view6_02_materno2 = (EditText) rootView.findViewById(R.id.view6_02_apellidomaterno2);
         view6_03 = (EditText) rootView.findViewById(R.id.view6_03_licencia);
         view6_04 = (CorreoEditText) rootView.findViewById(R.id.view6_04_correo);
         view6_05 = (EditText) rootView.findViewById(R.id.view6_05_telefono);
+
         view6_06 = (RutEditText) rootView.findViewById(R.id.view6_06_rut);
         view6_07 = (EditText) rootView.findViewById(R.id.view6_07_nombre);
+        view6_02_paterno2 = (EditText) rootView.findViewById(R.id.view6_02_apellidopaterno2);
+        view6_02_materno2 = (EditText) rootView.findViewById(R.id.view6_02_apellidomaterno2);
         view6_08 = (EditText) rootView.findViewById(R.id.view6_08_licencia);
         view6_09 = (CorreoEditText) rootView.findViewById(R.id.view6_09_correo);
         view6_10 = (EditText) rootView.findViewById(R.id.view6_10_telefono);
         //errores = (TextView) rootView.findViewById(R.id.errores6);
         view6_06.addTextChangedListener(replicadorCampos);
+
+        Context context= getActivity();
+
+        MyActivity myActivity=(MyActivity)context;
+
+        //System.out.println("acta.getVehiculoData().getClientePropietario().getId(): "+myActivity.acta.getVehiculoData().getClientePropietario().getId());
+
+        if(myActivity.acta.getVehiculoData().getClientePropietario().size()>0) {
+            view6_01.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(0).getPersona().getRut());
+            view6_02.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(0).getPersona().getNombre());
+            view6_02_paterno.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(0).getPersona().getApellidoPaterno());
+            view6_02_materno.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(0).getPersona().getApellidoMaterno());
+            view6_03.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(0).getLicencia());
+            if(myActivity.acta.getVehiculoData().getClientePropietario().get(0).getPersona().getCorreos().size()>0)
+                view6_04.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(0).getPersona().getCorreos().get(0).getEmail());
+            if(myActivity.acta.getVehiculoData().getClientePropietario().get(0).getPersona().getTelefonos().size()>0)
+                view6_05.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(0).getPersona().getTelefonos().get(0).getEmail());
+        }
+
+        if(myActivity.acta.getVehiculoData().getClientePropietario().size()>1) {
+            view6_06.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(1).getPersona().getRut());
+            view6_07.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(1).getPersona().getNombre());
+            view6_02_paterno2.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(1).getPersona().getApellidoPaterno());
+            view6_02_materno2.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(1).getPersona().getApellidoMaterno());
+            view6_08.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(1).getLicencia());
+            if(myActivity.acta.getVehiculoData().getClientePropietario().get(1).getPersona().getCorreos().size()>0)
+                view6_09.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(1).getPersona().getCorreos().get(0).getEmail());
+            if(myActivity.acta.getVehiculoData().getClientePropietario().get(1).getPersona().getTelefonos().size()>0)
+                view6_10.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(1).getPersona().getTelefonos().get(0).getEmail());
+        }
+
         return rootView;
     }
 
@@ -132,17 +161,21 @@ public class FragmentX7 extends android.app.Fragment {
                     view6_09.setText(view6_04.getText().toString());
                     view6_10.setText(view6_05.getText().toString());
 
+                    /*
                     setDisable(view6_07,false);
                     setDisable(view6_08,false);
                     setDisable(view6_09,false);
                     setDisable(view6_10,false);
+                    */
                 }
                 else
                 {
+                    /*
                     setDisable(view6_07,true);
                     setDisable(view6_08,true);
                     setDisable(view6_09,true);
                     setDisable(view6_10,true);
+                    */
                 }
 
             }

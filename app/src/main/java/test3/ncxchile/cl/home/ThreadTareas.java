@@ -1,8 +1,11 @@
 package test3.ncxchile.cl.home;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.CountDownTimer;
 import android.view.Gravity;
@@ -12,11 +15,16 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.ksoap2.serialization.PropertyInfo;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import test3.ncxchile.cl.greenDAO.Tarea;
+import test3.ncxchile.cl.helpers.ConnectionTask;
 import test3.ncxchile.cl.helpers.InternetDetector;
 import test3.ncxchile.cl.login.R;
+import test3.ncxchile.cl.soap.ClienteSoap;
 
 /**
  * Created by android-developer on 07-10-2014.
@@ -35,8 +43,6 @@ public class ThreadTareas extends CountDownTimer
 
     private Context _context;
     protected HomeActivity context;
-    final Drawable successIcon;
-    final Drawable failIcon;
     private TareaController tareaController;
 
     public ThreadTareas(long startTime, long interval, Context activityContext, Context appContext)
@@ -48,11 +54,6 @@ public class ThreadTareas extends CountDownTimer
         this._context = appContext;
         this.context = (HomeActivity) activityContext;
         tareaController= new TareaController(_context);
-
-        successIcon = activityContext.getResources().getDrawable(R.drawable.green_circle_check);
-        successIcon.setBounds(new Rect(0, 0, 20, 20));
-        failIcon = activityContext.getResources().getDrawable(R.drawable.red_circle_exclamation);
-        failIcon.setBounds(new Rect(0, 0, 20, 20));
 
         actualizarTareas();
     }
@@ -73,6 +74,10 @@ public class ThreadTareas extends CountDownTimer
 
             if(!conexionPrevia) {
                 // Si no hay conexion previa se consumen los webservices para obtener las tareas asignadas
+                ConnectionTask connectionTask= new ConnectionTask(context);
+
+                connectionTask.execute();
+
                 // Guardar las tareas asignadas en la BD local
                 //tareaController.updateTareasAsignadas();
                 conexionPrevia=true;
@@ -107,11 +112,11 @@ public class ThreadTareas extends CountDownTimer
             public void run() {
 
                 if(!conectado) {
-                    context.erroress.setImageResource(R.drawable.wifi_no_ok);
+                    context.erroress.setImageResource(R.drawable.wifi_no_ok_small);
                     Toast.makeText(context, "No hay conexión a internet", Toast.LENGTH_LONG).show();
                 }
                 else {
-                    context.erroress.setImageResource(R.drawable.wifi_ok);
+                    context.erroress.setImageResource(R.drawable.wifi_ok_small);
                     Toast.makeText(context, "Dispositivo conectado", Toast.LENGTH_LONG).show();
                 }
             }
@@ -129,6 +134,7 @@ public class ThreadTareas extends CountDownTimer
                     // create a new TableRow
                     // set the text to "text xx"
                     Tarea tarea = (Tarea) tareas.get(i);
+                    // Si la tarea actual no está cargada en la vista, se agrega
                     if(!context.tareasAsignadas.contains(tarea)) {
 
                         final TableRow row = new TableRow(context);

@@ -114,7 +114,7 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         // Session class instance
         session = new SessionManager(getApplicationContext());
         acta= actaController.getActa(session.getTareaActiva());
-        System.out.println("Myctivity: idActa="+acta.getId()+" Nombre="+acta.getPersona().getNombre());
+        //System.out.println("Myctivity: idActa="+acta.getId()+" Nombre="+acta.getPersona().getNombre());
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -410,8 +410,7 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_my, container, false);
             return rootView;
         }
@@ -451,7 +450,6 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         datospdf.setView1_02_materno(view1_02_materno);
         datospdf.setView1_02_telefono(view1_02_telefono);
         datospdf.setView1_02_correo(view1_02_correo);
-        datospdf.setView1_02(view1_02);
         datospdf.setView1_03(view1_03);
         datospdf.setView1_04(view1_04);
         datospdf.setView1_05(view1_05);
@@ -524,64 +522,19 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
 
         datospdf.setView8_01(view8_01);
 
+        actaController.completarActa(datospdf);
+
         return datospdf;
-
-        // Guardar la base de datos
-        /*
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "finalizaracta-db", null);
-        db = helper.getWritableDatabase();
-        daoMaster = new DaoMaster(db);
-        daoSession = daoMaster.newSession();
-        finalizarActaDao = daoSession.getFinalizarActaDao();
-
-        FinalizarActa finalizarActaPrueba = new FinalizarActa();
-        Acta acta = new Acta();
-        VehiculoData vehiculoData = new VehiculoData();
-        Vehiculo vehiculo = new Vehiculo();
-            vehiculo.setMarca(view4_02);
-            vehiculo.setModelo(view4_03);
-            vehiculo.setAnio(view4_04);
-            vehiculo.setColor(view4_05);
-            vehiculo.setMatricula(view4_01);
-            vehiculo.setModificado(true);
-            vehiculo.setCaracteristicas("Null");
-            vehiculo.setNumeroChasis(view4_08);
-            vehiculo.setNumeroMotor(view4_07);
-            vehiculo.setTamano("Null");
-            vehiculo.setKilometraje(view4_06);
-            vehiculo.setCarpetaVehiculo("Null");
-            vehiculo.setServicio(1);
-            vehiculo.setVin("Null");
-            vehiculo.resetFichaEstadoVisualList();
-            vehiculo.setOrigenVehiculo(true);      // asdasdasd
-            vehiculo.setPuedeRodar(true);          //asdasdasd
-            vehiculo.setParqueaderoSummary(null);  //asdasdasd
-            vehiculo.setClonado(false);
-        vehiculoData.setVehiculo(vehiculo);
-        vehiculoData.resetEspeciasList();
-        Cliente conductor = new Cliente();
-            conductor.setLicencia(view6_08);
-        Cliente propietario = new Cliente();
-            propietario.setLicencia(view6_03);
-        vehiculoData.setParqueadero(null);
-        acta.setIdSolicitud(view1_00);
-
-        finalizarActaPrueba.setActa(acta);
-        finalizarActaPrueba.setGeoref("123123");
-        finalizarActaPrueba.setFirmaGruero("asdasdasd");
-        finalizarActaPrueba.setFirmaAutoridad("asdasdasdasd");
-        finalizarActaDao.insert(finalizarActaPrueba);*/
-
     }
 
-    public void recibeDatosFragmentX(EditText a, EditText b, RequiredEditText b1, EditText b2, EditText b3, EditText b4, EditText c, EditText d, EditText e, EditText f, EditText g ){
+    public void recibeDatosFragmentX(EditText a, EditText b, EditText c, RequiredEditText c1, EditText c2, EditText c3, EditText c4, EditText d, EditText e, EditText f, EditText g ){
         view1_00 = a.getText().toString();
         view1_01 = b.getText().toString();
         view1_02 = c.getText().toString();
-        view1_02_paterno = b1.getText().toString();
-        view1_02_materno = b2.getText().toString();
-        view1_02_telefono = b3.getText().toString();
-        view1_02_correo = b4.getText().toString();
+        view1_02_paterno = c1.getText().toString();
+        view1_02_materno = c2.getText().toString();
+        view1_02_telefono = c3.getText().toString();
+        view1_02_correo = c4.getText().toString();
         view1_03 = d.getText().toString();
         view1_04 = e.getText().toString();
         view1_05 = f.getText().toString();

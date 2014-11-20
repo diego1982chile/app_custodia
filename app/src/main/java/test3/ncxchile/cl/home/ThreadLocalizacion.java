@@ -227,7 +227,7 @@ public class ThreadLocalizacion extends CountDownTimer implements
                 @Override
                 public void run() {
                     // Decirle al usuario que active Fecha y hora automática
-                    context.iconoHora.setImageResource(R.drawable.hora_no_ok);
+                    context.iconoHora.setImageResource(R.drawable.hora_no_ok_small);
 
                     context.historialAcciones.setVisibility(View.GONE);
                     context.statusMensajes.setVisibility(View.VISIBLE);
@@ -249,7 +249,7 @@ public class ThreadLocalizacion extends CountDownTimer implements
         }
         else
         {
-            context.iconoHora.setImageResource(R.drawable.hora_ok);
+            context.iconoHora.setImageResource(R.drawable.hora_ok_small);
             context.statusHora.setText("Fecha y hora automática activada");
             context.iconoStatusHora.setImageResource(R.drawable.green_circle_tick_2);
             componentesHabilitados++;
@@ -261,7 +261,7 @@ public class ThreadLocalizacion extends CountDownTimer implements
                 @Override
                 public void run() {
                     // Decirle al usuario que active GPS
-                    context.iconoGps.setImageResource(R.drawable.gps_no_ok);
+                    context.iconoGps.setImageResource(R.drawable.gps_no_ok_small);
 
                     context.historialAcciones.setVisibility(View.GONE);
                     context.statusMensajes.setVisibility(View.VISIBLE);
@@ -282,7 +282,7 @@ public class ThreadLocalizacion extends CountDownTimer implements
             });
         }
         else{
-            context.iconoGps.setImageResource(R.drawable.gps_ok);
+            context.iconoGps.setImageResource(R.drawable.gps_ok_small);
             context.statusGps.setText("GPS activado");
             context.iconoStatusGps.setImageResource(R.drawable.green_circle_tick_2);
 

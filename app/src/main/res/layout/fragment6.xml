@@ -234,7 +234,7 @@
             </RadioGroup>
 
 
-        </TableRow-->
+        </TableRow>
 
         <LinearLayout
             android:orientation="vertical"
@@ -251,7 +251,7 @@
                 android:paddingLeft="50dp"
                 android:paddingRight="100dp"/>
 
-        </LinearLayout>
+        </LinearLayout-->
 
         <TableRow
             android:layout_width="fill_parent"

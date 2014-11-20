@@ -26,7 +26,7 @@ public class FragmentX6 extends android.app.Fragment {
     public RadioGroup view5_01_radiogroup1;
     public RadioGroup view5_03_radiogroup2;
     public RadioGroup view5_04_radiogroup3;
-    //public RadioGroup view5_05_radiogroup4;
+    public RadioGroup view5_05_radiogroup4;
     public RadioGroup view5_06_radiogroup5;
     public RadioGroup view5_07_radiogroup6;
     //public RadioGroup view5_08_radiogroup7;
@@ -65,7 +65,7 @@ public class FragmentX6 extends android.app.Fragment {
 
         observacion_01 = (EditText) rootView.findViewById(R.id.observacion_01);
         observacion_02 = (EditText) rootView.findViewById(R.id.observacion_02);
-        observacion_03 = (EditText) rootView.findViewById(R.id.observacion_03);
+        //observacion_03 = (EditText) rootView.findViewById(R.id.observacion_03);
         observacion_04 = (EditText) rootView.findViewById(R.id.observacion_04);
         observacion_05 = (EditText) rootView.findViewById(R.id.observacion_05);
         observacion_06 = (EditText) rootView.findViewById(R.id.observacion_06);
@@ -83,8 +83,8 @@ public class FragmentX6 extends android.app.Fragment {
         input1.setVisibility(View.GONE);
         input2 = (LinearLayout) rootView.findViewById(R.id.input2);
         input2.setVisibility(View.GONE);
-        input3 = (LinearLayout) rootView.findViewById(R.id.input3);
-        input3.setVisibility(View.GONE);
+        //input3 = (LinearLayout) rootView.findViewById(R.id.input3);
+        //input3.setVisibility(View.GONE);
         input4 = (LinearLayout) rootView.findViewById(R.id.input4);
         input4.setVisibility(View.GONE);
         input5 = (LinearLayout) rootView.findViewById(R.id.input5);
@@ -233,7 +233,7 @@ public class FragmentX6 extends android.app.Fragment {
         }
 
         /*
-        if (id4 == R.id.radioButton7){
+        if (id4 == R.id.radioBu){
             q3_response = observacion_03.getText().toString();
         }
         else{

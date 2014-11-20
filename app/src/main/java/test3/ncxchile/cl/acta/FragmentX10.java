@@ -64,11 +64,13 @@ public class FragmentX10 extends android.app.Fragment {
                 Button boton = (Button)arg0;
                 boton.setText("Has pulsado el botón");
                 datospdf = ((MyActivity)getActivity()).callBackButton();
+
                 //((Firma)getActivity()).recibeDatos(datospdf);
                // startActivity( new Intent(getActivity(),Firma.class));
                 Intent i = new Intent(getActivity(), Firma.class);
                 i.putExtra("datosPDF", datospdf);
                 startActivity(i);
+                getActivity().finish();
             }
         });
     }
