@@ -94,7 +94,7 @@ public class TomarVideo extends Activity implements View.OnClickListener {
             }
 
             f = new File(f, "Video-" + Contador.getInstance(servicioId).getNextVale(ImagenesCMVRCConstants.ETIQUETA_VIDEO) + ".mp4");
-            System.out.println(f.getAbsolutePath());
+            //System.out.println(f.getAbsolutePath());
             i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
             i.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, VIDEO_QUALITY);
         }

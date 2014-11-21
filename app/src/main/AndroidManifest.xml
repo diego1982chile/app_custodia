@@ -82,6 +82,8 @@
             android:screenOrientation="portrait">
         </activity>
 
+        <activity android:name="test3.ncxchile.cl.db.AndroidDatabaseManager"  />
+
     </application>
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->

@@ -43,7 +43,7 @@ public class HomeActivity extends Activity {
     public TextView statusGps,statusHora;
     public FrameLayout statusMensajes,historialAcciones;
 
-    public static Button tomarTarea, confirmarArribo, completarActa, retiroRealizado;
+    public static Button tomarTarea, confirmarArribo, completarActa, retiroRealizado, pdf;
 
     TareaController tareaController;
     AccionController accionController;
@@ -101,11 +101,13 @@ public class HomeActivity extends Activity {
         confirmarArribo= (Button) findViewById(R.id.confirmarArribo);
         completarActa= (Button) findViewById(R.id.completarActa);
         retiroRealizado= (Button) findViewById(R.id.retiroRealizado);
+        pdf= (Button) findViewById(R.id.button8);
 
         setEnabled(tomarTarea, false);
         setEnabled(confirmarArribo, false);
         setEnabled(completarActa, false);
         setEnabled(retiroRealizado, false);
+        setEnabled(pdf, false);
 
         erroress = (ImageView) findViewById(R.id.activity_main_redtv);
         iconoGps = (ImageView) findViewById(R.id.icono_gps);
@@ -185,6 +187,7 @@ public class HomeActivity extends Activity {
         setEnabled(confirmarArribo, false);
         setEnabled(completarActa, false);
         setEnabled(retiroRealizado, false);
+        setEnabled(pdf, false);
 
         // Actualizar estado botones segun estado de la tarea seleccionada
         switch (tareaController.getStatusTarea(view.getId()))
@@ -198,8 +201,9 @@ public class HomeActivity extends Activity {
             case 2: // Arribo confirmado, habilitar accion "completar acta"
                 setEnabled(completarActa, true);
                 break;
-            case 3: // Arribo confirmado, habilitar accion "completar acta"
+            case 3: // Acta completada, habilitar accion "retiro realizado" y "pdf"
                 setEnabled(retiroRealizado, true);
+                setEnabled(pdf, true);
                 break;
         }
 

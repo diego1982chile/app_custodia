@@ -22,7 +22,7 @@ public class DbHelper extends Application{
 
     @Override
     public void onCreate() {
-        System.out.println("SOY DB_HELPER Y ME CREARON");
+        //System.out.println("SOY DB_HELPER Y ME CREARON");
         super.onCreate();
         setupDatabase();
         daoSession = daoMaster.newSession();
@@ -65,7 +65,7 @@ public class DbHelper extends Application{
 
 
     private void setupDatabase() {
-        System.out.println("SOY DB_HELPER Y ME HICIERON SETUPDATABASE");
+        //System.out.println("SOY DB_HELPER Y ME HICIERON SETUPDATABASE");
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "cmvrc_android", null);
         SQLiteDatabase db = helper.getWritableDatabase();
         //DaoMaster.createAllTables(db,true);

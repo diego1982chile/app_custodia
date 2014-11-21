@@ -20,7 +20,7 @@ public class DrawingView extends View {
     Bitmap mBitmap;
     Canvas mCanvas;
     Path mPath;
-    Paint   mBitmapPaint;
+    Paint mBitmapPaint;
 
     public DrawingView(Context context) {
         super(context);
