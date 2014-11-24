@@ -325,7 +325,11 @@ public class ThreadLocalizacion extends CountDownTimer implements
         if(componentesHabilitados==2)
         {
             context.statusMensajes.setVisibility(View.INVISIBLE);
+            context.habilitada= true;
             //context.historialAcciones.setVisibility(View.VISIBLE);
+        }
+        else{
+            context.habilitada= false;
         }
     }
 

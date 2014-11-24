@@ -136,6 +136,12 @@ public class HomeActivity extends Activity {
         color = 0;
         marcada = 0;
 
+        Intent intent = getIntent();
+        String rutActual = intent.getStringExtra("RUT_ACTUAL");
+
+        System.out.print("RUT DE INTENT=" + rutActual);
+
+
         threadTareas = new ThreadTareas(10000, 10000, HomeActivity.this, getApplicationContext());
         threadTareas.start();
 
@@ -171,6 +177,7 @@ public class HomeActivity extends Activity {
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_activity_actions, menu);
+
         return super.onCreateOptionsMenu(menu);
     }
     /*

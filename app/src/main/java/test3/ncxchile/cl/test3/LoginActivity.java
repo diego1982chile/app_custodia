@@ -38,7 +38,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import test3.ncxchile.cl.home.HomeActivity;
-import test3.ncxchile.cl.test3.R;
+import test3.ncxchile.cl.login.R;
+
 
 /**
  * A login screen that offers login via email/password.

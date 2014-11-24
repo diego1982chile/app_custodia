@@ -16,25 +16,35 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.ksoap2.serialization.PropertyInfo;
+import org.ksoap2.serialization.SoapObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
 import java.util.Calendar;
 import java.util.Date;
+
+import java.util.HashMap;
+
 import java.util.List;
+import java.util.Vector;
 
 import test3.ncxchile.cl.greenDAO.Accion;
 import test3.ncxchile.cl.greenDAO.Tarea;
 import test3.ncxchile.cl.helpers.ConnectionTask;
 import test3.ncxchile.cl.helpers.InternetDetector;
+import test3.ncxchile.cl.login.LoginActivity;
 import test3.ncxchile.cl.login.R;
+import test3.ncxchile.cl.session.SessionManager;
 import test3.ncxchile.cl.soap.ClienteSoap;
+import test3.ncxchile.cl.soap.SoapHandler;
+import test3.ncxchile.cl.soap.SoapProxy;
 
 /**
  * Created by android-developer on 07-10-2014.
  */
 // CountDownTimer class
-public class ThreadTareas extends CountDownTimer
+public class ThreadTareas extends CountDownTimer implements SoapHandler
 {
     private long timeElapsed;
     private boolean timerHasStarted = false;
@@ -50,6 +60,10 @@ public class ThreadTareas extends CountDownTimer
     private TareaController tareaController;
     private AccionController accionController;
 
+    // Session Manager Class
+    private SessionManager session;
+    private String rutActual = null;
+
     public ThreadTareas(long startTime, long interval, Context activityContext, Context appContext)
     {
         super(startTime, interval);
@@ -61,6 +75,7 @@ public class ThreadTareas extends CountDownTimer
         tareaController= new TareaController(_context);
         accionController= new AccionController(_context);
 
+        this.rutActual = rutActual;
         actualizarTareas();
     }
 
@@ -75,6 +90,8 @@ public class ThreadTareas extends CountDownTimer
     public void actualizarTareas(){
         InternetDetector cd = new InternetDetector(_context); //instancie el objeto
         Boolean isInternetPresent = cd.hayConexion(); // true o false dependiendo de si hay conexion
+        System.out.println("ACTUALIZAR TAREAS = " + rutActual);
+
         if(isInternetPresent){
             desconexionPrevia=false;
 
@@ -89,6 +106,10 @@ public class ThreadTareas extends CountDownTimer
                 conexionPrevia=true;
                 notificarConexion(true);
                 //System.out.println("Voy a consumir un WebService para sincronizar la app con el sistema RTEWEB");
+
+                System.out.println("LLAMANDO WEB SERVICE: " + rutActual);
+                SoapProxy.buscarOTS(this.rutActual, this);
+
             }
         }else{
             // Se pierde la conexion, luego si se vuelve a detectar conexion, es necesario volver a consumir el webservice
@@ -100,12 +121,28 @@ public class ThreadTareas extends CountDownTimer
             }
             //System.out.println("Se perdio la conexion. Se deberá utilizar los repositorios locales para operar");
         }
+
         actualizarTablaTareas(tareaController.getTareasAsignadas());
 
         Calendar c = Calendar.getInstance();
         c.setTime(new Date());
         c.add(Calendar.DATE, -2);  // number of days to add
         actualizarTablaAcciones(accionController.getUltimasAcciones(c.getTime()));
+    }
+
+    @Override
+    public void resultValue(String methodName, Vector value) {
+        System.out.println("Resultado WS=" + methodName + "=" + value);
+        List<Tarea> tareas = new ArrayList<Tarea>();
+        if (value != null) {
+            for (int i = 0; i < value.size(); i++) {
+                SoapObject item = (SoapObject) value.get(i);
+                Long tareaId = (Long)item.getProperty("id");
+
+                Tarea tarea = new Tarea(tareaId);
+            }
+            actualizarTablaTareas(tareas);
+        }
     }
 
     @Override
@@ -306,5 +343,4 @@ public class ThreadTareas extends CountDownTimer
             }
         });
     }
-
 }
