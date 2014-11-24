@@ -23,9 +23,11 @@ import android.widget.EditText;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import test3.ncxchile.cl.helpers.InternetDetector;
 import test3.ncxchile.cl.home.HomeActivity;
+import test3.ncxchile.cl.soap.SoapHandler;
 import test3.ncxchile.cl.validators.RutValidator;
 import test3.ncxchile.cl.widgets.ErrorDialog;
 import test3.ncxchile.cl.widgets.RutEditText;
@@ -34,7 +36,7 @@ import test3.ncxchile.cl.widgets.RutEditText;
  * A login screen that offers login via email/password.
 
  */
-public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
+public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, SoapHandler {
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -50,6 +52,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
     // Variables consulta conexión
     public Boolean isInternetPresent = false;
 
+    private String rutActual = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -74,8 +77,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
-        //mEmailView.setText("111111111");
-        //mPasswordView.setText("12345");
+        mEmailView.setText("118522451");
+        mPasswordView.setText("Murillo1");
     }
 
     /**
@@ -132,42 +135,77 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             Boolean isInternetPresent = cd.hayConexion(); // true o false dependiendo de si hay conexion
             // Si hay conexion autenticar online. Si no hay conexion autenticar offline
             int loginResponse;
-            if(isInternetPresent)
-                loginResponse= mAuthTask.loginOnLine();
-            else
+
+
+
+            System.out.println("Internet=?" + isInternetPresent);
+            if(isInternetPresent) {
+                loginResponse= mAuthTask.loginOnLine(this);
+            }
+            else {
                 loginResponse= mAuthTask.loginOffLine();
+                rutActual = rut;
+                postLogin(loginResponse);
+            }
 
-            showProgress(false);
-            mEmailView.setError(null);
-            ErrorDialog ed= new ErrorDialog(LoginActivity.this);
 
-            switch (loginResponse)
-            {
-                case -1:
-                    //System.out.println("No existe el usuario");
-                    ed.show();
-                    break;
-                case -2:
-                    //System.out.println("el rut es ambiguo: mas de un usuario con el mismo rut");
-                    ed.show();
-                    break;
-                case -3:
-                    //System.out.println("password incorrecta");
-                    ed.show();
-                    break;
-                case 1:
-                    try {// Si el login fue exitoso
-                        // Simulate network access.
-                        //System.out.println("EL LOGIN FUE EXITOSO!!");
-                        Thread.sleep(0);
-                        Intent myIntent = new Intent(LoginActivity.this, HomeActivity.class);
-                        LoginActivity.this.startActivity(myIntent);
-                    } catch (InterruptedException e) {
-                        //System.out.println("Error al cargar Home: "+ e);
-                    }
-                    break;
+
+
+
+
+        }
+    }
+
+
+    private void postLogin(int loginResponse) {
+        System.out.println("postLogin=" + loginResponse);
+        showProgress(false);
+        mEmailView.setError(null);
+        ErrorDialog ed= new ErrorDialog(LoginActivity.this);
+
+        switch (loginResponse)
+        {
+            case -1:
+                //System.out.println("No existe el usuario");
+                ed.show();
+                break;
+            case -2:
+                //System.out.println("el rut es ambiguo: mas de un usuario con el mismo rut");
+                ed.show();
+                break;
+            case -3:
+                //System.out.println("password incorrecta");
+                ed.show();
+                break;
+            case 1:
+                try {// Si el login fue exitoso
+                    // Simulate network access.
+                    //System.out.println("EL LOGIN FUE EXITOSO!!");
+                   Thread.sleep(0);
+                Intent myIntent = new Intent(LoginActivity.this, HomeActivity.class);
+                myIntent.putExtra("RUT_ACTUAL", rutActual);
+                LoginActivity.this.startActivity(myIntent);
+                } catch (InterruptedException e) {
+                    //System.out.println("Error al cargar Home: "+ e);
+                    e.printStackTrace();
+                }
+                break;
+        }
+    }
+    @Override
+    public void resultValue(String methodName, Vector value) {
+        if (value != null) {
+            String cod = value.get(0).toString();
+            String msg = value.get(1).toString();
+            int codigo = Integer.parseInt(cod);
+            if (codigo == 00) {
+                postLogin(1);
+            }
+            else {
+                postLogin(-3); //TODO: revisar otros casos
             }
         }
+
     }
 
     private boolean isPasswordValid(String password) {
@@ -245,6 +283,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
 
     }
+
+
 
     private interface ProfileQuery {
         String[] PROJECTION = {

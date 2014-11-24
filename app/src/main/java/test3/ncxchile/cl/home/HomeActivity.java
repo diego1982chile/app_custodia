@@ -124,7 +124,15 @@ public class HomeActivity extends Activity {
         color = 0;
         marcada = 0;
 
-        threadTareas = new ThreadTareas(10000, 10000, HomeActivity.this, getApplicationContext());
+
+
+        Intent intent = getIntent();
+        String rutActual = intent.getStringExtra("RUT_ACTUAL");
+
+        System.out.print("RUT DE INTENT=" + rutActual);
+
+
+        threadTareas = new ThreadTareas(10000, 10000, HomeActivity.this, getApplicationContext(), rutActual);
         threadTareas.start();
 
         //threadAcciones = new ThreadAcciones(10000, 10000, HomeActivity.this, getApplicationContext());
@@ -133,7 +141,7 @@ public class HomeActivity extends Activity {
         //threadActa = new ThreadActa(10000, 10000, HomeActivity.this, getApplicationContext());
 
         threadLocalizacion = new ThreadLocalizacion(30000, 30000, HomeActivity.this, getApplicationContext());
-        threadLocalizacion.start();
+        //threadLocalizacion.start();
 
     }
     /*
@@ -149,6 +157,7 @@ public class HomeActivity extends Activity {
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_activity_actions, menu);
+
         return super.onCreateOptionsMenu(menu);
     }
     /*

@@ -19,6 +19,8 @@ import test3.ncxchile.cl.greenDAO.UserDao;
 import test3.ncxchile.cl.security.PasswordHelper;
 import test3.ncxchile.cl.security.SHA256;
 import test3.ncxchile.cl.session.SessionManager;
+import test3.ncxchile.cl.soap.SoapHandler;
+import test3.ncxchile.cl.soap.SoapProxy;
 
 /**
  * Created by android-developer on 07-10-2014.
@@ -38,6 +40,8 @@ public class LoginController implements Serializable {
     private Context localContext;
     private List<User> usuarios;
 
+    private String rutCompleto = null;
+
     LoginController(String rut, String password, Context context) {
 
         localContext=context;
@@ -46,6 +50,8 @@ public class LoginController implements Serializable {
         mRut = parseRut(rut);
         mPassword = password;
         status=0;
+
+        this.rutCompleto = rut;
 
         // Inicializar UserDao
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(localContext,"cmvrc_android", null);
@@ -103,12 +109,22 @@ public class LoginController implements Serializable {
         return 1;
     }
 
-    protected int loginOnLine() {
+
+    public String getRut() {
+        return String.valueOf(mRut);
+    }
+
+    protected int loginOnLine(SoapHandler handler) {
         // TODO: attempt authentication against a network service.
         // AQUI SE DEBE CONSUMIR EL WEBSERVICE MEDIANTE LA INSTANCIACIÓN DE UN CLIENTE SOAP
         //System.out.println("Voy a consumir un WebService para autenticar al usuario en el sistema");
         ///////////////////////////////////////////////////////////////////////////////////
         // TODO: register the new account here.
-        return 1;
+
+        //SoapProxy.loginGruero("11852245", "Murillo1", handler);
+        System.out.println("LLAMANDO WEB SERVICE: " + rutCompleto + "," + mPassword);
+        SoapProxy.loginGruero(String.valueOf(mRut) , mPassword, handler);
+
+        return 0;
     }
 }
