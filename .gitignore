@@ -1,2 +1,3 @@
 #archivos .bin
 *.bin
+.gradle/1.12/taskArtifacts/*
