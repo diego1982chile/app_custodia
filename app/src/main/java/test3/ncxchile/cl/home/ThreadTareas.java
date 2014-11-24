@@ -97,9 +97,8 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
 
             if(!conexionPrevia) {
                 // Si no hay conexion previa se consumen los webservices para obtener las tareas asignadas
-                ConnectionTask connectionTask= new ConnectionTask(context);
-
-                connectionTask.execute();
+                //ConnectionTask connectionTask= new ConnectionTask(context);
+                //connectionTask.execute();
 
                 // Guardar las tareas asignadas en la BD local
                 //tareaController.updateTareasAsignadas();

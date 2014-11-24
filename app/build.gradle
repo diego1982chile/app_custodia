@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'ncxchile'
             keyPassword 'ncxchile'
-            storeFile file('C:/Users/android-developer/AndroidStudioProjects/llave2.jks')
+            storeFile file('/home/alfuente/Desarrollo/Android/llave2.jks')
             storePassword 'ncxchile'
         }
     }
