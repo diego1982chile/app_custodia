@@ -112,7 +112,7 @@ public class ThreadLocalizacion extends CountDownTimer implements
         context.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-            Toast.makeText(context, "Connected", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Servicios de localización conectado", Toast.LENGTH_SHORT).show();
             }
         });
         // If already requested, start periodic updates
