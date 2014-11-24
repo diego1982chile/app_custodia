@@ -516,6 +516,7 @@ public class ActaDao extends AbstractDao<Acta, Long> {
         Acta acta= queryBuilder()
                 .where(Properties.TareaId.eq(idTarea))
                 .unique();
+        refresh(acta);
         //System.out.println("ActaDao: idActa="+acta.getId()+" Telefonos="+acta.getAutoridad().getPersona().getTelefonos().isEmpty());
         return acta;
     }

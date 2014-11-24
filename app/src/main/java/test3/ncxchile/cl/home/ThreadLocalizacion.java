@@ -1,8 +1,10 @@
 package test3.ncxchile.cl.home;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.location.Location;
@@ -212,13 +214,13 @@ public class ThreadLocalizacion extends CountDownTimer implements
 
     public void actualizarLocalizacion(){
         GpsDetector gd = new GpsDetector(_context); //instancie el objeto
-        Boolean isGpsPresent = gd.hayGps(); // true o false dependiendo de si hay gps
+        final Boolean isGpsPresent = gd.hayGps(); // true o false dependiendo de si hay gps
 
         InternetDetector cd = new InternetDetector(_context); //instancie el objeto
-        Boolean isInternetPresent = cd.hayConexion(); // true o false dependiendo de si hay conexion
+        final Boolean isInternetPresent = cd.hayConexion(); // true o false dependiendo de si hay conexion
 
         NtpDetector nd= new NtpDetector(_context);
-        Boolean isNtpPresent = nd.hayNtp();
+        final Boolean isNtpPresent = nd.hayNtp();
 
         int componentesHabilitados=0;
 
@@ -229,21 +231,24 @@ public class ThreadLocalizacion extends CountDownTimer implements
                     // Decirle al usuario que active Fecha y hora automática
                     context.iconoHora.setImageResource(R.drawable.hora_no_ok_small);
 
-                    context.historialAcciones.setVisibility(View.GONE);
+                    //context.historialAcciones.setVisibility(View.GONE);
+                    /*
                     context.statusMensajes.setVisibility(View.VISIBLE);
                     context.statusHora.setText("La hora del dispositivo puede no estar sincronizada. Debes activar fecha y hora automática");
                     context.iconoStatusHora.setImageResource(R.drawable.red_circle_exclamation);
-                    /*
-                    AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+                    */
+                    final AlertDialog alertDialog = new AlertDialog.Builder(context).create();
                     alertDialog.setTitle("Alerta Fecha y hora");
                     alertDialog.setMessage("La fecha y hora del dispositivo puede no estar sincronizada. Debes activar fecha y hora automática");
                     alertDialog.setIcon(R.drawable.luzverde);
                     alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Aceptar",new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
+                            if(!isNtpPresent){
+                                alertDialog.show();
+                            }
                         }
                     });
                     alertDialog.show();
-                    */
                 }
             });
         }
@@ -263,21 +268,24 @@ public class ThreadLocalizacion extends CountDownTimer implements
                     // Decirle al usuario que active GPS
                     context.iconoGps.setImageResource(R.drawable.gps_no_ok_small);
 
-                    context.historialAcciones.setVisibility(View.GONE);
+                    //context.historialAcciones.setVisibility(View.GONE);
+                    /*
                     context.statusMensajes.setVisibility(View.VISIBLE);
                     context.statusGps.setText("GPS desactivado. Debes activar el GPS del dispositivo");
                     context.iconoStatusGps.setImageResource(R.drawable.red_circle_exclamation);
-                    /*
-                    AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+                    */
+                    final AlertDialog alertDialog = new AlertDialog.Builder(context).create();
                     alertDialog.setTitle("Alerta GPS");
                     alertDialog.setMessage("Debes activar el GPS del dispositivo");
                     alertDialog.setIcon(R.drawable.luzverde);
                     alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Aceptar",new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
+                            if(!isInternetPresent && !isGpsPresent)
+                                alertDialog.show();
                         }
                     });
                     alertDialog.show();
-                    */
+
                 }
             });
         }
@@ -316,8 +324,8 @@ public class ThreadLocalizacion extends CountDownTimer implements
         }
         if(componentesHabilitados==2)
         {
-            context.statusMensajes.setVisibility(View.GONE);
-            context.historialAcciones.setVisibility(View.VISIBLE);
+            context.statusMensajes.setVisibility(View.INVISIBLE);
+            //context.historialAcciones.setVisibility(View.VISIBLE);
         }
     }
 

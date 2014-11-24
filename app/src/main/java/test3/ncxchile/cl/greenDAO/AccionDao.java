@@ -1,5 +1,6 @@
 package test3.ncxchile.cl.greenDAO;
 
+import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 import android.database.Cursor;
@@ -301,6 +302,33 @@ public class AccionDao extends AbstractDao<Accion, Long> {
     public List<Accion> queryDeep(String where, String... selectionArg) {
         Cursor cursor = db.rawQuery(getSelectDeep() + where, selectionArg);
         return loadDeepAllAndCloseCursor(cursor);
+    }
+
+    public List getLast(Date fecha){
+        List acciones= queryBuilder()
+                .where(Properties.TimeStamp.between(fecha,new Date()))
+                .list();
+        return acciones;
+    }
+
+    public boolean isNotEmpty(){
+        List acciones= queryBuilder()
+                .where(Properties.Sincronizada.eq(false))
+                .list();
+        if(acciones.size()>0)
+            return true;
+        else
+            return false;
+    }
+
+    public Accion getNext(){
+        List acciones= queryBuilder()
+                .where(Properties.Sincronizada.eq(false)).orderAsc(Properties.TimeStamp)
+                .list();
+        if(acciones.size()>0)
+            return (Accion)acciones.get(0);
+        else
+            return null;
     }
  
 }

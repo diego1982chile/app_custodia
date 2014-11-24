@@ -189,6 +189,7 @@ public class TareaDao extends AbstractDao<Tarea, Long> {
         Tarea tarea= queryBuilder()
                 .where(Properties.Id.eq(idTarea))
                 .unique();
+        refresh(tarea);
         return tarea.getStatus();
     }
 
@@ -199,7 +200,6 @@ public class TareaDao extends AbstractDao<Tarea, Long> {
         if(tarea!=null) {
             tarea.setStatus(status);
             update(tarea);
-            refresh(tarea);
         }
         return;
     }
