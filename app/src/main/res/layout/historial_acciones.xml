@@ -18,10 +18,10 @@
             android:text="Ultima Actividad"
             android:gravity="center"
             android:layout_width="0dip"
-            android:layout_weight=".3"
+            android:layout_weight=".33"
             android:textSize="12dp"
             android:layout_height="wrap_content"
-            android:background="#9999"
+            android:background="#000"
             android:textColor="#fff"
             android:id="@+id/hist_ult_actividad_text"
             >
@@ -31,11 +31,11 @@
             android:singleLine="false"
             android:gravity="center"
             android:layout_width="0dip"
-            android:layout_weight=".2"
+            android:layout_weight=".33"
             android:textSize="12dp"
             android:layout_height="wrap_content"
             android:id="@+id/hist_num_os_text"
-            android:background="#9999"
+            android:background="#000"
             android:textColor="#fff"
             android:autoText="true">
         </TextView>
@@ -44,24 +44,11 @@
             android:singleLine="false"
             android:gravity="center"
             android:layout_width="0dip"
-            android:layout_weight=".3"
+            android:layout_weight=".33"
             android:textSize="12dp"
             android:layout_height="wrap_content"
             android:id="@+id/hist_hora_text"
-            android:background="#9999"
-            android:textColor="#fff"
-            android:autoText="true">
-        </TextView>
-        <TextView
-            android:text="Hora"
-            android:singleLine="false"
-            android:gravity="center"
-            android:layout_width="0dip"
-            android:layout_weight=".2"
-            android:textSize="12dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/hist_status_text"
-            android:background="#9999"
+            android:background="#000"
             android:textColor="#fff"
             android:autoText="true">
         </TextView>

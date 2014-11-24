@@ -427,7 +427,6 @@
                 android:layout_gravity="bottom"
                 android:textColor="#fff"
                 android:text="PDF"
-                android:onClick="imprimirPDF"
                 android:id="@+id/button8"
                 android:layout_marginRight="20dp" />
 

@@ -3,9 +3,6 @@ package test3.ncxchile.cl.home;
 import android.content.Context;
 import android.os.CountDownTimer;
 
-import test3.ncxchile.cl.greenDAO.Accion;
-import test3.ncxchile.cl.helpers.ConnectionDetector;
-
 /**
  * Created by android-developer on 04-11-2014.
  */
@@ -46,7 +43,7 @@ public class ThreadAcciones extends CountDownTimer {
     }
 
     public void sincronizarAcciones(){
-
+        /*
         while(accionController.accionEnCola()){
             sincronizando=true;
             ConnectionDetector cd = new ConnectionDetector(_context); //instancie el objeto
@@ -54,12 +51,11 @@ public class ThreadAcciones extends CountDownTimer {
             if(isInternetPresent){
                 Accion siguienteAccion=accionController.dequeue();
 
-                /*
                 if(webService)
                     accionController.quitar();
-                */
             }
         }
         sincronizando=false;
+        */
     }
 }
