@@ -42,6 +42,7 @@ import test3.ncxchile.cl.session.SessionManager;
 public class HomeActivity extends Activity {
     public static TableRow tablerow;
     public int color;
+
     public Drawable marca;
     public int marcada;
     public ImageView erroress,iconoGps,iconoHora,iconoStatusGps,iconoStatusHora;
