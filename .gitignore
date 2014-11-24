@@ -1,3 +1,12 @@
 #archivos .bin
 *.bin
 .gradle/1.12/taskArtifacts/*
+.idea/workspace.xml
+build/intermediates/dex-cache/cache.xml
+app/src/main/java/test3/ncxchile/cl/acta/FragmentFotoVideo.java
+app/src/main/java/test3/ncxchile/cl/acta/SimpleCameraIntentFragment.java
+app/src/main/java/test3/ncxchile/cl/greenDAO/AccionDao.java
+app/src/main/java/test3/ncxchile/cl/home/AccionController.java
+app/src/main/java/test3/ncxchile/cl/home/Sincronizar.java
+app/src/main/java/test3/ncxchile/cl/widgets/GridViewAdapter.java
+app/src/main/java/test3/ncxchile/cl/widgets/GridViewVideoAdapter.java
