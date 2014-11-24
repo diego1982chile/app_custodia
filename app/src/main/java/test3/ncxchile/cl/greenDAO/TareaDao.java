@@ -174,7 +174,7 @@ public class TareaDao extends AbstractDao<Tarea, Long> {
 
     public List getAsignadas(){
         List tareas= queryBuilder()
-                .where(Properties.Estado.eq("\"Asignada\""))
+                .where(Properties.Estado.eq("Asignada"))
                 .list();
         return tareas;
     }
@@ -182,6 +182,12 @@ public class TareaDao extends AbstractDao<Tarea, Long> {
     public Tarea getById(Integer idTarea){
         return queryBuilder()
                 .where(Properties.Id.eq(idTarea))
+                .unique();
+    }
+
+    public Tarea getByServicio(Integer servicio){
+        return queryBuilder()
+                .where(Properties.Servicio.eq(servicio))
                 .unique();
     }
 

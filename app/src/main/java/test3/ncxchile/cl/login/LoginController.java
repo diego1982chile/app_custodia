@@ -4,11 +4,14 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 
+import org.ksoap2.serialization.SoapObject;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Vector;
 
 import test3.ncxchile.cl.db.DbHelper;
 import test3.ncxchile.cl.fotosvid.util.ApplicationContext;
@@ -25,7 +28,7 @@ import test3.ncxchile.cl.soap.SoapProxy;
 /**
  * Created by android-developer on 07-10-2014.
  */
-public class LoginController implements Serializable {
+public class LoginController implements Serializable, SoapHandler {
 
     private final int mRut;
     private final String mPassword;
@@ -65,7 +68,7 @@ public class LoginController implements Serializable {
         //db.close();
     }
 
-    int parseRut(String str){
+    public static int parseRut(String str){
 
         int rut=0;
         str=str.replace(".","");
@@ -109,6 +112,62 @@ public class LoginController implements Serializable {
         return 1;
     }
 
+    public SessionManager getSession() {
+        SessionManager session = new SessionManager(localContext);
+        return session;
+    }
+
+    private void backupGruero() {
+        System.out.println("BackupGruero");
+        SoapProxy.backupGruero(this);
+
+    }
+
+
+
+    @Override
+    public void resultValue(String methodName, Vector value) {
+        System.out.println("ResultValue=" + methodName);
+        if (methodName.equals("backupGruero") && value != null) {
+            for (int i = 0; i < value.size(); i++) {
+                SoapObject item = (SoapObject) value.get(i);
+                String rutString = item.getPropertyAsString("rut");
+                int rut = Integer.parseInt(rutString);
+                String dv = item.getPropertyAsString("dv");
+                String password = item.getPropertyAsString("password");
+                String nombre = item.getPropertyAsString("nombre");
+                String apellidoPaterno = item.getPropertyAsString("apellidoPaterno");
+                String apellidoMaterno = item.getPropertyAsString("apellidoMaterno");
+                System.out.println(item);
+
+
+                User user = new User();
+                user.setId(null);
+                user.setRut(rut);
+                user.setDv(dv);
+                user.setPassword(password);
+                user.setNombre(nombre);
+                user.setApellidoPaterno(apellidoPaterno);
+                user.setApellidoMaterno(apellidoMaterno);
+                daoSession.getUserDao().insertOrReplace(user); // TODO pasar a tx
+
+            }
+        }
+        System.out.println(methodName + "=" + value);
+
+    }
+
+    public User getUsuario() {
+        System.out.println(mRut);
+        usuarios = daoSession.getUserDao().getByRut(mRut);
+        if (usuarios.size() == 0) {
+            backupGruero();
+            return null;
+        }
+        System.out.println(usuarios);
+        User usuario=(User)usuarios.get(0);
+        return usuario;
+    }
 
     public String getRut() {
         return String.valueOf(mRut);
@@ -118,13 +177,20 @@ public class LoginController implements Serializable {
         // TODO: attempt authentication against a network service.
         // AQUI SE DEBE CONSUMIR EL WEBSERVICE MEDIANTE LA INSTANCIACIÓN DE UN CLIENTE SOAP
         //System.out.println("Voy a consumir un WebService para autenticar al usuario en el sistema");
-        ///////////////////////////////////////////////////////////////////////////////////
-        // TODO: register the new account here.
 
-        //SoapProxy.loginGruero("11852245", "Murillo1", handler);
-        System.out.println("LLAMANDO WEB SERVICE: " + rutCompleto + "," + mPassword);
-        SoapProxy.loginGruero(String.valueOf(mRut) , mPassword, handler);
+        usuarios = daoSession.getUserDao().getByRut(mRut);
+        if (usuarios.size() == 0) {
+            backupGruero();
+        }
+        else {
+            //SoapProxy.loginGruero("11852245", "Murillo1", handler);
+            System.out.println("LLAMANDO WEB SERVICE: " + rutCompleto + "," + mPassword);
+            SoapProxy.loginGruero(String.valueOf(mRut) , mPassword, handler);
+        }
+
+
 
         return 0;
     }
+
 }

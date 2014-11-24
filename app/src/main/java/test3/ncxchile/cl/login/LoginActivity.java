@@ -25,8 +25,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import test3.ncxchile.cl.greenDAO.User;
 import test3.ncxchile.cl.helpers.InternetDetector;
 import test3.ncxchile.cl.home.HomeActivity;
+import test3.ncxchile.cl.session.SessionManager;
 import test3.ncxchile.cl.soap.SoapHandler;
 import test3.ncxchile.cl.validators.RutValidator;
 import test3.ncxchile.cl.widgets.ErrorDialog;
@@ -181,10 +183,20 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
                 try {// Si el login fue exitoso
                     // Simulate network access.
                     //System.out.println("EL LOGIN FUE EXITOSO!!");
-                   Thread.sleep(0);
-                Intent myIntent = new Intent(LoginActivity.this, HomeActivity.class);
-                myIntent.putExtra("RUT_ACTUAL", rutActual);
-                LoginActivity.this.startActivity(myIntent);
+
+                    // Session Manager
+                    SessionManager session = mAuthTask.getSession();
+                    User usuario = mAuthTask.getUsuario();
+                    while(usuario == null) {
+                        Thread.sleep(5000);
+                        usuario = mAuthTask.getUsuario();
+                    }
+                    // Creating user login session
+                    session.createLoginSession(usuario.getRut()+usuario.getDv().toString(), usuario.getNombre(), usuario.getApellidoPaterno(), usuario.getApellidoMaterno());
+
+                    Thread.sleep(0);
+                    Intent myIntent = new Intent(LoginActivity.this, HomeActivity.class);
+                    LoginActivity.this.startActivity(myIntent);
                 } catch (InterruptedException e) {
                     //System.out.println("Error al cargar Home: "+ e);
                     e.printStackTrace();

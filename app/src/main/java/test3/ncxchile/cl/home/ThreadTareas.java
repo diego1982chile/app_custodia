@@ -1,6 +1,7 @@
 package test3.ncxchile.cl.home;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -23,10 +24,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
+import test3.ncxchile.cl.greenDAO.DaoMaster;
+import test3.ncxchile.cl.greenDAO.DaoSession;
 import test3.ncxchile.cl.greenDAO.Tarea;
+import test3.ncxchile.cl.greenDAO.User;
 import test3.ncxchile.cl.helpers.ConnectionTask;
 import test3.ncxchile.cl.helpers.InternetDetector;
 import test3.ncxchile.cl.login.LoginActivity;
+import test3.ncxchile.cl.login.LoginController;
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.session.SessionManager;
 import test3.ncxchile.cl.soap.ClienteSoap;
@@ -52,11 +57,15 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
     protected HomeActivity context;
     private TareaController tareaController;
 
+    private SQLiteDatabase db;
+
+    private DaoMaster daoMaster;
+    private DaoSession daoSession;
+
     // Session Manager Class
     private SessionManager session;
-    private String rutActual = null;
 
-    public ThreadTareas(long startTime, long interval, Context activityContext, Context appContext, String rutActual)
+    public ThreadTareas(long startTime, long interval, Context activityContext, Context appContext)
     {
         super(startTime, interval);
         //System.out.println("ME LLAMARON A SINCRONIZAR");
@@ -66,7 +75,13 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
         this.context = (HomeActivity) activityContext;
         tareaController= new TareaController(_context);
 
-        this.rutActual = rutActual;
+        session = new SessionManager(appContext);
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(activityContext,"cmvrc_android", null);
+        db = helper.getWritableDatabase();
+        daoMaster = new DaoMaster(db);
+        daoSession = daoMaster.newSession();
+
+
         actualizarTareas();
     }
 
@@ -81,7 +96,13 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
     public void actualizarTareas(){
         InternetDetector cd = new InternetDetector(_context); //instancie el objeto
         Boolean isInternetPresent = cd.hayConexion(); // true o false dependiendo de si hay conexion
-        System.out.println("ACTUALIZAR TAREAS = " + rutActual);
+
+        HashMap<String, String> user = session.getUserDetails();
+        String rutGruero = user.get(SessionManager.KEY_RUT);
+
+        String rut = String.valueOf(LoginController.parseRut(rutGruero));
+
+        System.out.println("ACTUALIZAR TAREAS = " + rut);
 
         if(isInternetPresent){
             desconexionPrevia=false;
@@ -98,8 +119,8 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
                 notificarConexion(true);
                 //System.out.println("Voy a consumir un WebService para sincronizar la app con el sistema RTEWEB");
 
-                System.out.println("LLAMANDO WEB SERVICE: " + rutActual);
-                SoapProxy.buscarOTS(this.rutActual, this);
+                System.out.println("LLAMANDO WEB SERVICE: " + rut);
+                SoapProxy.buscarOTS(rut, this);
 
             }
         }else{
@@ -113,21 +134,48 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
             //System.out.println("Se perdio la conexion. Se deberá utilizar los repositorios locales para operar");
         }
 
-        actualizarTablaTareas(tareaController.getTareasAsignadas());
+        List<Tarea> tareas = tareaController.getTareasAsignadas();
+        System.out.println("Tareas Asignadas=" + tareas);
+        actualizarTablaTareas(tareas);
     }
 
     @Override
     public void resultValue(String methodName, Vector value) {
         System.out.println("Resultado WS=" + methodName + "=" + value);
-        List<Tarea> tareas = new ArrayList<Tarea>();
+
+        daoSession.getTareaDao().deleteAll(); // TODO: revisar
+
         if (value != null) {
             for (int i = 0; i < value.size(); i++) {
                 SoapObject item = (SoapObject) value.get(i);
-                Long tareaId = (Long)item.getProperty("id");
+                //Long tareaId = (Long)item.getProperty("id");
+                String servicioString = item.getPropertyAsString("servicio");
+                String fecha = item.getPropertyAsString("fecha");
+                String tamano = item.getPropertyAsString("tamano");
+                String direccion =item.getPropertyAsString("direccion");
+                String comuna = item.getPropertyAsString("comuna");
+                String estado = item.getPropertyAsString("estado");
 
-                Tarea tarea = new Tarea(tareaId);
+                int servicio = Integer.parseInt(servicioString);
+
+                Tarea tarea = new Tarea();
+                tarea.setServicio(servicio);
+                tarea.setFecha(fecha);
+                tarea.setTamano(tamano);
+                tarea.setDireccion(direccion);
+                tarea.setComuna(comuna);
+                tarea.setEstado(estado);
+                tarea.setStatus(0);
+
+                // TODO: revisar que no exista
+
+                Tarea consulta = daoSession.getTareaDao().getByServicio(servicio);
+                if (consulta == null ) {
+                    daoSession.getTareaDao().insertOrReplace(tarea); // TODO pasar a tx
+                }
+
             }
-            actualizarTablaTareas(tareas);
+
         }
     }
 
@@ -159,6 +207,9 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
 
     public void actualizarTablaTareas(final List tareas){
         //System.out.println("size="+tareas.size());
+        if (tareas == null) {
+            return;
+        }
         context.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -213,17 +264,24 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
                         // Almacenar id de la Tarea
                         row.setId(tarea.getId().intValue());
 
-                        // Colorear la tarea de acuerdo al status
-                        switch(tarea.getStatus()){
-                            case 0:
-                                row.setBackgroundColor(Color.WHITE);
-                                break;
-                            case 1:
-                                row.setBackgroundColor(Color.GRAY);
-                                break;
-                            case 2:
-                                row.setBackgroundColor(Color.GREEN);
-                                break;
+
+                        if (tarea.getStatus() == null) {
+                            row.setBackgroundColor(Color.WHITE);
+                        }
+                        else {
+                            // Colorear la tarea de acuerdo al status
+                            switch(tarea.getStatus()){
+                                case 0:
+                                    row.setBackgroundColor(Color.WHITE);
+                                    break;
+                                case 1:
+                                    row.setBackgroundColor(Color.GRAY);
+                                    break;
+                                case 2:
+                                    row.setBackgroundColor(Color.GREEN);
+                                    break;
+                            }
+
                         }
 
                         // add the TextView to the new TableRow

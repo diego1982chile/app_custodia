@@ -125,14 +125,7 @@ public class HomeActivity extends Activity {
         marcada = 0;
 
 
-
-        Intent intent = getIntent();
-        String rutActual = intent.getStringExtra("RUT_ACTUAL");
-
-        System.out.print("RUT DE INTENT=" + rutActual);
-
-
-        threadTareas = new ThreadTareas(10000, 10000, HomeActivity.this, getApplicationContext(), rutActual);
+        threadTareas = new ThreadTareas(10000, 10000, HomeActivity.this, getApplicationContext());
         threadTareas.start();
 
         //threadAcciones = new ThreadAcciones(10000, 10000, HomeActivity.this, getApplicationContext());
