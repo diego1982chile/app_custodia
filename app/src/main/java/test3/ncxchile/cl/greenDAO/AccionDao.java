@@ -1,5 +1,6 @@
 package test3.ncxchile.cl.greenDAO;
 
+import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 import android.database.Cursor;
@@ -27,8 +28,8 @@ public class AccionDao extends AbstractDao<Accion, Long> {
     */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
-        public final static Property Nombre = new Property(1, java.util.Date.class, "nombre", false, "NOMBRE");
-        public final static Property TimeStamp = new Property(2, java.util.Date.class, "timeStamp", false, "TIME_STAMP");
+        public final static Property Nombre = new Property(1, Date.class, "nombre", false, "NOMBRE");
+        public final static Property TimeStamp = new Property(2, Date.class, "timeStamp", false, "TIME_STAMP");
         public final static Property Longitud = new Property(3, Float.class, "longitud", false, "LONGITUD");
         public final static Property Latitud = new Property(4, Float.class, "latitud", false, "LATITUD");
         public final static Property Sincronizada = new Property(5, Boolean.class, "sincronizada", false, "SINCRONIZADA");
@@ -127,7 +128,7 @@ public class AccionDao extends AbstractDao<Accion, Long> {
         Accion entity = new Accion( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // id
-            new java.util.Date(cursor.getLong(offset + 2)), // timeStamp
+            new Date(cursor.getLong(offset + 2)), // timeStamp
             cursor.isNull(offset + 2) ? null : cursor.getFloat(offset + 3), // longitud
             cursor.isNull(offset + 3) ? null : cursor.getFloat(offset + 4), // latitud
             cursor.isNull(offset + 4) ? null : cursor.getShort(offset + 5) != 0, // sincronizada
@@ -142,7 +143,7 @@ public class AccionDao extends AbstractDao<Accion, Long> {
     public void readEntity(Cursor cursor, Accion entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setNombre(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setTimeStamp(new java.util.Date(cursor.getLong(offset + 2)));
+        entity.setTimeStamp(new Date(cursor.getLong(offset + 2)));
         entity.setLongitud(cursor.isNull(offset + 3) ? null : cursor.getFloat(offset + 3));
         entity.setLatitud(cursor.isNull(offset + 4) ? null : cursor.getFloat(offset + 4));
         entity.setSincronizada(cursor.isNull(offset + 5) ? null : cursor.getShort(offset + 5) != 0);
@@ -301,6 +302,33 @@ public class AccionDao extends AbstractDao<Accion, Long> {
     public List<Accion> queryDeep(String where, String... selectionArg) {
         Cursor cursor = db.rawQuery(getSelectDeep() + where, selectionArg);
         return loadDeepAllAndCloseCursor(cursor);
+    }
+
+    public List getLast(Date fecha){
+        List acciones= queryBuilder()
+                .where(Properties.TimeStamp.between(fecha,new Date()))
+                .list();
+        return acciones;
+    }
+
+    public boolean isNotEmpty(){
+        List acciones= queryBuilder()
+                .where(Properties.Sincronizada.eq(false))
+                .list();
+        if(acciones.size()>0)
+            return true;
+        else
+            return false;
+    }
+
+    public Accion getNext(){
+        List acciones= queryBuilder()
+                .where(Properties.Sincronizada.eq(false)).orderAsc(Properties.TimeStamp)
+                .list();
+        if(acciones.size()>0)
+            return (Accion)acciones.get(0);
+        else
+            return null;
     }
  
 }
