@@ -84,9 +84,9 @@ public class Firma extends Activity {
         tareaController = new TareaController(this);
         accionController = new AccionController(this);
 
-        storageDir= Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
         int os= session.getServicio();
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        //String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String timeStamp = "Acta_OS_"+os;
 
         storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS+"/OS_"+os+"/");
         if(!storageDir.exists())
@@ -146,7 +146,7 @@ public class Firma extends Activity {
 
                     // Incluimos el píe de página y una cabecera
 
-                    HeaderFooter pie = new HeaderFooter(new Phrase("Orden de servicio Nº: " + datospdf2.getView1_00().toString()), false);
+                    HeaderFooter pie = new HeaderFooter(new Phrase("Orden de servicio Nº: " + session.getServicio()), false);
 
                     documento.setFooter(pie);
 
@@ -178,7 +178,7 @@ public class Firma extends Activity {
                     documento.add(preface);
 
                     Paragraph preface2 = new Paragraph();
-                    Chunk chunk2 = new Chunk("Orden de Servicio N° " + session.getTareaActiva());
+                    Chunk chunk2 = new Chunk("Orden de Servicio N° " + session.getServicio());
                     preface2.setAlignment(Element.ALIGN_CENTER);
                     preface2.setFont(h1);
                     preface2.setSpacingBefore(15f);
@@ -587,7 +587,7 @@ public class Firma extends Activity {
             //context.startActivity(intent);
             startActivityForResult(intent, 1);
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(context, "No hay pdf disponible.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "No hay pdf disponible.", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -609,6 +609,7 @@ public class Firma extends Activity {
         HomeActivity.setEnabled(HomeActivity.confirmarArribo, false);
         HomeActivity.setEnabled(HomeActivity.completarActa, false);
         HomeActivity.setEnabled(HomeActivity.retiroRealizado, true);
+        HomeActivity.setEnabled(HomeActivity.pdf, true);
 
         // Almacenar vector asociado a esta acción
         Acta acta= actaController.getActa(session.getTareaActiva());

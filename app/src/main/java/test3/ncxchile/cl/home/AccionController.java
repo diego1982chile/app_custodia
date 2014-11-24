@@ -3,6 +3,7 @@ package test3.ncxchile.cl.home;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.Date;
 import java.util.List;
 
 import test3.ncxchile.cl.greenDAO.Accion;
@@ -41,19 +42,15 @@ public class AccionController {
         return daoSession.getAccionDao().insert(accion);
     }
 
+    public boolean accionEnCola() { return daoSession.getAccionDao().isNotEmpty(); }
+
+    public Accion dequeue() { return  daoSession.getAccionDao().getNext(); }
+
     Accion getAccion(){
         return null;
     }
 
-    List getTareasAsignadas(){
-        return daoSession.getTareaDao().getAsignadas();
+    List getUltimasAcciones(Date fecha) {
+        return daoSession.getAccionDao().getLast(fecha);
     }
-
-    List getTareas(){
-        return daoSession.getTareaDao().getAll();
-    }
-
-    Integer getStatusTarea(int idServicio) { return daoSession.getTareaDao().getStatusTarea(idServicio); }
-
-    void setStatusTarea(int idServicio, int status) { daoSession.getTareaDao().setStatusTarea(idServicio,status); }
 }

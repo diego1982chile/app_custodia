@@ -3,12 +3,15 @@ package test3.ncxchile.cl.home;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,7 +22,10 @@ import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,6 +35,7 @@ import test3.ncxchile.cl.db.AndroidDatabaseManager;
 import test3.ncxchile.cl.fotosvid.activity.SeleccionServicioActivity;
 import test3.ncxchile.cl.greenDAO.Accion;
 import test3.ncxchile.cl.greenDAO.Tarea;
+
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.session.SessionManager;
 
@@ -51,12 +58,18 @@ public class HomeActivity extends Activity {
     private ThreadTareas threadTareas;
     private ThreadLocalizacion threadLocalizacion;
     public ArrayList<Tarea> tareasAsignadas= new ArrayList<Tarea>();
+    public ArrayList<Accion> ultimasAcciones= new ArrayList<Accion>();
     Tarea tareaActiva= new Tarea();
     //private ThreadActa threadActa;
     //private ThreadAcciones threadAcciones;
 
     // Session Manager Class
     SessionManager session;
+
+    // Variable de control que bloquea/desbloquea la aplicacion segun requerimientos: geolocalizacion/sincronizacion
+    public boolean habilitada=false;
+
+    public AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,7 +147,16 @@ public class HomeActivity extends Activity {
         //threadActa = new ThreadActa(10000, 10000, HomeActivity.this, getApplicationContext());
 
         threadLocalizacion = new ThreadLocalizacion(30000, 30000, HomeActivity.this, getApplicationContext());
-        //threadLocalizacion.start();
+        threadLocalizacion.start();
+
+        alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("GPS/Hora");
+        alertDialog.setMessage("El GPS y la Hora del sistema deben estar habilitados. Por favor chequea la configuración");
+        alertDialog.setIcon(R.drawable.luzverde);
+        alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Aceptar",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
 
     }
     /*
@@ -145,6 +167,7 @@ public class HomeActivity extends Activity {
         return true;
     }
     */
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
@@ -191,6 +214,13 @@ public class HomeActivity extends Activity {
         setEnabled(retiroRealizado, false);
         setEnabled(pdf, false);
 
+        tareaActiva=tareaController.getTareaById(view.getId());
+        // Actualizar estado interno de la tarea
+        // Setear tarea activa en la sesión
+        session.setTareaActiva(view.getId());
+        // Setear estado de la tarea activa en la sesión
+        session.setServicio(tareaActiva.getServicio());
+
         // Actualizar estado botones segun estado de la tarea seleccionada
         switch (tareaController.getStatusTarea(view.getId()))
         {
@@ -222,6 +252,9 @@ public class HomeActivity extends Activity {
                 case 2:
                     tareas.getChildAt(i).setBackgroundColor(Color.GREEN);
                     break;
+                case 3:
+                    tareas.getChildAt(i).setBackgroundColor(Color.YELLOW);
+                    break;
             }
         }
 
@@ -239,6 +272,8 @@ public class HomeActivity extends Activity {
                 setEnabled(confirmarArribo, false);
                 setEnabled(completarActa, false);
                 setEnabled(retiroRealizado, false);
+                setEnabled(pdf, false);
+
                 switch(tareaController.getStatusTarea(tablerow.getId())){
                     case 0:
                         tablerow.setBackgroundColor(Color.WHITE);
@@ -249,6 +284,9 @@ public class HomeActivity extends Activity {
                     case 2:
                         tablerow.setBackgroundColor(Color.GREEN);
                         break;
+                    case 3:
+                        tablerow.setBackgroundColor(Color.YELLOW);
+                        break;
                 }
                 //marcada = 0;
             }
@@ -256,6 +294,11 @@ public class HomeActivity extends Activity {
     }
 
     public void tomarTarea(final View view){
+
+        if(!habilitada){
+            alertDialog.show();
+            return;
+        }
 
         if (marcada == 0){
 
@@ -298,6 +341,11 @@ public class HomeActivity extends Activity {
 
     public void confirmarArribo(View view){
 
+        if(!habilitada){
+            alertDialog.show();
+            return;
+        }
+
         if (tareaController.getStatusTarea(tablerow.getId())==1){
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.setTitle("Confirmación");
@@ -339,11 +387,15 @@ public class HomeActivity extends Activity {
 
     public void completaActa(View view) {
 
+        if(!habilitada){
+            alertDialog.show();
+            return;
+        }
+
         tareaActiva=tareaController.getTareaById(tablerow.getId());
         // Setear tarea activa en la sesión
         session.setTareaActiva(tablerow.getId());
         session.setServicio(tareaActiva.getServicio());
-        System.out.println(session.getTareaActiva());
 
         if (tareaController.getStatusTarea(tablerow.getId())==2) {
             Intent myIntent = new Intent(HomeActivity.this, MyActivity.class);
@@ -385,6 +437,36 @@ public class HomeActivity extends Activity {
         }
         */
 
+    }
+
+    public void imprimirPDF(View view){
+        Toast.makeText(this, "Leyendo documento", Toast.LENGTH_LONG).show();
+        File source = null;
+
+        int os= session.getServicio();
+        String timeStamp = "Acta_OS_"+os;
+        String fileName = timeStamp + ".pdf";
+
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS+"/OS_"+os+"/");
+
+        //source = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),File.separator + fileName);
+        source = new File(storageDir,fileName);
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setPackage("com.dynamixsoftware.printershare");
+        intent.setDataAndType(Uri.fromFile(source),"text/plain");
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        if(!storageDir.exists())
+            Toast.makeText(this, "No existe el documento asociado a esta Orden de trabajo.", Toast.LENGTH_SHORT).show();
+
+        try {
+            //context.startActivity(intent);
+            startActivityForResult(intent, 1);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(this, "Debes instalar PrinterShare para imprimir el PDF.", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void fotos(View view) {

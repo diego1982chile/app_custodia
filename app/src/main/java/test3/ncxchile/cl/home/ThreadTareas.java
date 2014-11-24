@@ -19,13 +19,20 @@ import android.widget.Toast;
 import org.ksoap2.serialization.PropertyInfo;
 import org.ksoap2.serialization.SoapObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
+import java.util.Calendar;
+import java.util.Date;
+
 import java.util.HashMap;
+
 import java.util.List;
 import java.util.Vector;
 
 import test3.ncxchile.cl.greenDAO.DaoMaster;
 import test3.ncxchile.cl.greenDAO.DaoSession;
+import test3.ncxchile.cl.greenDAO.Accion;
 import test3.ncxchile.cl.greenDAO.Tarea;
 import test3.ncxchile.cl.greenDAO.User;
 import test3.ncxchile.cl.helpers.ConnectionTask;
@@ -56,6 +63,7 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
     private Context _context;
     protected HomeActivity context;
     private TareaController tareaController;
+    private AccionController accionController;
 
     private SQLiteDatabase db;
 
@@ -74,6 +82,7 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
         this._context = appContext;
         this.context = (HomeActivity) activityContext;
         tareaController= new TareaController(_context);
+        accionController= new AccionController(_context);
 
         session = new SessionManager(appContext);
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(activityContext,"cmvrc_android", null);
@@ -109,9 +118,8 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
 
             if(!conexionPrevia) {
                 // Si no hay conexion previa se consumen los webservices para obtener las tareas asignadas
-                ConnectionTask connectionTask= new ConnectionTask(context);
-
-                connectionTask.execute();
+                //ConnectionTask connectionTask= new ConnectionTask(context);
+                //connectionTask.execute();
 
                 // Guardar las tareas asignadas en la BD local
                 //tareaController.updateTareasAsignadas();
@@ -134,9 +142,15 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
             //System.out.println("Se perdio la conexion. Se deberá utilizar los repositorios locales para operar");
         }
 
+
         List<Tarea> tareas = tareaController.getTareasAsignadas();
         System.out.println("Tareas Asignadas=" + tareas);
         actualizarTablaTareas(tareas);
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.DATE, -2);  // number of days to add
+        actualizarTablaAcciones(accionController.getUltimasAcciones(c.getTime()));
     }
 
     @Override
@@ -264,12 +278,11 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
                         // Almacenar id de la Tarea
                         row.setId(tarea.getId().intValue());
 
-
                         if (tarea.getStatus() == null) {
                             row.setBackgroundColor(Color.WHITE);
                         }
                         else {
-                            // Colorear la tarea de acuerdo al status
+                        // Colorear la tarea de acuerdo al status
                             switch(tarea.getStatus()){
                                 case 0:
                                     row.setBackgroundColor(Color.WHITE);
@@ -280,9 +293,12 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
                                 case 2:
                                     row.setBackgroundColor(Color.GREEN);
                                     break;
+                                case 3:
+                                    row.setBackgroundColor(Color.YELLOW);
+                                    break;
                             }
+                       }
 
-                        }
 
                         // add the TextView to the new TableRow
                         row.addView(os);
@@ -303,7 +319,6 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
                                 context.rowClick(view);
                             }
                         });
-
                         context.tareasAsignadas.add(tarea);
                     }
                 }
@@ -311,5 +326,78 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
         });
     }
 
+    public void actualizarTablaAcciones(final List acciones){
+        //System.out.println("size="+tareas.size());
+        context.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TableLayout table = (TableLayout) context.findViewById(R.id.acciones);
+                for (int i = 0; i < acciones.size(); i++) {
 
+                    Accion accion = (Accion) acciones.get(i);
+
+                    if (!context.ultimasAcciones.contains(accion)) {
+                        final TableRow row = new TableRow(context);
+                        // create a new TextView for showing xml data
+
+                        TextView ultimaActividad = new TextView(context);
+                        TextView os = new TextView(context);
+                        TextView hora = new TextView(context);
+                        TextView status = new TextView(context);
+
+                        ultimaActividad.setText(accion.getNombre());
+                        ultimaActividad.setTextSize(12);
+                        //os.setText(accion.getTarea().getServicio());
+                        os.setText("1");
+                        os.setTextSize(12);
+                        hora.setText(new SimpleDateFormat("dd-MM/HH:mm").format(accion.getTimeStamp()));
+                        hora.setTextSize(12);
+                        status.setText(accion.getSincronizada().toString());
+                        status.setTextSize(12);
+
+                        TableRow.LayoutParams params = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 3f);
+                        params.setMargins(1, 1, 1, 1);
+
+                        ultimaActividad.setLayoutParams(params);
+                        ultimaActividad.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+
+                        params = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 2f);
+                        params.setMargins(1, 1, 1, 1);
+
+                        os.setLayoutParams(params);
+                        os.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+
+                        params = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 3f);
+                        params.setMargins(1, 1, 1, 1);
+
+                        hora.setLayoutParams(params);
+                        hora.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+
+                        params = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 2f);
+                        params.setMargins(1, 1, 1, 1);
+
+                        status.setLayoutParams(params);
+                        status.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+
+                        // Almacenar id de la Acción
+                        row.setId(accion.getId().intValue());
+
+                        // add the TextView to the new TableRow
+                        row.addView(ultimaActividad);
+                        row.addView(os);
+                        row.addView(hora);
+                        row.addView(status);
+
+                        row.setHorizontalGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+                        row.setVerticalGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+
+                        // add the TableRow to the TableLayout
+                        table.addView(row, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
+
+                        context.ultimasAcciones.add(accion);
+                    }
+                }
+            }
+        });
+    }
 }
