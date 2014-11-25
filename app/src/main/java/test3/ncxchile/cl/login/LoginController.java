@@ -164,9 +164,7 @@ public class LoginController implements Serializable, SoapHandler {
             backupGruero();
             return null;
         }
-        System.out.println(usuarios);
-        User usuario=(User)usuarios.get(0);
-        return usuario;
+        return (User)usuarios.get(0);
     }
 
     public String getRut() {
@@ -179,6 +177,7 @@ public class LoginController implements Serializable, SoapHandler {
         //System.out.println("Voy a consumir un WebService para autenticar al usuario en el sistema");
 
         usuarios = daoSession.getUserDao().getByRut(mRut);
+
         if (usuarios.size() == 0) {
             backupGruero();
         }
@@ -187,8 +186,6 @@ public class LoginController implements Serializable, SoapHandler {
             System.out.println("LLAMANDO WEB SERVICE: " + rutCompleto + "," + mPassword);
             SoapProxy.loginGruero(String.valueOf(mRut) , mPassword, handler);
         }
-
-
 
         return 0;
     }

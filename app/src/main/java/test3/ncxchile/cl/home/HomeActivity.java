@@ -67,7 +67,6 @@ public class HomeActivity extends Activity {
     SessionManager session;
 
     // Variable de control que bloquea/desbloquea la aplicacion segun requerimientos: geolocalizacion/sincronizacion
-    public boolean habilitada=false;
 
     public AlertDialog alertDialog;
 
@@ -138,7 +137,7 @@ public class HomeActivity extends Activity {
         marcada = 0;
 
 
-        threadTareas = new ThreadTareas(10000, 10000, HomeActivity.this, getApplicationContext());
+        threadTareas = new ThreadTareas(31000, 31000, HomeActivity.this, getApplicationContext());
         threadTareas.start();
 
         //threadAcciones = new ThreadAcciones(10000, 10000, HomeActivity.this, getApplicationContext());
@@ -152,7 +151,10 @@ public class HomeActivity extends Activity {
         alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setTitle("GPS/Hora");
         alertDialog.setMessage("El GPS y la Hora del sistema deben estar habilitados. Por favor chequea la configuración");
-        alertDialog.setIcon(R.drawable.luzverde);
+
+        Drawable errorIcon = getResources().getDrawable(R.drawable.action_fail);
+        errorIcon.setBounds(0, 0, 25, 25);
+        alertDialog.setIcon(errorIcon);
         alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Aceptar",new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
             }
@@ -295,7 +297,7 @@ public class HomeActivity extends Activity {
 
     public void tomarTarea(final View view){
 
-        if(!habilitada){
+        if(!threadLocalizacion.actualizarLocalizacion()){
             alertDialog.show();
             return;
         }
@@ -341,7 +343,7 @@ public class HomeActivity extends Activity {
 
     public void confirmarArribo(View view){
 
-        if(!habilitada){
+        if(!threadLocalizacion.actualizarLocalizacion()){
             alertDialog.show();
             return;
         }
@@ -387,7 +389,7 @@ public class HomeActivity extends Activity {
 
     public void completaActa(View view) {
 
-        if(!habilitada){
+        if(!threadLocalizacion.actualizarLocalizacion()){
             alertDialog.show();
             return;
         }

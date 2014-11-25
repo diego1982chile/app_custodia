@@ -157,7 +157,7 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
     public void resultValue(String methodName, Vector value) {
         System.out.println("Resultado WS=" + methodName + "=" + value);
 
-        daoSession.getTareaDao().deleteAll(); // TODO: revisar
+        //daoSession.getTareaDao().deleteAll(); // TODO: revisar
 
         if (value != null) {
             for (int i = 0; i < value.size(); i++) {

@@ -4,6 +4,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import de.greenrobot.dao.AbstractDao;
@@ -45,15 +47,15 @@ public class TareaDao extends AbstractDao<Tarea, Long> {
     public static void createTable(SQLiteDatabase db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "'tarea' (" + //
-                "'_id' INTEGER PRIMARY KEY ," + // 0: id
-                "'SERVICIO' INTEGER ," + // 0: id
-                "'FECHA' TEXT ," +
-                "'TAMANO' TEXT ," +
-                "'DIRECCION' TEXT ," +
-                "'COMUNA' TEXT ," +
-                "'ESTADO' TEXT ," +
-                "'STATUS' INTEGER);"
-                ); // 1: nombre
+                        "'_id' INTEGER PRIMARY KEY ," + // 0: id
+                        "'SERVICIO' INTEGER ," + // 0: id
+                        "'FECHA' TEXT ," +
+                        "'TAMANO' TEXT ," +
+                        "'DIRECCION' TEXT ," +
+                        "'COMUNA' TEXT ," +
+                        "'ESTADO' TEXT ," +
+                        "'STATUS' INTEGER);"
+        ); // 1: nombre
     }
 
     /** Drops the underlying database table. */
@@ -174,8 +176,7 @@ public class TareaDao extends AbstractDao<Tarea, Long> {
 
     public List getAsignadas(){
         List tareas= queryBuilder()
-                .where(Properties.Estado.eq("Asignada"))
-                .list();
+                .where(Properties.Status.in(Arrays.asList(0,1,2,3))).list();
         return tareas;
     }
 
