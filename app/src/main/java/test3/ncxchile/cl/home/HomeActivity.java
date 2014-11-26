@@ -38,8 +38,6 @@ import test3.ncxchile.cl.greenDAO.Tarea;
 
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.session.SessionManager;
-import test3.ncxchile.cl.widgets.TableFixHeaders;
-
 
 public class HomeActivity extends Activity {
 
@@ -47,7 +45,7 @@ public class HomeActivity extends Activity {
     public int color;
     public Drawable marca;
     public int marcada;
-    public ImageView erroress,iconoGps,iconoHora,iconoStatusGps,iconoStatusHora;
+    public ImageView erroress,iconoGps,iconoHora;
     public TableLayout tareas;
     //public TableFixHeaders tareas;
     public TextView statusGps,statusHora;
@@ -109,7 +107,6 @@ public class HomeActivity extends Activity {
         lblName.setText(nombre+" "+apellido_paterno);
 
         tareas = (TableLayout) findViewById(R.id.tareas);
-        //tareas = (TableFixHeaders) findViewById(R.id.tareas);
         tablerow = (TableRow) findViewById(R.id.tableRow);
         //tablerow.setBackgroundColor(Color.WHITE);
 
@@ -127,9 +124,7 @@ public class HomeActivity extends Activity {
 
         erroress = (ImageView) findViewById(R.id.activity_main_redtv);
         iconoGps = (ImageView) findViewById(R.id.icono_gps);
-        iconoStatusGps = (ImageView) findViewById(R.id.icono_status_gps);
         iconoHora= (ImageView) findViewById(R.id.icono_hora);
-        iconoStatusHora= (ImageView) findViewById(R.id.icono_status_hora);
 
         statusGps = (TextView) findViewById(R.id.status_gps);
         statusHora = (TextView) findViewById(R.id.status_hora);
@@ -139,7 +134,6 @@ public class HomeActivity extends Activity {
 
         color = 0;
         marcada = 0;
-
 
         threadTareas = new ThreadTareas(31000, 31000, HomeActivity.this, getApplicationContext());
         threadTareas.start();
@@ -156,8 +150,7 @@ public class HomeActivity extends Activity {
         alertDialog.setTitle("GPS/Hora");
         alertDialog.setMessage("El GPS y la Hora del sistema deben estar habilitados. Por favor chequea la configuración");
 
-        Drawable errorIcon = getResources().getDrawable(R.drawable.action_fail);
-        errorIcon.setBounds(0, 0, 25, 25);
+        Drawable errorIcon = getResources().getDrawable(R.drawable.action_fail_small);
         alertDialog.setIcon(errorIcon);
         alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Aceptar",new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {

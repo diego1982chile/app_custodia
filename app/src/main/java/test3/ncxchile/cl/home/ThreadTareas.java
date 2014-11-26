@@ -47,7 +47,6 @@ import test3.ncxchile.cl.session.SessionManager;
 import test3.ncxchile.cl.soap.ClienteSoap;
 import test3.ncxchile.cl.soap.SoapHandler;
 import test3.ncxchile.cl.soap.SoapProxy;
-import test3.ncxchile.cl.widgets.TableFixHeaders;
 
 /**
  * Created by android-developer on 07-10-2014.
@@ -251,10 +250,15 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
                         TextView direccion = new TextView(context);
 
                         os.setText(tarea.getServicio().toString());
-                        fecha.setText(tarea.getFecha().toString().replaceAll("\"", ""));
-                        tamano.setText(tarea.getTamano().toString().replaceAll("\"", ""));
-                        comuna.setText(tarea.getComuna().toString().replaceAll("\"", ""));
-                        direccion.setText(tarea.getDireccion().toString().replaceAll("\"", ""));
+                        os.setTextSize(13);
+                        fecha.setText(tarea.getFecha().toString().toLowerCase());
+                        fecha.setTextSize(13);
+                        tamano.setText(tarea.getTamano().toString().toLowerCase());
+                        tamano.setTextSize(13);
+                        comuna.setText(tarea.getComuna().toString().toLowerCase());
+                        comuna.setTextSize(13);
+                        direccion.setText(tarea.getDireccion().toString().toLowerCase());
+                        direccion.setTextSize(13);
 
                         TableRow.LayoutParams params = new TableRow.LayoutParams(0,TableRow.LayoutParams.WRAP_CONTENT,1f);
                         params.setMargins(5, 5, 5, 5);
@@ -265,8 +269,8 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
                         params = new TableRow.LayoutParams(0,TableRow.LayoutParams.WRAP_CONTENT,3f);
                         params.setMargins(5, 5, 5, 5);
 
-                        tamano.setLayoutParams(params);
-                        tamano.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+                        direccion.setLayoutParams(params);
+                        direccion.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
 
                         params = new TableRow.LayoutParams(0,TableRow.LayoutParams.WRAP_CONTENT,2f);
                         params.setMargins(5, 5, 5, 5);
@@ -277,8 +281,8 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
                         comuna.setLayoutParams(params);
                         comuna.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
 
-                        direccion.setLayoutParams(params);
-                        direccion.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+                        tamano.setLayoutParams(params);
+                        tamano.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
 
                         // Almacenar id de la Tarea
                         row.setId(tarea.getId().intValue());

@@ -34,7 +34,8 @@
                 android:id="@+id/head1"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp">
-                <TableRow>
+                <TableRow android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -54,7 +55,8 @@
                     android:id="@+id/name_value"
                      />
                 </TableRow>
-                <TableRow>
+                <TableRow android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -91,7 +93,7 @@
         </GridLayout>
         <TableLayout
         android:orientation="vertical"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_weight="8"
         android:layout_centerHorizontal="true"
@@ -120,14 +122,12 @@
                     android:layout_weight=".8"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp" />
-                <ImageView
-                    android:layout_height="wrap_content"
+
+                <include layout="@layout/simbologia"
                     android:layout_width="wrap_content"
-                    android:src="@drawable/estados"
-                    android:id="@+id/imageView2"
-                    android:layout_marginRight="15dp"
-                    android:layout_gravity="end"
-                     />
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"/>
+
                 <TableRow
                     android:layout_height="match_parent"
                     android:layout_width="wrap_content">
@@ -136,24 +136,18 @@
         </TableLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:gravity="center"
             android:layout_marginTop="10dp"
             android:layout_height="0dp"
             android:layout_weight="67"
             android:layout_width="fill_parent">
-            <ScrollView
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:scrollbars="none"
-                android:layout_weight="1">
             <TableLayout
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_gravity="center"
-                android:gravity="center_horizontal|top"
-                android:id="@+id/tareas">
-
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:gravity="center_horizontal|center_vertical"
+                android:id="@+id/header_tareas">
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -163,6 +157,7 @@
                         android:text="OS"
                         android:singleLine="false"
                         android:gravity="center"
+                        android:textSize="13dp"
                         android:layout_width="0dip"
                         android:layout_weight=".1"
                         android:layout_height="wrap_content"
@@ -172,12 +167,13 @@
                         android:autoText="true">
                     </TextView>
                     <TextView
-                        android:text="Tipo vehículo"
+                        android:text="Tipo Vehículo"
                         android:gravity="center"
                         android:paddingLeft="20dp"
+                        android:textSize="13dp"
                         android:paddingRight="20dp"
                         android:layout_width="0dip"
-                        android:layout_weight=".3"
+                        android:layout_weight=".2"
                         android:layout_height="wrap_content"
                         android:textColor="#fff"
                         android:id="@+id/tip_vehiculo_text"
@@ -189,6 +185,7 @@
                         android:gravity="center"
                         android:layout_width="0dip"
                         android:layout_weight=".2"
+                        android:textSize="13dp"
                         android:layout_height="wrap_content"
                         android:textColor="#fff"
                         android:id="@+id/comuna_text"
@@ -198,7 +195,8 @@
                         android:text="Dirección"
                         android:gravity="center"
                         android:layout_width="0dip"
-                        android:layout_weight=".2"
+                        android:layout_weight=".3"
+                        android:textSize="13dp"
                         android:layout_height="wrap_content"
                         android:textColor="#fff"
                         android:id="@+id/direccion_text"
@@ -209,129 +207,25 @@
                         android:gravity="center"
                         android:layout_width="0dip"
                         android:layout_weight=".2"
+                        android:textSize="13dp"
                         android:layout_height="wrap_content"
                         android:textColor="#fff"
                         android:id="@+id/ult_actividad_text"
                         android:background="#ff2ca4c9">
                     </TextView>
                 </TableRow>
-
-                <!--TableRow
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="3dp"
-                    android:id="@+id/tablarow1"
-                    android:background="#fff"
-                    android:onClick="rowClick">
-                    <TextView
-                        android:text="1"
-                        android:singleLine="false"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:textColor="#000"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/num_os_ex1">
-                    </TextView>
-                    <TextView
-                        android:text="Vehiculo liviano"
-                        android:gravity="right"
-                        android:paddingLeft="20dp"
-                        android:textColor="#000"
-                        android:paddingRight="20dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/tip_vehiculo_ex1"
-                        android:clickable="false">
-                    </TextView>
-                    <TextView
-                        android:text="La Florida"
-                        android:gravity="right"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:textColor="#000"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/comuna_ex1">
-                    </TextView>
-                    <TextView
-                        android:text="Av. Mexico 9487"
-                        android:gravity="right"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:textColor="#000"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/direccion_ex1">
-                    </TextView>
-                    <TextView
-                        android:text="2:03"
-                        android:gravity="right"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:textColor="#000"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/ult_actividad_ex1">
-                    </TextView>
-                </TableRow-->
-
-                <!--TableRow
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="3dp"
-                    android:onClick="rowClick">
-                    <TextView
-                        android:text="2"
-                        android:singleLine="false"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:textColor="#FFF"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/num_os_ex2">
-                    </TextView>
-                    <TextView
-                        android:text="Vehiculo pesado"
-                        android:gravity="right"
-                        android:paddingLeft="20dp"
-                        android:textColor="#FFF"
-                        android:paddingRight="20dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/tip_vehiculo_ex2"
-                        android:clickable="false">
-                    </TextView>
-                    <TextView
-                        android:text="La Dehesa"
-                        android:gravity="right"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:textColor="#FFF"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/comuna_ex2">
-                    </TextView>
-                    <TextView
-                        android:text="Av. Francia 11"
-                        android:gravity="right"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:textColor="#FFF"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/direccion_ex2">
-                    </TextView>
-                    <TextView
-                        android:text="2:17"
-                        android:gravity="right"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:textColor="#FFF"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/ult_actividad_ex2">
-                    </TextView>
-                </TableRow-->
-                </TableLayout>
+            </TableLayout>
+            <ScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:scrollbars="vertical">
+            <TableLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:gravity="center_horizontal|center_vertical"
+                android:id="@+id/tareas">
+            </TableLayout>
             </ScrollView>
         </LinearLayout>
 

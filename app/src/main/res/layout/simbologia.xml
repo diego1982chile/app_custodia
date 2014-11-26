@@ -6,16 +6,81 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="5dp"
-        android:columnCount="2"
-        android:rowCount="4">
+        android:verticalSpacing="5dp"
+        android:horizontalSpacing="5dp"
+        android:columnCount="8"
+        android:rowCount="1">
         <TextView
             android:id="@+id/color_tarea_seleccionada"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/holo_blue_dark"
-            android:background="@color/wallet_hint_foreground_holo_dark"
+            android:text="     "
+            android:background="#66CCCC"
+            android:textSize="11dp"
             android:gravity="center_horizontal"
             android:layout_gravity="center_horizontal"/>
+        <TextView
+            android:id="@+id/text_tarea_seleccionada"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tarea Seleccionada  "
+            android:textSize="11dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_gravity="left"/>
+        <TextView
+            android:id="@+id/color_tarea_tomada"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="     "
+            android:textSize="11dp"
+            android:background="@android:color/darker_gray"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_horizontal"/>
+        <TextView
+            android:id="@+id/text_tarea_tomada"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tarea Tomada  "
+            android:textSize="11dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_gravity="left"/>
+        <TextView
+            android:id="@+id/color_arribo_confirmado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="     "
+            android:textSize="11dp"
+            android:background="#00FF33"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_horizontal"/>
+        <TextView
+            android:id="@+id/text_arribo_confirmado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Arribo Confirmado  "
+            android:textSize="11dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_gravity="left"/>
+        <TextView
+            android:id="@+id/color_acta_completada"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="     "
+            android:textSize="11dp"
+            android:background="#FFFF00"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_horizontal"/>
+        <TextView
+            android:id="@+id/text_acta_completada"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Acta Completada  "
+            android:textSize="11dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_gravity="left"/>
     </GridLayout>
 </FrameLayout>
