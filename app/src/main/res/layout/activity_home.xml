@@ -5,8 +5,6 @@
     android:background="#fff"
     tools:context="test3.ncxchile.cl.home.HomeActivity">
 
-
-
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="match_parent"
@@ -21,11 +19,13 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_below="@+id/imageView1"
+        android:weightSum="100"
         android:id="@+id/layout1">
 
         <GridLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="9"
         android:columnCount="2">
             <TableLayout
                 android:orientation="horizontal"
@@ -92,13 +92,14 @@
         <TableLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="8"
         android:layout_centerHorizontal="true"
         android:stretchColumns="1">
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp">
+                android:layout_marginTop="10dp">
                 <Button
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
@@ -137,15 +138,20 @@
         <LinearLayout
             android:orientation="horizontal"
             android:gravity="center"
-            android:layout_marginTop="15dp"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-
+            android:layout_marginTop="10dp"
+            android:layout_height="0dp"
+            android:layout_weight="67"
+            android:layout_width="fill_parent">
+            <ScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:scrollbars="none"
+                android:layout_weight="1">
             <TableLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="fill_parent"
                 android:layout_gravity="center"
-                android:gravity="center_horizontal|center_vertical"
+                android:gravity="center_horizontal|top"
                 android:id="@+id/tareas">
 
                 <TableRow
@@ -326,6 +332,7 @@
                     </TextView>
                 </TableRow-->
                 </TableLayout>
+            </ScrollView>
         </LinearLayout>
 
         <LinearLayout
@@ -333,7 +340,8 @@
             android:layout_width="fill_parent"
             android:layout_marginTop="30dp"
             android:gravity="center"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="8"
             android:id="@+id/asdddd">
 
             <Button
@@ -363,35 +371,26 @@
                 android:textColor="#fff"
                 style="@style/CustomStyleButton3"
                 android:onClick="completaActa"
-                android:id="@+id/completarActa" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_height="wrap_content">
-
-            <!--Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tomar foto"
-                android:textColor="#fff"
-                android:onClick="fotos"
-                style="@style/CustomStyleButton"
-                android:id="@+id/button5"
+                android:id="@+id/completarActa"
                 android:layout_marginRight="9dp" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Grabar video"
+                android:text="Retiro realizado"
                 android:textColor="#fff"
-                android:onClick="videos"
-                style="@style/CustomStyleButton"
-                android:id="@+id/button6"
-                android:layout_marginRight="9dp" /-->
+                style="@style/CustomStyleButton3"
+                android:id="@+id/retiroRealizado" />
+        </LinearLayout>
+
+        <!--LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            >
 
             <Button
                 android:layout_width="wrap_content"
@@ -401,14 +400,15 @@
                 style="@style/CustomStyleButton3"
                 android:id="@+id/retiroRealizado" />
 
-        </LinearLayout>
+        </LinearLayout-->
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_gravity="center"
             android:gravity="center"
-            android:layout_height="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="8"
             android:layout_marginBottom="10dp">
 
             <!--Button
