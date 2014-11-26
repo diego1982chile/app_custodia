@@ -33,10 +33,12 @@ import java.util.HashMap;
 
 import test3.ncxchile.cl.acta.MyActivity;
 import test3.ncxchile.cl.db.AndroidDatabaseManager;
+import test3.ncxchile.cl.db.DatabaseConnection;
 import test3.ncxchile.cl.fotosvid.activity.SeleccionServicioActivity;
 import test3.ncxchile.cl.greenDAO.Accion;
 import test3.ncxchile.cl.greenDAO.DaoMaster;
 import test3.ncxchile.cl.greenDAO.DaoSession;
+import test3.ncxchile.cl.greenDAO.Logs;
 import test3.ncxchile.cl.greenDAO.Tarea;
 
 import test3.ncxchile.cl.login.R;
@@ -70,11 +72,6 @@ public class HomeActivity extends Activity {
     // Session Manager Class
     SessionManager session;
 
-    // Para Conexion a BD
-    private SQLiteDatabase db;
-    private DaoMaster daoMaster;
-    private DaoSession daoSession;
-
     public AlertDialog alertDialog;
 
     @Override
@@ -85,13 +82,6 @@ public class HomeActivity extends Activity {
         session = new SessionManager(getApplicationContext());
         tareaController = new TareaController(this);
         accionController = new AccionController(this);
-
-        // Inicializar daoSession
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this,"cmvrc_android", null);
-        db = helper.getWritableDatabase();
-        daoMaster = new DaoMaster(db);
-        daoSession = daoMaster.newSession();
-
 
         /**
          * Call this function whenever you want to check user login
@@ -171,14 +161,6 @@ public class HomeActivity extends Activity {
         });
 
     }
-    /*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home, menu);
-        return true;
-    }
-    */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -188,19 +170,7 @@ public class HomeActivity extends Activity {
 
         return super.onCreateOptionsMenu(menu);
     }
-    /*
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-    */
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
@@ -226,13 +196,6 @@ public class HomeActivity extends Activity {
         setEnabled(retiroRealizado, false);
         setEnabled(pdf, false);
 
-        tareaActiva=tareaController.getTareaById(view.getId());
-        // Actualizar estado interno de la tarea
-        // Setear tarea activa en la sesión
-        session.setTareaActiva(view.getId());
-        // Setear estado de la tarea activa en la sesión
-        session.setServicio(tareaActiva.getServicio());
-
         // Actualizar estado botones segun estado de la tarea seleccionada
         switch (tareaController.getStatusTarea(view.getId()))
         {
@@ -252,7 +215,7 @@ public class HomeActivity extends Activity {
         }
 
         // Actualizar colores de las tareas segun el estado de cada una
-        for(int i=1;i<tareas.getChildCount();++i) {
+        for(int i=0;i<tareas.getChildCount();++i) {
             //System.out.println(tareas.getChildAt(i).getId());
             switch(tareaController.getStatusTarea(tareas.getChildAt(i).getId())){
                 case 0:
@@ -276,6 +239,12 @@ public class HomeActivity extends Activity {
                 view.setBackgroundColor(Color.rgb(102, 204, 204));
                 tablerow=(TableRow)view;
                 marcada = 1;
+                tareaActiva=tareaController.getTareaById(view.getId());
+                // Actualizar estado interno de la tarea
+                // Setear tarea activa en la sesión
+                session.setTareaActiva(view.getId());
+                // Setear estado de la tarea activa en la sesión
+                session.setServicio(tareaActiva.getServicio());
             }
 
             if(colorId == -10040116){
@@ -285,6 +254,11 @@ public class HomeActivity extends Activity {
                 setEnabled(completarActa, false);
                 setEnabled(retiroRealizado, false);
                 setEnabled(pdf, false);
+
+                // Desetear tarea activa en la sesión
+                session.setTareaActiva(-1);
+                // Desetear estado de la tarea activa en la sesión
+                session.setServicio(-1);
 
                 switch(tareaController.getStatusTarea(tablerow.getId())){
                     case 0:
@@ -481,14 +455,16 @@ public class HomeActivity extends Activity {
         }
     }
 
-    public void fotos(View view) {
-        Intent myIntent2 = new Intent(HomeActivity.this, SeleccionServicioActivity.class);
-        HomeActivity.this.startActivity(myIntent2);
-    }
-
-    public void videos(View view) {
-        Intent myIntent3 = new Intent(HomeActivity.this, SeleccionServicioActivity.class);
-        HomeActivity.this.startActivity(myIntent3);
+    public void cerrarSesion(View view){
+        if(session.isLoggedIn())
+            session.logoutUser();
+        Logs logs=new Logs();
+        logs.setTimeStamp(new Date());
+        logs.setDescripcion("User Logout");
+        DatabaseConnection.daoSession.getLogsDao().insert(logs);
+        threadTareas.cancel();
+        threadLocalizacion.cancel();
+        finish();
     }
 
     public static void setEnabled(Button b, boolean enable){
@@ -500,7 +476,4 @@ public class HomeActivity extends Activity {
         else
             b.setBackgroundResource(R.drawable.blue_button_inactive);
     }
-
-
-
 }

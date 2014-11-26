@@ -16,15 +16,15 @@
             android:layout_height="wrap_content"
             android:text="     "
             android:background="#66CCCC"
-            android:textSize="10dp"
+            android:textSize="10.5dp"
             android:gravity="center_horizontal"
             android:layout_gravity="center_horizontal"/>
         <TextView
             android:id="@+id/text_tarea_seleccionada"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tarea Seleccionada  "
-            android:textSize="10dp"
+            android:text=" Tarea Seleccionada  "
+            android:textSize="10.5dp"
             android:gravity="center"
             android:layout_gravity="center"/>
         <TextView
@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="     "
-            android:textSize="10dp"
+            android:textSize="10.5dp"
             android:background="@android:color/darker_gray"
             android:gravity="center_horizontal"
             android:layout_gravity="center_horizontal"/>
@@ -40,8 +40,8 @@
             android:id="@+id/text_tarea_tomada"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tarea Tomada  "
-            android:textSize="10dp"
+            android:text=" Tarea Tomada  "
+            android:textSize="10.5dp"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
             android:gravity="center_horizontal"
@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="     "
-            android:textSize="10dp"
+            android:textSize="10.5dp"
             android:background="#00FF33"
             android:gravity="center_horizontal"
             android:layout_gravity="center_horizontal"/>
@@ -62,7 +62,7 @@
             android:text="Arribo Confirmado  "
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
-            android:textSize="10dp"
+            android:textSize="10.5dp"
             android:gravity="center_horizontal"
             android:layout_gravity="center_horizontal"/>
         <TextView
@@ -70,7 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="     "
-            android:textSize="10dp"
+            android:textSize="10.5dp"
             android:background="#FFFF00"
             android:gravity="center_horizontal"
             android:layout_gravity="center_horizontal"/>
@@ -79,7 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Acta Completada  "
-            android:textSize="10dp"
+            android:textSize="10.5dp"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
             android:layout_gravity="left"/>
