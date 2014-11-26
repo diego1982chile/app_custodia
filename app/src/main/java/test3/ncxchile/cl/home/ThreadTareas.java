@@ -162,10 +162,12 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
     }
 
     @Override
-    public void resultValue(String methodName, Vector value) {
+    public void resultValue(String methodName, Object source, Vector value) {
         System.out.println("Resultado WS=" + methodName + "=" + value);
 
+
         //daoSession.getTareaDao().deleteAll(); // TODO: revisar
+        //daoSession.getAccionDao().deleteAll();// TODO: revisar
 
         if (value != null) {
             for (int i = 0; i < value.size(); i++) {
@@ -193,12 +195,25 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
 
                 Tarea consulta = daoSession.getTareaDao().getByServicio(servicio);
                 if (consulta == null ) {
-                    daoSession.getTareaDao().insertOrReplace(tarea); // TODO pasar a tx
+                    Tarea consultaExiste = daoSession.getTareaDao().getByServicio(servicio);
+                    if (consultaExiste == null) {
+                        daoSession.getTareaDao().insertOrReplace(tarea); // TODO pasar a tx
+                    }
+
+
                 }
 
             }
 
         }
+        List<Tarea> tareas = tareaController.getTareasAsignadas();
+        System.out.println("Tareas Asignadas=" + tareas);
+        actualizarTablaTareas(tareas);
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.DATE, -2);  // number of days to add
+        actualizarTablaAcciones(accionController.getUltimasAcciones(c.getTime()));
     }
 
     @Override

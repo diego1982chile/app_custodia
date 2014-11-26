@@ -67,7 +67,7 @@ public class HomeActivity extends Activity {
     public ArrayList<Accion> ultimasAcciones= new ArrayList<Accion>();
     Tarea tareaActiva= new Tarea();
     //private ThreadActa threadActa;
-    //private ThreadAcciones threadAcciones;
+    private ThreadAcciones threadAcciones;
 
     // Session Manager Class
     SessionManager session;
@@ -141,8 +141,8 @@ public class HomeActivity extends Activity {
         threadTareas = new ThreadTareas(31000, 31000, HomeActivity.this, getApplicationContext());
         threadTareas.start();
 
-        //threadAcciones = new ThreadAcciones(10000, 10000, HomeActivity.this, getApplicationContext());
-        //threadAcciones.start();
+        threadAcciones = new ThreadAcciones(10000, 10000, HomeActivity.this, getApplicationContext());
+        threadAcciones.start();
 
         //threadActa = new ThreadActa(10000, 10000, HomeActivity.this, getApplicationContext());
 

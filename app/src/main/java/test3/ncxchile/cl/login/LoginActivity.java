@@ -82,8 +82,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
-        mEmailView.setText("18124089k");
-        mPasswordView.setText("Mauricio123");
+        mEmailView.setText("66221261");
+        mPasswordView.setText("Ncx123456");
     }
 
     @Override
@@ -231,7 +231,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
     }
 
     @Override
-    public void resultValue(String methodName, Vector value) {
+    public void resultValue(String methodName, Object source, Vector value) {
         if (value != null) {
             String cod = value.get(0).toString();
             String msg = value.get(1).toString();

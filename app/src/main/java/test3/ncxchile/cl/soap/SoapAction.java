@@ -38,13 +38,15 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
 		this.handler = handler;
 	}
 
+    public Object lastSource = null;
+
 	@Override
 	protected Vector doInBackground(SoapMethod... methods) {
 
 		int count = methods.length;
 		for (int i = 0; i < count; i++) {
 			SoapMethod current = methods[i];
-
+            lastSource = current.source;
             Logs logs=new Logs();
             logs.setTimeStamp(new Date());
             logs.setDescripcion("Call: SoapProxy."+current.methodName);
@@ -163,7 +165,7 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
 
     @Override
 	protected void onPostExecute(Vector vector) {
-		handler.resultValue(currentMethod.methodName, vector);
+		handler.resultValue(currentMethod.methodName, lastSource, vector);
 	}
 
 	@Override
