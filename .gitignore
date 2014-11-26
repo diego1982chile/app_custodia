@@ -10,3 +10,13 @@ app/src/main/java/test3/ncxchile/cl/home/AccionController.java
 app/src/main/java/test3/ncxchile/cl/home/Sincronizar.java
 app/src/main/java/test3/ncxchile/cl/widgets/GridViewAdapter.java
 app/src/main/java/test3/ncxchile/cl/widgets/GridViewVideoAdapter.java
+
+
+.idea/libraries/play_services_6_1_71.xml
+.idea/libraries/support_annotations_20_0_0.xml
+.idea/libraries/support_v13_20_0_0.xml
+.idea/libraries/support_v4_20_0_0.xml
+
+
+build/intermediates/dex-cache/cache.xml
+local.properties
