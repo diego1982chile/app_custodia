@@ -1,7 +1,10 @@
 package test3.ncxchile.cl.soap;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
@@ -16,6 +19,10 @@ import org.kxml2.kdom.Node;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.os.AsyncTask;
+
+import test3.ncxchile.cl.db.DatabaseConnection;
+import test3.ncxchile.cl.greenDAO.Logs;
+import test3.ncxchile.cl.home.HomeActivity;
 
 public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
 
@@ -37,6 +44,11 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
 		int count = methods.length;
 		for (int i = 0; i < count; i++) {
 			SoapMethod current = methods[i];
+
+            Logs logs=new Logs();
+            logs.setTimeStamp(new Date());
+            logs.setDescripcion("Call: SoapProxy."+current.methodName);
+            DatabaseConnection.daoSession.getLogsDao().insert(logs);
 
 			Vector data = null;
 			SoapObject request = new SoapObject(current.namespace,
@@ -130,16 +142,26 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
 			try {
 				Object resp = envelope.getResponse();
 				data = (Vector) resp;
-
+                logs=new Logs();
+                logs.setTimeStamp(new Date());
+                logs.setDescripcion("Response: SoapProxy."+current.methodName);
+                DatabaseConnection.daoSession.getLogsDao().insert(logs);
 			} catch (Exception e) {
 				e.printStackTrace();
-			}
+                logs=new Logs();
+                logs.setTimeStamp(new Date());
+                StringWriter sw = new StringWriter();
+                PrintWriter pw = new PrintWriter(sw);
+                e.printStackTrace(pw);
+                logs.setDescripcion("Error: SoapProxy."+current.methodName+" StackTrace:"+sw.toString());
+                DatabaseConnection.daoSession.getLogsDao().insert(logs);
+            }
 			return data;
 		}
 		return null;
 	}
 
-	@Override
+    @Override
 	protected void onPostExecute(Vector vector) {
 		handler.resultValue(currentMethod.methodName, vector);
 	}

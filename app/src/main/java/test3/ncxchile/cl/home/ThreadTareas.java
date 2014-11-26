@@ -33,9 +33,11 @@ import java.util.Vector;
 
 import test3.ncxchile.cl.adapters.MatrixTableAdapter;
 import test3.ncxchile.cl.adapters.TareaTableAdapter;
+import test3.ncxchile.cl.db.DatabaseConnection;
 import test3.ncxchile.cl.greenDAO.DaoMaster;
 import test3.ncxchile.cl.greenDAO.DaoSession;
 import test3.ncxchile.cl.greenDAO.Accion;
+import test3.ncxchile.cl.greenDAO.Logs;
 import test3.ncxchile.cl.greenDAO.Tarea;
 import test3.ncxchile.cl.greenDAO.User;
 import test3.ncxchile.cl.helpers.ConnectionTask;
@@ -121,13 +123,12 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
 
             if(!conexionPrevia) {
                 // Si no hay conexion previa se consumen los webservices para obtener las tareas asignadas
-                //ConnectionTask connectionTask= new ConnectionTask(context);
-                //connectionTask.execute();
-
-                // Guardar las tareas asignadas en la BD local
-                //tareaController.updateTareasAsignadas();
                 conexionPrevia=true;
                 notificarConexion(true);
+                Logs logs=new Logs();
+                logs.setTimeStamp(new Date());
+                logs.setDescripcion("Internet Connection Acquired");
+                DatabaseConnection.daoSession.getLogsDao().insert(logs);
                 //System.out.println("Voy a consumir un WebService para sincronizar la app con el sistema RTEWEB");
 
                 System.out.println("LLAMANDO WEB SERVICE: " + rut);
@@ -139,6 +140,10 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
             conexionPrevia=false;
 
             if(!desconexionPrevia){
+                Logs logs=new Logs();
+                logs.setTimeStamp(new Date());
+                logs.setDescripcion("Internet Connection Lost");
+                DatabaseConnection.daoSession.getLogsDao().insert(logs);
                 desconexionPrevia=true;
                 notificarConexion(false);
             }

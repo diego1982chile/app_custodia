@@ -16,71 +16,72 @@
             android:layout_height="wrap_content"
             android:text="     "
             android:background="#66CCCC"
-            android:textSize="11dp"
+            android:textSize="10dp"
             android:gravity="center_horizontal"
             android:layout_gravity="center_horizontal"/>
         <TextView
             android:id="@+id/text_tarea_seleccionada"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tarea Seleccionada  "
-            android:textSize="11dp"
-            android:layout_marginLeft="1dp"
-            android:layout_marginRight="1dp"
-            android:layout_gravity="left"/>
+            android:textSize="10dp"
+            android:gravity="center"
+            android:layout_gravity="center"/>
         <TextView
             android:id="@+id/color_tarea_tomada"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="     "
-            android:textSize="11dp"
+            android:textSize="10dp"
             android:background="@android:color/darker_gray"
             android:gravity="center_horizontal"
             android:layout_gravity="center_horizontal"/>
         <TextView
             android:id="@+id/text_tarea_tomada"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tarea Tomada  "
-            android:textSize="11dp"
-            android:layout_marginLeft="1dp"
-            android:layout_marginRight="1dp"
-            android:layout_gravity="left"/>
+            android:textSize="10dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_horizontal"/>
         <TextView
             android:id="@+id/color_arribo_confirmado"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="     "
-            android:textSize="11dp"
+            android:textSize="10dp"
             android:background="#00FF33"
             android:gravity="center_horizontal"
             android:layout_gravity="center_horizontal"/>
         <TextView
             android:id="@+id/text_arribo_confirmado"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Arribo Confirmado  "
-            android:textSize="11dp"
-            android:layout_marginLeft="1dp"
-            android:layout_marginRight="1dp"
-            android:layout_gravity="left"/>
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:textSize="10dp"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_horizontal"/>
         <TextView
             android:id="@+id/color_acta_completada"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="     "
-            android:textSize="11dp"
+            android:textSize="10dp"
             android:background="#FFFF00"
             android:gravity="center_horizontal"
             android:layout_gravity="center_horizontal"/>
         <TextView
             android:id="@+id/text_acta_completada"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Acta Completada  "
-            android:textSize="11dp"
-            android:layout_marginLeft="1dp"
-            android:layout_marginRight="1dp"
+            android:textSize="10dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
             android:layout_gravity="left"/>
     </GridLayout>
 </FrameLayout>

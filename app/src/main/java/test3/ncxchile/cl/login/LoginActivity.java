@@ -22,9 +22,12 @@ import android.widget.EditText;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
+import test3.ncxchile.cl.db.DatabaseConnection;
+import test3.ncxchile.cl.greenDAO.Logs;
 import test3.ncxchile.cl.greenDAO.User;
 import test3.ncxchile.cl.helpers.InternetDetector;
 import test3.ncxchile.cl.home.HomeActivity;
@@ -81,6 +84,33 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
 
         mEmailView.setText("18124089k");
         mPasswordView.setText("Mauricio123");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Logs logs=new Logs();
+        logs.setTimeStamp(new Date());
+        logs.setDescripcion("Application Started");
+        DatabaseConnection.daoSession.getLogsDao().insert(logs);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Logs logs=new Logs();
+        logs.setTimeStamp(new Date());
+        logs.setDescripcion("Application Stopped");
+        DatabaseConnection.daoSession.getLogsDao().insert(logs);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Logs logs=new Logs();
+        logs.setTimeStamp(new Date());
+        logs.setDescripcion("Application Destroyed");
+        DatabaseConnection.daoSession.getLogsDao().insert(logs);
     }
 
     /**
@@ -199,6 +229,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
                 break;
         }
     }
+
     @Override
     public void resultValue(String methodName, Vector value) {
         if (value != null) {
@@ -207,6 +238,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
             int codigo = Integer.parseInt(cod);
             if (codigo == 00) {
                 postLogin(1);
+                Logs logs=new Logs();
+                logs.setTimeStamp(new Date());
+                logs.setDescripcion("Login Online");
+                DatabaseConnection.daoSession.getLogsDao().insert(logs);
             }
             else {
                 postLogin(-3); //TODO: revisar otros casos

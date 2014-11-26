@@ -49,7 +49,7 @@ import test3.ncxchile.cl.security.PasswordHelper;
  * Master of DAO (schema version 1000): knows all DAOs.
 */
 public class DaoMaster extends AbstractDaoMaster {
-    public static final int SCHEMA_VERSION = 1074;
+    public static final int SCHEMA_VERSION = 1076;
 
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(SQLiteDatabase db, boolean ifNotExists) {
@@ -78,6 +78,7 @@ public class DaoMaster extends AbstractDaoMaster {
         MotivoFiscaliaDao.createTable(db, ifNotExists);
         TipoVehiculoDao.createTable(db, ifNotExists);
         FirmaDao.createTable(db, ifNotExists);
+        LogsDao.createTable(db, ifNotExists);
     }
     
     /** Drops underlying database table using DAOs. */
@@ -107,6 +108,7 @@ public class DaoMaster extends AbstractDaoMaster {
         MotivoFiscaliaDao.dropTable(db, ifExists);
         TipoVehiculoDao.dropTable(db, ifExists);
         FirmaDao.dropTable(db, ifExists);
+        LogsDao.dropTable(db, ifExists);
     }
     
     public static abstract class OpenHelper extends SQLiteOpenHelper {
@@ -641,6 +643,7 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(MotivoFiscaliaDao.class);
         registerDaoClass(TipoVehiculoDao.class);
         registerDaoClass(FirmaDao.class);
+        registerDaoClass(LogsDao.class);
     }
     
     public DaoSession newSession() {

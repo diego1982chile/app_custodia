@@ -2,25 +2,21 @@ package test3.ncxchile.cl.login;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
 
 import org.ksoap2.serialization.SoapObject;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
-import test3.ncxchile.cl.db.DbHelper;
-import test3.ncxchile.cl.fotosvid.util.ApplicationContext;
+import test3.ncxchile.cl.db.DatabaseConnection;
 import test3.ncxchile.cl.greenDAO.DaoMaster;
 import test3.ncxchile.cl.greenDAO.DaoSession;
+import test3.ncxchile.cl.greenDAO.Logs;
 import test3.ncxchile.cl.greenDAO.User;
-import test3.ncxchile.cl.greenDAO.UserDao;
 import test3.ncxchile.cl.security.PasswordHelper;
-import test3.ncxchile.cl.security.SHA256;
 import test3.ncxchile.cl.session.SessionManager;
 import test3.ncxchile.cl.soap.SoapHandler;
 import test3.ncxchile.cl.soap.SoapProxy;
@@ -109,6 +105,10 @@ public class LoginController implements Serializable, SoapHandler {
         SessionManager session = new SessionManager(localContext);
         // Creating user login session
         session.createLoginSession(usuario.getRut()+usuario.getDv().toString(), usuario.getNombre(), usuario.getApellidoPaterno(), usuario.getApellidoMaterno());
+        Logs logs=new Logs();
+        logs.setTimeStamp(new Date());
+        logs.setDescripcion("Login Offline");
+        DatabaseConnection.daoSession.getLogsDao().insert(logs);
         return 1;
     }
 

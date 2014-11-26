@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -34,6 +35,8 @@ import test3.ncxchile.cl.acta.MyActivity;
 import test3.ncxchile.cl.db.AndroidDatabaseManager;
 import test3.ncxchile.cl.fotosvid.activity.SeleccionServicioActivity;
 import test3.ncxchile.cl.greenDAO.Accion;
+import test3.ncxchile.cl.greenDAO.DaoMaster;
+import test3.ncxchile.cl.greenDAO.DaoSession;
 import test3.ncxchile.cl.greenDAO.Tarea;
 
 import test3.ncxchile.cl.login.R;
@@ -67,7 +70,10 @@ public class HomeActivity extends Activity {
     // Session Manager Class
     SessionManager session;
 
-    // Variable de control que bloquea/desbloquea la aplicacion segun requerimientos: geolocalizacion/sincronizacion
+    // Para Conexion a BD
+    private SQLiteDatabase db;
+    private DaoMaster daoMaster;
+    private DaoSession daoSession;
 
     public AlertDialog alertDialog;
 
@@ -79,6 +85,13 @@ public class HomeActivity extends Activity {
         session = new SessionManager(getApplicationContext());
         tareaController = new TareaController(this);
         accionController = new AccionController(this);
+
+        // Inicializar daoSession
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this,"cmvrc_android", null);
+        db = helper.getWritableDatabase();
+        daoMaster = new DaoMaster(db);
+        daoSession = daoMaster.newSession();
+
 
         /**
          * Call this function whenever you want to check user login
