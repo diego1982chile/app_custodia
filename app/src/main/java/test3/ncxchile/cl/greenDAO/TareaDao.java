@@ -210,4 +210,13 @@ public class TareaDao extends AbstractDao<Tarea, Long> {
         }
         return;
     }
+
+    public String toString(Tarea tarea)
+    {
+        return tarea.getServicio().toString()+","+
+               tarea.getTamano().toString()+","+
+               tarea.getDireccion().toString()+","+
+               tarea.getComuna().toString()+","+
+               tarea.getFecha().toString();
+    }
 }

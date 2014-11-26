@@ -79,8 +79,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
-        mEmailView.setText("118522451");
-        mPasswordView.setText("Murillo1");
+        mEmailView.setText("18124089k");
+        mPasswordView.setText("Mauricio123");
     }
 
     /**
@@ -149,11 +149,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
                 rutActual = rut;
                 postLogin(loginResponse);
             }
-
-
-
-
-
 
         }
     }

@@ -38,15 +38,18 @@ import test3.ncxchile.cl.greenDAO.Tarea;
 
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.session.SessionManager;
+import test3.ncxchile.cl.widgets.TableFixHeaders;
 
 
 public class HomeActivity extends Activity {
+
     public static TableRow tablerow;
     public int color;
     public Drawable marca;
     public int marcada;
     public ImageView erroress,iconoGps,iconoHora,iconoStatusGps,iconoStatusHora;
     public TableLayout tareas;
+    //public TableFixHeaders tareas;
     public TextView statusGps,statusHora;
     public FrameLayout statusMensajes,historialAcciones;
 
@@ -57,7 +60,7 @@ public class HomeActivity extends Activity {
 
     private ThreadTareas threadTareas;
     private ThreadLocalizacion threadLocalizacion;
-    public ArrayList<Tarea> tareasAsignadas= new ArrayList<Tarea>();
+    public ArrayList<Object> tareasAsignadas= new ArrayList<Object>();
     public ArrayList<Accion> ultimasAcciones= new ArrayList<Accion>();
     Tarea tareaActiva= new Tarea();
     //private ThreadActa threadActa;
@@ -106,6 +109,7 @@ public class HomeActivity extends Activity {
         lblName.setText(nombre+" "+apellido_paterno);
 
         tareas = (TableLayout) findViewById(R.id.tareas);
+        //tareas = (TableFixHeaders) findViewById(R.id.tareas);
         tablerow = (TableRow) findViewById(R.id.tableRow);
         //tablerow.setBackgroundColor(Color.WHITE);
 

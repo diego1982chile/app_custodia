@@ -22,6 +22,7 @@ import org.ksoap2.serialization.SoapObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -30,6 +31,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
+import test3.ncxchile.cl.adapters.MatrixTableAdapter;
+import test3.ncxchile.cl.adapters.TareaTableAdapter;
 import test3.ncxchile.cl.greenDAO.DaoMaster;
 import test3.ncxchile.cl.greenDAO.DaoSession;
 import test3.ncxchile.cl.greenDAO.Accion;
@@ -44,6 +47,7 @@ import test3.ncxchile.cl.session.SessionManager;
 import test3.ncxchile.cl.soap.ClienteSoap;
 import test3.ncxchile.cl.soap.SoapHandler;
 import test3.ncxchile.cl.soap.SoapProxy;
+import test3.ncxchile.cl.widgets.TableFixHeaders;
 
 /**
  * Created by android-developer on 07-10-2014.
@@ -228,6 +232,7 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
             @Override
             public void run() {
                 TableLayout table = (TableLayout) context.findViewById(R.id.tareas);
+                //TableFixHeaders table = (TableFixHeaders) context.findViewById(R.id.tareas);
                 for (int i = 0; i < tareas.size(); i++) {
                     // get a reference for the TableLayout
                     // create a new TableRow
@@ -298,8 +303,6 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
                                     break;
                             }
                        }
-
-
                         // add the TextView to the new TableRow
                         row.addView(os);
                         row.addView(tamano);
