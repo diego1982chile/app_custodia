@@ -5,8 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.util.List;
 
+import test3.ncxchile.cl.db.DatabaseConnection;
 import test3.ncxchile.cl.greenDAO.DaoMaster;
-import test3.ncxchile.cl.greenDAO.DaoSession;
 import test3.ncxchile.cl.greenDAO.Tarea;
 import test3.ncxchile.cl.greenDAO.User;
 import test3.ncxchile.cl.security.PasswordHelper;
@@ -17,44 +17,28 @@ import test3.ncxchile.cl.security.PasswordHelper;
 public class TareaController {
 
     //private final int mRut;
-    //private final String mPassword;
-    protected int status;
+    //private final String mPassword;        
 
-    private SQLiteDatabase db;
-
-    private DaoMaster daoMaster;
-    private DaoSession daoSession;
-
-    private Context localContext;
-    private List<Tarea> tareas;
+    private Context localContext;    
 
     public TareaController(Context context) {
 
         localContext=context;
-
-        // Inicializar TareaDao
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(localContext,"cmvrc_android", null);
-        db = helper.getWritableDatabase();
-        daoMaster = new DaoMaster(db);
-        daoSession = daoMaster.newSession();
-        // Insertar usuario de prueba si no existe
-        //daoSession.getUserDao().deleteAll();
-        //db.close();
     }
 
     List getTareasAsignadas(){
-        return daoSession.getTareaDao().getAsignadas();
+        return DatabaseConnection.daoSession.getTareaDao().getAsignadas();
     }
 
     List getTareas(){
-        return daoSession.getTareaDao().getAll();
+        return DatabaseConnection.daoSession.getTareaDao().getAll();
     }
 
     Tarea getTareaById(int idTarea){
-        return daoSession.getTareaDao().getById(idTarea);
+        return DatabaseConnection.daoSession.getTareaDao().getById(idTarea);
     }
 
-    Integer getStatusTarea(long idTarea) { return daoSession.getTareaDao().getStatusTarea(idTarea); }
+    Integer getStatusTarea(long idTarea) { return DatabaseConnection.daoSession.getTareaDao().getStatusTarea(idTarea); }
 
-    public void setStatusTarea(long idTarea, int status) { daoSession.getTareaDao().setStatusTarea(idTarea,status); }
+    public void setStatusTarea(long idTarea, int status) { DatabaseConnection.daoSession.getTareaDao().setStatusTarea(idTarea,status); }
 }

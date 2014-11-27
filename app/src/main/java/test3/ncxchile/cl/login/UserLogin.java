@@ -2,22 +2,15 @@ package test3.ncxchile.cl.login;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
-import test3.ncxchile.cl.db.DbHelper;
-import test3.ncxchile.cl.fotosvid.util.ApplicationContext;
 import test3.ncxchile.cl.greenDAO.DaoMaster;
 import test3.ncxchile.cl.greenDAO.DaoSession;
 import test3.ncxchile.cl.greenDAO.User;
-import test3.ncxchile.cl.greenDAO.UserDao;
 import test3.ncxchile.cl.security.PasswordHelper;
-import test3.ncxchile.cl.security.SHA256;
 import test3.ncxchile.cl.session.SessionManager;
 
 /**

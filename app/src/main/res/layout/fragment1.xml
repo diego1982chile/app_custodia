@@ -1,9 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
-    android:paddingBottom="@dimen/activity_vertical_margin">
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".MyActivity$PlaceholderFragment">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -13,27 +17,31 @@
         android:layout_height="wrap_content"
         android:src="@drawable/headhead"
         android:layout_gravity="left|top"
-        android:id="@+id/imageView" />
+        android:id="@+id/imageViewFragmen1" />
 
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/logotipo_policial"
-        android:gravity="center"
+        android:src="@drawable/formato_headerindex"
+        android:gravity="right"
         android:background="#33b5e5"
-        android:layout_below="@id/imageView"
-        android:layout_gravity="center" />
+        android:paddingLeft="180dp"
+        android:paddingRight="20dp"
+        android:layout_below="@+id/imageView"
+        android:layout_gravity="right" />
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/imageView1"
         android:fadeScrollbars="false"
-        android:scrollbarStyle="insideOverlay"
-        android:id="@+id/scrollView2">
+        android:scrollbarStyle="insideOverlay">
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
@@ -41,9 +49,44 @@
             android:layout_marginTop="20dp"
             android:paddingBottom="70dp"
             android:layout_centerHorizontal="true">
+
             <TableRow
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/autoridad_solicita"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:showDividers="middle"
+                android:layout_marginBottom="14dp"
+                android:nestedScrollingEnabled="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:id="@+id/tableRow33">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/numero"
+                    android:textColor="#003076"
+                    android:textSize="18dp"
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/textView333" />
+
+                <test3.ncxchile.cl.widgets.RequiredEditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/view1_00_orden"
+                    android:inputType="number"
+                    android:singleLine="true"
+                    android:imeOptions="actionNext"
+                    android:layout_weight="0.51"
+                    android:layout_marginLeft="15dp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/autoridad_solicita"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:showDividers="middle"
@@ -55,20 +98,21 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/fecha_pol"
+                    android:text="@string/rut_aut"
                     android:textColor="#003076"
                     android:textSize="18dp"
                     android:layout_marginTop="8dp"
-                    android:id="@+id/textView" />
+                    android:id="@+id/textView2" />
 
-
-                <test3.ncxchile.cl.widgets.RequiredEditText
+                <test3.ncxchile.cl.widgets.RutEditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/view3_01_fechaparte"
+                    android:id="@+id/view1_01_rut"
+                    android:maxLength="9"
                     android:singleLine="true"
                     android:imeOptions="actionNext"
                     android:layout_weight="0.51"
+                    android:hint="Ingresar rut sin puntos ni guiones"
                     android:layout_marginLeft="15dp" />
             </TableRow>
 
@@ -80,9 +124,9 @@
                 android:paddingLeft="10dp"
                 android:layout_marginTop="20dp"
                 android:paddingRight="10dp"
-                android:layout_below="@+id/tableRow2"
-                android:layout_alignLeft="@+id/tableRow2"
-                android:layout_alignStart="@+id/tableRow2"
+                android:layout_below="@+id/tableRow"
+                android:layout_alignLeft="@+id/tableRow"
+                android:layout_alignStart="@+id/tableRow"
                 android:id="@+id/tableRow2">
 
                 <TextView
@@ -90,18 +134,18 @@
                     android:layout_height="wrap_content"
                     android:textColor="#003076"
                     android:textSize="18dp"
-                    android:text="@string/num_pol"
+                    android:text="@string/nombre_aut"
                     android:layout_marginTop="8dp"
                     android:id="@+id/textView3" />
 
                 <test3.ncxchile.cl.widgets.RequiredEditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/view3_02_numparte"
+                    android:id="@+id/view1_02_nombre"
                     android:layout_weight="0.51"
-                    android:inputType="number"
                     android:singleLine="true"
                     android:imeOptions="actionNext"
+                    android:maxLength="35"
                     android:layout_marginLeft="15dp" />
             </TableRow>
 
@@ -113,27 +157,163 @@
                 android:paddingLeft="10dp"
                 android:layout_marginTop="20dp"
                 android:paddingRight="10dp"
-                android:layout_below="@+id/tableRow3"
-                android:layout_alignLeft="@+id/tableRow3"
-                android:id="@+id/tableRow3">
+                android:layout_below="@+id/tableRow"
+                android:layout_alignLeft="@+id/tableRow"
+                android:layout_alignStart="@+id/tableRow"
+                android:id="@+id/tableRow2_1">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#003076"
                     android:textSize="18dp"
-                    android:text="@string/unidad_pol"
+                    android:text="@string/apellido_pat_aut"
                     android:layout_marginTop="8dp"
-                    android:id="@+id/textView5" />
+                    android:id="@+id/textView3_1" />
 
                 <test3.ncxchile.cl.widgets.RequiredEditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/view3_03_numunidadpolicial"
+                    android:id="@+id/view1_02_apellidopaterno"
                     android:layout_weight="0.51"
                     android:singleLine="true"
                     android:imeOptions="actionNext"
-                    android:inputType="number"
+                    android:maxLength="35"
+                    android:layout_marginLeft="15dp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:showDividers="middle"
+                android:nestedScrollingEnabled="true"
+                android:paddingLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:paddingRight="10dp"
+                android:layout_below="@+id/tableRow"
+                android:layout_alignLeft="@+id/tableRow"
+                android:layout_alignStart="@+id/tableRow"
+                android:id="@+id/tableRow2_2">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#003076"
+                    android:textSize="18dp"
+                    android:text="@string/apellido_mat_aut"
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/textView3_2" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/view1_02_apellidomaterno"
+                    android:layout_weight="0.51"
+                    android:singleLine="true"
+                    android:imeOptions="actionNext"
+                    android:maxLength="35"
+                    android:layout_marginLeft="15dp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:showDividers="middle"
+                android:nestedScrollingEnabled="true"
+                android:paddingLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:paddingRight="10dp"
+                android:layout_below="@+id/tableRow"
+                android:layout_alignLeft="@+id/tableRow"
+                android:layout_alignStart="@+id/tableRow"
+                android:id="@+id/tableRow2_3">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#003076"
+                    android:textSize="18dp"
+                    android:text="@string/fono_aut"
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/textView3_3" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/view1_02_telefonos"
+                    android:layout_weight="0.51"
+                    android:singleLine="true"
+                    android:hint="(+56 2) 11111111"
+                    android:imeOptions="actionNext"
+                    android:digits="+0123456789"
+                    android:maxLength="35"
+                    android:layout_marginLeft="15dp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:showDividers="middle"
+                android:nestedScrollingEnabled="true"
+                android:paddingLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:paddingRight="10dp"
+                android:layout_below="@+id/tableRow"
+                android:layout_alignLeft="@+id/tableRow"
+                android:layout_alignStart="@+id/tableRow"
+                android:id="@+id/tableRow2_4">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#003076"
+                    android:textSize="18dp"
+                    android:text="@string/correo_aut"
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/textView3_4" />
+
+                <test3.ncxchile.cl.widgets.CorreoEditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/view1_02_correos"
+                    android:layout_weight="0.51"
+                    android:singleLine="true"
+                    android:imeOptions="actionNext"
+                    android:maxLength="35"
+                    android:hint="@string/prompt_correo"
+                    android:layout_marginLeft="15dp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:showDividers="middle"
+                android:nestedScrollingEnabled="true"
+                android:paddingLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:paddingRight="10dp"
+                android:layout_below="@+id/tableRow4"
+                android:layout_alignLeft="@+id/tableRow4"
+                android:id="@+id/tableRow5">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#003076"
+                    android:textSize="18dp"
+                    android:text="@string/institucion_aut"
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/textView4" />
+
+                <test3.ncxchile.cl.widgets.CustomAutoComplete
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/view1_03_institucion"
+                    android:layout_weight="0.51"
+                    android:hint="Buscar institución..."
+                    android:maxLength="90"
+                    android:singleLine="true"
+                    android:imeOptions="actionNext"
                     android:layout_marginLeft="15dp" />
             </TableRow>
 
@@ -146,26 +326,27 @@
                 android:paddingRight="10dp"
                 android:layout_marginTop="20dp"
                 android:layout_below="@+id/tableRow2"
-                android:layout_alignLeft="@+id/tableRow4"
-                android:layout_alignStart="@+id/tableRow4"
-                android:id="@+id/tableRow4">
+                android:layout_alignLeft="@+id/tableRow2"
+                android:layout_alignStart="@+id/tableRow2"
+                android:id="@+id/tableRow3">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/nue_pol"
+                    android:text="@string/cargo_aut"
                     android:textColor="#003076"
                     android:textSize="18dp"
                     android:layout_marginTop="8dp"
-                    android:id="@+id/textView4" />
+                    android:id="@+id/textView5" />
 
-                <test3.ncxchile.cl.widgets.RequiredEditText
+                <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/view3_04_nue"
+                    android:id="@+id/view1_04_cargo"
+                    android:layout_weight="0.51"
                     android:singleLine="true"
                     android:imeOptions="actionNext"
-                    android:layout_weight="0.51"
+                    android:maxLength="20"
                     android:layout_marginLeft="15dp" />
             </TableRow>
 
@@ -178,58 +359,27 @@
                 android:paddingRight="10dp"
                 android:layout_marginTop="20dp"
                 android:layout_below="@+id/tableRow3"
-                android:layout_alignLeft="@+id/tableRow5"
-                android:layout_alignStart="@+id/tableRow5"
-                android:id="@+id/tableRow5">
+                android:layout_alignLeft="@+id/tableRow3"
+                android:layout_alignStart="@+id/tableRow3"
+                android:id="@+id/tableRow4">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/ruc_pol"
+                    android:text="@string/unidad_aut"
                     android:layout_marginTop="8dp"
                     android:textColor="#003076"
                     android:textSize="18dp"
                     android:id="@+id/textView6" />
 
-                <test3.ncxchile.cl.widgets.RequiredEditText
+                <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/view3_05_ruc"
+                    android:id="@+id/view1_05_unidadjuris"
                     android:layout_weight="0.51"
                     android:singleLine="true"
                     android:imeOptions="actionNext"
-                    android:layout_marginLeft="15dp" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:showDividers="middle"
-                android:nestedScrollingEnabled="true"
-                android:paddingLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:paddingRight="10dp"
-                android:id="@+id/tableRow8"
-                android:layout_below="@+id/tableRow6"
-                android:layout_alignLeft="@+id/tableRow6"
-                android:layout_alignStart="@+id/tableRow6">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/acta_pol"
-                    android:layout_marginTop="8dp"
-                    android:textColor="#003076"
-                    android:textSize="18dp"
-                    android:id="@+id/textView7" />
-
-                <test3.ncxchile.cl.widgets.RequiredEditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/view3_06_actaincautacion"
-                    android:layout_weight="0.51"
-                    android:singleLine="true"
-                    android:imeOptions="actionNext"
+                    android:maxLength="20"
                     android:layout_marginLeft="15dp" />
             </TableRow>
 
@@ -242,62 +392,35 @@
                 android:layout_marginTop="20dp"
                 android:paddingRight="10dp"
                 android:id="@+id/tableRow7"
-                android:layout_below="@+id/tableRow7"
-                android:layout_alignLeft="@+id/tableRow7"
-                android:layout_alignStart="@+id/tableRow7">
+                android:layout_below="@+id/tableRow5"
+                android:layout_alignLeft="@+id/tableRow5"
+                android:layout_alignStart="@+id/tableRow5">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/oficio_pol"
+                    android:text="@string/numfunc_aut"
                     android:layout_marginTop="8dp"
                     android:textColor="#003076"
                     android:textSize="18dp"
-                    android:id="@+id/textView8" />
+                    android:id="@+id/textView7" />
 
-                <test3.ncxchile.cl.widgets.RequiredEditText
+                <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/view3_07_oficioremisor"
+                    android:id="@+id/view1_06_numfunc"
                     android:layout_weight="0.51"
+                    android:maxLength="20"
                     android:singleLine="true"
                     android:imeOptions="actionNext"
+                    android:inputType="number"
                     android:layout_marginLeft="15dp" />
             </TableRow>
 
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:showDividers="middle"
-                android:nestedScrollingEnabled="true"
-                android:paddingLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:paddingRight="10dp"
-                android:id="@+id/tableRow9"
-                android:layout_below="@+id/tableRow8"
-                android:layout_alignLeft="@+id/tableRow8"
-                android:layout_alignStart="@+id/tableRow8">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tribunal_pol"
-                    android:layout_marginTop="8dp"
-                    android:textColor="#003076"
-                    android:textSize="18dp"
-                    android:id="@+id/textView9" />
-
-                <test3.ncxchile.cl.widgets.RequiredEditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/view3_08_tribunal"
-                    android:layout_weight="0.51"
-                    android:singleLine="true"
-                    android:imeOptions="actionNext"
-                    android:layout_marginLeft="15dp" />
-            </TableRow>
         </LinearLayout>
-      </ScrollView>
+    </ScrollView>
     </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>
+</FrameLayout>

@@ -1,20 +1,16 @@
 package test3.ncxchile.cl.acta;
 
-import android.app.Fragment;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
-
-import java.lang.reflect.Field;
 
 import test3.ncxchile.cl.greenDAO.InstitucionDao;
 import test3.ncxchile.cl.login.R;
-import test3.ncxchile.cl.session.SessionManager;
 import test3.ncxchile.cl.validators.RutValidator;
 import test3.ncxchile.cl.widgets.CorreoEditText;
 import test3.ncxchile.cl.widgets.CustomAutoComplete;
@@ -45,8 +41,7 @@ public class FragmentX extends android.app.Fragment {
     public CorreoEditText view1_02_correos;
     public CustomAutoComplete view1_03;
     public RutEditText view1_01;
-    public CustomScrollView customScrollView;
-    public ScrollArrow arrow_bottom,arrow_top;
+    public ScrollView scrollView;
 
     public TextView view1_tv_01, view1_tv_02, view1_tv_03, view1_tv_04, view1_tv_05, view1_tv_06;
     public String[] a;
@@ -64,7 +59,7 @@ public class FragmentX extends android.app.Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_my, container, false);
+        View rootView = inflater.inflate(R.layout.fragment1, container, false);
         // Inicializando inputs de fragmentX
 
         view1_00 = (RequiredEditText) rootView.findViewById(R.id.view1_00_orden);
@@ -87,10 +82,7 @@ public class FragmentX extends android.app.Fragment {
         view1_tv_06 = (TextView) rootView.findViewById(R.id.textView6);
         view1_06 = (EditText) rootView.findViewById(R.id.view1_06_numfunc);
 
-        customScrollView = (CustomScrollView) rootView.findViewById( R.id.scrollView1);
-        arrow_bottom=(ScrollArrow) rootView.findViewById(R.id.arrow_bottom1);
-        arrow_top=(ScrollArrow) rootView.findViewById(R.id.arrow_top1);
-        customScrollView.setScrollArrows(arrow_bottom,arrow_top);
+        scrollView = (ScrollView) rootView.findViewById( R.id.scrollView);
 
         Context context= getActivity();
 

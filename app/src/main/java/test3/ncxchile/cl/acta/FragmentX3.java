@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -34,8 +35,7 @@ public class FragmentX3 extends android.app.Fragment {
     //view3_08: *Tribunal competente -> Texto
 
     public RequiredEditText view3_01, view3_02, view3_03, view3_04, view3_05, view3_06, view3_07, view3_08;
-    public CustomScrollView customScrollView;
-    public ScrollArrow arrow_bottom,arrow_top;
+    public ScrollView scrollView;
 
     public FragmentX3 newInstance(int sectionNumber){
         FragmentX3 fragment = new FragmentX3();
@@ -61,10 +61,7 @@ public class FragmentX3 extends android.app.Fragment {
         view3_06 = (RequiredEditText) rootView.findViewById(R.id.view3_06_actaincautacion);
         view3_07 = (RequiredEditText) rootView.findViewById(R.id.view3_07_oficioremisor);
         view3_08 = (RequiredEditText) rootView.findViewById(R.id.view3_08_tribunal);
-        customScrollView = (CustomScrollView) rootView.findViewById( R.id.scrollView2);
-        arrow_bottom=(ScrollArrow) rootView.findViewById(R.id.arrow_bottom);
-        arrow_top=(ScrollArrow) rootView.findViewById(R.id.arrow_top);
-        customScrollView.setScrollArrows(arrow_bottom,arrow_top);
+        scrollView = (ScrollView) rootView.findViewById( R.id.scrollView2);
         //errores = (RequiredEditText) rootView.findViewById(R.id.errores3);
 
         Context context= getActivity();

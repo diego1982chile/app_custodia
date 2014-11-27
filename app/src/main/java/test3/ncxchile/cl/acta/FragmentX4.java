@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
@@ -43,8 +44,7 @@ public class FragmentX4 extends android.app.Fragment  {
     //public PatenteEditText view4_01;
     public EditText view4_01;
     public EditText view4_02, view4_03, view4_04, view4_05, view4_06, view4_07, view4_08;
-    public CustomScrollView customScrollView;
-    public ScrollArrow arrow_bottom,arrow_top;
+    public ScrollView scrollView;
     public CustomAutoComplete spinner;
     public RadioGroup view4_09;
     public Button validador_04;
@@ -74,10 +74,7 @@ public class FragmentX4 extends android.app.Fragment  {
         spinner = (CustomAutoComplete) rootView.findViewById(R.id.tipos_vehiculo);
         spinner.setSource(TipoVehiculoDao.TABLENAME);
         view4_09 = (RadioGroup) rootView.findViewById(R.id.view4_09_radiogroup1);
-        customScrollView = (CustomScrollView) rootView.findViewById( R.id.scrollViewFragment4);
-        arrow_bottom=(ScrollArrow) rootView.findViewById(R.id.arrow_bottom2);
-        arrow_top=(ScrollArrow) rootView.findViewById(R.id.arrow_top2);
-        customScrollView.setScrollArrows(arrow_bottom,arrow_top);
+        scrollView = (ScrollView) rootView.findViewById( R.id.scrollViewFragment4);
 
         Context context= getActivity();
 

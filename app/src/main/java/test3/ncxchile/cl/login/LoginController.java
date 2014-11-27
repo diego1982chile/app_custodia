@@ -30,10 +30,6 @@ public class LoginController implements Serializable, SoapHandler {
     private final String mPassword;
     protected int status;
 
-    private SQLiteDatabase db;
-
-    private DaoMaster daoMaster;
-    private DaoSession daoSession;
     private PasswordHelper passwordHelper;
 
     private Context localContext;
@@ -52,13 +48,8 @@ public class LoginController implements Serializable, SoapHandler {
 
         this.rutCompleto = rut;
 
-        // Inicializar UserDao
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(localContext,"cmvrc_android", null);
-        db = helper.getWritableDatabase();
-        daoMaster = new DaoMaster(db);
-        daoSession = daoMaster.newSession();
         //System.out.println("Usuarios="+daoSession.getUserDao().getByRut(mRut).toString());
-        usuarios = daoSession.getUserDao().getByRut(mRut);
+        usuarios = DatabaseConnection.daoSession.getUserDao().getByRut(mRut);
         // Insertar usuario de prueba si no existe
         //daoSession.getUserDao().deleteAll();
         //db.close();
@@ -123,8 +114,6 @@ public class LoginController implements Serializable, SoapHandler {
 
     }
 
-
-
     @Override
     public void resultValue(String methodName, Vector value) {
         System.out.println("ResultValue=" + methodName);
@@ -149,7 +138,7 @@ public class LoginController implements Serializable, SoapHandler {
                 user.setNombre(nombre);
                 user.setApellidoPaterno(apellidoPaterno);
                 user.setApellidoMaterno(apellidoMaterno);
-                daoSession.getUserDao().insertOrReplace(user); // TODO pasar a tx
+                DatabaseConnection.daoSession.getUserDao().insertOrReplace(user); // TODO pasar a tx
 
             }
         }
@@ -159,7 +148,7 @@ public class LoginController implements Serializable, SoapHandler {
 
     public User getUsuario() {
         System.out.println(mRut);
-        usuarios = daoSession.getUserDao().getByRut(mRut);
+        usuarios = DatabaseConnection.daoSession.getUserDao().getByRut(mRut);
         if (usuarios.size() == 0) {
             backupGruero();
             return null;
@@ -176,7 +165,7 @@ public class LoginController implements Serializable, SoapHandler {
         // AQUI SE DEBE CONSUMIR EL WEBSERVICE MEDIANTE LA INSTANCIACIÓN DE UN CLIENTE SOAP
         //System.out.println("Voy a consumir un WebService para autenticar al usuario en el sistema");
 
-        usuarios = daoSession.getUserDao().getByRut(mRut);
+        usuarios = DatabaseConnection.daoSession.getUserDao().getByRut(mRut);
 
         if (usuarios.size() == 0) {
             backupGruero();

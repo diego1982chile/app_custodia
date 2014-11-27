@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TableRow;
 
@@ -40,8 +41,7 @@ public class FragmentX6 extends android.app.Fragment {
     public LinearLayout input1, input2, input3, input4, input5, input6;
     public boolean boolimg, boolvid;
     public String[] a;
-    public CustomScrollView customScrollView;
-    public ScrollArrow arrow_bottom,arrow_top;
+    public ScrollView scrollView;
 
     public FragmentX6 newInstance(int sectionNumber){
         FragmentX6 fragment = new FragmentX6();
@@ -92,10 +92,7 @@ public class FragmentX6 extends android.app.Fragment {
         input6 = (LinearLayout) rootView.findViewById(R.id.input6);
         input6.setVisibility(View.GONE);
 
-        customScrollView = (CustomScrollView) rootView.findViewById( R.id.scrollView6);
-        arrow_bottom=(ScrollArrow) rootView.findViewById(R.id.arrow_bottom6);
-        arrow_top=(ScrollArrow) rootView.findViewById(R.id.arrow_top6);
-        customScrollView.setScrollArrows(arrow_bottom,arrow_top);
+        scrollView = (ScrollView) rootView.findViewById( R.id.scrollView6);
 
         switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 

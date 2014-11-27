@@ -137,6 +137,7 @@ public class CustomAutoComplete extends AutoCompleteTextView {
                     String s = getText().toString();
                     if (b) {
                         mText = s;
+                        itemSelected= new Institucion(new Long(0),s);
                         setText("");
                     } else {
                         setText(itemSelected.getNombre());

@@ -4,11 +4,9 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Xml;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,11 +41,8 @@ import com.lowagie.text.Phrase;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
-import org.apache.commons.io.Charsets;
 import org.xmlpull.v1.XmlSerializer;
 
-import test3.ncxchile.cl.POJO.ImageItem;
-import test3.ncxchile.cl.POJO.VideoItem;
 import test3.ncxchile.cl.greenDAO.Accion;
 import test3.ncxchile.cl.greenDAO.Acta;
 import test3.ncxchile.cl.home.AccionController;
@@ -612,7 +607,7 @@ public class Firma extends Activity {
         HomeActivity.setEnabled(HomeActivity.pdf, true);
 
         // Almacenar vector asociado a esta acción
-        Acta acta= actaController.getActa(session.getTareaActiva());
+        Acta acta= actaController.getActaByTarea(session.getTareaActiva());
         Accion accion= new Accion(null,"Acta Completada",new Date(),session.getLatitud(),session.getLongitud(),false,session.getTareaActiva(),acta.getId());
         accionController.encolarAccion(accion);
         // Actualizar estado interno de la tarea

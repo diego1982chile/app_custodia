@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Spinner;
 
 
 import java.util.ArrayList;
@@ -23,12 +22,8 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import test3.ncxchile.cl.greenDAO.Acta;
-import test3.ncxchile.cl.home.AccionController;
-import test3.ncxchile.cl.home.TareaController;
 import test3.ncxchile.cl.models.DatosPDF;
 
-import test3.ncxchile.cl.greenDAO.DaoMaster;
-import test3.ncxchile.cl.greenDAO.DaoSession;
 import test3.ncxchile.cl.greenDAO.FinalizarActaDao;
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.session.SessionManager;
@@ -38,10 +33,6 @@ import test3.ncxchile.cl.widgets.RequiredEditText;
 
 public class MyActivity extends Activity implements ActionBar.TabListener {
 
-    // Atributos BD
-    private SQLiteDatabase db;
-    private DaoMaster daoMaster;
-    private DaoSession daoSession;
     private FinalizarActaDao finalizarActaDao;
     private static HashMap<Integer, Fragment> mPageReferenceMap = new HashMap<Integer, Fragment>();
     ActaController actaController;
@@ -113,7 +104,7 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         actaController = new ActaController(this);
         // Session class instance
         session = new SessionManager(getApplicationContext());
-        acta= actaController.getActa(session.getTareaActiva());
+        acta= actaController.getActaByTarea(session.getTareaActiva());
         //System.out.println("Myctivity: idActa="+acta.getId()+" Nombre="+acta.getPersona().getNombre());
 
         // Create the adapter that will return a fragment for each of the three
@@ -272,7 +263,7 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
             ft.remove(a);
 
             Fragment newInstance = recreateFragment(a);
-            ft.add(R.layout.fragment_my, newInstance);
+            ft.add(R.layout.fragment1, newInstance);
             ft.commit();
             */
 
@@ -411,7 +402,7 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_my, container, false);
+            View rootView = inflater.inflate(R.layout.fragment1, container, false);
             return rootView;
         }
 

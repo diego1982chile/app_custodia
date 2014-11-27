@@ -27,6 +27,8 @@
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:id="@+id/scrollView"
+        android:fadeScrollbars="false"
+        android:scrollbarStyle="insideOverlay"
         android:layout_below="@+id/imageView1">
 
     <LinearLayout

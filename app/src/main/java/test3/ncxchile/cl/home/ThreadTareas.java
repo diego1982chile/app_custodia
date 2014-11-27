@@ -34,8 +34,6 @@ import java.util.Vector;
 import test3.ncxchile.cl.adapters.MatrixTableAdapter;
 import test3.ncxchile.cl.adapters.TareaTableAdapter;
 import test3.ncxchile.cl.db.DatabaseConnection;
-import test3.ncxchile.cl.greenDAO.DaoMaster;
-import test3.ncxchile.cl.greenDAO.DaoSession;
 import test3.ncxchile.cl.greenDAO.Accion;
 import test3.ncxchile.cl.greenDAO.Logs;
 import test3.ncxchile.cl.greenDAO.Tarea;
@@ -70,11 +68,6 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
     private TareaController tareaController;
     private AccionController accionController;
 
-    private SQLiteDatabase db;
-
-    private DaoMaster daoMaster;
-    private DaoSession daoSession;
-
     // Session Manager Class
     private SessionManager session;
 
@@ -90,11 +83,6 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
         accionController= new AccionController(_context);
 
         session = new SessionManager(appContext);
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(activityContext,"cmvrc_android", null);
-        db = helper.getWritableDatabase();
-        daoMaster = new DaoMaster(db);
-        daoSession = daoMaster.newSession();
-
 
         actualizarTareas();
     }
@@ -191,11 +179,10 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
 
                 // TODO: revisar que no exista
 
-                Tarea consulta = daoSession.getTareaDao().getByServicio(servicio);
+                Tarea consulta = DatabaseConnection.daoSession.getTareaDao().getByServicio(servicio);
                 if (consulta == null ) {
-                    daoSession.getTareaDao().insertOrReplace(tarea); // TODO pasar a tx
+                    DatabaseConnection.daoSession.getTareaDao().insertOrReplace(tarea); // TODO pasar a tx
                 }
-
             }
 
         }
