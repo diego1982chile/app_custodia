@@ -11,7 +11,8 @@ public class SoapMethod {
 	public String soapAction = null;
 	public List<PropertyInfo> params = null;
 	public String url = null;
-	
+	public Object source;
+
 	public SoapMethod(String methodName, String soapAction, String url, List<PropertyInfo> params ) {
 		this.methodName = methodName;
 		this.soapAction = soapAction;

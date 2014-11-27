@@ -82,34 +82,72 @@ public class SoapProxy {
     }
 
 
-    public static boolean confirmarOT(int servicio, String fecha, String username, SoapHandler handler) {
+    public static boolean confirmarOT(int servicio, String fecha, String username, Object source, SoapHandler handler) {
         String methodName = "confirmarOT";
         String soapAction = "http://soa.jboss.org/enterprise/OTServiceOp";
         String url = baseURL + "/OTService/ebws/enterprise/OTService";
 
         List<PropertyInfo> params = new ArrayList<PropertyInfo>();
 
-        /*
+        PropertyInfo servicioParam = new PropertyInfo();
+        servicioParam.setType(PropertyInfo.STRING_CLASS);
+        servicioParam.setName("servicio");
+        servicioParam.setValue(String.valueOf(servicio));
 
-        servicio, fecha, username
-        PropertyInfo servicio = new PropertyInfo();
-        rut.setType(PropertyInfo.STRING_CLASS);
-        rut.setName("rut");
-        rut.setValue(rutValor);
+        PropertyInfo fechaParam = new PropertyInfo();
+        fechaParam.setType(PropertyInfo.STRING_CLASS);
+        fechaParam.setName("fecha");
+        fechaParam.setValue(fecha);
 
-        PropertyInfo password = new PropertyInfo();
-        password.setType(PropertyInfo.STRING_CLASS);
-        password.setName("password");
-        password.setValue(passwordValor);
+        PropertyInfo usernameParam = new PropertyInfo();
+        usernameParam.setType(PropertyInfo.STRING_CLASS);
+        usernameParam.setName("username");
+        usernameParam.setValue(username);
 
-        params.add(rut);
-        params.add(password);
-
-        //methodName = "buscarOTs";
-
-        */
+        params.add(servicioParam);
+        params.add(fechaParam);
+        params.add(usernameParam);
 
         
+        SoapMethod soapMethod = new SoapMethod(methodName, soapAction, url, params);
+        soapMethod.source = source;
+        SoapAction action = new SoapAction(handler);
+        action.execute(new SoapMethod[] { soapMethod });
+        return true;
+    }
+
+    public static boolean confirmarArribo(int servicio, String fecha, String username, String georef, SoapHandler handler) {
+        String methodName = "confirmarArribo";
+        String soapAction = "http://soa.jboss.org/enterprise/OTServiceOp";
+        String url = baseURL + "/OTService/ebws/enterprise/OTService";
+
+        List<PropertyInfo> params = new ArrayList<PropertyInfo>();
+
+        PropertyInfo servicioParam = new PropertyInfo();
+        servicioParam.setType(PropertyInfo.STRING_CLASS);
+        servicioParam.setName("servicio");
+        servicioParam.setValue(String.valueOf(servicio));
+
+        PropertyInfo fechaParam = new PropertyInfo();
+        fechaParam.setType(PropertyInfo.STRING_CLASS);
+        fechaParam.setName("fecha");
+        fechaParam.setValue(fecha);
+
+        PropertyInfo usernameParam = new PropertyInfo();
+        usernameParam.setType(PropertyInfo.STRING_CLASS);
+        usernameParam.setName("username");
+        usernameParam.setValue(username);
+
+        PropertyInfo georefParam = new PropertyInfo();
+        georefParam.setType(PropertyInfo.STRING_CLASS);
+        georefParam.setName("georef");
+        georefParam.setValue(georef);
+
+        params.add(servicioParam);
+        params.add(fechaParam);
+        params.add(usernameParam);
+        params.add(georefParam);
+
         SoapMethod soapMethod = new SoapMethod(methodName, soapAction, url, params);
 
         SoapAction action = new SoapAction(handler);
@@ -117,16 +155,14 @@ public class SoapProxy {
         return true;
     }
 
-    public static boolean confirmarArribo(int servicio, String fecha, String username, String georef, SoapHandler handler) {
+    public static boolean finalizarActaGruero() {
         return false;
     }
 
     public static boolean confirmarInicioTraslado(int servicio, String fecha, String georef, SoapHandler handler) {
         return false;
     }
-    public static boolean finalizarActaGruero() {
-        return false;
-    }
+
 
 	
 

@@ -4,6 +4,6 @@ import java.util.Vector;
 
 public interface SoapHandler {
 	
-	public void resultValue(String methodName, Vector value);
+	public void resultValue(String methodName, Object source, Vector value);
 	
 }

@@ -34,6 +34,8 @@ import java.util.Vector;
 import test3.ncxchile.cl.adapters.MatrixTableAdapter;
 import test3.ncxchile.cl.adapters.TareaTableAdapter;
 import test3.ncxchile.cl.db.DatabaseConnection;
+import test3.ncxchile.cl.greenDAO.DaoMaster;
+import test3.ncxchile.cl.greenDAO.DaoSession;
 import test3.ncxchile.cl.greenDAO.Accion;
 import test3.ncxchile.cl.greenDAO.Logs;
 import test3.ncxchile.cl.greenDAO.Tarea;
@@ -68,6 +70,11 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
     private TareaController tareaController;
     private AccionController accionController;
 
+    private SQLiteDatabase db;
+
+    private DaoMaster daoMaster;
+    private DaoSession daoSession;
+
     // Session Manager Class
     private SessionManager session;
 
@@ -83,6 +90,11 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
         accionController= new AccionController(_context);
 
         session = new SessionManager(appContext);
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(activityContext,"cmvrc_android", null);
+        db = helper.getWritableDatabase();
+        daoMaster = new DaoMaster(db);
+        daoSession = daoMaster.newSession();
+
 
         actualizarTareas();
     }
@@ -150,10 +162,12 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
     }
 
     @Override
-    public void resultValue(String methodName, Vector value) {
+    public void resultValue(String methodName, Object source, Vector value) {
         System.out.println("Resultado WS=" + methodName + "=" + value);
 
+
         //daoSession.getTareaDao().deleteAll(); // TODO: revisar
+        //daoSession.getAccionDao().deleteAll();// TODO: revisar
 
         if (value != null) {
             for (int i = 0; i < value.size(); i++) {
@@ -179,13 +193,27 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
 
                 // TODO: revisar que no exista
 
-                Tarea consulta = DatabaseConnection.daoSession.getTareaDao().getByServicio(servicio);
+                Tarea consulta = daoSession.getTareaDao().getByServicio(servicio);
                 if (consulta == null ) {
-                    DatabaseConnection.daoSession.getTareaDao().insertOrReplace(tarea); // TODO pasar a tx
+                    Tarea consultaExiste = daoSession.getTareaDao().getByServicio(servicio);
+                    if (consultaExiste == null) {
+                        daoSession.getTareaDao().insertOrReplace(tarea); // TODO pasar a tx
+                    }
+
+
                 }
+
             }
 
         }
+        List<Tarea> tareas = tareaController.getTareasAsignadas();
+        System.out.println("Tareas Asignadas=" + tareas);
+        actualizarTablaTareas(tareas);
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.DATE, -2);  // number of days to add
+        actualizarTablaAcciones(accionController.getUltimasAcciones(c.getTime()));
     }
 
     @Override
