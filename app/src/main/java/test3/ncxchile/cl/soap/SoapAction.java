@@ -3,10 +3,12 @@ package test3.ncxchile.cl.soap;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Vector;
 
+import org.ksoap2.HeaderProperty;
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.PropertyInfo;
 import org.ksoap2.serialization.SoapObject;
@@ -18,9 +20,9 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import android.os.AsyncTask;
 
-import test3.ncxchile.cl.db.Global;
+import test3.ncxchile.cl.db.DatabaseConnection;
 import test3.ncxchile.cl.greenDAO.Logs;
-import test3.ncxchile.cl.helpers.Logger;
+import test3.ncxchile.cl.home.HomeActivity;
 
 public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
 
@@ -46,7 +48,10 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
 			SoapMethod current = methods[i];
             lastSource = current.source;
 
-            Logger.log("Call WS: SoapProxy." + current.methodName);
+            Logs logs=new Logs();
+            logs.setTimeStamp(new Date());
+            logs.setDescripcion("Call WS: SoapProxy."+current.methodName);
+            DatabaseConnection.daoSession.getLogsDao().insert(logs);
 
 			Vector data = null;
 			SoapObject request = new SoapObject(current.namespace,
@@ -140,15 +145,19 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
 			try {
 				Object resp = envelope.getResponse();
 				data = (Vector) resp;
-                Logger.log("Response WS: SoapProxy."+current.methodName);
+                logs=new Logs();
+                logs.setTimeStamp(new Date());
+                logs.setDescripcion("Response WS: SoapProxy."+current.methodName);
+                DatabaseConnection.daoSession.getLogsDao().insert(logs);
 			} catch (Exception e) {
 				e.printStackTrace();
-
+                logs=new Logs();
+                logs.setTimeStamp(new Date());
                 StringWriter sw = new StringWriter();
                 PrintWriter pw = new PrintWriter(sw);
                 e.printStackTrace(pw);
-
-                Logger.log("Error WS: SoapProxy."+current.methodName+" StackTrace:"+sw.toString());
+                logs.setDescripcion("Error WS: SoapProxy."+current.methodName+" StackTrace:"+sw.toString());
+                DatabaseConnection.daoSession.getLogsDao().insert(logs);
             }
 			return data;
 		}
@@ -157,7 +166,7 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
 
     @Override
 	protected void onPostExecute(Vector vector) {
-		handler.resultValue(currentMethod.methodName, lastSource, vector);
+		handler.resultValue(currentMethod.methodName, vector);
 	}
 
 	@Override

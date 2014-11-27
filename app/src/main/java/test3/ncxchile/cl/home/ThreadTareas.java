@@ -2,7 +2,12 @@ package test3.ncxchile.cl.home;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.CountDownTimer;
 import android.view.Gravity;
 import android.view.View;
@@ -11,10 +16,13 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.ksoap2.serialization.PropertyInfo;
 import org.ksoap2.serialization.SoapObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -23,17 +31,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
-import test3.ncxchile.cl.db.Global;
-import test3.ncxchile.cl.greenDAO.DaoMaster;
-import test3.ncxchile.cl.greenDAO.DaoSession;
+import test3.ncxchile.cl.adapters.MatrixTableAdapter;
+import test3.ncxchile.cl.adapters.TareaTableAdapter;
+import test3.ncxchile.cl.db.DatabaseConnection;
 import test3.ncxchile.cl.greenDAO.Accion;
 import test3.ncxchile.cl.greenDAO.Logs;
 import test3.ncxchile.cl.greenDAO.Tarea;
+import test3.ncxchile.cl.greenDAO.User;
+import test3.ncxchile.cl.helpers.ConnectionTask;
 import test3.ncxchile.cl.helpers.InternetDetector;
-import test3.ncxchile.cl.helpers.Logger;
+import test3.ncxchile.cl.login.LoginActivity;
 import test3.ncxchile.cl.login.LoginController;
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.session.SessionManager;
+import test3.ncxchile.cl.soap.ClienteSoap;
 import test3.ncxchile.cl.soap.SoapHandler;
 import test3.ncxchile.cl.soap.SoapProxy;
 
@@ -57,11 +68,6 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
     private TareaController tareaController;
     private AccionController accionController;
 
-    private SQLiteDatabase db;
-
-    private DaoMaster daoMaster;
-    private DaoSession daoSession;
-
     // Session Manager Class
     private SessionManager session;
 
@@ -77,11 +83,6 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
         accionController= new AccionController(_context);
 
         session = new SessionManager(appContext);
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(activityContext,"cmvrc_android", null);
-        db = helper.getWritableDatabase();
-        daoMaster = new DaoMaster(db);
-        daoSession = daoMaster.newSession();
-
 
         actualizarTareas();
     }
@@ -112,8 +113,10 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
                 // Si no hay conexion previa se consumen los webservices para obtener las tareas asignadas
                 conexionPrevia=true;
                 notificarConexion(true);
-
-                Logger.log("Internet Connection Acquired");
+                Logs logs=new Logs();
+                logs.setTimeStamp(new Date());
+                logs.setDescripcion("Internet Connection Acquired");
+                DatabaseConnection.daoSession.getLogsDao().insert(logs);
                 //System.out.println("Voy a consumir un WebService para sincronizar la app con el sistema RTEWEB");
 
                 System.out.println("LLAMANDO WEB SERVICE: " + rut);
@@ -125,7 +128,10 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
             conexionPrevia=false;
 
             if(!desconexionPrevia){
-                Logger.log("Internet Connection Lost");
+                Logs logs=new Logs();
+                logs.setTimeStamp(new Date());
+                logs.setDescripcion("Internet Connection Lost");
+                DatabaseConnection.daoSession.getLogsDao().insert(logs);
                 desconexionPrevia=true;
                 notificarConexion(false);
             }
@@ -144,12 +150,10 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
     }
 
     @Override
-    public void resultValue(String methodName, Object source, Vector value) {
+    public void resultValue(String methodName, Vector value) {
         System.out.println("Resultado WS=" + methodName + "=" + value);
 
-
         //daoSession.getTareaDao().deleteAll(); // TODO: revisar
-        //daoSession.getAccionDao().deleteAll();// TODO: revisar
 
         if (value != null) {
             for (int i = 0; i < value.size(); i++) {
@@ -175,27 +179,14 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
 
                 // TODO: revisar que no exista
 
-                Tarea consulta = daoSession.getTareaDao().getByServicio(servicio);
+                Tarea consulta = DatabaseConnection.daoSession.getTareaDao().getByServicio(servicio);
+
                 if (consulta == null ) {
-                    Tarea consultaExiste = daoSession.getTareaDao().getByServicio(servicio);
-                    if (consultaExiste == null) {
-                        daoSession.getTareaDao().insertOrReplace(tarea); // TODO pasar a tx
-                    }
-
-
+                    DatabaseConnection.daoSession.getTareaDao().insertOrReplace(tarea); // TODO pasar a tx
                 }
-
             }
 
         }
-        List<Tarea> tareas = tareaController.getTareasAsignadas();
-        System.out.println("Tareas Asignadas=" + tareas);
-        actualizarTablaTareas(tareas);
-
-        Calendar c = Calendar.getInstance();
-        c.setTime(new Date());
-        c.add(Calendar.DATE, -2);  // number of days to add
-        actualizarTablaAcciones(accionController.getUltimasAcciones(c.getTime()));
     }
 
     @Override
