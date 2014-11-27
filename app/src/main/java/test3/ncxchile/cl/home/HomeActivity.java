@@ -6,7 +6,6 @@ import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -33,11 +32,8 @@ import java.util.HashMap;
 
 import test3.ncxchile.cl.acta.MyActivity;
 import test3.ncxchile.cl.db.AndroidDatabaseManager;
-import test3.ncxchile.cl.db.DatabaseConnection;
-import test3.ncxchile.cl.fotosvid.activity.SeleccionServicioActivity;
+import test3.ncxchile.cl.db.Global;
 import test3.ncxchile.cl.greenDAO.Accion;
-import test3.ncxchile.cl.greenDAO.DaoMaster;
-import test3.ncxchile.cl.greenDAO.DaoSession;
 import test3.ncxchile.cl.greenDAO.Logs;
 import test3.ncxchile.cl.greenDAO.Tarea;
 
@@ -159,7 +155,6 @@ public class HomeActivity extends Activity {
             public void onClick(DialogInterface dialog, int which) {
             }
         });
-
     }
 
     @Override
@@ -303,7 +298,10 @@ public class HomeActivity extends Activity {
                 setEnabled(retiroRealizado, false);
                 // Almacenar vector asociado a esta acción
                 tareaActiva=tareaController.getTareaById(tablerow.getId());
-                Accion accion= new Accion(null,"Tarea Tomada",new Date(),session.getLatitud(),session.getLongitud(),false,tareaActiva.getId(),null);
+                Date timeStamp= new Date();
+                SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
+                SimpleDateFormat hora = new SimpleDateFormat("HH:mm");
+                Accion accion= new Accion(null,"Tarea Tomada",fecha.format(timeStamp),hora.format(timeStamp),timeStamp,session.getLatitud(),session.getLongitud(),false,tareaActiva.getId(),null);
                 accionController.encolarAccion(accion);
                 // Actualizar estado interno de la tarea
                 tareaController.setStatusTarea(tablerow.getId(),1);
@@ -346,7 +344,10 @@ public class HomeActivity extends Activity {
                     setEnabled(retiroRealizado, false);
                     // Almacenar vector asociado a esta acción
                     tareaActiva=tareaController.getTareaById(tablerow.getId());
-                    Accion accion= new Accion(null,"Arribo Confirmado",new Date(),session.getLatitud(),session.getLongitud(),false,tareaActiva.getId(),null);
+                    Date timeStamp= new Date();
+                    SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat hora = new SimpleDateFormat("HH:mm");
+                    Accion accion= new Accion(null,"Arribo Confirmado",fecha.format(timeStamp),hora.format(timeStamp),timeStamp,session.getLatitud(),session.getLongitud(),false,tareaActiva.getId(),null);
                     accionController.encolarAccion(accion);
                     // Actualizar estado interno de la tarea
                     tareaController.setStatusTarea(tablerow.getId(),2);
@@ -461,7 +462,7 @@ public class HomeActivity extends Activity {
         Logs logs=new Logs();
         logs.setTimeStamp(new Date());
         logs.setDescripcion("User Logout");
-        DatabaseConnection.daoSession.getLogsDao().insert(logs);
+        Global.daoSession.getLogsDao().insert(logs);
         threadTareas.cancel();
         threadLocalizacion.cancel();
         finish();

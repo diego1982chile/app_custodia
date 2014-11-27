@@ -1,25 +1,19 @@
 package test3.ncxchile.cl.acta;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.util.Base64;
 
 import com.lowagie.text.BadElementException;
 import com.lowagie.text.Image;
 
-import org.apache.commons.io.Charsets;
-
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 
-import test3.ncxchile.cl.db.DatabaseConnection;
+import test3.ncxchile.cl.db.Global;
 import test3.ncxchile.cl.greenDAO.*;
 import test3.ncxchile.cl.models.DatosPDF;
 import test3.ncxchile.cl.session.SessionManager;
@@ -56,7 +50,7 @@ public class ActaController {
         String apellidoMaternoGruero = user.get(SessionManager.KEY_APELLIDO_MATERNO);
 
         // Obtener acta de la tarea activa
-        Acta acta= DatabaseConnection.daoSession.getActaDao().getByIdTarea(session.getTareaActiva());
+        Acta acta= Global.daoSession.getActaDao().getByIdTarea(session.getTareaActiva());
 
         // Actualizar autoridad
         acta.getAutoridad().getPersona().setRut(datosPDF.getView1_01());
@@ -124,68 +118,68 @@ public class ActaController {
         // 3) Set the foreign property of the new entity to the target entity
         fichaEstadoVisual.setIdVehiculo(acta.getVehiculoData().getVehiculo().getId());
         // 4) Persist the new object using insert
-        DatabaseConnection.daoSession.getFichaEstadoVisualDao().insert(fichaEstadoVisual);
+        Global.daoSession.getFichaEstadoVisualDao().insert(fichaEstadoVisual);
         // 5)Add the new object to the to-many Java List
         acta.getVehiculoData().getVehiculo().getFichaEstadoVisualList().add(fichaEstadoVisual);
 
         acta.getVehiculoData().getVehiculo().getFichaEstadoVisualList();
         fichaEstadoVisual= new FichaEstadoVisual(null,false,datosPDF.getView5_05(),0);
         fichaEstadoVisual.setIdVehiculo(acta.getVehiculoData().getVehiculo().getId());
-        DatabaseConnection.daoSession.getFichaEstadoVisualDao().insert(fichaEstadoVisual);
+        Global.daoSession.getFichaEstadoVisualDao().insert(fichaEstadoVisual);
         acta.getVehiculoData().getVehiculo().getFichaEstadoVisualList().add(fichaEstadoVisual);
 
         acta.getVehiculoData().getVehiculo().getFichaEstadoVisualList();
         fichaEstadoVisual= new FichaEstadoVisual(null,false,datosPDF.getView5_07(),0);
         fichaEstadoVisual.setIdVehiculo(acta.getVehiculoData().getVehiculo().getId());
-        DatabaseConnection.daoSession.getFichaEstadoVisualDao().insert(fichaEstadoVisual);
+        Global.daoSession.getFichaEstadoVisualDao().insert(fichaEstadoVisual);
         acta.getVehiculoData().getVehiculo().getFichaEstadoVisualList().add(fichaEstadoVisual);
 
         acta.getVehiculoData().getVehiculo().getFichaEstadoVisualList();
         fichaEstadoVisual= new FichaEstadoVisual(null,false,datosPDF.getView5_08(),0);
         fichaEstadoVisual.setIdVehiculo(acta.getVehiculoData().getVehiculo().getId());
-        DatabaseConnection.daoSession.getFichaEstadoVisualDao().insert(fichaEstadoVisual);
+        Global.daoSession.getFichaEstadoVisualDao().insert(fichaEstadoVisual);
         acta.getVehiculoData().getVehiculo().getFichaEstadoVisualList().add(fichaEstadoVisual);
 
         acta.getVehiculoData().getVehiculo().getFichaEstadoVisualList();
         fichaEstadoVisual= new FichaEstadoVisual(null,datosPDF.getView5_10(),"",0);
         fichaEstadoVisual.setIdVehiculo(acta.getVehiculoData().getVehiculo().getId());
-        DatabaseConnection.daoSession.getFichaEstadoVisualDao().insert(fichaEstadoVisual);
+        Global.daoSession.getFichaEstadoVisualDao().insert(fichaEstadoVisual);
         acta.getVehiculoData().getVehiculo().getFichaEstadoVisualList().add(fichaEstadoVisual);
 
         acta.getVehiculoData().getVehiculo().getFichaEstadoVisualList();
         fichaEstadoVisual= new FichaEstadoVisual(null,datosPDF.getView5_11(),"",0);
         fichaEstadoVisual.setIdVehiculo(acta.getVehiculoData().getVehiculo().getId());
-        DatabaseConnection.daoSession.getFichaEstadoVisualDao().insert(fichaEstadoVisual);
+        Global.daoSession.getFichaEstadoVisualDao().insert(fichaEstadoVisual);
         acta.getVehiculoData().getVehiculo().getFichaEstadoVisualList().add(fichaEstadoVisual);
 
         acta.getVehiculoData().getVehiculo().getFichaEstadoVisualList();
         fichaEstadoVisual= new FichaEstadoVisual(null,datosPDF.getView5_12(),"",0);
         fichaEstadoVisual.setIdVehiculo(acta.getVehiculoData().getVehiculo().getId());
-        DatabaseConnection.daoSession.getFichaEstadoVisualDao().insert(fichaEstadoVisual);
+        Global.daoSession.getFichaEstadoVisualDao().insert(fichaEstadoVisual);
         acta.getVehiculoData().getVehiculo().getFichaEstadoVisualList().add(fichaEstadoVisual);
 
         acta.getVehiculoData().getVehiculo().getFichaEstadoVisualList();
         fichaEstadoVisual= new FichaEstadoVisual(null,datosPDF.getView5_13(),"",0);
         fichaEstadoVisual.setIdVehiculo(acta.getVehiculoData().getVehiculo().getId());
-        DatabaseConnection.daoSession.getFichaEstadoVisualDao().insert(fichaEstadoVisual);
+        Global.daoSession.getFichaEstadoVisualDao().insert(fichaEstadoVisual);
         acta.getVehiculoData().getVehiculo().getFichaEstadoVisualList().add(fichaEstadoVisual);
 
         acta.getVehiculoData().getVehiculo().getFichaEstadoVisualList();
         fichaEstadoVisual= new FichaEstadoVisual(null,datosPDF.getView5_14(),"",0);
         fichaEstadoVisual.setIdVehiculo(acta.getVehiculoData().getVehiculo().getId());
-        DatabaseConnection.daoSession.getFichaEstadoVisualDao().insert(fichaEstadoVisual);
+        Global.daoSession.getFichaEstadoVisualDao().insert(fichaEstadoVisual);
         acta.getVehiculoData().getVehiculo().getFichaEstadoVisualList().add(fichaEstadoVisual);
 
         acta.getVehiculoData().getVehiculo().getFichaEstadoVisualList();
         fichaEstadoVisual= new FichaEstadoVisual(null,datosPDF.getView5_15(),"",0);
         fichaEstadoVisual.setIdVehiculo(acta.getVehiculoData().getVehiculo().getId());
-        DatabaseConnection.daoSession.getFichaEstadoVisualDao().insert(fichaEstadoVisual);
+        Global.daoSession.getFichaEstadoVisualDao().insert(fichaEstadoVisual);
         acta.getVehiculoData().getVehiculo().getFichaEstadoVisualList().add(fichaEstadoVisual);
 
         acta.getVehiculoData().getVehiculo().getFichaEstadoVisualList();
         fichaEstadoVisual= new FichaEstadoVisual(null,datosPDF.getView5_16(),"",0);
         fichaEstadoVisual.setIdVehiculo(acta.getVehiculoData().getVehiculo().getId());
-        DatabaseConnection.daoSession.getFichaEstadoVisualDao().insert(fichaEstadoVisual);
+        Global.daoSession.getFichaEstadoVisualDao().insert(fichaEstadoVisual);
         acta.getVehiculoData().getVehiculo().getFichaEstadoVisualList().add(fichaEstadoVisual);
 
         Correos correoConductor, correoPropietario;
@@ -198,18 +192,18 @@ public class ActaController {
 
             // Primero agregar persona propietario
             propietario = new Persona(null, datosPDF.getView6_02(), datosPDF.getView6_01(), datosPDF.getView6_02_paterno(), datosPDF.getView6_02_materno(), "", 0, 0, 0);
-            DatabaseConnection.daoSession.getPersonaDao().insert(propietario);
+            Global.daoSession.getPersonaDao().insert(propietario);
 
             propietario.getCorreos();
             correoPropietario = new Correos(null, datosPDF.getView6_04(), 0);
             correoPropietario.setCorreosID(propietario.getId());
-            DatabaseConnection.daoSession.getCorreosDao().insert(correoPropietario);
+            Global.daoSession.getCorreosDao().insert(correoPropietario);
             propietario.getCorreos().add(correoPropietario);
 
             propietario.getTelefonos();
             fonoPropietario = new Telefonos(null, datosPDF.getView6_05(), 0);
             correoPropietario.setCorreosID(propietario.getId());
-            DatabaseConnection.daoSession.getTelefonosDao().insert(fonoPropietario);
+            Global.daoSession.getTelefonosDao().insert(fonoPropietario);
             propietario.getTelefonos().add(fonoPropietario);
 
             // Agregar clientePropietario
@@ -217,7 +211,7 @@ public class ActaController {
             Cliente clientePropietario = new Cliente(null, datosPDF.getView6_03(), 0, 0);
             clientePropietario.setClientePropietarioID(acta.getVehiculoDataID());
             clientePropietario.setPersonaID(propietario.getId());
-            DatabaseConnection.daoSession.getClienteDao().insert(clientePropietario);
+            Global.daoSession.getClienteDao().insert(clientePropietario);
             acta.getVehiculoData().getClientePropietario().add(clientePropietario);
         }
 
@@ -227,18 +221,18 @@ public class ActaController {
             // Primero agregar persona conductor
             if(!datosPDF.getView6_06().toString().equals(datosPDF.getView6_06().toString())){
                 conductor = new Persona(null, datosPDF.getView6_07(), datosPDF.getView6_06(), datosPDF.getView6_06_paterno(), datosPDF.getView6_06_materno(), "", 0, 0, 0);
-                DatabaseConnection.daoSession.getPersonaDao().insert(conductor);
+                Global.daoSession.getPersonaDao().insert(conductor);
 
                 conductor.getCorreos();
                 correoConductor = new Correos(null, datosPDF.getView6_09(), 0);
                 correoConductor.setCorreosID(conductor.getId());
-                DatabaseConnection.daoSession.getCorreosDao().insert(correoConductor);
+                Global.daoSession.getCorreosDao().insert(correoConductor);
                 conductor.getCorreos().add(correoConductor);
 
                 conductor.getTelefonos();
                 fonoConductor = new Telefonos(null, datosPDF.getView6_10(), 0);
                 correoConductor.setCorreosID(conductor.getId());
-                DatabaseConnection.daoSession.getTelefonosDao().insert(fonoConductor);
+                Global.daoSession.getTelefonosDao().insert(fonoConductor);
                 conductor.getTelefonos().add(fonoConductor);
             }
             else{
@@ -249,16 +243,16 @@ public class ActaController {
             Cliente clienteConductor = new Cliente(null, datosPDF.getView6_08(), 0, 0);
             clienteConductor.setClientePropietarioID(acta.getVehiculoDataID());
             clienteConductor.setPersonaID(conductor.getId());
-            DatabaseConnection.daoSession.getClienteDao().insert(clienteConductor);
+            Global.daoSession.getClienteDao().insert(clienteConductor);
             acta.getVehiculoData().getClientePropietario().add(clienteConductor);
         }
         //acta.getVehiculoData().getClientePropietario().set.setPersona(conductor);
 
-        Persona gruero= DatabaseConnection.daoSession.getPersonaDao().getByRut(rutGruero);
+        Persona gruero= Global.daoSession.getPersonaDao().getByRut(rutGruero);
 
         if(gruero==null){
             gruero= new Persona(null,nombreGruero,rutGruero,apellidoPaternoGruero,apellidoMaternoGruero,"",0,0,0);
-            DatabaseConnection.daoSession.getPersonaDao().insert(gruero);
+            Global.daoSession.getPersonaDao().insert(gruero);
         }
         acta.setPersona(gruero);
 
@@ -266,11 +260,11 @@ public class ActaController {
             acta.getVehiculoData().getEspeciasList();
             Especias especias= new Especias(null, (String) datosPDF.getView8_01().get(i),0);
             especias.setEspeciasID(acta.getVehiculoDataID());
-            DatabaseConnection.daoSession.getEspeciasDao().insert(especias);
+            Global.daoSession.getEspeciasDao().insert(especias);
             acta.getVehiculoData().getEspeciasList().add(especias);
         }
 
-        DatabaseConnection.daoSession.getActaDao().update(acta);
+        Global.daoSession.getActaDao().update(acta);
 
         // public Acta(Long id, String observacion, String causaRetiro, Boolean existImage, Boolean existVideo, java.util.Date fechaCreacion, java.util.Date fechaFirma, Integer idSolicitud, Integer idOt, Integer idGrua, Boolean fiscalia, String nue, String ruc, String parte, String unidadPolicial, java.util.Date fechaParte, Integer servicio, Boolean gruaExterna, String observacionImgenes, String nombreExterno, Integer numeroFactura, Integer montoFactura, String numeroPatente, Boolean cargaInicial, String actaIncautacion, String oficioRemisor, long vehiculoDataID, long direccionID, long autoridadID, long grueroID, long tribunalID) {
     }
@@ -280,7 +274,7 @@ public class ActaController {
         SessionManager session = new SessionManager(localContext);
 
         // Obtener acta de la tarea activa
-        Acta acta= DatabaseConnection.daoSession.getActaDao().getByIdTarea(session.getTareaActiva());
+        Acta acta= Global.daoSession.getActaDao().getByIdTarea(session.getTareaActiva());
 
         String text1 = Base64.encodeToString(firmaAutoridad, Base64.DEFAULT);
         String text2 = Base64.encodeToString(firmaGruero, Base64.DEFAULT);
@@ -302,15 +296,15 @@ public class ActaController {
         //System.out.println("text1.length(): "+text1.length());
 
         test3.ncxchile.cl.greenDAO.Firma firma= new test3.ncxchile.cl.greenDAO.Firma(null, text1, text2);
-        DatabaseConnection.daoSession.getFirmaDao().insert(firma);
+        Global.daoSession.getFirmaDao().insert(firma);
         acta.setFirma(firma);
 
-        DatabaseConnection.daoSession.getActaDao().update(acta);
+        Global.daoSession.getActaDao().update(acta);
 
         return imagen;
     }
 
     public Acta getActaByTarea(Long idTarea){
-        return DatabaseConnection.daoSession.getActaDao().getByIdTarea(idTarea);
+        return Global.daoSession.getActaDao().getByIdTarea(idTarea);
     }
 };

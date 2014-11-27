@@ -608,7 +608,10 @@ public class Firma extends Activity {
 
         // Almacenar vector asociado a esta acción
         Acta acta= actaController.getActaByTarea(session.getTareaActiva());
-        Accion accion= new Accion(null,"Acta Completada",new Date(),session.getLatitud(),session.getLongitud(),false,session.getTareaActiva(),acta.getId());
+        Date timeStamp= new Date();
+        SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat hora = new SimpleDateFormat("HH:mm");
+        Accion accion= new Accion(null,"Acta Completada",fecha.format(timeStamp),hora.format(timeStamp),timeStamp,session.getLatitud(),session.getLongitud(),false,session.getTareaActiva(),acta.getId());
         accionController.encolarAccion(accion);
         // Actualizar estado interno de la tarea
         tareaController.setStatusTarea(session.getTareaActiva(),3);
@@ -620,7 +623,6 @@ public class Firma extends Activity {
 
         // Generador de XML por java, con datos sacados desde el objeto datospdfs
         //File newxmlfile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),NOMBRE_DIRECTORIO + File.separator + datospdf2.getView1_00().toString() + ".xml");
-
 
         File newxmlfile = new File(storageDir.getAbsolutePath(), NOMBRE_DOCUMENTO_XML);
 

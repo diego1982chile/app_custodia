@@ -25,6 +25,9 @@ public class SessionManager {
     // Sharedpref file name
     private static final String PREF_NAME = "AndroidTest3Pref";
 
+    // Sharedpref file name
+    private static final String KEY_ID = "id";
+
     // All Shared Preferences Keys
     private static final String IS_LOGIN = "IsLoggedIn";
 
@@ -39,6 +42,9 @@ public class SessionManager {
 
     // Email address (make variable public to access from outside)
     public static final String KEY_APELLIDO_MATERNO = "apellido_materno";
+
+    // Email address (make variable public to access from outside)
+    public static final String KEY_GRUA = "grua";
 
     // Amount of video files
     public static final String KEY_CANTIDAD_VIDEOS = "cantidad_videos";
@@ -72,6 +78,10 @@ public class SessionManager {
      * Create login session
      * */
     public void createLoginSession(String rut, String nombre, String apellido_paterno, String apellido_materno){
+
+        // Storing login value as TRUE
+        editor.putString(KEY_ID, "");
+
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
 
@@ -177,6 +187,26 @@ public class SessionManager {
     // Get Login State
     public boolean isLoggedIn(){
         return pref.getBoolean(IS_LOGIN, false);
+    }
+
+    public String getId(){
+        return pref.getString(KEY_ID, "");
+    }
+
+    public void setId(String id){
+        Editor editor= pref.edit();
+        editor.putString(KEY_ID, id);
+        editor.commit();
+    }
+
+    public String getGrua(){
+        return pref.getString(KEY_GRUA, "");
+    }
+
+    public void setGrua(String grua){
+        Editor editor= pref.edit();
+        editor.putString(KEY_GRUA, grua);
+        editor.commit();
     }
 
     public int getCantidadFotos(){

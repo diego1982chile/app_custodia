@@ -20,17 +20,24 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.gms.games.internal.GamesLog;
+
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.Vector;
 
-import test3.ncxchile.cl.db.DatabaseConnection;
+import test3.ncxchile.cl.db.Global;
 import test3.ncxchile.cl.greenDAO.Logs;
+import test3.ncxchile.cl.greenDAO.Sesion;
 import test3.ncxchile.cl.greenDAO.User;
 import test3.ncxchile.cl.helpers.InternetDetector;
+import test3.ncxchile.cl.helpers.Logger;
 import test3.ncxchile.cl.home.HomeActivity;
+import test3.ncxchile.cl.home.TareaDialogFragment;
 import test3.ncxchile.cl.session.SessionManager;
 import test3.ncxchile.cl.soap.SoapHandler;
 import test3.ncxchile.cl.validators.RutValidator;
@@ -58,6 +65,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
     public Boolean isInternetPresent = false;
 
     private String rutActual = null;
+
+    private GruaDialogFragment gruaDialogFragment;
+
+    public static SessionManager session;
+    public static User usuario;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -84,8 +97,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
 
         mEmailView.setText("66221261");
         mPasswordView.setText("Ncx123456");
+
+        gruaDialogFragment = new GruaDialogFragment();
+        session = new SessionManager(getApplicationContext());
     }
 
+    /*
     @Override
     public void onStart() {
         super.onStart();
@@ -112,6 +129,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
         logs.setDescripcion("Application Destroyed");
         DatabaseConnection.daoSession.getLogsDao().insert(logs);
     }
+    */
 
     /**
      * Attempts to sign in or register the account specified by the login form.
@@ -168,23 +186,20 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
             // Si hay conexion autenticar online. Si no hay conexion autenticar offline
             int loginResponse;
 
-
-
             System.out.println("Internet=?" + isInternetPresent);
             if(isInternetPresent) {
-                loginResponse= mAuthTask.loginOnLine(this);
+                mAuthTask.loginOnLine(this);
             }
             else {
                 loginResponse= mAuthTask.loginOffLine();
                 rutActual = rut;
-                postLogin(loginResponse);
+                postLogin(loginResponse,false);
             }
-
         }
     }
 
 
-    private void postLogin(int loginResponse) {
+    private void postLogin(int loginResponse, boolean online) {
         System.out.println("postLogin=" + loginResponse);
         showProgress(false);
         mEmailView.setError(null);
@@ -208,20 +223,41 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
                 try {// Si el login fue exitoso
                     // Simulate network access.
                     //System.out.println("EL LOGIN FUE EXITOSO!!");
-
                     // Session Manager
-                    SessionManager session = mAuthTask.getSession();
-                    User usuario = mAuthTask.getUsuario();
-                    while(usuario == null) {
+                    final UUID idSesion= UUID.randomUUID();
+                    usuario = mAuthTask.getUsuario();
+
+                    Date timeStamp= new Date();
+                    SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat hora = new SimpleDateFormat("HH:mm");
+
+                    Global.sesion= new Sesion();
+                    Global.sesion.setFecha(fecha.format(timeStamp));
+                    Global.sesion.setHora_inicio(hora.format(timeStamp));
+                    Global.sesion.setTimeStamp(timeStamp);
+                    Global.sesion.setCookies(idSesion.toString());
+                    Global.daoSession.getSesionDao().insert(Global.sesion);
+
+                    while (usuario == null) {
                         Thread.sleep(5000);
                         usuario = mAuthTask.getUsuario();
                     }
-                    // Creating user login session
-                    session.createLoginSession(usuario.getRut()+usuario.getDv().toString(), usuario.getNombre(), usuario.getApellidoPaterno(), usuario.getApellidoMaterno());
+                    if(online) {
+                        // Creating user login session
+                        session.createLoginSession(usuario.getRut() + usuario.getDv().toString(), usuario.getNombre(), usuario.getApellidoPaterno(), usuario.getApellidoMaterno());
+                        session.setId(idSesion.toString());
+                        Logger.log("Login Online:" + usuario.getNombre() + " " + usuario.getApellidoPaterno() + " Grúa:");
 
-                    Thread.sleep(0);
-                    Intent myIntent = new Intent(LoginActivity.this, HomeActivity.class);
-                    LoginActivity.this.startActivity(myIntent);
+                        Intent myIntent = new Intent(LoginActivity.this, HomeActivity.class);
+                        LoginActivity.this.startActivity(myIntent);
+                    }
+                    else{
+                        // Si es login offline, solicitar identificación de la grúa
+                        // Create an instance of the dialog fragment and show it
+
+                        gruaDialogFragment.show(getFragmentManager(), "NoticeDialogFragment");
+                    }
+
                 } catch (InterruptedException e) {
                     //System.out.println("Error al cargar Home: "+ e);
                     e.printStackTrace();
@@ -237,14 +273,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
             String msg = value.get(1).toString();
             int codigo = Integer.parseInt(cod);
             if (codigo == 00) {
-                postLogin(1);
-                Logs logs=new Logs();
-                logs.setTimeStamp(new Date());
-                logs.setDescripcion("Login Online");
-                DatabaseConnection.daoSession.getLogsDao().insert(logs);
+                postLogin(1,true);
             }
             else {
-                postLogin(-3); //TODO: revisar otros casos
+                postLogin(-3,true); //TODO: revisar otros casos
             }
         }
 

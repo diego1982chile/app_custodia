@@ -1,20 +1,15 @@
 package test3.ncxchile.cl.login;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 
 import org.ksoap2.serialization.SoapObject;
 
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
-import test3.ncxchile.cl.db.DatabaseConnection;
-import test3.ncxchile.cl.greenDAO.DaoMaster;
-import test3.ncxchile.cl.greenDAO.DaoSession;
-import test3.ncxchile.cl.greenDAO.Logs;
+import test3.ncxchile.cl.db.Global;
 import test3.ncxchile.cl.greenDAO.User;
 import test3.ncxchile.cl.security.PasswordHelper;
 import test3.ncxchile.cl.session.SessionManager;
@@ -49,7 +44,7 @@ public class LoginController implements Serializable, SoapHandler {
         this.rutCompleto = rut;
 
         //System.out.println("Usuarios="+daoSession.getUserDao().getByRut(mRut).toString());
-        usuarios = DatabaseConnection.daoSession.getUserDao().getByRut(mRut);
+        usuarios = Global.daoSession.getUserDao().getByRut(mRut);
         // Insertar usuario de prueba si no existe
         //daoSession.getUserDao().deleteAll();
         //db.close();
@@ -95,11 +90,7 @@ public class LoginController implements Serializable, SoapHandler {
         // Session Manager
         SessionManager session = new SessionManager(localContext);
         // Creating user login session
-        session.createLoginSession(usuario.getRut()+usuario.getDv().toString(), usuario.getNombre(), usuario.getApellidoPaterno(), usuario.getApellidoMaterno());
-        Logs logs=new Logs();
-        logs.setTimeStamp(new Date());
-        logs.setDescripcion("Login Offline");
-        DatabaseConnection.daoSession.getLogsDao().insert(logs);
+        //session.createLoginSession(usuario.getRut()+usuario.getDv().toString(), usuario.getNombre(), usuario.getApellidoPaterno(), usuario.getApellidoMaterno());
         return 1;
     }
 
@@ -138,7 +129,7 @@ public class LoginController implements Serializable, SoapHandler {
                 user.setNombre(nombre);
                 user.setApellidoPaterno(apellidoPaterno);
                 user.setApellidoMaterno(apellidoMaterno);
-                DatabaseConnection.daoSession.getUserDao().insertOrReplace(user); // TODO pasar a tx
+                Global.daoSession.getUserDao().insertOrReplace(user); // TODO pasar a tx
 
             }
         }
@@ -148,7 +139,7 @@ public class LoginController implements Serializable, SoapHandler {
 
     public User getUsuario() {
         System.out.println(mRut);
-        usuarios = DatabaseConnection.daoSession.getUserDao().getByRut(mRut);
+        usuarios = Global.daoSession.getUserDao().getByRut(mRut);
         if (usuarios.size() == 0) {
             backupGruero();
             return null;
@@ -165,7 +156,7 @@ public class LoginController implements Serializable, SoapHandler {
         // AQUI SE DEBE CONSUMIR EL WEBSERVICE MEDIANTE LA INSTANCIACIÓN DE UN CLIENTE SOAP
         //System.out.println("Voy a consumir un WebService para autenticar al usuario en el sistema");
 
-        usuarios = DatabaseConnection.daoSession.getUserDao().getByRut(mRut);
+        usuarios = Global.daoSession.getUserDao().getByRut(mRut);
 
         if (usuarios.size() == 0) {
             backupGruero();

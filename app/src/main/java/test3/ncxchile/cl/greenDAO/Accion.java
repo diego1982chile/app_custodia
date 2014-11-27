@@ -11,6 +11,8 @@ public class Accion {
     private Long id;
     /** Not-null value. */
     private String nombre;
+    private String fecha;
+    private String hora;
     private java.util.Date timeStamp;
     private Float longitud;
     private Float latitud;
@@ -30,7 +32,6 @@ public class Accion {
     private Acta acta;
     private Long acta__resolvedKey;
 
-
     public Accion() {
     }
 
@@ -38,9 +39,11 @@ public class Accion {
         this.id = id;
     }
 
-    public Accion(Long id, String nombre, java.util.Date timeStamp, Float longitud, Float latitud, Boolean sincronizada, long idTarea, Long idActa) {
+    public Accion(Long id, String nombre, String fecha, String hora, java.util.Date timeStamp, Float longitud, Float latitud, Boolean sincronizada, long idTarea, Long idActa) {
         this.id = id;
         this.nombre = nombre;
+        this.fecha = fecha;
+        this.hora = hora;
         this.timeStamp = timeStamp;
         this.longitud = longitud;
         this.latitud = latitud;
@@ -74,6 +77,22 @@ public class Accion {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getHora() {
+        return hora;
+    }
+
+    public void setHora(String hora) {
+        this.hora = hora;
     }
 
     /** Not-null value; ensure this value is available before it is saved to the database. */

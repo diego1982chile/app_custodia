@@ -1,15 +1,11 @@
 package test3.ncxchile.cl.home;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 
 import java.util.List;
 
-import test3.ncxchile.cl.db.DatabaseConnection;
-import test3.ncxchile.cl.greenDAO.DaoMaster;
+import test3.ncxchile.cl.db.Global;
 import test3.ncxchile.cl.greenDAO.Tarea;
-import test3.ncxchile.cl.greenDAO.User;
-import test3.ncxchile.cl.security.PasswordHelper;
 
 /**
  * Created by android-developer on 29-10-2014.
@@ -27,18 +23,18 @@ public class TareaController {
     }
 
     List getTareasAsignadas(){
-        return DatabaseConnection.daoSession.getTareaDao().getAsignadas();
+        return Global.daoSession.getTareaDao().getAsignadas();
     }
 
     List getTareas(){
-        return DatabaseConnection.daoSession.getTareaDao().getAll();
+        return Global.daoSession.getTareaDao().getAll();
     }
 
     Tarea getTareaById(int idTarea){
-        return DatabaseConnection.daoSession.getTareaDao().getById(idTarea);
+        return Global.daoSession.getTareaDao().getById(idTarea);
     }
 
-    Integer getStatusTarea(long idTarea) { return DatabaseConnection.daoSession.getTareaDao().getStatusTarea(idTarea); }
+    Integer getStatusTarea(long idTarea) { return Global.daoSession.getTareaDao().getStatusTarea(idTarea); }
 
-    public void setStatusTarea(long idTarea, int status) { DatabaseConnection.daoSession.getTareaDao().setStatusTarea(idTarea,status); }
+    public void setStatusTarea(long idTarea, int status) { Global.daoSession.getTareaDao().setStatusTarea(idTarea,status); }
 }

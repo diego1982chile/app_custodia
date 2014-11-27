@@ -1,12 +1,11 @@
 package test3.ncxchile.cl.home;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 
 import java.util.Date;
 import java.util.List;
 
-import test3.ncxchile.cl.db.DatabaseConnection;
+import test3.ncxchile.cl.db.Global;
 import test3.ncxchile.cl.greenDAO.Accion;
 
 /**
@@ -22,18 +21,18 @@ public class AccionController {
     }
 
     public long encolarAccion(Accion accion){
-        return DatabaseConnection.daoSession.getAccionDao().insert(accion);
+        return Global.daoSession.getAccionDao().insert(accion);
     }
 
-    public boolean accionEnCola() { return DatabaseConnection.daoSession.getAccionDao().isNotEmpty(); }
+    public boolean accionEnCola() { return Global.daoSession.getAccionDao().isNotEmpty(); }
 
-    public Accion dequeue() { return  DatabaseConnection.daoSession.getAccionDao().getNext(); }
+    public Accion dequeue() { return  Global.daoSession.getAccionDao().getNext(); }
 
     Accion getAccion(){
         return null;
     }
 
     List getUltimasAcciones(Date fecha) {
-        return DatabaseConnection.daoSession.getAccionDao().getLast(fecha);
+        return Global.daoSession.getAccionDao().getLast(fecha);
     }
 }

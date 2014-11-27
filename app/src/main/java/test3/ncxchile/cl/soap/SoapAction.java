@@ -3,12 +3,10 @@ package test3.ncxchile.cl.soap;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Vector;
 
-import org.ksoap2.HeaderProperty;
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.PropertyInfo;
 import org.ksoap2.serialization.SoapObject;
@@ -20,9 +18,9 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import android.os.AsyncTask;
 
-import test3.ncxchile.cl.db.DatabaseConnection;
+import test3.ncxchile.cl.db.Global;
 import test3.ncxchile.cl.greenDAO.Logs;
-import test3.ncxchile.cl.home.HomeActivity;
+import test3.ncxchile.cl.helpers.Logger;
 
 public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
 
@@ -47,10 +45,8 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
 		for (int i = 0; i < count; i++) {
 			SoapMethod current = methods[i];
             lastSource = current.source;
-            Logs logs=new Logs();
-            logs.setTimeStamp(new Date());
-            logs.setDescripcion("Call: SoapProxy."+current.methodName);
-            DatabaseConnection.daoSession.getLogsDao().insert(logs);
+
+            Logger.log("Call WS: SoapProxy." + current.methodName);
 
 			Vector data = null;
 			SoapObject request = new SoapObject(current.namespace,
@@ -144,19 +140,15 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
 			try {
 				Object resp = envelope.getResponse();
 				data = (Vector) resp;
-                logs=new Logs();
-                logs.setTimeStamp(new Date());
-                logs.setDescripcion("Response: SoapProxy."+current.methodName);
-                DatabaseConnection.daoSession.getLogsDao().insert(logs);
+                Logger.log("Response WS: SoapProxy."+current.methodName);
 			} catch (Exception e) {
 				e.printStackTrace();
-                logs=new Logs();
-                logs.setTimeStamp(new Date());
+
                 StringWriter sw = new StringWriter();
                 PrintWriter pw = new PrintWriter(sw);
                 e.printStackTrace(pw);
-                logs.setDescripcion("Error: SoapProxy."+current.methodName+" StackTrace:"+sw.toString());
-                DatabaseConnection.daoSession.getLogsDao().insert(logs);
+
+                Logger.log("Error WS: SoapProxy."+current.methodName+" StackTrace:"+sw.toString());
             }
 			return data;
 		}

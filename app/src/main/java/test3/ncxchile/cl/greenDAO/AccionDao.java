@@ -29,12 +29,14 @@ public class AccionDao extends AbstractDao<Accion, Long> {
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Nombre = new Property(1, Date.class, "nombre", false, "NOMBRE");
-        public final static Property TimeStamp = new Property(2, Date.class, "timeStamp", false, "TIME_STAMP");
-        public final static Property Longitud = new Property(3, Float.class, "longitud", false, "LONGITUD");
-        public final static Property Latitud = new Property(4, Float.class, "latitud", false, "LATITUD");
-        public final static Property Sincronizada = new Property(5, Boolean.class, "sincronizada", false, "SINCRONIZADA");
-        public final static Property IdTarea = new Property(6, long.class, "idTarea", false, "ID_TAREA");
-        public final static Property IdActa = new Property(7, Long.class, "idActa", false, "ID_ACTA");
+        public final static Property Fecha = new Property(2, Date.class, "fecha", false, "FECHA");
+        public final static Property Hora = new Property(3, Date.class, "hora", false, "HORA");
+        public final static Property TimeStamp = new Property(4, Date.class, "timeStamp", false, "TIME_STAMP");
+        public final static Property Longitud = new Property(5, Float.class, "longitud", false, "LONGITUD");
+        public final static Property Latitud = new Property(6, Float.class, "latitud", false, "LATITUD");
+        public final static Property Sincronizada = new Property(7, Boolean.class, "sincronizada", false, "SINCRONIZADA");
+        public final static Property IdTarea = new Property(8, long.class, "idTarea", false, "ID_TAREA");
+        public final static Property IdActa = new Property(9, Long.class, "idActa", false, "ID_ACTA");
     };
 
     private DaoSession daoSession;
@@ -57,6 +59,8 @@ public class AccionDao extends AbstractDao<Accion, Long> {
         db.execSQL("CREATE TABLE " + constraint + "'ACCION' (" + //
                 "'_id' INTEGER PRIMARY KEY ," + // 0: id
                 "'NOMBRE' TEXT," + // 0: id
+                "'FECHA' TEXT," + // 0: id
+                "'HORA' TEXT," + // 0: id
                 "'TIME_STAMP' INTEGER NOT NULL ," + // 1: timeStamp
                 "'LONGITUD' REAL," + // 2: longitud
                 "'LATITUD' REAL," + // 3: latitud
@@ -86,27 +90,37 @@ public class AccionDao extends AbstractDao<Accion, Long> {
             stmt.bindString(2, nombre);
         }
 
-        stmt.bindLong(3, entity.getTimeStamp().getTime());
+        String fecha = entity.getFecha();
+        if(fecha != null){
+            stmt.bindString(3, fecha);
+        }
+
+        String hora = entity.getHora();
+        if(hora != null){
+            stmt.bindString(4, hora);
+        }
+
+        stmt.bindLong(5, entity.getTimeStamp().getTime());
  
         Float longitud = entity.getLongitud();
         if (longitud != null) {
-            stmt.bindDouble(4, longitud);
+            stmt.bindDouble(6, longitud);
         }
  
         Float latitud = entity.getLatitud();
         if (latitud != null) {
-            stmt.bindDouble(5, latitud);
+            stmt.bindDouble(7, latitud);
         }
  
         Boolean sincronizada = entity.getSincronizada();
         if (sincronizada != null) {
-            stmt.bindLong(6, sincronizada ? 1l: 0l);
+            stmt.bindLong(8, sincronizada ? 1l: 0l);
         }
-        stmt.bindLong(7, entity.getIdTarea());
+        stmt.bindLong(9, entity.getIdTarea());
  
         Long idActa = entity.getIdActa();
         if (idActa != null) {
-            stmt.bindLong(8, idActa);
+            stmt.bindLong(10, idActa);
         }
     }
 
@@ -128,12 +142,14 @@ public class AccionDao extends AbstractDao<Accion, Long> {
         Accion entity = new Accion( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // id
-            new Date(cursor.getLong(offset + 2)), // timeStamp
-            cursor.isNull(offset + 2) ? null : cursor.getFloat(offset + 3), // longitud
-            cursor.isNull(offset + 3) ? null : cursor.getFloat(offset + 4), // latitud
-            cursor.isNull(offset + 4) ? null : cursor.getShort(offset + 5) != 0, // sincronizada
-            cursor.getLong(offset + 6), // idTarea
-            cursor.isNull(offset + 7) ? null : cursor.getLong(offset + 7) // idActa
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // id
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // id
+            new Date(cursor.getLong(offset + 4)), // timeStamp
+            cursor.isNull(offset + 5) ? null : cursor.getFloat(offset + 5), // longitud
+            cursor.isNull(offset + 6) ? null : cursor.getFloat(offset + 6), // latitud
+            cursor.isNull(offset + 7) ? null : cursor.getShort(offset + 7) != 0, // sincronizada
+            cursor.getLong(offset + 8), // idTarea
+            cursor.isNull(offset + 9) ? null : cursor.getLong(offset + 9) // idActa
         );
         return entity;
     }
@@ -143,12 +159,14 @@ public class AccionDao extends AbstractDao<Accion, Long> {
     public void readEntity(Cursor cursor, Accion entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setNombre(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setTimeStamp(new Date(cursor.getLong(offset + 2)));
-        entity.setLongitud(cursor.isNull(offset + 3) ? null : cursor.getFloat(offset + 3));
-        entity.setLatitud(cursor.isNull(offset + 4) ? null : cursor.getFloat(offset + 4));
-        entity.setSincronizada(cursor.isNull(offset + 5) ? null : cursor.getShort(offset + 5) != 0);
-        entity.setIdTarea(cursor.getLong(offset + 6));
-        entity.setIdActa(cursor.isNull(offset + 7) ? null : cursor.getLong(offset + 7));
+        entity.setNombre(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setNombre(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setTimeStamp(new Date(cursor.getLong(offset + 4)));
+        entity.setLongitud(cursor.isNull(offset + 5) ? null : cursor.getFloat(offset + 5));
+        entity.setLatitud(cursor.isNull(offset + 6) ? null : cursor.getFloat(offset + 6));
+        entity.setSincronizada(cursor.isNull(offset + 7) ? null : cursor.getShort(offset + 7) != 0);
+        entity.setIdTarea(cursor.getLong(offset + 8));
+        entity.setIdActa(cursor.isNull(offset + 9) ? null : cursor.getLong(offset + 9));
      }
     
     /** @inheritdoc */
