@@ -231,7 +231,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
     }
 
     @Override
-    public void resultValue(String methodName, Object source, Vector value) {
+    public void resultValue(String methodName, Vector value) {
         if (value != null) {
             String cod = value.get(0).toString();
             String msg = value.get(1).toString();
@@ -247,7 +247,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
                 postLogin(-3); //TODO: revisar otros casos
             }
         }
-
     }
 
     private boolean isPasswordValid(String password) {
@@ -325,8 +324,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
 
     }
-
-
 
     private interface ProfileQuery {
         String[] PROJECTION = {

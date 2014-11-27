@@ -180,6 +180,7 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
                 // TODO: revisar que no exista
 
                 Tarea consulta = DatabaseConnection.daoSession.getTareaDao().getByServicio(servicio);
+
                 if (consulta == null ) {
                     DatabaseConnection.daoSession.getTareaDao().insertOrReplace(tarea); // TODO pasar a tx
                 }

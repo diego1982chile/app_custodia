@@ -47,9 +47,10 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
 		for (int i = 0; i < count; i++) {
 			SoapMethod current = methods[i];
             lastSource = current.source;
+
             Logs logs=new Logs();
             logs.setTimeStamp(new Date());
-            logs.setDescripcion("Call: SoapProxy."+current.methodName);
+            logs.setDescripcion("Call WS: SoapProxy."+current.methodName);
             DatabaseConnection.daoSession.getLogsDao().insert(logs);
 
 			Vector data = null;
@@ -146,7 +147,7 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
 				data = (Vector) resp;
                 logs=new Logs();
                 logs.setTimeStamp(new Date());
-                logs.setDescripcion("Response: SoapProxy."+current.methodName);
+                logs.setDescripcion("Response WS: SoapProxy."+current.methodName);
                 DatabaseConnection.daoSession.getLogsDao().insert(logs);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -155,7 +156,7 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
                 StringWriter sw = new StringWriter();
                 PrintWriter pw = new PrintWriter(sw);
                 e.printStackTrace(pw);
-                logs.setDescripcion("Error: SoapProxy."+current.methodName+" StackTrace:"+sw.toString());
+                logs.setDescripcion("Error WS: SoapProxy."+current.methodName+" StackTrace:"+sw.toString());
                 DatabaseConnection.daoSession.getLogsDao().insert(logs);
             }
 			return data;
@@ -165,7 +166,7 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
 
     @Override
 	protected void onPostExecute(Vector vector) {
-		handler.resultValue(currentMethod.methodName, lastSource, vector);
+		handler.resultValue(currentMethod.methodName, vector);
 	}
 
 	@Override
