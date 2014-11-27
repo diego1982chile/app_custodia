@@ -30,7 +30,11 @@ public class ThreadAcciones extends CountDownTimer {
     public ThreadAcciones(long startTime, long interval, Context activityContext, Context appContext)
     {
         super(startTime, interval);
-
+        this.startTime = startTime;
+        this.interval = interval;
+        this._context = appContext;
+        this.context = (HomeActivity) activityContext;
+        accionController= new AccionController(_context);
     }
 
     @Override

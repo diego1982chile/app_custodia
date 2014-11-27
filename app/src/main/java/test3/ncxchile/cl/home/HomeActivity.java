@@ -37,6 +37,7 @@ import test3.ncxchile.cl.greenDAO.Accion;
 import test3.ncxchile.cl.greenDAO.Logs;
 import test3.ncxchile.cl.greenDAO.Tarea;
 
+import test3.ncxchile.cl.helpers.Logger;
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.session.SessionManager;
 
@@ -180,6 +181,29 @@ public class HomeActivity extends Activity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        System.out.println("onStop();");
+        if(session.isLoggedIn())
+            session.logoutUser();
+        Logger.log("User Logout");
+        threadTareas.cancel();
+        threadLocalizacion.cancel();
+        threadAcciones.cancel();
+    }
+
+    /*
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Logs logs=new Logs();
+        logs.setTimeStamp(new Date());
+        logs.setDescripcion("Application Destroyed");
+        DatabaseConnection.daoSession.getLogsDao().insert(logs);
+    }
+    */
 
     public void rowClick(View view) {
         ColorDrawable colorView = (ColorDrawable) view.getBackground();
@@ -459,12 +483,10 @@ public class HomeActivity extends Activity {
     public void cerrarSesion(View view){
         if(session.isLoggedIn())
             session.logoutUser();
-        Logs logs=new Logs();
-        logs.setTimeStamp(new Date());
-        logs.setDescripcion("User Logout");
-        Global.daoSession.getLogsDao().insert(logs);
+        Logger.log("User Logout");
         threadTareas.cancel();
         threadLocalizacion.cancel();
+        threadAcciones.cancel();
         finish();
     }
 

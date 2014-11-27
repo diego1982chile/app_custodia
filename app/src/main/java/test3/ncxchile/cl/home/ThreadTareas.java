@@ -40,6 +40,7 @@ import test3.ncxchile.cl.greenDAO.Tarea;
 import test3.ncxchile.cl.greenDAO.User;
 import test3.ncxchile.cl.helpers.ConnectionTask;
 import test3.ncxchile.cl.helpers.InternetDetector;
+import test3.ncxchile.cl.helpers.Logger;
 import test3.ncxchile.cl.login.LoginActivity;
 import test3.ncxchile.cl.login.LoginController;
 import test3.ncxchile.cl.login.R;
@@ -113,10 +114,8 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
                 // Si no hay conexion previa se consumen los webservices para obtener las tareas asignadas
                 conexionPrevia=true;
                 notificarConexion(true);
-                Logs logs=new Logs();
-                logs.setTimeStamp(new Date());
-                logs.setDescripcion("Internet Connection Acquired");
-                DatabaseConnection.daoSession.getLogsDao().insert(logs);
+
+                Logger.log("Internet Connection Acquired");
                 //System.out.println("Voy a consumir un WebService para sincronizar la app con el sistema RTEWEB");
 
                 System.out.println("LLAMANDO WEB SERVICE: " + rut);
@@ -128,10 +127,7 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
             conexionPrevia=false;
 
             if(!desconexionPrevia){
-                Logs logs=new Logs();
-                logs.setTimeStamp(new Date());
-                logs.setDescripcion("Internet Connection Lost");
-                DatabaseConnection.daoSession.getLogsDao().insert(logs);
+                Logger.log("Internet Connection Lost");
                 desconexionPrevia=true;
                 notificarConexion(false);
             }
