@@ -115,7 +115,7 @@ public class LoginController implements Serializable, SoapHandler {
     }
 
     @Override
-    public void resultValue(String methodName, Vector value) {
+    public void resultValue(String methodName, Object source, Vector value) {
         System.out.println("ResultValue=" + methodName);
         if (methodName.equals("backupGruero") && value != null) {
             for (int i = 0; i < value.size(); i++) {
