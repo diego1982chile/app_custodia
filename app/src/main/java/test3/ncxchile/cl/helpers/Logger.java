@@ -16,7 +16,7 @@ public abstract class Logger {
         Logs logs=new Logs();
         Date timeStamp= new Date();
         SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
-        SimpleDateFormat hora = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat hora = new SimpleDateFormat("HH:mm:ss");
         logs.setFecha(fecha.format(timeStamp));
         logs.setHora(hora.format(timeStamp));
         logs.setTimeStamp(timeStamp);

@@ -68,7 +68,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
 
     private GruaDialogFragment gruaDialogFragment;
 
-    public static SessionManager session;
     public static User usuario;
 
     @Override
@@ -99,7 +98,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
         mPasswordView.setText("Ncx123456");
 
         gruaDialogFragment = new GruaDialogFragment();
-        session = new SessionManager(getApplicationContext());
     }
 
     /*
@@ -244,8 +242,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
                     }
                     if(online) {
                         // Creating user login session
-                        session.createLoginSession(usuario.getRut() + usuario.getDv().toString(), usuario.getNombre(), usuario.getApellidoPaterno(), usuario.getApellidoMaterno());
-                        session.setId(idSesion.toString());
+                        Global.sessionManager.createLoginSession(usuario.getRut() + usuario.getDv().toString(), usuario.getNombre(), usuario.getApellidoPaterno(), usuario.getApellidoMaterno());
+                        Global.sessionManager.setId(idSesion.toString());
                         Logger.log("Login Online:" + usuario.getNombre() + " " + usuario.getApellidoPaterno() + " Grúa:");
 
                         Intent myIntent = new Intent(LoginActivity.this, HomeActivity.class);
