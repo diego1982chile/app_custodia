@@ -37,6 +37,7 @@ import test3.ncxchile.cl.greenDAO.Accion;
 import test3.ncxchile.cl.greenDAO.Logs;
 import test3.ncxchile.cl.greenDAO.Tarea;
 
+import test3.ncxchile.cl.helpers.Logger;
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.session.SessionManager;
 
@@ -65,9 +66,6 @@ public class HomeActivity extends Activity {
     //private ThreadActa threadActa;
     private ThreadAcciones threadAcciones;
 
-    // Session Manager Class
-    SessionManager session;
-
     public AlertDialog alertDialog;
 
     @Override
@@ -75,7 +73,6 @@ public class HomeActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         // Session class instance
-        session = new SessionManager(getApplicationContext());
         tareaController = new TareaController(this);
         accionController = new AccionController(this);
 
@@ -84,10 +81,10 @@ public class HomeActivity extends Activity {
          * This will redirect user to LoginActivity is he is not
          * logged in
          * */
-        session.checkLogin();
+        Global.sessionManager.checkLogin();
 
         // get user data from session
-        HashMap<String, String> user = session.getUserDetails();
+        HashMap<String, String> user = Global.sessionManager.getUserDetails();
 
         // name
         String rut = user.get(SessionManager.KEY_RUT);
@@ -98,12 +95,14 @@ public class HomeActivity extends Activity {
         // email
         String apellido_materno = user.get(SessionManager.KEY_APELLIDO_MATERNO);
 
+
         setContentView(R.layout.activity_home);
 
         TextView lblName = (TextView) findViewById(R.id.name_value);
-        //TextView lblEmail = (TextView) findViewById(R.id.);
+        TextView lblGrua = (TextView) findViewById(R.id.n_grua_value);
 
         lblName.setText(nombre+" "+apellido_paterno);
+        lblGrua.setText(Global.sessionManager.getGrua());
 
         tareas = (TableLayout) findViewById(R.id.tareas);
         tablerow = (TableRow) findViewById(R.id.tableRow);
@@ -181,6 +180,24 @@ public class HomeActivity extends Activity {
         }
     }
 
+
+    @Override
+    public void onDestroy() {
+
+        if(Global.sessionManager.isLoggedIn())
+            Global.sessionManager.logoutUser();
+
+        Date timeStamp= new Date();
+        SimpleDateFormat hora = new SimpleDateFormat("HH:mm:ss");
+        Global.sesion.setHora_fin(hora.format(timeStamp));
+        Global.daoSession.getSesionDao().update(Global.sesion);
+        Logger.log("User Logout");
+        threadTareas.cancel();
+        threadLocalizacion.cancel();
+        threadAcciones.cancel();
+        super.onDestroy();
+    }
+
     public void rowClick(View view) {
         ColorDrawable colorView = (ColorDrawable) view.getBackground();
         int colorId = colorView.getColor();
@@ -237,9 +254,9 @@ public class HomeActivity extends Activity {
                 tareaActiva=tareaController.getTareaById(view.getId());
                 // Actualizar estado interno de la tarea
                 // Setear tarea activa en la sesión
-                session.setTareaActiva(view.getId());
+                Global.sessionManager.setTareaActiva(view.getId());
                 // Setear estado de la tarea activa en la sesión
-                session.setServicio(tareaActiva.getServicio());
+                Global.sessionManager.setServicio(tareaActiva.getServicio());
             }
 
             if(colorId == -10040116){
@@ -251,9 +268,9 @@ public class HomeActivity extends Activity {
                 setEnabled(pdf, false);
 
                 // Desetear tarea activa en la sesión
-                session.setTareaActiva(-1);
+                Global.sessionManager.setTareaActiva(-1);
                 // Desetear estado de la tarea activa en la sesión
-                session.setServicio(-1);
+                Global.sessionManager.setServicio(-1);
 
                 switch(tareaController.getStatusTarea(tablerow.getId())){
                     case 0:
@@ -300,15 +317,16 @@ public class HomeActivity extends Activity {
                 tareaActiva=tareaController.getTareaById(tablerow.getId());
                 Date timeStamp= new Date();
                 SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
-                SimpleDateFormat hora = new SimpleDateFormat("HH:mm");
-                Accion accion= new Accion(null,"Tarea Tomada",fecha.format(timeStamp),hora.format(timeStamp),timeStamp,session.getLatitud(),session.getLongitud(),false,tareaActiva.getId(),null);
+                SimpleDateFormat hora = new SimpleDateFormat("HH:mm:ss");
+                Accion accion= new Accion(null,"Tarea Tomada",fecha.format(timeStamp),hora.format(timeStamp),timeStamp,Global.sessionManager.getLatitud(),Global.sessionManager.getLongitud(),false,tareaActiva.getId(),null);
                 accionController.encolarAccion(accion);
+                Logger.log("Tarea Tomada");
                 // Actualizar estado interno de la tarea
                 tareaController.setStatusTarea(tablerow.getId(),1);
                 // Setear tarea activa en la sesión
-                session.setTareaActiva(tablerow.getId());
+                Global.sessionManager.setTareaActiva(tablerow.getId());
                 // Setear estado de la tarea activa en la sesión
-                session.setServicio(tareaActiva.getServicio());
+                Global.sessionManager.setServicio(tareaActiva.getServicio());
 
                 //tablerow.setBackgroundColor(Color.GRAY);
                 //marcada = 3;
@@ -346,19 +364,19 @@ public class HomeActivity extends Activity {
                     tareaActiva=tareaController.getTareaById(tablerow.getId());
                     Date timeStamp= new Date();
                     SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
-                    SimpleDateFormat hora = new SimpleDateFormat("HH:mm");
-                    Accion accion= new Accion(null,"Arribo Confirmado",fecha.format(timeStamp),hora.format(timeStamp),timeStamp,session.getLatitud(),session.getLongitud(),false,tareaActiva.getId(),null);
+                    SimpleDateFormat hora = new SimpleDateFormat("HH:mm:ss");
+                    Accion accion= new Accion(null,"Arribo Confirmado",fecha.format(timeStamp),hora.format(timeStamp),timeStamp,Global.sessionManager.getLatitud(),Global.sessionManager.getLongitud(),false,tareaActiva.getId(),null);
                     accionController.encolarAccion(accion);
                     // Actualizar estado interno de la tarea
                     tareaController.setStatusTarea(tablerow.getId(),2);
                     // Setear tarea activa en la sesión
-                    session.setTareaActiva(tablerow.getId());
+                    Global.sessionManager.setTareaActiva(tablerow.getId());
                     // Setear estado de la tarea activa en la sesión
                     // Consumir WebService con los datos del Acta
                     //threadActa = new ThreadActa(10000, 10000, HomeActivity.this, getApplicationContext());
                     //threadActa.start();
                     // Actualizar estado de la tarea activa en la sesión
-                    session.setServicio(tareaActiva.getServicio());
+                    Global.sessionManager.setServicio(tareaActiva.getServicio());
                     //tablerow.setBackgroundColor(Color.GREEN);
                 }
             });
@@ -381,8 +399,8 @@ public class HomeActivity extends Activity {
 
         tareaActiva=tareaController.getTareaById(tablerow.getId());
         // Setear tarea activa en la sesión
-        session.setTareaActiva(tablerow.getId());
-        session.setServicio(tareaActiva.getServicio());
+        Global.sessionManager.setTareaActiva(tablerow.getId());
+        Global.sessionManager.setServicio(tareaActiva.getServicio());
 
         if (tareaController.getStatusTarea(tablerow.getId())==2) {
             Intent myIntent = new Intent(HomeActivity.this, MyActivity.class);
@@ -430,7 +448,7 @@ public class HomeActivity extends Activity {
         Toast.makeText(this, "Leyendo documento", Toast.LENGTH_LONG).show();
         File source = null;
 
-        int os= session.getServicio();
+        int os= Global.sessionManager.getServicio();
         String timeStamp = "Acta_OS_"+os;
         String fileName = timeStamp + ".pdf";
 
@@ -457,14 +475,16 @@ public class HomeActivity extends Activity {
     }
 
     public void cerrarSesion(View view){
-        if(session.isLoggedIn())
-            session.logoutUser();
-        Logs logs=new Logs();
-        logs.setTimeStamp(new Date());
-        logs.setDescripcion("User Logout");
-        Global.daoSession.getLogsDao().insert(logs);
+        if(Global.sessionManager.isLoggedIn())
+            Global.sessionManager.logoutUser();
+        Date timeStamp= new Date();
+        SimpleDateFormat hora = new SimpleDateFormat("HH:mm:ss");
+        Global.sesion.setHora_fin(hora.format(timeStamp));
+        Global.daoSession.getSesionDao().update(Global.sesion);
+        Logger.log("User Logout");
         threadTareas.cancel();
         threadLocalizacion.cancel();
+        threadAcciones.cancel();
         finish();
     }
 

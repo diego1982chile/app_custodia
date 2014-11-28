@@ -80,17 +80,21 @@ public class FragmentX4 extends android.app.Fragment  {
 
         MyActivity myActivity=(MyActivity)context;
 
-        view4_01.setText(myActivity.acta.getVehiculoData().getVehiculo().getMatricula());
-        view4_02.setText(myActivity.acta.getVehiculoData().getVehiculo().getMarca());
-        view4_03.setText(myActivity.acta.getVehiculoData().getVehiculo().getModelo());
-        if(myActivity.acta.getVehiculoData().getVehiculo().getAnio()!=0)
-            view4_04.setText(String.valueOf(myActivity.acta.getVehiculoData().getVehiculo().getAnio()));
-        view4_05.setText(myActivity.acta.getVehiculoData().getVehiculo().getColor());
-        if(myActivity.acta.getVehiculoData().getVehiculo().getKilometraje()!=0)
-            view4_06.setText(myActivity.acta.getVehiculoData().getVehiculo().getKilometraje().toString());
-        view4_07.setText(myActivity.acta.getVehiculoData().getVehiculo().getNumeroMotor());
-        view4_08.setText(myActivity.acta.getVehiculoData().getVehiculo().getNumeroChasis());
-        spinner.setText(myActivity.acta.getVehiculoData().getVehiculo().getTamano());
+        // Precargar datos de vehículo
+
+        if(myActivity.acta!=null){
+            view4_01.setText(myActivity.acta.getVehiculoData().getVehiculo().getMatricula());
+            view4_02.setText(myActivity.acta.getVehiculoData().getVehiculo().getMarca());
+            view4_03.setText(myActivity.acta.getVehiculoData().getVehiculo().getModelo());
+            if(myActivity.acta.getVehiculoData().getVehiculo().getAnio()!=0)
+                view4_04.setText(String.valueOf(myActivity.acta.getVehiculoData().getVehiculo().getAnio()));
+            view4_05.setText(myActivity.acta.getVehiculoData().getVehiculo().getColor().toLowerCase());
+            if(myActivity.acta.getVehiculoData().getVehiculo().getKilometraje()!=0)
+                view4_06.setText(myActivity.acta.getVehiculoData().getVehiculo().getKilometraje().toString().toLowerCase());
+            view4_07.setText(myActivity.acta.getVehiculoData().getVehiculo().getNumeroMotor());
+            view4_08.setText(myActivity.acta.getVehiculoData().getVehiculo().getNumeroChasis());
+            spinner.setText(myActivity.acta.getVehiculoData().getVehiculo().getTamano().toLowerCase());
+        }
 
         return rootView;
     }

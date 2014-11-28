@@ -13,6 +13,7 @@ import test3.ncxchile.cl.greenDAO.Institucion;
 import test3.ncxchile.cl.greenDAO.Sesion;
 import test3.ncxchile.cl.greenDAO.User;
 import test3.ncxchile.cl.security.PasswordHelper;
+import test3.ncxchile.cl.session.SessionManager;
 
 /**
  * Created by android-developer on 08-10-2014.
@@ -22,6 +23,7 @@ public class Global extends Application{
     public static DaoSession daoSession;
     public DaoMaster daoMaster;
     public static Sesion sesion;
+    public static SessionManager sessionManager;
 
     @Override
     public void onCreate() {
@@ -32,5 +34,6 @@ public class Global extends Application{
         //DaoMaster.createAllTables(db,true);
         DaoMaster daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();
+        sessionManager = new SessionManager(getApplicationContext());
     }
 }

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import java.util.HashMap;
 
+import test3.ncxchile.cl.db.Global;
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.session.SessionManager;
 import test3.ncxchile.cl.validators.RutValidator;
@@ -41,9 +42,8 @@ public class FragmentX8 extends android.app.Fragment {
         view7_02 = (RequiredEditText) rootView.findViewById(R.id.view7_02_nombreop);
         view7_03 = (RutEditText) rootView.findViewById(R.id.view7_03_rut);
 
-        SessionManager session = new SessionManager(getActivity());
         // get user data from session
-        HashMap<String, String> user = session.getUserDetails();
+        HashMap<String, String> user = Global.sessionManager.getUserDetails();
 
         // name
         String rut = user.get(SessionManager.KEY_RUT);
@@ -54,6 +54,7 @@ public class FragmentX8 extends android.app.Fragment {
         // email
         String apellido_materno = user.get(SessionManager.KEY_APELLIDO_MATERNO);
 
+        view7_01.setText(Global.sessionManager.getGrua());
         view7_02.setText(nombre+" "+apellido_paterno+" "+apellido_materno);
         view7_03.setText(rut);
 

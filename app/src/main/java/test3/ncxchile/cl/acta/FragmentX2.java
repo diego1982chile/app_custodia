@@ -88,17 +88,20 @@ public class FragmentX2 extends android.app.Fragment {
 
         MyActivity myActivity=(MyActivity)context;
 
-        if(myActivity.acta.getFiscalia())
-            view2_00.check(R.id.radioButton2);
+        // Precargar datos del retiro
 
-        System.out.println("Causa retiro: "+String.valueOf(myActivity.acta.getCausaRetiro()));
+        if(myActivity.acta!=null){
+            if(myActivity.acta.getFiscalia())
+                view2_00.check(R.id.radioButton2);
 
-        spinner_motivo1.setText(myActivity.acta.getCausaRetiro().toString());
-        comunas.setText(myActivity.acta.getDireccion().getComuna());
-        view2_02.setText(myActivity.acta.getDireccion().getCalle());
-        view2_03.setText(myActivity.acta.getDireccion().getNumeracion());
-        view2_04.setText(myActivity.acta.getDireccion().getInterseccion());
-        view2_06.setText(myActivity.acta.getDireccion().getReferencias());
+            spinner_motivo1.setText(myActivity.acta.getCausaRetiro().toString());
+            comunas.setText(myActivity.acta.getDireccion().getComuna());
+            view2_02.setText(myActivity.acta.getDireccion().getCalle());
+            view2_03.setText(myActivity.acta.getDireccion().getNumeracion());
+            view2_04.setText(myActivity.acta.getDireccion().getInterseccion());
+            view2_06.setText(myActivity.acta.getDireccion().getReferencias());
+
+        }
 
         return rootView;
     }

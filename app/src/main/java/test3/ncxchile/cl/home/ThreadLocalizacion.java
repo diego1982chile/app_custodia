@@ -21,6 +21,7 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationRequest;
 
+import test3.ncxchile.cl.db.Global;
 import test3.ncxchile.cl.helpers.InternetDetector;
 import test3.ncxchile.cl.helpers.GpsDetector;
 import test3.ncxchile.cl.helpers.NtpDetector;
@@ -62,7 +63,6 @@ public class ThreadLocalizacion extends CountDownTimer implements
     SharedPreferences mPrefs;
     SharedPreferences.Editor mEditor;
     // Session Manager Class
-    SessionManager session;
     private Context _context;
     protected HomeActivity context;
 
@@ -73,9 +73,6 @@ public class ThreadLocalizacion extends CountDownTimer implements
 
         this._context = appContext;
         this.context = (HomeActivity) activityContext;
-
-        // Session class instance
-        session = new SessionManager(_context);
 
         // Open the shared preferences
         mPrefs = context.getSharedPreferences("SharedPreferences", Context.MODE_PRIVATE);
@@ -192,8 +189,8 @@ public class ThreadLocalizacion extends CountDownTimer implements
                 Double.toString(location.getLongitude());
         Toast.makeText(_context, msg, Toast.LENGTH_SHORT).show();
         if(mLocationClient.isConnected()) {
-            session.setLatitud((float) mLocationClient.getLastLocation().getLatitude());
-            session.setLongitud((float) mLocationClient.getLastLocation().getLongitude());
+            Global.sessionManager.setLatitud((float) mLocationClient.getLastLocation().getLatitude());
+            Global.sessionManager.setLongitud((float) mLocationClient.getLastLocation().getLongitude());
         }
     }
 
@@ -257,13 +254,13 @@ public class ThreadLocalizacion extends CountDownTimer implements
                     if(mLocationClient.getLastLocation()!=null){
                         Location location= new Location(mLocationClient.getLastLocation());
 
-                        session.setLatitud((float) mLocationClient.getLastLocation().getLatitude());
-                        session.setLongitud((float) mLocationClient.getLastLocation().getLongitude());
+                        Global.sessionManager.setLatitud((float) mLocationClient.getLastLocation().getLatitude());
+                        Global.sessionManager.setLongitud((float) mLocationClient.getLastLocation().getLongitude());
                     }
                     else{
                         System.out.println("todavia no está listo el GPS");
-                        session.setLatitud((float) 0);
-                        session.setLongitud((float) 0);
+                        Global.sessionManager.setLatitud((float) 0);
+                        Global.sessionManager.setLongitud((float) 0);
                     }
                     /*
                     context.runOnUiThread(new Runnable() {

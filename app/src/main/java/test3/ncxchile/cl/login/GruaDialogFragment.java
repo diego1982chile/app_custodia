@@ -16,6 +16,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 
+import test3.ncxchile.cl.db.Global;
 import test3.ncxchile.cl.greenDAO.ComunaDao;
 import test3.ncxchile.cl.greenDAO.User;
 import test3.ncxchile.cl.helpers.Logger;
@@ -120,14 +121,15 @@ public class GruaDialogFragment extends DialogFragment {
 
                 User usuario=LoginActivity.usuario;
 
-                LoginActivity.session.createLoginSession(usuario.getRut() + usuario.getDv().toString(), usuario.getNombre(), usuario.getApellidoPaterno(), usuario.getApellidoMaterno());
-                LoginActivity.session.setGrua(num_os.getText().toString());
+                Global.sessionManager.createLoginSession(usuario.getRut() + usuario.getDv().toString(), usuario.getNombre(), usuario.getApellidoPaterno(), usuario.getApellidoMaterno());
+                Global.sessionManager.setGrua(num_os.getText().toString());
 
                 Logger.log("Login Offline:" + usuario.getNombre() + " " + usuario.getApellidoPaterno() + " Grúa:" + num_os.getText().toString());
 
                 dismiss();
-                Intent myIntent = new Intent(getActivity(), HomeActivity.class);
+                Intent myIntent = new Intent(getActivity().getBaseContext(), HomeActivity.class);
                 getActivity().startActivity(myIntent);
+                ///getActivity().finish();
             }
         });
 
