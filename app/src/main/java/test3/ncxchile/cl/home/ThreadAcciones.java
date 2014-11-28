@@ -73,11 +73,13 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                 if (nombreAccion.equals("Tarea Tomada")) {
                     Tarea tarea = siguienteAccion.getTarea();
                     SoapProxy.confirmarOT(tarea.getServicio(), tarea.getFecha(), username, siguienteAccion, this);
+
+                    SoapProxy.buscarActaJSON(tarea.getServicio(), this);
                 }
                 else if (nombreAccion.equals("Arribo Confirmado")) {
                     Tarea tarea = siguienteAccion.getTarea();
                     String georef = String.valueOf(siguienteAccion.getLongitud() + ";" + siguienteAccion.getLatitud());
-                    SoapProxy.confirmarArribo(tarea.getServicio(), tarea.getFecha(), username, georef,this);
+                    SoapProxy.confirmarArribo(tarea.getServicio(), tarea.getFecha(), username, siguienteAccion, georef,this);
                 }
 
                 if (resultadoSincronizacion) {
@@ -92,6 +94,7 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
 
     @Override
     public void resultValue(String methodName, Object source, Vector value) {
+        System.out.println("Resultado Acciones=" + methodName + ", S=" + source);
         if (methodName.equals("confirmarOT")) {
             System.out.println("confirmarOT=" + source + "=" + value + "(" + value.size() + ")");
             if (value.size() == 2) {
@@ -104,6 +107,24 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                 }
 
             }
+
+        }
+        else if (methodName.equals("confirmarArribo")) {
+            System.out.println("confirmarArribo=" + source + "=" + value + "(" + value.size() + ")");
+            if (value.size() == 2) {
+                String status = (String)value.get(0).toString();
+                String msg = (String)value.get(1).toString();
+                if (status.equals("00")) {
+                    Accion siguienteAccion = (Accion) source;
+                    siguienteAccion.setSincronizada(true);
+                    siguienteAccion.update();
+                }
+
+            }
+
+        }
+        else if (methodName.equals("buscarActaJSON")) {
+            System.out.println("buscarActaJSON=" + source + "=" + value + "(" + value.size() + ")");
 
         }
         sincronizando=false;
