@@ -83,7 +83,7 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                     Tarea tarea = siguienteAccion.getTarea();
 
                     System.out.println("buscarActaJSON=" + tarea.getServicio());
-                    SoapProxy.buscarActaJSON(tarea.getServicio(), this);
+                    SoapProxy.buscarActaJSON(tarea.getServicio(),siguienteAccion, this);
                 }
                 else if (nombreAccion.equals("Arribo Confirmado")) {
                     Tarea tarea = siguienteAccion.getTarea();
@@ -92,10 +92,25 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                     SoapProxy.confirmarArribo(tarea.getServicio(), tarea.getFecha(), username, siguienteAccion, georef,this);
                 }
                 else if (nombreAccion.equals("Acta Completada")) {
-                    //TODO: temporal
-                    sincronizando = false;
-                    siguienteAccion.setSincronizada(true);
-                    siguienteAccion.update();
+
+                    Tarea tarea = siguienteAccion.getTarea();
+                    String georef = String.valueOf(siguienteAccion.getLongitud() + ";" + siguienteAccion.getLatitud());
+
+                    String firmaAutoridad = "";
+                    String firmaGruero = "";
+                    String actaJSON = "";
+                    if (tempJSON != null) {
+                        actaJSON = tempJSON;
+                    }
+                    String recinto = "00";
+                    SoapProxy.finalizarActaGruero(tarea.getServicio(),tarea.getFecha(), georef,siguienteAccion, actaJSON, firmaAutoridad, firmaGruero, recinto, this);
+
+                }
+                else if (nombreAccion.equals("Retiro Realizado")) {
+                    Tarea tarea = siguienteAccion.getTarea();
+                    String georef = String.valueOf(siguienteAccion.getLongitud() + ";" + siguienteAccion.getLatitud());
+
+                    SoapProxy.confirmarInicioTraslado(tarea.getServicio(), tarea.getFecha(), username, siguienteAccion, georef,this);
                 }
                 else {
                     sincronizando = false;
@@ -104,6 +119,8 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
         }
 
     }
+
+    private String tempJSON = null;
 
     @Override
     public void resultValue(String methodName, Object source, Vector value) {
@@ -149,6 +166,7 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                 JSONObject obj = (JSONObject) value.get(0);
                 try {
                     System.out.println(obj.toString(5));
+                    tempJSON = obj.toString(5);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -161,9 +179,38 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                 JSONObject data = (JSONObject) value.get(0);
                 //TOOD ACA ESTAN LOS DATOS DEL ACTA
             }
-            //
+            Accion siguienteAccion = (Accion) source;
+            siguienteAccion.setSincronizada(true);
+            siguienteAccion.update();
 
 
+        }
+        else if (methodName.equals("finalizarActaGruero")) {
+            System.out.println("finalizarActaGruero=" + source + "=" + value + "(" + value.size() + ")");
+            if (value.size() == 2) {
+                String status = (String)value.get(0).toString();
+                String msg = (String)value.get(1).toString();
+                if (status.equals("00")) {
+                    Accion siguienteAccion = (Accion) source;
+                    siguienteAccion.setSincronizada(true);
+                    siguienteAccion.update();
+                }
+
+            }
+
+        }
+        else if (methodName.equals("confirmarInicioTraslado")) {
+            System.out.println("confirmarInicioTraslado=" + source + "=" + value + "(" + value.size() + ")");
+            if (value.size() == 2) {
+                String status = (String)value.get(0).toString();
+                String msg = (String)value.get(1).toString();
+                if (status.equals("00")) {
+                    Accion siguienteAccion = (Accion) source;
+                    siguienteAccion.setSincronizada(true);
+                    siguienteAccion.update();
+                }
+
+            }
         }
         sincronizando=false;
         sincronizarAcciones();

@@ -219,6 +219,8 @@ public class HomeActivity extends Activity {
                 break;
             case 2: // Arribo confirmado, habilitar accion "completar acta"
                 setEnabled(completarActa, true);
+
+                setEnabled(retiroRealizado, true); // TODO TEMPORAL
                 break;
             case 3: // Acta completada, habilitar accion "retiro realizado" y "pdf"
                 setEnabled(retiroRealizado, true);
@@ -409,6 +411,38 @@ public class HomeActivity extends Activity {
             Intent myIntent = new Intent(HomeActivity.this, MyActivity.class);
             HomeActivity.this.startActivity(myIntent);
         }
+    }
+    public void retiroRealizado(View view) {
+
+        if(!threadLocalizacion.actualizarLocalizacion()){
+            alertDialog.show();
+            return;
+        }
+
+        tareaActiva=tareaController.getTareaById(tablerow.getId());
+        // Setear tarea activa en la sesión
+        Global.sessionManager.setTareaActiva(tablerow.getId());
+        Global.sessionManager.setServicio(tareaActiva.getServicio());
+
+        Date timeStamp= new Date();
+        SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat hora = new SimpleDateFormat("HH:mm:ss");
+
+        //TODO: Temporal, sacar
+        Accion accion2= new Accion(null,"Acta Completada",fecha.format(timeStamp),hora.format(timeStamp),timeStamp,Global.sessionManager.getLatitud(),Global.sessionManager.getLongitud(),false,Global.sessionManager.getTareaActiva(),0L);
+        accionController.encolarAccion(accion2);
+
+
+
+        Accion accion= new Accion(null,"Retiro Realizado",fecha.format(timeStamp),hora.format(timeStamp),timeStamp,Global.sessionManager.getLatitud(),Global.sessionManager.getLongitud(),false,tareaActiva.getId(),null);
+        accionController.encolarAccion(accion);
+
+        /*
+        if (tareaController.getStatusTarea(tablerow.getId())==2) {
+            Intent myIntent = new Intent(HomeActivity.this, MyActivity.class);
+            HomeActivity.this.startActivity(myIntent);
+        }
+        */
     }
 
     public void cargarTarea(View view){

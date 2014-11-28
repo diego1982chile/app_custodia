@@ -275,6 +275,7 @@
                 android:layout_height="wrap_content"
                 android:text="Retiro realizado"
                 android:textColor="#fff"
+                android:onClick="retiroRealizado"
                 style="@style/CustomStyleButton3"
                 android:id="@+id/retiroRealizado" />
         </LinearLayout>

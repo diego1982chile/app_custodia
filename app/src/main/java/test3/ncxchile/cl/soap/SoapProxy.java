@@ -155,7 +155,7 @@ public class SoapProxy {
         return true;
     }
 
-    public static boolean buscarActaJSON(int servicio, SoapHandler handler) {
+    public static boolean buscarActaJSON(int servicio, Object source, SoapHandler handler) {
         String methodName = "buscarActaJSON";
         String soapAction = "http://soa.jboss.org/enterprise/ActaServiceOp";
         String url = baseURL + "/ActaService/ebws/enterprise/ActaService";
@@ -170,14 +170,14 @@ public class SoapProxy {
         params.add(servicioParam);
 
         SoapMethod soapMethod = new SoapMethod(methodName, soapAction, url, params);
-
+        soapMethod.source = source;
         SoapAction action = new SoapAction(handler);
         action.execute(new SoapMethod[] { soapMethod });
         return true;
     }
 
 
-    public static boolean finalizarActaGruero(int servicio, String fecha, String georef, String actaJSON, String firmaAutoridad, String firmaGruero, String recinto, SoapHandler handler) {
+    public static boolean finalizarActaGruero(int servicio, String fecha, String georef, Object source, String actaJSON, String firmaAutoridad, String firmaGruero, String recinto, SoapHandler handler) {
         String methodName = "finalizarActaGruero";
         String soapAction = "http://soa.jboss.org/enterprise/OTServiceOp";
         String url = baseURL + "/OTService/ebws/enterprise/OTService";
@@ -223,13 +223,13 @@ public class SoapProxy {
         params.add(firmaGrueroParam);
 
         SoapMethod soapMethod = new SoapMethod(methodName, soapAction, url, params);
-
+        soapMethod.source = source;
         SoapAction action = new SoapAction(handler);
         action.execute(new SoapMethod[] { soapMethod });
         return true;
     }
 
-    public static boolean confirmarInicioTraslado(int servicio, String fecha, String username, String georef, SoapHandler handler) {
+    public static boolean confirmarInicioTraslado(int servicio, String fecha, String username, Object source,  String georef, SoapHandler handler) {
         String methodName = "confirmarInicioTraslado";
         String soapAction = "http://soa.jboss.org/enterprise/OTServiceOp";
         String url = baseURL + "/OTService/ebws/enterprise/OTService";
@@ -262,7 +262,7 @@ public class SoapProxy {
         params.add(georefParam);
 
         SoapMethod soapMethod = new SoapMethod(methodName, soapAction, url, params);
-
+        soapMethod.source = source;
         SoapAction action = new SoapAction(handler);
         action.execute(new SoapMethod[] { soapMethod });
         return true;
