@@ -135,6 +135,8 @@ public class LoginController implements Serializable, SoapHandler {
 
             }
         }
+        //loginOnLine(this);
+
         System.out.println(methodName + "=" + value);
 
     }
@@ -179,7 +181,7 @@ public class LoginController implements Serializable, SoapHandler {
             backupGruero();
         }
         else {
-            //SoapProxy.loginGruero("11852245", "Murillo1", handler);
+
             System.out.println("LLAMANDO WEB SERVICE: " + rutCompleto + "," + mPassword);
             SoapProxy.loginGruero(String.valueOf(mRut) , mPassword, handler);
         }

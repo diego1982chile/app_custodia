@@ -3,6 +3,9 @@ package test3.ncxchile.cl.home;
 import android.content.Context;
 import android.os.CountDownTimer;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Vector;
 
 import test3.ncxchile.cl.greenDAO.Accion;
@@ -47,19 +50,18 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
 
     @Override
     public void onFinish() {
-        if(!sincronizando) {
-            sincronizarAcciones();
-            start();
-        }
+        sincronizarAcciones();
+        start();
+
     }
 
     public void sincronizarAcciones(){
 
         String username = "tester"; // TODO temporal
 
-        System.out.println("Sincronizar Acciones");
+        System.out.println("Sincronizar Acciones=" + accionController.accionEnCola());
 
-        if(accionController.accionEnCola()){
+        if(!sincronizando && accionController.accionEnCola()){
             sincronizando=true;
 
             InternetDetector cd = new InternetDetector(appContext); //instancie el objeto
@@ -69,25 +71,36 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                 Accion siguienteAccion=accionController.dequeue();
 
                 String nombreAccion = siguienteAccion.getNombre();
+                System.out.println("Sincronizando Accion =" + nombreAccion + "=" + siguienteAccion.getId());
                 boolean resultadoSincronizacion = false;
                 if (nombreAccion.equals("Tarea Tomada")) {
                     Tarea tarea = siguienteAccion.getTarea();
                     SoapProxy.confirmarOT(tarea.getServicio(), tarea.getFecha(), username, siguienteAccion, this);
 
+
+                }
+                else if (nombreAccion.equals("Buscar Acta")) {
+                    Tarea tarea = siguienteAccion.getTarea();
+
+                    System.out.println("buscarActaJSON=" + tarea.getServicio());
                     SoapProxy.buscarActaJSON(tarea.getServicio(), this);
                 }
                 else if (nombreAccion.equals("Arribo Confirmado")) {
                     Tarea tarea = siguienteAccion.getTarea();
                     String georef = String.valueOf(siguienteAccion.getLongitud() + ";" + siguienteAccion.getLatitud());
+
                     SoapProxy.confirmarArribo(tarea.getServicio(), tarea.getFecha(), username, siguienteAccion, georef,this);
                 }
-
-                if (resultadoSincronizacion) {
+                else if (nombreAccion.equals("Acta Completada")) {
+                    //TODO: temporal
+                    sincronizando = false;
                     siguienteAccion.setSincronizada(true);
                     siguienteAccion.update();
                 }
-
-            }
+                else {
+                    sincronizando = false;
+                }
+              }
         }
 
     }
@@ -124,9 +137,35 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
 
         }
         else if (methodName.equals("buscarActaJSON")) {
-            System.out.println("buscarActaJSON=" + source + "=" + value + "(" + value.size() + ")");
+
+            /*
+            {"fiscalia":false,"direccion":{"referencias":"","interseccion":"Ninguna y otra","comuna":"Independencia","numeracion":"101010","calle":"Nueva Calle"},"gruero":{"nombre":"Tester","direccion":{"referencias":null,"interseccion":"","comuna":"Quilicura","numeracion":"920","calle":"Lo Echevers"},"telefonos":["242342"],"usuario":"tester","rut":"6622126-1","apellidoMaterno":".","apellidoPaterno":".","correos":["usuario.cmvrc@gmail.com"]},"existVideo":false,"nue":null,"numeroFactura":null,"autoridad":{"nombre":"Autoridad","direccion":null,"telefonos":[],"institucion":"Carabineros","usuario":null,"rut":"11739971-0","unidadPolicial":"123","apellidoMaterno":"1","apellidoPaterno":"Prueba","numeroFuncionario":"123","correos":[],"cargo":"Teniente Coronel"},"numeroPatente":null,"ruc":null,"unidadPolicial":null,"idGrua":666,"actaIncautacion":null,"id":112696,"nombreExterno":null,"observacion":null,"tribunal":null,"causaRetiro":"Licencia adultera o falsa","fechaCreacion":1417207352989,"idSolicitud":112694,"existImage":false,"cargaInicial":false,"servicio":111312,"fechaParte":null,"vehiculoData":{"propietario":null,"parqueadero":null,"conductor":null,"vehiculo":{"anio":null,"servicio":111312,"numeroChasis":null,"modificado":null,"carpetaVehiculo":"111312","marca":"Abarth","kilometraje":null,"matricula":"AABB10","id":3715,"origenVehiculo":true,"parqueadero":null,"color":"","clonado":null,"vin":null,"caracteristicas":"","puedeRodar":true,"numeroMotor":null,"fichaEstadoVisual":[],"modelo":"","tamano":"Vehículo liviano"},"especias":[]},"gruaExterna":false,"montoFactura":null,"observacionImgenes":null,"idOt":112695,"parte":null,"oficioRemisor":null,"fechaFirma":null}
+
+             */
+
+
+            if (value != null) {
+                System.out.println("buscarActaJSON=" + source + "=" + value + "(" + value.size() + ")");
+                JSONObject obj = (JSONObject) value.get(0);
+                try {
+                    System.out.println(obj.toString(5));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            else {
+                System.out.println("buscarActaJSON=" + source + "=" + value + "(null)");
+            }
+
+            if (value != null && value.size() == 1) {
+                JSONObject data = (JSONObject) value.get(0);
+                //TOOD ACA ESTAN LOS DATOS DEL ACTA
+            }
+            //
+
 
         }
         sincronizando=false;
+        sincronizarAcciones();
     }
 }

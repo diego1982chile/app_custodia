@@ -7,9 +7,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
 
+import org.json.JSONObject;
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.PropertyInfo;
 import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.KeepAliveHttpTransportSE;
 import org.kxml2.kdom.Element;
@@ -138,8 +140,20 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
 				e.printStackTrace();
 			}
 			try {
-				Object resp = envelope.getResponse();
-				data = (Vector) resp;
+				Object obj = envelope.getResponse();
+                if (obj instanceof Vector) {
+                    data = (Vector) obj;
+                    System.out.println("SoapResponse Vector=" + data);
+                }
+                else if (obj instanceof SoapPrimitive) {
+                    SoapPrimitive resp = (SoapPrimitive) obj;
+                    String json = resp.toString();
+                    System.out.println("SoapResponse SoapPrimitive =" + json);
+                    JSONObject jsonObj = new JSONObject(json);
+                    data = new Vector();
+                    data.add(jsonObj);
+
+                }
                 Logger.log("Response WS: SoapProxy."+current.methodName);
 			} catch (Exception e) {
 				e.printStackTrace();

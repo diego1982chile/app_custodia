@@ -1,5 +1,5 @@
 #archivos .bin
-*.bin
+*/*.bin
 .gradle/1.12/taskArtifacts/*
 .idea/workspace.xml
 build/intermediates/dex-cache/cache.xml
@@ -19,4 +19,5 @@ app/src/main/java/test3/ncxchile/cl/widgets/GridViewVideoAdapter.java
 
 
 build/intermediates/dex-cache/cache.xml
+*/local.properties
 local.properties

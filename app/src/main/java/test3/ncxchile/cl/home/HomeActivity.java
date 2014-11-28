@@ -347,8 +347,12 @@ public class HomeActivity extends Activity {
                     Date timeStamp= new Date();
                     SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
                     SimpleDateFormat hora = new SimpleDateFormat("HH:mm");
+
                     Accion accion= new Accion(null,"Arribo Confirmado",fecha.format(timeStamp),hora.format(timeStamp),timeStamp,session.getLatitud(),session.getLongitud(),false,tareaActiva.getId(),null);
                     accionController.encolarAccion(accion);
+
+                    Accion accion2= new Accion(null,"Buscar Acta",fecha.format(timeStamp),hora.format(timeStamp),timeStamp,session.getLatitud(),session.getLongitud(),false,tareaActiva.getId(),null);
+                    accionController.encolarAccion(accion2);
                     // Actualizar estado interno de la tarea
                     tareaController.setStatusTarea(tablerow.getId(),2);
                     // Setear tarea activa en la sesión
