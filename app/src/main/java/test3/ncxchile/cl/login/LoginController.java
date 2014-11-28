@@ -1,6 +1,8 @@
 package test3.ncxchile.cl.login;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 
 import org.ksoap2.serialization.SoapObject;
 
@@ -150,6 +152,21 @@ public class LoginController implements Serializable, SoapHandler {
     public String getRut() {
         return String.valueOf(mRut);
     }
+
+    public Handler handler1 = new Handler(new Handler.Callback() {
+
+        @Override
+        public boolean handleMessage(Message msg) {
+            switch (msg.what) {
+
+                case 0:
+
+                    break;
+
+            }
+            return false;
+        }
+    });
 
     protected int loginOnLine(SoapHandler handler) {
         // TODO: attempt authentication against a network service.
