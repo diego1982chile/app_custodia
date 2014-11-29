@@ -21,7 +21,7 @@ import test3.ncxchile.cl.soap.SoapProxy;
 /**
  * Created by android-developer on 07-10-2014.
  */
-public class LoginController implements Serializable, SoapHandler {
+public class LoginController implements Serializable {
 
     private final int mRut;
     private final String mPassword;
@@ -33,6 +33,7 @@ public class LoginController implements Serializable, SoapHandler {
     private List<User> usuarios;
 
     private String rutCompleto = null;
+
 
     LoginController(String rut, String password, Context context) {
 
@@ -101,74 +102,22 @@ public class LoginController implements Serializable, SoapHandler {
         return session;
     }
 
-    private void backupGruero() {
+    private void backupGruero(SoapHandler handler) {
         System.out.println("BackupGruero");
-        SoapProxy.backupGruero(this);
+        SoapProxy.backupGruero(handler);
 
     }
 
-    @Override
-    public void resultValue(String methodName, Object source, Vector value) {
-        System.out.println("ResultValue=" + methodName);
-        if (methodName.equals("backupGruero") && value != null) {
-            for (int i = 0; i < value.size(); i++) {
-                SoapObject item = (SoapObject) value.get(i);
-                String rutString = item.getPropertyAsString("rut");
-                int rut = Integer.parseInt(rutString);
-                String dv = item.getPropertyAsString("dv");
-                String password = item.getPropertyAsString("password");
-                String nombre = item.getPropertyAsString("nombre");
-                String apellidoPaterno = item.getPropertyAsString("apellidoPaterno");
-                String apellidoMaterno = item.getPropertyAsString("apellidoMaterno");
-                System.out.println(item);
-
-
-                User user = new User();
-                user.setId(null);
-                user.setRut(rut);
-                user.setDv(dv);
-                user.setPassword(password);
-                user.setNombre(nombre);
-                user.setApellidoPaterno(apellidoPaterno);
-                user.setApellidoMaterno(apellidoMaterno);
-                Global.daoSession.getUserDao().insertOrReplace(user); // TODO pasar a tx
-
-            }
-        }
-        //loginOnLine(this);
-
-        System.out.println(methodName + "=" + value);
-
-    }
 
     public User getUsuario() {
         System.out.println(mRut);
         usuarios = Global.daoSession.getUserDao().getByRut(mRut);
-        if (usuarios.size() == 0) {
-            backupGruero();
-            return null;
-        }
         return (User)usuarios.get(0);
     }
 
     public String getRut() {
         return String.valueOf(mRut);
     }
-
-    public Handler handler1 = new Handler(new Handler.Callback() {
-
-        @Override
-        public boolean handleMessage(Message msg) {
-            switch (msg.what) {
-
-                case 0:
-
-                    break;
-
-            }
-            return false;
-        }
-    });
 
     protected int loginOnLine(SoapHandler handler) {
         // TODO: attempt authentication against a network service.
@@ -178,7 +127,7 @@ public class LoginController implements Serializable, SoapHandler {
         usuarios = Global.daoSession.getUserDao().getByRut(mRut);
 
         if (usuarios.size() == 0) {
-            backupGruero();
+            backupGruero(handler);
         }
         else {
 

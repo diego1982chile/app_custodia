@@ -22,6 +22,8 @@ import android.widget.EditText;
 
 import com.google.android.gms.games.internal.GamesLog;
 
+import org.ksoap2.serialization.SoapObject;
+
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -266,7 +268,40 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
 
     @Override
     public void resultValue(String methodName, Object source, Vector value) {
-        if (value != null) {
+        System.out.println("ResultValue=" + methodName);
+        if (methodName.equals("backupGruero") && value != null) {
+            for (int i = 0; i < value.size(); i++) {
+                SoapObject item = (SoapObject) value.get(i);
+                String rutString = item.getPropertyAsString("rut");
+                int rut = Integer.parseInt(rutString);
+                String dv = item.getPropertyAsString("dv");
+                String password = item.getPropertyAsString("password");
+                String nombre = item.getPropertyAsString("nombre");
+                String apellidoPaterno = item.getPropertyAsString("apellidoPaterno");
+                String apellidoMaterno = item.getPropertyAsString("apellidoMaterno");
+                System.out.println(item);
+
+
+                User user = new User();
+                user.setId(null);
+                user.setRut(rut);
+                user.setDv(dv);
+                user.setPassword(password);
+                user.setNombre(nombre);
+                user.setApellidoPaterno(apellidoPaterno);
+                user.setApellidoMaterno(apellidoMaterno);
+                Global.daoSession.getUserDao().insertOrReplace(user); // TODO pasar a tx
+
+            }
+            int loginResponse = 0;
+            try {
+                loginResponse= mAuthTask.loginOffLine();
+                postLogin(loginResponse,false);
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+        }
+        else if (value != null) {
             String cod = value.get(0).toString();
             String msg = value.get(1).toString();
             int codigo = Integer.parseInt(cod);
@@ -279,6 +314,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
         }
 
     }
+
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic

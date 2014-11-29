@@ -219,8 +219,6 @@ public class HomeActivity extends Activity {
                 break;
             case 2: // Arribo confirmado, habilitar accion "completar acta"
                 setEnabled(completarActa, true);
-
-                setEnabled(retiroRealizado, true); // TODO TEMPORAL
                 break;
             case 3: // Acta completada, habilitar accion "retiro realizado" y "pdf"
                 setEnabled(retiroRealizado, true);
@@ -427,12 +425,6 @@ public class HomeActivity extends Activity {
         Date timeStamp= new Date();
         SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
         SimpleDateFormat hora = new SimpleDateFormat("HH:mm:ss");
-
-        //TODO: Temporal, sacar
-        Accion accion2= new Accion(null,"Acta Completada",fecha.format(timeStamp),hora.format(timeStamp),timeStamp,Global.sessionManager.getLatitud(),Global.sessionManager.getLongitud(),false,Global.sessionManager.getTareaActiva(),0L);
-        accionController.encolarAccion(accion2);
-
-
 
         Accion accion= new Accion(null,"Retiro Realizado",fecha.format(timeStamp),hora.format(timeStamp),timeStamp,Global.sessionManager.getLatitud(),Global.sessionManager.getLongitud(),false,tareaActiva.getId(),null);
         accionController.encolarAccion(accion);
