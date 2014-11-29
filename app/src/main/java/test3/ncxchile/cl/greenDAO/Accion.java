@@ -9,15 +9,16 @@ import de.greenrobot.dao.DaoException;
 public class Accion {
 
     private Long id;
+    private String Nombre;
+    private String Fecha;
+    private String Hora;
     /** Not-null value. */
-    private String nombre;
-    private String fecha;
-    private String hora;
     private java.util.Date timeStamp;
     private Float longitud;
     private Float latitud;
     private Boolean sincronizada;
     private long idTarea;
+    private Long idMapa;
     private Long idActa;
 
     /** Used to resolve relations */
@@ -32,6 +33,10 @@ public class Accion {
     private Acta acta;
     private Long acta__resolvedKey;
 
+    private Mapa mapa;
+    private Long mapa__resolvedKey;
+
+
     public Accion() {
     }
 
@@ -39,16 +44,17 @@ public class Accion {
         this.id = id;
     }
 
-    public Accion(Long id, String nombre, String fecha, String hora, java.util.Date timeStamp, Float longitud, Float latitud, Boolean sincronizada, long idTarea, Long idActa) {
+    public Accion(Long id, String Nombre, String Fecha, String Hora, java.util.Date timeStamp, Float longitud, Float latitud, Boolean sincronizada, long idTarea, Long idMapa, Long idActa) {
         this.id = id;
-        this.nombre = nombre;
-        this.fecha = fecha;
-        this.hora = hora;
+        this.Nombre = Nombre;
+        this.Fecha = Fecha;
+        this.Hora = Hora;
         this.timeStamp = timeStamp;
         this.longitud = longitud;
         this.latitud = latitud;
         this.sincronizada = sincronizada;
         this.idTarea = idTarea;
+        this.idMapa = idMapa;
         this.idActa = idActa;
     }
 
@@ -66,33 +72,33 @@ public class Accion {
         this.id = id;
     }
 
-    /** Not-null value. */
-    public java.util.Date getTimeStamp() {
-        return timeStamp;
-    }
-
     public String getNombre() {
-        return nombre;
+        return Nombre;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombre(String Nombre) {
+        this.Nombre = Nombre;
     }
 
     public String getFecha() {
-        return fecha;
+        return Fecha;
     }
 
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
+    public void setFecha(String Fecha) {
+        this.Fecha = Fecha;
     }
 
     public String getHora() {
-        return hora;
+        return Hora;
     }
 
-    public void setHora(String hora) {
-        this.hora = hora;
+    public void setHora(String Hora) {
+        this.Hora = Hora;
+    }
+
+    /** Not-null value. */
+    public java.util.Date getTimeStamp() {
+        return timeStamp;
     }
 
     /** Not-null value; ensure this value is available before it is saved to the database. */
@@ -130,6 +136,14 @@ public class Accion {
 
     public void setIdTarea(long idTarea) {
         this.idTarea = idTarea;
+    }
+
+    public Long getIdMapa() {
+        return idMapa;
+    }
+
+    public void setIdMapa(Long idMapa) {
+        this.idMapa = idMapa;
     }
 
     public Long getIdActa() {
@@ -190,6 +204,31 @@ public class Accion {
             this.acta = acta;
             idActa = acta == null ? null : acta.getId();
             acta__resolvedKey = idActa;
+        }
+    }
+
+    /** To-one relationship, resolved on first access. */
+    public Mapa getMapa() {
+        Long __key = this.idMapa;
+        if (mapa__resolvedKey == null || !mapa__resolvedKey.equals(__key)) {
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            MapaDao targetDao = daoSession.getMapaDao();
+            Mapa mapaNew = targetDao.load(__key);
+            synchronized (this) {
+                mapa = mapaNew;
+            	mapa__resolvedKey = __key;
+            }
+        }
+        return mapa;
+    }
+
+    public void setMapa(Mapa mapa) {
+        synchronized (this) {
+            this.mapa = mapa;
+            idMapa = mapa == null ? null : mapa.getId();
+            mapa__resolvedKey = idMapa;
         }
     }
 
