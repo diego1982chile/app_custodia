@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import java.util.Vector;
 
+import test3.ncxchile.cl.acta.ActaController;
 import test3.ncxchile.cl.greenDAO.Accion;
 import test3.ncxchile.cl.greenDAO.Tarea;
 import test3.ncxchile.cl.helpers.InternetDetector;
@@ -165,6 +166,8 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                 System.out.println("buscarActaJSON=" + source + "=" + value + "(" + value.size() + ")");
                 JSONObject obj = (JSONObject) value.get(0);
                 try {
+                    ActaController actaController= new ActaController(context);
+                    actaController.crearActa(obj);
                     System.out.println(obj.toString(5));
                     tempJSON = obj.toString(5);
                 } catch (JSONException e) {

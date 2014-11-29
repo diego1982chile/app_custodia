@@ -14,6 +14,12 @@
         revision="21.0.1"
         sha1="0f6d5c1ef2e982c3b7858408e3df389cf5d202da"/>
     <item
+        dex="C:\Users\android-developer\AndroidStudioProjects\app_custodia\app\build\intermediates\pre-dexed\debug\android-async-http-1.4.5-b16dd7fc866c329adbbf9a9ed8def987969a4b9f.jar"
+        jar="C:\Users\android-developer\.gradle\caches\modules-2\files-2.1\com.loopj.android\android-async-http\1.4.5\77bf7cacf9cefe19dc105e5425d2eb1bb5285881\android-async-http-1.4.5.jar"
+        jumboMode="true"
+        revision="21.0.1"
+        sha1="77bf7cacf9cefe19dc105e5425d2eb1bb5285881"/>
+    <item
         dex="C:\Users\android-developer\AndroidStudioProjects\app_custodia\app\build\intermediates\pre-dexed\debug\slidingmenu-1.4.2-sources-c4457cbe90612618b48f809c9797e022d6f37ada.jar"
         jar="C:\Users\android-developer\AndroidStudioProjects\app_custodia\app\libs\slidingmenu-1.4.2-sources.jar"
         jumboMode="true"
