@@ -1,0 +1,98 @@
+{
+  "fechaFirma": null,
+  "oficioRemisor": null,
+  "parte": null,
+  "idOt": 112695,
+  "observacionImgenes": null,
+  "montoFactura": null,
+  "gruaExterna": false,
+  "vehiculoData": {
+    "especias": [],
+    "vehiculo": {
+      "tamano": "Vehículo liviano",
+      "modelo": "",
+      "fichaEstadoVisual": [],
+      "numeroMotor": null,
+      "matricula": "AABB10",
+      "kilometraje": null,
+      "marca": "Abarth",
+      "carpetaVehiculo": "111312",
+      "modificado": null,
+      "numeroChasis": null,
+      "servicio": 111312,
+      "anio": null,
+      "id": 3715,
+      "origenVehiculo": true,
+      "parqueadero": null,
+      "color": "",
+      "clonado": null,
+      "vin": null,
+      "caracteristicas": "",
+      "puedeRodar": true
+    },
+    "conductor": null,
+    "parqueadero": null,
+    "propietario": null
+  },
+  "fechaParte": null,
+  "servicio": 111312,
+  "cargaInicial": false,
+  "existImage": false,
+  "idSolicitud": 112694,
+  "fechaCreacion": 1417207352989,
+  "causaRetiro": "Licencia adultera o falsa",
+  "numeroPatente": null,
+  "autoridad": {
+    "cargo": "Teniente Coronel",
+    "correos": [],
+    "numeroFuncionario": "123",
+    "apellidoPaterno": "Prueba",
+    "nombre": "Autoridad",
+    "direccion": null,
+    "telefonos": [],
+    "institucion": "Carabineros",
+    "usuario": null,
+    "rut": "11739971-0",
+    "unidadPolicial": "123",
+    "apellidoMaterno": "1"
+  },
+  "numeroFactura": null,
+  "nue": null,
+  "existVideo": false,
+  "gruero": {
+    "correos": [
+      "usuario.cmvrc@gmail.com"
+    ],
+    "apellidoPaterno": ".",
+    "apellidoMaterno": ".",
+    "rut": "6622126-1",
+    "usuario": "tester",
+    "telefonos": [
+      "242342"
+    ],
+    "direccion": {
+      "calle": "Lo Echevers",
+      "numeracion": "920",
+      "comuna": "Quilicura",
+      "interseccion": "",
+      "referencias": null
+    },
+    "nombre": "Tester"
+  },
+  "direccion": {
+    "calle": "Nueva Calle",
+    "numeracion": "101010",
+    "comuna": "Independencia",
+    "interseccion": "Ninguna y otra",
+    "referencias": ""
+  },
+  "fiscalia": false,
+  "ruc": null,
+  "unidadPolicial": null,
+  "idGrua": 666,
+  "actaIncautacion": null,
+  "id": 112696,
+  "nombreExterno": null,
+  "observacion": null,
+  "tribunal": null
+}

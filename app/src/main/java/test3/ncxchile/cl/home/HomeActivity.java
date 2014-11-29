@@ -318,7 +318,7 @@ public class HomeActivity extends Activity {
                 Date timeStamp= new Date();
                 SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
                 SimpleDateFormat hora = new SimpleDateFormat("HH:mm:ss");
-                Accion accion= new Accion(null,"Tarea Tomada",fecha.format(timeStamp),hora.format(timeStamp),timeStamp,Global.sessionManager.getLatitud(),Global.sessionManager.getLongitud(),false,tareaActiva.getId(),null);
+                Accion accion= new Accion(null,"Tarea Tomada",fecha.format(timeStamp),hora.format(timeStamp),timeStamp,Global.sessionManager.getLatitud(),Global.sessionManager.getLongitud(),false,tareaActiva.getId(),null,null);
                 accionController.encolarAccion(accion);
                 Logger.log("Tarea Tomada");
                 // Actualizar estado interno de la tarea
@@ -365,9 +365,9 @@ public class HomeActivity extends Activity {
                     Date timeStamp= new Date();
                     SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
                     SimpleDateFormat hora = new SimpleDateFormat("HH:mm:ss");
-                    Accion accion= new Accion(null,"Arribo Confirmado",fecha.format(timeStamp),hora.format(timeStamp),timeStamp,Global.sessionManager.getLatitud(),Global.sessionManager.getLongitud(),false,tareaActiva.getId(),null);
+                    Accion accion= new Accion(null,"Arribo Confirmado",fecha.format(timeStamp),hora.format(timeStamp),timeStamp,Global.sessionManager.getLatitud(),Global.sessionManager.getLongitud(),false,tareaActiva.getId(),null,null);
                     accionController.encolarAccion(accion);
-                    Accion accion2= new Accion(null,"Buscar Acta",fecha.format(timeStamp),hora.format(timeStamp),timeStamp,Global.sessionManager.getLatitud(),Global.sessionManager.getLongitud(),false,tareaActiva.getId(),null);
+                    Accion accion2= new Accion(null,"Buscar Acta",fecha.format(timeStamp),hora.format(timeStamp),timeStamp,Global.sessionManager.getLatitud(),Global.sessionManager.getLongitud(),false,tareaActiva.getId(),null,null);
                     accionController.encolarAccion(accion2);
 
                     // Actualizar estado interno de la tarea
@@ -426,7 +426,7 @@ public class HomeActivity extends Activity {
         SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
         SimpleDateFormat hora = new SimpleDateFormat("HH:mm:ss");
 
-        Accion accion= new Accion(null,"Retiro Realizado",fecha.format(timeStamp),hora.format(timeStamp),timeStamp,Global.sessionManager.getLatitud(),Global.sessionManager.getLongitud(),false,tareaActiva.getId(),null);
+        Accion accion= new Accion(null,"Retiro Realizado",fecha.format(timeStamp),hora.format(timeStamp),timeStamp,Global.sessionManager.getLatitud(),Global.sessionManager.getLongitud(),false,tareaActiva.getId(),null,null);
         accionController.encolarAccion(accion);
 
         /*
