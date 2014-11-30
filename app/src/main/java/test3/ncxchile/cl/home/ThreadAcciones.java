@@ -10,8 +10,11 @@ import java.util.Vector;
 
 import test3.ncxchile.cl.acta.ActaController;
 import test3.ncxchile.cl.greenDAO.Accion;
+import test3.ncxchile.cl.greenDAO.Acta;
+import test3.ncxchile.cl.greenDAO.Firma;
 import test3.ncxchile.cl.greenDAO.Tarea;
 import test3.ncxchile.cl.helpers.InternetDetector;
+import test3.ncxchile.cl.soap.JSONUtil;
 import test3.ncxchile.cl.soap.SoapHandler;
 import test3.ncxchile.cl.soap.SoapProxy;
 
@@ -95,15 +98,19 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                 else if (nombreAccion.equals("Acta Completada")) {
 
                     Tarea tarea = siguienteAccion.getTarea();
+
+                    Acta acta = siguienteAccion.getActa();
+                    Firma firma = acta.getFirma();
+
+
+                    String json = JSONUtil.actaToJson(acta);
+
                     String georef = String.valueOf(siguienteAccion.getLongitud() + ";" + siguienteAccion.getLatitud());
 
-                    String firmaAutoridad = "";
-                    String firmaGruero = "";
-                    String actaJSON = "";
-                    if (tempJSON != null) {
-                        actaJSON = tempJSON;
-                    }
-                    String recinto = "00";
+                    String firmaAutoridad = firma.getFirmaAutoridad();
+                    String firmaGruero = firma.getFirmaGruero();
+                    String actaJSON = json;
+                    String recinto = "00"; //TODO temporal
                     SoapProxy.finalizarActaGruero(tarea.getServicio(),tarea.getFecha(), georef,siguienteAccion, actaJSON, firmaAutoridad, firmaGruero, recinto, this);
 
                 }
@@ -160,31 +167,32 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
             {"fiscalia":false,"direccion":{"referencias":"","interseccion":"Ninguna y otra","comuna":"Independencia","numeracion":"101010","calle":"Nueva Calle"},"gruero":{"nombre":"Tester","direccion":{"referencias":null,"interseccion":"","comuna":"Quilicura","numeracion":"920","calle":"Lo Echevers"},"telefonos":["242342"],"usuario":"tester","rut":"6622126-1","apellidoMaterno":".","apellidoPaterno":".","correos":["usuario.cmvrc@gmail.com"]},"existVideo":false,"nue":null,"numeroFactura":null,"autoridad":{"nombre":"Autoridad","direccion":null,"telefonos":[],"institucion":"Carabineros","usuario":null,"rut":"11739971-0","unidadPolicial":"123","apellidoMaterno":"1","apellidoPaterno":"Prueba","numeroFuncionario":"123","correos":[],"cargo":"Teniente Coronel"},"numeroPatente":null,"ruc":null,"unidadPolicial":null,"idGrua":666,"actaIncautacion":null,"id":112696,"nombreExterno":null,"observacion":null,"tribunal":null,"causaRetiro":"Licencia adultera o falsa","fechaCreacion":1417207352989,"idSolicitud":112694,"existImage":false,"cargaInicial":false,"servicio":111312,"fechaParte":null,"vehiculoData":{"propietario":null,"parqueadero":null,"conductor":null,"vehiculo":{"anio":null,"servicio":111312,"numeroChasis":null,"modificado":null,"carpetaVehiculo":"111312","marca":"Abarth","kilometraje":null,"matricula":"AABB10","id":3715,"origenVehiculo":true,"parqueadero":null,"color":"","clonado":null,"vin":null,"caracteristicas":"","puedeRodar":true,"numeroMotor":null,"fichaEstadoVisual":[],"modelo":"","tamano":"Vehículo liviano"},"especias":[]},"gruaExterna":false,"montoFactura":null,"observacionImgenes":null,"idOt":112695,"parte":null,"oficioRemisor":null,"fechaFirma":null}
 
              */
-
+            System.out.println("Buscar Acta JSON=" + value);
 
             if (value != null) {
                 System.out.println("buscarActaJSON=" + source + "=" + value + "(" + value.size() + ")");
                 JSONObject obj = (JSONObject) value.get(0);
-                try {
-                    ActaController actaController= new ActaController(context);
-                    actaController.crearActa(obj);
-                    System.out.println(obj.toString(5));
-                    tempJSON = obj.toString(5);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                String json = obj.toString();
+
+                ActaController actaController= new ActaController(context);
+
+                Accion siguienteAccion = (Accion) source;
+                /*
+                Acta nuevaActa = JSONUtil.jsonToActa(json);
+                actaController.insertarActa(nuevaActa);
+                */
+                actaController.crearActa(obj, siguienteAccion.getTarea());
+
+
+                siguienteAccion.setSincronizada(true);
+                siguienteAccion.update();
             }
             else {
-                System.out.println("buscarActaJSON=" + source + "=" + value + "(null)");
+                System.out.println("buscarActaJSON=" + source + "=" + value + "(value nulo)");
             }
 
-            if (value != null && value.size() == 1) {
-                JSONObject data = (JSONObject) value.get(0);
-                //TOOD ACA ESTAN LOS DATOS DEL ACTA
-            }
-            Accion siguienteAccion = (Accion) source;
-            siguienteAccion.setSincronizada(true);
-            siguienteAccion.update();
+
+
 
 
         }

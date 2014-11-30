@@ -78,6 +78,7 @@ public class GoogleMaps implements Runnable {
     @Override
     public void run(){
 
+        /*
         busy=true;
         List acciones= Global.daoSession.getAccionDao().getAccionesSinMapa();
 
@@ -91,6 +92,8 @@ public class GoogleMaps implements Runnable {
             }
         }
         busy=false;
+        */
+
     }
 
 }

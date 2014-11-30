@@ -177,13 +177,14 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
                 tarea.setEstado(estado);
                 tarea.setStatus(0);
 
-                // TODO: revisar que no exista
 
                 Tarea consulta = daoSession.getTareaDao().getByServicio(servicio);
                 if (consulta == null ) {
                     Tarea consultaExiste = daoSession.getTareaDao().getByServicio(servicio);
                     if (consultaExiste == null) {
                         daoSession.getTareaDao().insertOrReplace(tarea); // TODO pasar a tx
+                        daoSession.getTareaDao().refresh(tarea);
+
                     }
 
 
@@ -193,7 +194,7 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
 
         }
         List<Tarea> tareas = tareaController.getTareasAsignadas();
-        System.out.println("Tareas Asignadas=" + tareas);
+        System.out.println("Tareas Asignadas (" + tareas.size() + ")=" + tareas);
         actualizarTablaTareas(tareas);
 
         Calendar c = Calendar.getInstance();

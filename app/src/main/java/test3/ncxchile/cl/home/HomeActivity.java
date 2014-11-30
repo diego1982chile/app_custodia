@@ -102,7 +102,7 @@ public class HomeActivity extends Activity {
 
             try {
                 JSONObject jsonObject= new JSONObject(resultActa);
-                actaController.crearActa(jsonObject);
+                //actaController.crearActa(jsonObject);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -402,8 +402,10 @@ public class HomeActivity extends Activity {
                     SimpleDateFormat hora = new SimpleDateFormat("HH:mm:ss");
                     Accion accion= new Accion(null,"Arribo Confirmado",fecha.format(timeStamp),hora.format(timeStamp),timeStamp,Global.sessionManager.getLatitud(),Global.sessionManager.getLongitud(),false,tareaActiva.getId(),null,null);
                     accionController.encolarAccion(accion);
+
                     Accion accion2= new Accion(null,"Buscar Acta",fecha.format(timeStamp),hora.format(timeStamp),timeStamp,Global.sessionManager.getLatitud(),Global.sessionManager.getLongitud(),false,tareaActiva.getId(),null,null);
                     accionController.encolarAccion(accion2);
+
 
                     // Actualizar estado interno de la tarea
                     tareaController.setStatusTarea(tablerow.getId(),2);

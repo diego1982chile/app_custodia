@@ -42,16 +42,15 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
 
 	@Override
 	protected Vector doInBackground(SoapMethod... methods) {
-
+        Vector data = null;
 		int count = methods.length;
 		for (int i = 0; i < count; i++) {
 			SoapMethod current = methods[i];
             lastSource = current.source;
 
             Logger.log("Call WS: SoapProxy." + current.methodName);
-            System.out.println("Call WS: SoapProxy." + current.methodName);
 
-			Vector data = null;
+
 			SoapObject request = new SoapObject(current.namespace,
 					current.methodName);
 
@@ -116,21 +115,7 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
 
             currentMethod = current;
 			try {
-				/*
-				 * System.out.println("Basic " +
-				 * org.kobjects.base64.Base64.encode(auth.getBytes()));
-				 * List<HeaderProperty> headerList = new
-				 * ArrayList<HeaderProperty>();
-				 * 
-				 * HeaderProperty authHeader = new
-				 * HeaderProperty("Authorization", "Basic " +
-				 * org.kobjects.base64.Base64.encode(auth.getBytes()));
-				 * 
-				 * headerList.add(authHeader);
-				 * 
-				 * 
-				 * ht.call(current.soapAction, envelope, headerList);
-				 */
+
 				ht.call(current.soapAction, envelope);
 
 			} catch (IOException e) {
@@ -142,7 +127,7 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
 			}
 			try {
 				Object obj = envelope.getResponse();
-
+                System.out.println("SoapAction: methodName=" + currentMethod.methodName + "="  + obj);
                 if (obj instanceof Vector) {
                     data = (Vector) obj;
                     System.out.println("SoapResponse Vector=" + data);
@@ -156,8 +141,11 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
                     data.add(jsonObj);
 
                 }
-                Logger.log("Response WS: SoapProxy."+current.methodName);
-                System.out.println("Response WS: SoapProxy."+current.methodName);
+                else {
+                    System.out.println("SoapAction Tipo de Objeto Incorrecto =" + obj + "= methodName=" + currentMethod.methodName);
+                }
+                //Logger.log("Response WS: SoapProxy."+current.methodName);
+                return data;
 			} catch (Exception e) {
 				e.printStackTrace();
 
@@ -166,11 +154,10 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
                 e.printStackTrace(pw);
 
                 Logger.log("Error WS: SoapProxy."+current.methodName+" StackTrace:"+sw.toString());
-                System.out.println("Error WS: SoapProxy."+current.methodName+" StackTrace:"+sw.toString());
             }
-			return data;
+
 		}
-		return null;
+		return data;
 	}
 
     @Override
