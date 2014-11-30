@@ -24,12 +24,20 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+import test3.ncxchile.cl.acta.ActaController;
 import test3.ncxchile.cl.acta.MyActivity;
 import test3.ncxchile.cl.db.AndroidDatabaseManager;
 import test3.ncxchile.cl.db.Global;
@@ -57,6 +65,7 @@ public class HomeActivity extends Activity {
 
     TareaController tareaController;
     AccionController accionController;
+    ActaController actaController;
 
     private ThreadTareas threadTareas;
     private ThreadLocalizacion threadLocalizacion;
@@ -75,6 +84,32 @@ public class HomeActivity extends Activity {
         // Session class instance
         tareaController = new TareaController(this);
         accionController = new AccionController(this);
+        actaController= new ActaController(this);
+
+        InputStream myInputActa=null;
+        BufferedReader brActa= null;
+        String thisLineActa = null;
+        String resultActa=null;
+
+        try {
+            myInputActa = this.getAssets().open("ActaJson.json");
+            brActa = new BufferedReader((new InputStreamReader(myInputActa)));
+            thisLineActa = brActa.readLine();
+
+            StringBuilder sb = new StringBuilder();
+            sb.append(thisLineActa+"\n");
+            resultActa= sb.toString();
+
+            try {
+                JSONObject jsonObject= new JSONObject(resultActa);
+                actaController.crearActa(jsonObject);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         /**
          * Call this function whenever you want to check user login

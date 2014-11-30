@@ -69,11 +69,11 @@ public class ActaController {
             acta.setOficioRemisor(actaJson.getString("oficioRemisor"));
             acta.setParte(actaJson.getString("parte"));
             acta.setIdOt(actaJson.getInt("idOt"));
-            acta.setMontoFactura(actaJson.getInt("montoFactura"));
+            acta.setMontoFactura(actaJson.optInt("montoFactura"));
             acta.setGruaExterna(actaJson.getBoolean("gruaExterna"));
-            acta.setServicio(actaJson.getInt("servicio"));
+            acta.setServicio(actaJson.optInt("servicio"));
             acta.setCargaInicial(actaJson.getBoolean("cargaInicial"));
-            acta.setIdSolicitud(actaJson.getInt("idSolicitud"));
+            acta.setIdSolicitud(actaJson.optInt("idSolicitud"));
             acta.setFechaCreacion(new Date(actaJson.getLong("fechaCreacion")));
             acta.setCausaRetiro(actaJson.getString("causaRetiro"));
             acta.setIdGrua(actaJson.getInt("idGrua"));
@@ -91,22 +91,22 @@ public class ActaController {
             vehiculo.setMatricula(vehiculoJson.getString("matricula"));
             vehiculo.setMarca(vehiculoJson.getString("marca"));
             vehiculo.setCarpetaVehiculo(vehiculoJson.getString("carpetaVehiculo"));
-            vehiculo.setServicio(vehiculoJson.getInt("servicio"));
-            vehiculo.setAnio(vehiculoJson.getInt("anio"));
+            vehiculo.setServicio(vehiculoJson.optInt("servicio"));
+            vehiculo.setAnio(vehiculoJson.optInt("anio"));
             vehiculo.setOrigenVehiculo(vehiculoJson.getBoolean("origenVehiculo"));
             vehiculo.setColor(vehiculoJson.getString("color"));
             vehiculo.setCaracteristicas(vehiculoJson.getString("caracteristicas"));
-            vehiculo.setPuedeRodar(vehiculoJson.getBoolean("puedeRodas"));
+            vehiculo.setPuedeRodar(vehiculoJson.getBoolean("puedeRodar"));
 
             Global.daoSession.getVehiculoDao().insert(vehiculo);
             vehiculoData.setVehiculo(vehiculo);
             Global.daoSession.getVehiculoDataDao().insert(vehiculoData);
 
             // Datos de la autoridad
-            JSONObject autoridadJson= actaJson.getJSONObject("autoridad");
-            JSONArray telefonosJson= autoridadJson.getJSONArray("telefonos");
-            JSONArray correosJson= autoridadJson.getJSONArray("correos");
-            JSONObject direccionJson= autoridadJson.getJSONObject("direccion");
+            JSONObject autoridadJson= actaJson.optJSONObject("autoridad");
+            JSONArray telefonosJson= autoridadJson.optJSONArray("telefonos");
+            JSONArray correosJson= autoridadJson.optJSONArray("correos");
+            JSONObject direccionJson= autoridadJson.optJSONObject("direccion");
 
             Autoridad autoridad= new Autoridad();
             Persona persona = new Persona();
@@ -114,76 +114,83 @@ public class ActaController {
             Correos correos=new Correos();
             Direccion direccion=new Direccion();
 
-            telefonos.setEmail(telefonosJson.get(0).toString());
-            Global.daoSession.getTelefonosDao().insert(telefonos);
-            correos.setEmail(correosJson.get(0).toString());
-            Global.daoSession.getCorreosDao().insert(correos);
+            if(autoridadJson!=null){
 
-            if(direccionJson!=null){
-                direccion.setCalle(direccionJson.getString("calle"));
-                direccion.setComuna(direccionJson.getString("comuna"));
-                direccion.setNumeracion(direccionJson.getString("numeracion"));
-                direccion.setInterseccion(direccionJson.getString("interseccion"));
-                direccion.setReferencias(direccionJson.getString("referencias"));
-                Global.daoSession.getDireccionDao().insert(direccion);
+                telefonos.setEmail(telefonosJson.get(0).toString());
+                Global.daoSession.getTelefonosDao().insert(telefonos);
+                correos.setEmail(correosJson.get(0).toString());
+                Global.daoSession.getCorreosDao().insert(correos);
+
+                if(direccionJson!=null){
+                    direccion.setCalle(direccionJson.getString("calle"));
+                    direccion.setComuna(direccionJson.getString("comuna"));
+                    direccion.setNumeracion(direccionJson.getString("numeracion"));
+                    direccion.setInterseccion(direccionJson.getString("interseccion"));
+                    direccion.setReferencias(direccionJson.getString("referencias"));
+                    Global.daoSession.getDireccionDao().insert(direccion);
+                }
+
+                persona.setNombre(autoridadJson.getString("nombre"));
+                persona.setApellidoPaterno(autoridadJson.getString("apellidoPaterno"));
+                persona.setApellidoMaterno(autoridadJson.getString("apellidoMaterno"));
+                persona.setRut(autoridadJson.getString("rut"));
+                persona.setUsuario(autoridadJson.getString("usuario"));
+                persona.getTelefonos().add(telefonos);
+                persona.getCorreos().add(correos);
+                persona.setDireccion(direccion);
+                Global.daoSession.getPersonaDao().insert(persona);
+
+                autoridad.setCargo(autoridadJson.getString("cargo"));
+                autoridad.setUnidadPolicial(autoridadJson.getString("unidadPolicial"));
+                autoridad.setNumeroFuncionario(autoridadJson.getString("numeroFuncionario"));
+                autoridad.setInstitucion(autoridadJson.getString("insttitucion"));
+                autoridad.setPersona(persona);
+                Global.daoSession.getAutoridadDao().insert(autoridad);
+                acta.setAutoridad(autoridad);
             }
 
-            persona.setNombre(autoridadJson.getString("nombre"));
-            persona.setApellidoPaterno(autoridadJson.getString("apellidoPaterno"));
-            persona.setApellidoMaterno(autoridadJson.getString("apellidoMaterno"));
-            persona.setRut(autoridadJson.getString("rut"));
-            persona.setUsuario(autoridadJson.getString("usuario"));
-            persona.getTelefonos().add(telefonos);
-            persona.getCorreos().add(correos);
-            persona.setDireccion(direccion);
-            Global.daoSession.getPersonaDao().insert(persona);
+            // Datos del gruero
+            JSONObject grueroJson= actaJson.optJSONObject("gruero");
+            telefonosJson= grueroJson.optJSONArray("telefonos");
+            correosJson= grueroJson.optJSONArray("correos");
+            direccionJson= grueroJson.optJSONObject("direccion");
 
-            autoridad.setCargo(autoridadJson.getString("cargo"));
-            autoridad.setUnidadPolicial(autoridadJson.getString("unidadPolicial"));
-            autoridad.setNumeroFuncionario(autoridadJson.getString("numeroFuncionario"));
-            autoridad.setInstitucion(autoridadJson.getString("insttitucion"));
-            autoridad.setPersona(persona);
-            Global.daoSession.getAutoridadDao().insert(autoridad);
-            acta.setAutoridad(autoridad);
+            if(grueroJson!=null){
+                persona = new Persona();
+                telefonos= new Telefonos();
+                correos=new Correos();
+                direccion=new Direccion();
 
-            // Datos de la autoridad
-            JSONObject grueroJson= actaJson.getJSONObject("autoridad");
-            telefonosJson= grueroJson.getJSONArray("telefonos");
-            correosJson= grueroJson.getJSONArray("correos");
-            direccionJson= grueroJson.getJSONObject("direccion");
+                telefonos.setEmail(telefonosJson.get(0).toString());
+                Global.daoSession.getTelefonosDao().insert(telefonos);
+                correos.setEmail(correosJson.get(0).toString());
+                Global.daoSession.getCorreosDao().insert(correos);
 
-            persona = new Persona();
-            telefonos= new Telefonos();
-            correos=new Correos();
-            direccion=new Direccion();
+                if(direccionJson!=null){
+                    direccion.setCalle(direccionJson.getString("calle"));
+                    direccion.setComuna(direccionJson.getString("comuna"));
+                    direccion.setNumeracion(direccionJson.getString("numeracion"));
+                    direccion.setInterseccion(direccionJson.getString("interseccion"));
+                    direccion.setReferencias(direccionJson.getString("referencias"));
+                    Global.daoSession.getDireccionDao().insert(direccion);
+                }
 
-            telefonos.setEmail(telefonosJson.get(0).toString());
-            Global.daoSession.getTelefonosDao().insert(telefonos);
-            correos.setEmail(correosJson.get(0).toString());
-            Global.daoSession.getCorreosDao().insert(correos);
+                persona.setNombre(grueroJson.getString("nombre"));
+                persona.setApellidoPaterno(grueroJson.getString("apellidoPaterno"));
+                persona.setApellidoMaterno(grueroJson.getString("apellidoMaterno"));
+                persona.setRut(grueroJson.getString("rut"));
+                persona.setUsuario(grueroJson.getString("usuario"));
+                persona.getTelefonos().add(telefonos);
+                persona.getCorreos().add(correos);
+                persona.setDireccion(direccion);
+                Global.daoSession.getPersonaDao().insert(persona);
 
-            if(direccionJson!=null){
-                direccion.setCalle(direccionJson.getString("calle"));
-                direccion.setComuna(direccionJson.getString("comuna"));
-                direccion.setNumeracion(direccionJson.getString("numeracion"));
-                direccion.setInterseccion(direccionJson.getString("interseccion"));
-                direccion.setReferencias(direccionJson.getString("referencias"));
-                Global.daoSession.getDireccionDao().insert(direccion);
+                acta.setPersona(persona);
             }
 
-            persona.setNombre(grueroJson.getString("nombre"));
-            persona.setApellidoPaterno(grueroJson.getString("apellidoPaterno"));
-            persona.setApellidoMaterno(grueroJson.getString("apellidoMaterno"));
-            persona.setRut(grueroJson.getString("rut"));
-            persona.setUsuario(grueroJson.getString("usuario"));
-            persona.getTelefonos().add(telefonos);
-            persona.getCorreos().add(correos);
-            persona.setDireccion(direccion);
-            Global.daoSession.getPersonaDao().insert(persona);
+            direccionJson= actaJson.optJSONObject("direccion");
 
-            acta.setPersona(persona);
-
-            direccionJson= actaJson.getJSONObject("direccion");
+            // Datos del retiro
 
             if(direccionJson!=null){
                 direccion.setCalle(direccionJson.getString("calle"));

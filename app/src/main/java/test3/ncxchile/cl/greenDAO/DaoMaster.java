@@ -49,7 +49,7 @@ import test3.ncxchile.cl.security.PasswordHelper;
  * Master of DAO (schema version 1000): knows all DAOs.
 */
 public class DaoMaster extends AbstractDaoMaster {
-    public static final int SCHEMA_VERSION = 1080;
+    public static final int SCHEMA_VERSION = 1081;
 
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(SQLiteDatabase db, boolean ifNotExists) {
@@ -230,7 +230,6 @@ public class DaoMaster extends AbstractDaoMaster {
             InputStream myInputRetiro=null;
             BufferedReader brRetiro= null;
             String thisLineRetiro = null;
-
 
             //System.out.print("ASSETS1="+getAssets().toString());
             try {
