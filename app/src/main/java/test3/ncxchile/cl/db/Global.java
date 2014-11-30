@@ -22,6 +22,7 @@ public class Global extends Application{
 
     public static DaoSession daoSession;
     public DaoMaster daoMaster;
+    public static SQLiteDatabase db;
     public static Sesion sesion;
     public static SessionManager sessionManager;
 
@@ -30,7 +31,7 @@ public class Global extends Application{
         //System.out.println("SOY DB_HELPER Y ME CREARON");
         super.onCreate();
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "cmvrc_android", null);
-        SQLiteDatabase db = helper.getWritableDatabase();
+        db = helper.getWritableDatabase();
         //DaoMaster.createAllTables(db,true);
         DaoMaster daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();

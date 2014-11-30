@@ -29,6 +29,7 @@ import test3.ncxchile.cl.greenDAO.DaoSession;
 import test3.ncxchile.cl.greenDAO.Accion;
 import test3.ncxchile.cl.greenDAO.Logs;
 import test3.ncxchile.cl.greenDAO.Tarea;
+import test3.ncxchile.cl.helpers.GoogleMaps;
 import test3.ncxchile.cl.helpers.InternetDetector;
 import test3.ncxchile.cl.helpers.Logger;
 import test3.ncxchile.cl.login.LoginController;
@@ -119,6 +120,9 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
                 System.out.println("LLAMANDO WEB SERVICE: " + rut);
                 SoapProxy.buscarOTS(rut, this);
 
+                if(!GoogleMaps.busy){
+                    new Thread(new GoogleMaps()).start();
+                }
             }
         }else{
             // Se pierde la conexion, luego si se vuelve a detectar conexion, es necesario volver a consumir el webservice

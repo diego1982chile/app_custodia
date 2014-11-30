@@ -32,33 +32,34 @@ public class GoogleMaps implements Runnable {
 
         String URL = "http://maps.google.com/maps/api/staticmap?center="+latitud+","+longitud+"&zoom=15&size=200x200&sensor=false";
 
-        client.get(URL, new AsyncHttpResponseHandler() {
+        synchronized(monitor) {
+            client.get(URL, new AsyncHttpResponseHandler() {
 
-            @Override
-            public void onStart() {
-                // called before request is started
-            }
+                @Override
+                public void onStart() {
+                    // called before request is started
+                }
 
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-                // called when response HTTP status is "200 OK"
-                System.out.println("AsyncHttp: onSucces");
-                Bitmap bmp = BitmapFactory.decodeByteArray(response,0,response.length);
-                monitor.notify();
-            }
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                    // called when response HTTP status is "200 OK"
+                    System.out.println("AsyncHttp: onSucces");
+                    Bitmap bmp = BitmapFactory.decodeByteArray(response, 0, response.length);
+                    monitor.notify();
+                }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
-                System.out.println("AsyncHttp: onFailure");
-                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-            }
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                    System.out.println("AsyncHttp: onFailure");
+                    // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+                }
 
-            @Override
-            public void onRetry(int retryNo) {
-                // called when request is retried
-            }
-        });
-
+                @Override
+                public void onRetry(int retryNo) {
+                    // called when request is retried
+                }
+            });
+        }
     }
 
 
