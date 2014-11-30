@@ -571,9 +571,11 @@ public class Acta {
     }
 
     public void setFirma(Firma firma) {
+        /*
         if (firma == null) {
             throw new DaoException("To-one property 'FirmaID' has not-null constraint; cannot set to-one to null");
         }
+        */
         synchronized (this) {
             this.firma = firma;
             FirmaID = firma.getId();

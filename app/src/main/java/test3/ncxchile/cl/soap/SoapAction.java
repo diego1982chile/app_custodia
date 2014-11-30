@@ -140,7 +140,8 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
 				e.printStackTrace();
 			}
 			try {
-				Object obj = envelope.getResponse();
+				Object obj = envelope.getResponse();                
+
                 if (obj instanceof Vector) {
                     data = (Vector) obj;
                     System.out.println("SoapResponse Vector=" + data);
