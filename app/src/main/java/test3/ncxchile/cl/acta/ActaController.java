@@ -60,7 +60,12 @@ public class ActaController {
         // Inicializar TareaDao        
     }
 
-    public void crearActa(final JSONObject actaJson) {
+    public void insertarActa(final Acta acta) {
+        Global.daoSession.getActaDao().insert(acta);
+    }
+
+    public void crearActa(final JSONObject actaJson, final Tarea tareaActual) {
+
 
         Global.daoSession.runInTx(new Runnable() {
             @Override
@@ -81,6 +86,8 @@ public class ActaController {
                     acta.setFechaCreacion(new Date(actaJson.getLong("fechaCreacion")));
                     acta.setCausaRetiro(actaJson.getString("causaRetiro"));
                     acta.setIdGrua(actaJson.getInt("idGrua"));
+
+                    acta.setTarea(tareaActual);
 
                     // Datos del vehiculo
 
