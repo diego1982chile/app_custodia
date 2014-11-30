@@ -44,6 +44,9 @@ public class SessionManager {
     public static final String KEY_APELLIDO_MATERNO = "apellido_materno";
 
     // Email address (make variable public to access from outside)
+    public static final String KEY_USER_NAME = "user_name";
+
+    // Email address (make variable public to access from outside)
     public static final String KEY_GRUA = "grua";
 
     // Amount of video files
@@ -77,7 +80,7 @@ public class SessionManager {
     /**
      * Create login session
      * */
-    public void createLoginSession(String rut, String nombre, String apellido_paterno, String apellido_materno){
+    public void createLoginSession(String rut, String nombre, String apellido_paterno, String apellido_materno, String user_name){
 
         // Storing login value as TRUE
         editor.putString(KEY_ID, "");
@@ -96,6 +99,9 @@ public class SessionManager {
 
         // Storing email in pref
         editor.putString(KEY_APELLIDO_MATERNO, apellido_materno);
+
+        // Storing email in pref
+        editor.putString(KEY_USER_NAME, user_name);
 
         // Storing amount of saved image files
         editor.putInt(KEY_CANTIDAD_VIDEOS, 0);
@@ -268,6 +274,16 @@ public class SessionManager {
     public void setLongitud(Float longitud){
         Editor editor= pref.edit();
         editor.putFloat(KEY_LONGITUD, longitud);
+        editor.commit();
+    }
+
+    public String getUserName(){
+        return pref.getString(KEY_USER_NAME, "");
+    }
+
+    public void setUserName(String userName){
+        Editor editor= pref.edit();
+        editor.putString(KEY_USER_NAME, userName);
         editor.commit();
     }
 }

@@ -92,7 +92,7 @@ public class UserLogin implements Serializable {
         // Session Manager
         SessionManager session = new SessionManager(localContext);
         // Creating user login session
-        session.createLoginSession(usuario.getRut()+usuario.getDv().toString(), usuario.getNombre(), usuario.getApellidoPaterno(), usuario.getApellidoMaterno());
+        //session.createLoginSession(usuario.getRut()+usuario.getDv().toString(), usuario.getNombre(), usuario.getApellidoPaterno(), usuario.getApellidoMaterno());
         return 1;
     }
 

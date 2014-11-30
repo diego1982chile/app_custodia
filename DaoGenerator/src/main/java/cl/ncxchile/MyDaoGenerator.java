@@ -34,7 +34,7 @@ public class MyDaoGenerator {
 
         //addVehiculoDataClientePersona(schema);
 
-        addActaFirma(schema);
+        addUserName(schema);
 
         new DaoGenerator().generateAll(schema, "upload/src-gen");
     }
@@ -142,7 +142,13 @@ public class MyDaoGenerator {
         acta.addIdProperty();
         Property firmaId = acta.addLongProperty("FirmaID").notNull().getProperty();
         acta.addToOne(firma, firmaId);
+    }
 
+    private static void addUserName(Schema schema) {
+        Entity userName = schema.addEntity("UserName");
+        userName.addIdProperty();
+        userName.addLongProperty("Rut");
+        userName.addStringProperty("UserName");
     }
 
     private static void addTareaActaAccion(Schema schema) {

@@ -49,6 +49,7 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
             lastSource = current.source;
 
             Logger.log("Call WS: SoapProxy." + current.methodName);
+            System.out.println("Call WS: SoapProxy." + current.methodName);
 
 			Vector data = null;
 			SoapObject request = new SoapObject(current.namespace,
@@ -140,7 +141,7 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
 				e.printStackTrace();
 			}
 			try {
-				Object obj = envelope.getResponse();                
+				Object obj = envelope.getResponse();
 
                 if (obj instanceof Vector) {
                     data = (Vector) obj;
@@ -156,6 +157,7 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
 
                 }
                 Logger.log("Response WS: SoapProxy."+current.methodName);
+                System.out.println("Response WS: SoapProxy."+current.methodName);
 			} catch (Exception e) {
 				e.printStackTrace();
 
@@ -164,6 +166,7 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
                 e.printStackTrace(pw);
 
                 Logger.log("Error WS: SoapProxy."+current.methodName+" StackTrace:"+sw.toString());
+                System.out.println("Error WS: SoapProxy."+current.methodName+" StackTrace:"+sw.toString());
             }
 			return data;
 		}

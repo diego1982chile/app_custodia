@@ -244,7 +244,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
                     }
                     if(online) {
                         // Creating user login session
-                        Global.sessionManager.createLoginSession(usuario.getRut() + usuario.getDv().toString(), usuario.getNombre(), usuario.getApellidoPaterno(), usuario.getApellidoMaterno());
+                        String userName= Global.daoSession.getUserNameDao().getByRut(usuario.getRut()).getUserName();
+                        Global.sessionManager.createLoginSession(usuario.getRut() + usuario.getDv().toString(), usuario.getNombre(), usuario.getApellidoPaterno(), usuario.getApellidoMaterno(),userName);
                         Global.sessionManager.setId(idSesion.toString());
                         Logger.log("Login Online:" + usuario.getNombre() + " " + usuario.getApellidoPaterno() + " Grúa:");
 

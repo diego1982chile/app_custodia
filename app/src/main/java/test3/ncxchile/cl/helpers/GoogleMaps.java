@@ -2,6 +2,7 @@ package test3.ncxchile.cl.helpers;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.*;
 
 import org.apache.http.Header;
 import org.apache.http.client.ClientProtocolException;
@@ -9,6 +10,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -17,6 +19,8 @@ import test3.ncxchile.cl.db.Global;
 import test3.ncxchile.cl.greenDAO.Accion;
 import test3.ncxchile.cl.greenDAO.Mapa;
 import com.loopj.android.http.*;
+import com.loopj.android.http.Base64;
+import com.lowagie.text.Image;
 
 /**
  * Created by android-developer on 28-11-2014.
@@ -45,6 +49,14 @@ public class GoogleMaps implements Runnable {
                     // called when response HTTP status is "200 OK"
                     System.out.println("AsyncHttp: onSucces");
                     Bitmap bmp = BitmapFactory.decodeByteArray(response, 0, response.length);
+                    Mapa mapa= new Mapa();
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    String text = android.util.Base64.encodeToString(stream.toByteArray(), android.util.Base64.DEFAULT);
+
+                    mapa.setMapa(text);
+                    Global.daoSession.getMapaDao().insert(mapa);
+
                     monitor.notify();
                 }
 
