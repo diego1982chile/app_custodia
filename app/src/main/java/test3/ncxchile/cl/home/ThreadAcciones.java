@@ -10,6 +10,7 @@ import java.util.Vector;
 
 import test3.ncxchile.cl.acta.ActaController;
 import test3.ncxchile.cl.greenDAO.Accion;
+import test3.ncxchile.cl.greenDAO.Acta;
 import test3.ncxchile.cl.greenDAO.Tarea;
 import test3.ncxchile.cl.helpers.InternetDetector;
 import test3.ncxchile.cl.soap.SoapHandler;
@@ -167,8 +168,17 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                 JSONObject obj = (JSONObject) value.get(0);
                 try {
                     ActaController actaController= new ActaController(context);
-                    actaController.crearActa(obj);
+                    Acta acta = actaController.crearActa(obj);
                     System.out.println(obj.toString(5));
+                    Accion siguienteAccion = (Accion) source;
+                    System.out.println(actaController);
+                    System.out.println(acta.getId());
+                    if (acta != null && acta.getServicio() != null) {
+
+                        System.out.println(actaController.obtenerJSON(siguienteAccion.getTarea().getId()));
+                    }
+
+
                     tempJSON = obj.toString(5);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -178,14 +188,13 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                 System.out.println("buscarActaJSON=" + source + "=" + value + "(null)");
             }
 
-            if (value != null && value.size() == 1) {
-                JSONObject data = (JSONObject) value.get(0);
-                //TOOD ACA ESTAN LOS DATOS DEL ACTA
-            }
+
+            /* TODO TEMPORAL
             Accion siguienteAccion = (Accion) source;
             siguienteAccion.setSincronizada(true);
             siguienteAccion.update();
 
+            */
 
         }
         else if (methodName.equals("finalizarActaGruero")) {
