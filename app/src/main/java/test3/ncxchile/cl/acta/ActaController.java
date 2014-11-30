@@ -116,10 +116,24 @@ public class ActaController {
 
             if(autoridadJson!=null){
 
-                telefonos.setEmail(telefonosJson.get(0).toString());
-                Global.daoSession.getTelefonosDao().insert(telefonos);
-                correos.setEmail(correosJson.get(0).toString());
-                Global.daoSession.getCorreosDao().insert(correos);
+                persona.setNombre(autoridadJson.getString("nombre"));
+                persona.setApellidoPaterno(autoridadJson.getString("apellidoPaterno"));
+                persona.setApellidoMaterno(autoridadJson.getString("apellidoMaterno"));
+                persona.setRut(autoridadJson.getString("rut"));
+                persona.setUsuario(autoridadJson.getString("usuario"));
+                Global.daoSession.getPersonaDao().insert(persona);
+
+                if(telefonosJson.length()>0) {
+                    telefonos.setEmail(telefonosJson.get(0).toString());
+                    Global.daoSession.getTelefonosDao().insert(telefonos);
+                    persona.getTelefonos().add(telefonos);
+                }
+
+                if(correosJson.length()>0){
+                    correos.setEmail(correosJson.get(0).toString());
+                    Global.daoSession.getCorreosDao().insert(correos);
+                    persona.getCorreos().add(correos);
+                }
 
                 if(direccionJson!=null){
                     direccion.setCalle(direccionJson.getString("calle"));
@@ -128,22 +142,13 @@ public class ActaController {
                     direccion.setInterseccion(direccionJson.getString("interseccion"));
                     direccion.setReferencias(direccionJson.getString("referencias"));
                     Global.daoSession.getDireccionDao().insert(direccion);
+                    persona.setDireccion(direccion);
                 }
-
-                persona.setNombre(autoridadJson.getString("nombre"));
-                persona.setApellidoPaterno(autoridadJson.getString("apellidoPaterno"));
-                persona.setApellidoMaterno(autoridadJson.getString("apellidoMaterno"));
-                persona.setRut(autoridadJson.getString("rut"));
-                persona.setUsuario(autoridadJson.getString("usuario"));
-                persona.getTelefonos().add(telefonos);
-                persona.getCorreos().add(correos);
-                persona.setDireccion(direccion);
-                Global.daoSession.getPersonaDao().insert(persona);
 
                 autoridad.setCargo(autoridadJson.getString("cargo"));
                 autoridad.setUnidadPolicial(autoridadJson.getString("unidadPolicial"));
                 autoridad.setNumeroFuncionario(autoridadJson.getString("numeroFuncionario"));
-                autoridad.setInstitucion(autoridadJson.getString("insttitucion"));
+                autoridad.setInstitucion(autoridadJson.getString("institucion"));
                 autoridad.setPersona(persona);
                 Global.daoSession.getAutoridadDao().insert(autoridad);
                 acta.setAutoridad(autoridad);
@@ -161,11 +166,23 @@ public class ActaController {
                 correos=new Correos();
                 direccion=new Direccion();
 
-                telefonos.setEmail(telefonosJson.get(0).toString());
-                Global.daoSession.getTelefonosDao().insert(telefonos);
-                correos.setEmail(correosJson.get(0).toString());
-                Global.daoSession.getCorreosDao().insert(correos);
+                persona.setNombre(grueroJson.getString("nombre"));
+                persona.setApellidoPaterno(grueroJson.getString("apellidoPaterno"));
+                persona.setApellidoMaterno(grueroJson.getString("apellidoMaterno"));
+                persona.setRut(grueroJson.getString("rut"));
+                persona.setUsuario(grueroJson.getString("usuario"));
+                Global.daoSession.getPersonaDao().insert(persona);
 
+                if(telefonosJson.length()>0){
+                    telefonos.setEmail(telefonosJson.get(0).toString());
+                    Global.daoSession.getTelefonosDao().insert(telefonos);
+                    persona.getTelefonos().add(telefonos);
+                }
+                if(correosJson.length()>0){
+                    correos.setEmail(correosJson.get(0).toString());
+                    Global.daoSession.getCorreosDao().insert(correos);
+                    persona.getCorreos().add(correos);
+                }
                 if(direccionJson!=null){
                     direccion.setCalle(direccionJson.getString("calle"));
                     direccion.setComuna(direccionJson.getString("comuna"));
@@ -173,23 +190,14 @@ public class ActaController {
                     direccion.setInterseccion(direccionJson.getString("interseccion"));
                     direccion.setReferencias(direccionJson.getString("referencias"));
                     Global.daoSession.getDireccionDao().insert(direccion);
+                    persona.setDireccion(direccion);
                 }
-
-                persona.setNombre(grueroJson.getString("nombre"));
-                persona.setApellidoPaterno(grueroJson.getString("apellidoPaterno"));
-                persona.setApellidoMaterno(grueroJson.getString("apellidoMaterno"));
-                persona.setRut(grueroJson.getString("rut"));
-                persona.setUsuario(grueroJson.getString("usuario"));
-                persona.getTelefonos().add(telefonos);
-                persona.getCorreos().add(correos);
-                persona.setDireccion(direccion);
-                Global.daoSession.getPersonaDao().insert(persona);
 
                 acta.setPersona(persona);
             }
 
             direccionJson= actaJson.optJSONObject("direccion");
-
+            direccion= new Direccion();
             // Datos del retiro
 
             if(direccionJson!=null){
