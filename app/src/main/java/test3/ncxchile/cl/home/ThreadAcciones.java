@@ -168,16 +168,13 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                 JSONObject obj = (JSONObject) value.get(0);
                 try {
                     ActaController actaController= new ActaController(context);
-                    Acta acta = actaController.crearActa(obj);
+                    actaController.crearActa(obj);
                     System.out.println(obj.toString(5));
                     Accion siguienteAccion = (Accion) source;
-                    System.out.println(actaController);
-                    System.out.println(acta.getId());
-                    if (acta != null && acta.getServicio() != null) {
 
-                        System.out.println(actaController.obtenerJSON(siguienteAccion.getTarea().getId()));
-                    }
+                    Acta nuevaActa = siguienteAccion.getActa();
 
+                    System.out.println(nuevaActa);
 
                     tempJSON = obj.toString(5);
                 } catch (JSONException e) {
