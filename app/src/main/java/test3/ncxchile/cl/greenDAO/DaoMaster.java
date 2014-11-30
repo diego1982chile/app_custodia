@@ -231,7 +231,6 @@ public class DaoMaster extends AbstractDaoMaster {
             BufferedReader brRetiro= null;
             String thisLineRetiro = null;
 
-
             //System.out.print("ASSETS1="+getAssets().toString());
             try {
                 myInput = mContext.getAssets().open("tareas.txt");
