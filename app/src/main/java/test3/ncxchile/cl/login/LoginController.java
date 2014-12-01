@@ -135,13 +135,9 @@ public class LoginController implements Serializable {
         if (usuarios.size() == 0) {
             backupGruero(handler);
         }
-        else {
-
-            System.out.println("LLAMANDO WEB SERVICE: " + rutCompleto + "," + mPassword);
-            SoapProxy.loginGruero(String.valueOf(mRut) , mPassword, handler);
-        }
-
-        return 0;
+        System.out.println("LLAMANDO WEB SERVICE: " + rutCompleto + "," + mPassword);
+        SoapProxy.loginGruero(String.valueOf(mRut) , mPassword, handler);
+        return 1;
     }
 
 }

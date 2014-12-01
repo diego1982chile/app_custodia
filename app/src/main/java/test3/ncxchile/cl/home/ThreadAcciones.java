@@ -154,13 +154,23 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
 
     }
 
-    private String tempJSON = null;
-
     @Override
     public void resultValue(String methodName, Object source, Vector value) {
+
+        if (methodName == null && source == null && value == null) {
+            sincronizando = false;
+            return;
+
+        }
         System.out.println("Resultado Acciones=" + methodName + ", S=" + source);
         if (methodName.equals("confirmarOT")) {
-            System.out.println("confirmarOT=" + source + "=" + value + "(" + value.size() + ")");
+            if (value == null) {
+                System.out.println("confirmarOT=" + source + "=" + value + "(nulo)");
+                return;
+            }
+            else {
+                System.out.println("confirmarOT=" + source + "=" + value + "(" + value.size() + ")");
+            }
             if (value.size() == 2) {
                 String status = (String)value.get(0).toString();
                 String msg = (String)value.get(1).toString();
@@ -174,7 +184,13 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
 
         }
         else if (methodName.equals("confirmarArribo")) {
-            System.out.println("confirmarArribo=" + source + "=" + value + "(" + value.size() + ")");
+            if (value == null) {
+                System.out.println("confirmarArribo=" + source + "=" + value + "(nulo)");
+                return;
+            }
+            else {
+                System.out.println("confirmarArribo=" + source + "=" + value + "(" + value.size() + ")");
+            }
             if (value.size() == 2) {
                 String status = (String)value.get(0).toString();
                 String msg = (String)value.get(1).toString();
@@ -212,9 +228,6 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
 
                 actasJSON.put(siguienteAccion.getTarea().getId(), json);
 
-
-
-
                 actaController.crearActa(obj, siguienteAccion.getTarea());
 
 
@@ -237,8 +250,13 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
 
         }
         else if (methodName.equals("finalizarActaGruero")) {
-
-            System.out.println("finalizarActaGruero=" + source + "=" + value + "(" + value.size() + ")");
+            if (value == null) {
+                System.out.println("finalizarActaGruero=" + source + "=" + value + "(null)");
+                return;
+            }
+            else {
+                System.out.println("finalizarActaGruero=" + source + "=" + value + "(" + value.size() + ")");
+            }
             if (value.size() == 2) {
                 String status = (String)value.get(0).toString();
                 String msg = (String)value.get(1).toString();
@@ -255,7 +273,13 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
 
         }
         else if (methodName.equals("confirmarInicioTraslado")) {
-            System.out.println("confirmarInicioTraslado=" + source + "=" + value + "(" + value.size() + ")");
+            if (value == null) {
+                System.out.println("confirmarInicioTraslado=" + source + "=" + value + "(null)");
+                return;
+            }
+            else {
+                System.out.println("confirmarInicioTraslado=" + source + "=" + value + "(" + value.size() + ")");
+            }
             if (value.size() == 2) {
                 String status = (String)value.get(0).toString();
                 String msg = (String)value.get(1).toString();

@@ -154,6 +154,8 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
                 e.printStackTrace(pw);
 
                 Logger.log("Error WS: SoapProxy."+current.methodName+" StackTrace:"+sw.toString());
+
+                handler.resultValue(null,null,null);
             }
 
 		}

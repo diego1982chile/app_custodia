@@ -241,7 +241,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
                     Global.daoSession.getSesionDao().insert(Global.sesion);
 
                     while (usuario == null) {
-                        Thread.sleep(5000);
+                        Thread.sleep(2000);
                         usuario = mAuthTask.getUsuario();
                     }
                     if(online) {
@@ -271,6 +271,11 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
 
     @Override
     public void resultValue(String methodName, Object source, Vector value) {
+
+        if (methodName == null && source == null && value == null) {
+            System.out.println("Error de comunicación..");
+            return;
+        }
         System.out.println("ResultValue=" + methodName);
         if (methodName.equals("backupGruero") && value != null) {
             for (int i = 0; i < value.size(); i++) {
