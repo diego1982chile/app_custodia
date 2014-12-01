@@ -105,10 +105,7 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
 
         System.out.println("RUT GRUERO= " + rutGruero);
 
-        String rut = rutGruero;
-        if (rutGruero.indexOf("-") > 0 || rutGruero.indexOf(".") > 0) {
-            rut = String.valueOf(LoginController.parseRut(rutGruero));
-        }
+        String rut = String.valueOf(LoginController.parseRut(rutGruero));
 
         System.out.println("ACTUALIZAR TAREAS = " + rut);
 

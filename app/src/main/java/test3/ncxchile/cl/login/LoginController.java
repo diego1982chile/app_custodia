@@ -56,9 +56,15 @@ public class LoginController implements Serializable {
     public static int parseRut(String str){
 
         int rut=0;
-        str=str.replace(".","");
-        str=str.replace(".","");
-        str=str.replace("-","");
+        if (str.indexOf('.') > 0) {
+            str=str.replace(".","");
+        }
+        if (str.indexOf('.') > 0) {
+            str = str.replace(".", "");
+        }
+        if (str.indexOf('-') > 0) {
+            str=str.replace("-","");
+        }
 
         try {
             rut = Integer.parseInt(str.subSequence(0,str.length()-1).toString());

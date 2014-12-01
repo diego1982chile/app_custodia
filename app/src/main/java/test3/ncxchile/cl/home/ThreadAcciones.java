@@ -117,13 +117,11 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                     Firma firma = acta.getFirma();
 
 
-                    String json = JSONUtil.actaToJson(acta);
 
                     String georef = "{" + String.valueOf(siguienteAccion.getLongitud() + "," + siguienteAccion.getLatitud()+ "}");
 
                     String firmaAutoridad = firma.getFirmaAutoridad();
                     String firmaGruero = firma.getFirmaGruero();
-                    String actaJSON = json;
 
                     /*
                     if (actasJSON.containsKey(tarea.getId())) {
@@ -131,12 +129,7 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                         System.out.println("Leyendo actaJSON a la mala = "+ actaJSON);
                     }
                     */
-                    if (acta.getActaJson() != null) {
-                        actaJSON = acta.getActaJson();
-                        System.out.println("Leyendo actaJSON de la BD = "+ actaJSON);
-                    }
-
-
+                    String actaJSON = acta.getActaJson();
 
                     String recinto = "Recinto Principal"; //TODO temporal
 
@@ -244,14 +237,18 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
 
         }
         else if (methodName.equals("finalizarActaGruero")) {
+
             System.out.println("finalizarActaGruero=" + source + "=" + value + "(" + value.size() + ")");
             if (value.size() == 2) {
                 String status = (String)value.get(0).toString();
                 String msg = (String)value.get(1).toString();
                 if (status.equals("00")) {
                     Accion siguienteAccion = (Accion) source;
-                    siguienteAccion.setSincronizada(true);
-                    siguienteAccion.update();
+                    if (siguienteAccion != null) {
+                        siguienteAccion.setSincronizada(true);
+                        siguienteAccion.update();
+
+                    }
                 }
 
             }
