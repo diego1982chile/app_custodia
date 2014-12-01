@@ -64,6 +64,229 @@ public class ActaController {
         Global.daoSession.getActaDao().insert(acta);
     }
 
+    public JSONObject parseJson(Acta acta){
+
+        JSONObject actaJson=new JSONObject();
+
+        JSONObject vehiculoDataJson=new JSONObject();
+        JSONArray especiasJson=new JSONArray();
+        JSONArray fichaEstadoVisualJson=new JSONArray();
+        JSONObject vehiculoJson=new JSONObject();
+        JSONObject propietarioJson=new JSONObject();
+        JSONObject conductorJson=new JSONObject();
+        JSONObject personaJson=new JSONObject();
+        JSONArray telefonosJson=new JSONArray();
+        JSONArray correosJson=new JSONArray();
+        JSONObject autoridadJson=new JSONObject();
+        JSONObject direccionJson=new JSONObject();
+
+        try {
+            JSONObject actaTemplateJson= new JSONObject(acta.getActaJson());
+
+            // Los datos que no son suceptibles de modificaciones en la tablet, son preservados, usando la plantilla del actaJson
+
+            // Setear datos del acta
+            Date fechaFirma= acta.getFechaFirma();
+            SimpleDateFormat sdfFecha = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+            actaJson.put("fechaFirma",sdfFecha.format(fechaFirma));
+            actaJson.put("oficioRemisor",acta.getOficioRemisor());
+            actaJson.put("parte",acta.getParte());
+            actaJson.put("idOt",actaTemplateJson.optLong("idOt"));
+            actaJson.put("observacionImagenes",acta.getObservacionImgenes());
+            actaJson.put("montoFactura",actaTemplateJson.optLong("montoFactura"));
+            actaJson.put("gruaExterna",actaTemplateJson.optLong("gruaExterna"));
+
+            //Setear vehiculoData
+            if(acta.getVehiculoData()!=null){
+                // Setear especies
+                if(acta.getVehiculoData().getEspeciasList()!=null){
+                    for(int i=0;i<acta.getVehiculoData().getEspeciasList().size();++i)
+                        especiasJson.put(i,acta.getVehiculoData().getEspeciasList().get(i));
+                }
+
+                vehiculoDataJson.put("especias",especiasJson);
+
+                if(acta.getVehiculoData().getVehiculo()!=null) {
+                    // Setear vehiculo
+                    vehiculoJson.put("tamano", acta.getVehiculoData().getVehiculo().getTamano());
+                    vehiculoJson.put("modelo", acta.getVehiculoData().getVehiculo().getModelo());
+                    vehiculoJson.put("numeroMotor", acta.getVehiculoData().getVehiculo().getNumeroMotor());
+                    vehiculoJson.put("matricula", acta.getVehiculoData().getVehiculo().getMatricula());
+                    vehiculoJson.put("kilometraje", acta.getVehiculoData().getVehiculo().getKilometraje());
+                    vehiculoJson.put("marca", acta.getVehiculoData().getVehiculo().getMarca());
+                    vehiculoJson.put("anio", acta.getVehiculoData().getVehiculo().getAnio());
+                    vehiculoJson.put("origenVehiculo", acta.getVehiculoData().getVehiculo().getOrigenVehiculo());
+                    vehiculoJson.put("color", acta.getVehiculoData().getVehiculo().getColor());
+
+                    JSONObject vehiculoDataTemplateJson = actaJson.optJSONObject("vehiculoData");
+
+                    // Setear ficha visual
+                    if (acta.getVehiculoData().getVehiculo().getFichaEstadoVisualList() != null) {
+                        for (int i = 0; i < acta.getVehiculoData().getVehiculo().getFichaEstadoVisualList().size(); ++i)
+                            fichaEstadoVisualJson.put(i, acta.getVehiculoData().getVehiculo().getFichaEstadoVisualList().get(i));
+                    }
+
+                    // Los datos que no son suceptibles de modificaciones en la tablet, son preservados, usando la plantilla del actaJson
+                    if (vehiculoDataTemplateJson != null) {
+                        // Setear parqueadero
+                        JSONObject vehiculoTemplateJson = vehiculoDataJson.optJSONObject("vehiculo");
+                        if (vehiculoTemplateJson != null) {
+                            JSONObject parqueaderoTemplateJson = vehiculoDataJson.optJSONObject("parqueadero");
+                            vehiculoJson.put("parqueadero", parqueaderoTemplateJson);
+                            vehiculoJson.put("carpetaVehiculo", vehiculoTemplateJson.optLong("carpetaVehiculo"));
+                            vehiculoJson.put("modificado", vehiculoTemplateJson.optBoolean("modificado"));
+                            vehiculoJson.put("id", vehiculoTemplateJson.optLong("id"));
+                            vehiculoJson.put("clonado", vehiculoTemplateJson.optLong("clonado"));
+                            vehiculoJson.put("vin", vehiculoTemplateJson.optLong("vin"));
+                            vehiculoJson.put("caracteristicas", vehiculoTemplateJson.optString("caracteristicas"));
+                            vehiculoJson.put("puedeRodar", vehiculoTemplateJson.optBoolean("puedeRodar"));
+                        }
+                    }
+
+                    vehiculoJson.put("fichaEstadoVisual", fichaEstadoVisualJson);
+                    vehiculoDataJson.put("vehiculo", vehiculoJson);
+
+                    // Setear propietario
+                    if (acta.getVehiculoData().getClientePropietario().size() > 0) {
+                        propietarioJson.put("licencia", acta.getVehiculoData().getClientePropietario().get(0).getLicencia());
+                        personaJson.put("rut", acta.getVehiculoData().getClientePropietario().get(0).getPersona().getRut());
+                        personaJson.put("nombre", acta.getVehiculoData().getClientePropietario().get(0).getPersona().getNombre());
+                        personaJson.put("apellidoPaterno", acta.getVehiculoData().getClientePropietario().get(0).getPersona().getApellidoPaterno());
+                        personaJson.put("apellidoMaterno", acta.getVehiculoData().getClientePropietario().get(0).getPersona().getApellidoMaterno());
+                        for (int i = 0; i < acta.getVehiculoData().getClientePropietario().get(0).getPersona().getTelefonos().size(); ++i)
+                            telefonosJson.put(i, acta.getVehiculoData().getClientePropietario().get(0).getPersona().getTelefonos().get(i));
+                        personaJson.put("telefonos", telefonosJson);
+                        for (int i = 0; i < acta.getVehiculoData().getClientePropietario().get(0).getPersona().getCorreos().size(); ++i)
+                            correosJson.put(i, acta.getVehiculoData().getClientePropietario().get(0).getPersona().getCorreos().get(i));
+                        personaJson.put("correos", correosJson);
+                        propietarioJson.put("persona", personaJson);
+                    }
+                    vehiculoDataJson.put("propietario", propietarioJson);
+
+                    // Setear conductor
+                    if (acta.getVehiculoData().getClientePropietario().size() > 1) {
+                        propietarioJson.put("licencia", acta.getVehiculoData().getClientePropietario().get(1).getLicencia());
+                        personaJson.put("rut", acta.getVehiculoData().getClientePropietario().get(1).getPersona().getRut());
+                        personaJson.put("nombre", acta.getVehiculoData().getClientePropietario().get(1).getPersona().getNombre());
+                        personaJson.put("apellidoPaterno", acta.getVehiculoData().getClientePropietario().get(1).getPersona().getApellidoPaterno());
+                        personaJson.put("apellidoMaterno", acta.getVehiculoData().getClientePropietario().get(1).getPersona().getApellidoMaterno());
+
+                        for (int i = 0; i < acta.getVehiculoData().getClientePropietario().get(1).getPersona().getTelefonos().size(); ++i)
+                            telefonosJson.put(i, acta.getVehiculoData().getClientePropietario().get(1).getPersona().getTelefonos().get(i));
+                        personaJson.put("telefonos", telefonosJson);
+                        for (int i = 0; i < acta.getVehiculoData().getClientePropietario().get(1).getPersona().getCorreos().size(); ++i)
+                            correosJson.put(i, acta.getVehiculoData().getClientePropietario().get(1).getPersona().getCorreos().get(i));
+                        personaJson.put("correos", correosJson);
+                        conductorJson.put("persona", personaJson);
+                    }
+                    vehiculoDataJson.put("conductor", conductorJson);
+                }
+                // Setear parqueadero
+                JSONObject parqueaderoTemplateJson= vehiculoDataJson.optJSONObject("parqueadero");
+                vehiculoDataJson.put("parqueadero",parqueaderoTemplateJson);
+
+                actaJson.put("vehiculoData",vehiculoDataJson);
+
+                actaJson.put("fechaParte",acta.getFechaParte());
+                actaJson.put("servicio",actaTemplateJson.optLong("servicio"));
+                actaJson.put("cargaInicial",actaTemplateJson.optLong("cargaInicial"));
+                actaJson.put("existImage",acta.getExistImage());
+                actaJson.put("idSolicitud",actaTemplateJson.optLong("idSolicitud"));
+                Date fechaCreacion= acta.getFechaCreacion();
+                sdfFecha = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                actaJson.put("fechaCreacion",sdfFecha.format(fechaCreacion));
+                actaJson.put("causaRetiro",acta.getCausaRetiro());
+                actaJson.put("numeroPatente",acta.getNumeroPatente());
+
+                // Datos de autoridad
+                if(acta.getAutoridad()!=null){
+                    autoridadJson.put("cargo",acta.getAutoridad().getCargo());
+                    for(int i=0;i<acta.getAutoridad().getPersona().getCorreos().size();++i)
+                        correosJson.put(i, acta.getAutoridad().getPersona().getCorreos().get(i));
+                    autoridadJson.put("correos",correosJson);
+                    autoridadJson.put("numeroFuncionario",acta.getAutoridad().getNumeroFuncionario());
+                    autoridadJson.put("apellidoPaterno",acta.getAutoridad().getPersona().getApellidoPaterno());
+                    autoridadJson.put("nombre",acta.getAutoridad().getPersona().getNombre());
+
+                    if(acta.getAutoridad().getPersona().getDireccion()!=null){
+                        direccionJson.put("calle",acta.getAutoridad().getPersona().getDireccion().getCalle());
+                        direccionJson.put("numeracion",acta.getAutoridad().getPersona().getDireccion().getNumeracion());
+                        direccionJson.put("interseccion",acta.getAutoridad().getPersona().getDireccion().getInterseccion());
+                        direccionJson.put("referencias",acta.getAutoridad().getPersona().getDireccion().getReferencias());
+                    }
+                    autoridadJson.put("direccion",direccionJson);
+                    for(int i=0;i<acta.getAutoridad().getPersona().getTelefonos().size();++i)
+                        correosJson.put(i,acta.getAutoridad().getPersona().getTelefonos().get(i));
+                    autoridadJson.put("telefonos",telefonosJson);
+                    autoridadJson.put("institucion",acta.getAutoridad().getInstitucion());
+                    autoridadJson.put("usuario",acta.getAutoridad().getPersona().getUsuario());
+                    autoridadJson.put("rut",acta.getPersona().getRut());
+                    autoridadJson.put("unidadPolicial",acta.getAutoridad().getUnidadPolicial());
+                    autoridadJson.put("apellidoMaterno",acta.getAutoridad().getPersona().getApellidoMaterno());
+                }
+
+                actaJson.put("autoridad",autoridadJson);
+
+                actaJson.put("numeroFactura",actaTemplateJson.optLong("numeroFactura"));
+
+                actaJson.put("nue",acta.getNue());
+                actaJson.put("existVideo",acta.getExistVideo());
+
+                personaJson=new JSONObject();
+
+                if(acta.getPersona()!=null){
+                    correosJson= new JSONArray();
+                    for(int i=0;i<acta.getPersona().getCorreos().size();++i)
+                        correosJson.put(i, acta.getPersona().getCorreos().get(i));
+                    personaJson.put("correos",correosJson);
+                    personaJson.put("apellidoPaterno",acta.getPersona().getApellidoPaterno());
+                    personaJson.put("apellidoMaterno",acta.getPersona().getApellidoMaterno());
+                    personaJson.put("rut",acta.getPersona().getRut());
+                    personaJson.put("usuario",acta.getPersona().getUsuario());
+                    telefonosJson= new JSONArray();
+                    for(int i=0;i<acta.getPersona().getTelefonos().size();++i)
+                        telefonosJson.put(i, acta.getPersona().getTelefonos().get(i));
+                    personaJson.put("telefonos",telefonosJson);
+                    direccionJson=new JSONObject();
+                    if(acta.getPersona().getDireccion()!=null){
+                        direccionJson.put("calle",acta.getAutoridad().getPersona().getDireccion().getCalle());
+                        direccionJson.put("numeracion",acta.getAutoridad().getPersona().getDireccion().getNumeracion());
+                        direccionJson.put("interseccion",acta.getAutoridad().getPersona().getDireccion().getInterseccion());
+                        direccionJson.put("referencias",acta.getAutoridad().getPersona().getDireccion().getReferencias());
+                    }
+                    personaJson.put("direccion",direccionJson);
+                    personaJson.put("nombre",acta.getPersona().getNombre());
+                }
+
+                // Setear datos del retiro
+
+                direccionJson=new JSONObject();
+                if(acta.getDireccion()!=null){
+                    direccionJson.put("calle",acta.getAutoridad().getPersona().getDireccion().getCalle());
+                    direccionJson.put("numeracion",acta.getAutoridad().getPersona().getDireccion().getNumeracion());
+                    direccionJson.put("interseccion",acta.getAutoridad().getPersona().getDireccion().getInterseccion());
+                    direccionJson.put("referencias",acta.getAutoridad().getPersona().getDireccion().getReferencias());
+                }
+                actaJson.put("direccion",direccionJson);
+
+                actaJson.put("fiscalia",acta.getFiscalia());
+                actaJson.put("ruc",acta.getRuc());
+                actaJson.put("unidadPolicial",acta.getUnidadPolicial());
+                actaJson.put("idGrua",actaTemplateJson.optLong("idGrua"));
+                actaJson.put("actaIncautacion",acta.getActaIncautacion());
+                actaJson.put("id",actaTemplateJson.optLong("id"));
+                actaJson.put("nombreExterno",actaTemplateJson.optLong("nombreExterno"));
+                actaJson.put("observacion",actaTemplateJson.optLong("observacion"));
+                actaJson.put("tribunal",acta.getTribunalID());
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return actaJson;
+    }
+
     public void crearActa(final JSONObject actaJson, final Tarea tareaActual) {
 
 
@@ -86,7 +309,6 @@ public class ActaController {
                     acta.setFechaCreacion(new Date(actaJson.getLong("fechaCreacion")));
                     acta.setCausaRetiro(actaJson.getString("causaRetiro"));
                     acta.setIdGrua(actaJson.getInt("idGrua"));
-
 
                     acta.setFiscalia(actaJson.getBoolean("fiscalia"));
 
