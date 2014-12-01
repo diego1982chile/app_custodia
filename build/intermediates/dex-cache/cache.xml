@@ -2,100 +2,106 @@
 <pre-dex-items>
 
     <item
-        dex="C:\Users\android-developer\AndroidStudioProjects\app_custodia\app\build\intermediates\pre-dexed\debug\saripaar-11242012-e3924e1bbf95f6478eba19fecaac1dd8af43f5f4.jar"
-        jar="C:\Users\android-developer\AndroidStudioProjects\app_custodia\app\libs\saripaar-11242012.jar"
-        jumboMode="true"
-        revision="21.0.1"
-        sha1="4316acd545d3f9dc0c23130d4a178a89787f6d95"/>
-    <item
-        dex="C:\Users\android-developer\AndroidStudioProjects\app_custodia\app\build\intermediates\pre-dexed\debug\classes-609389d78202abee17d470d7634ef93c6b0f4d29.jar"
-        jar="C:\Users\android-developer\AndroidStudioProjects\app_custodia\app\build\intermediates\exploded-aar\com.google.android.gms\play-services\6.1.71\classes.jar"
-        jumboMode="true"
-        revision="21.0.1"
-        sha1="0f6d5c1ef2e982c3b7858408e3df389cf5d202da"/>
-    <item
-        dex="C:\Users\android-developer\AndroidStudioProjects\app_custodia\app\build\intermediates\pre-dexed\debug\android-async-http-1.4.5-b16dd7fc866c329adbbf9a9ed8def987969a4b9f.jar"
-        jar="C:\Users\android-developer\.gradle\caches\modules-2\files-2.1\com.loopj.android\android-async-http\1.4.5\77bf7cacf9cefe19dc105e5425d2eb1bb5285881\android-async-http-1.4.5.jar"
-        jumboMode="true"
-        revision="21.0.1"
-        sha1="77bf7cacf9cefe19dc105e5425d2eb1bb5285881"/>
-    <item
-        dex="C:\Users\android-developer\AndroidStudioProjects\app_custodia\app\build\intermediates\pre-dexed\debug\slidingmenu-1.4.2-sources-c4457cbe90612618b48f809c9797e022d6f37ada.jar"
-        jar="C:\Users\android-developer\AndroidStudioProjects\app_custodia\app\libs\slidingmenu-1.4.2-sources.jar"
-        jumboMode="true"
-        revision="21.0.1"
-        sha1="90dd4ae8a06af802b3c39d1370f8190d94d50a1c"/>
-    <item
-        dex="C:\Users\android-developer\AndroidStudioProjects\app_custodia\app\build\intermediates\pre-dexed\debug\support-annotations-20.0.0-54d99c8a9a821bf2da445e969e7df2189abaeab7.jar"
-        jar="C:\Users\android-developer\AppData\Local\Android\android-studio\sdk\extras\android\m2repository\com\android\support\support-annotations\20.0.0\support-annotations-20.0.0.jar"
-        jumboMode="true"
-        revision="21.0.1"
-        sha1="9d9013e9ff35fc3756411e62873c363c70c638fa"/>
-    <item
-        dex="C:\Users\android-developer\AndroidStudioProjects\app_custodia\app\build\intermediates\pre-dexed\debug\classes-7d22d913aecadf39aeea221793d9e3b4641a886e.jar"
-        jar="C:\Users\android-developer\AndroidStudioProjects\app_custodia\app\build\intermediates\exploded-aar\com.android.support\support-v4\20.0.0\classes.jar"
-        jumboMode="true"
-        revision="21.0.1"
-        sha1="8694693636ab36910c8100ce527c258ff3ebece0"/>
-    <item
-        dex="C:\Users\android-developer\AndroidStudioProjects\app_custodia\app\build\intermediates\pre-dexed\debug\droidText.0.4-263269904f83334b51bca2b611b00a9b0a4f58ca.jar"
-        jar="C:\Users\android-developer\AndroidStudioProjects\app_custodia\app\libs\droidText.0.4.jar"
-        jumboMode="true"
-        revision="21.0.1"
-        sha1="b2c14c76d9f558463af239be951367e61ea1c270"/>
-    <item
-        dex="C:\Users\android-developer\AndroidStudioProjects\app_custodia\app\build\intermediates\pre-dexed\debug\ormlite-android-4.48-aba303484e384c59a70ac85abcf1b6832e0a2f40.jar"
-        jar="C:\Users\android-developer\AndroidStudioProjects\app_custodia\app\libs\ormlite-android-4.48.jar"
-        jumboMode="true"
-        revision="21.0.1"
-        sha1="afa06f539a4026c10b247386312aa67404b80a16"/>
-    <item
-        dex="C:\Users\android-developer\AndroidStudioProjects\app_custodia\app\build\intermediates\pre-dexed\debug\picketbox-4.0.9.Final-redhat-1-ef55661787bc125807a2cfec9057651f49727fc0.jar"
-        jar="C:\Users\android-developer\AndroidStudioProjects\app_custodia\app\libs\picketbox-4.0.9.Final-redhat-1.jar"
-        jumboMode="true"
-        revision="21.0.1"
-        sha1="7b52bc118a714f77ce9439d55347570a166aa7c2"/>
-    <item
-        dex="C:\Users\android-developer\AndroidStudioProjects\app_custodia\app\build\intermediates\pre-dexed\debug\greendao-1.3.0-beta-1-f555b2f7d12b1ea8acc486436ed1f4a0bc695013.jar"
-        jar="C:\Users\android-developer\AndroidStudioProjects\app_custodia\app\libs\greendao-1.3.0-beta-1.jar"
-        jumboMode="true"
-        revision="21.0.1"
-        sha1="185a8ff3f50dbd99e5238d6d411ee86dd87d2b0a"/>
-    <item
-        dex="C:\Users\android-developer\AndroidStudioProjects\app_custodia\app\build\intermediates\pre-dexed\debug\internal_impl-20.0.0-34a3cff48c047d586bab1cc66afa462938e2ffdd.jar"
-        jar="C:\Users\android-developer\AndroidStudioProjects\app_custodia\app\build\intermediates\exploded-aar\com.android.support\support-v13\20.0.0\libs\internal_impl-20.0.0.jar"
+        dex="/home/alfuente/Desarrollo/NCX_Android/app_custodia/app/build/intermediates/pre-dexed/debug/internal_impl-20.0.0-acddb5b9839024ccd19babb3448e61ea88f0d37c.jar"
+        jar="/home/alfuente/Desarrollo/NCX_Android/app_custodia/app/build/intermediates/exploded-aar/com.android.support/support-v13/20.0.0/libs/internal_impl-20.0.0.jar"
         jumboMode="true"
         revision="21.0.1"
         sha1="27bbd3982cdfe4468a9bf99c8c773734a9049e33"/>
     <item
-        dex="C:\Users\android-developer\AndroidStudioProjects\app_custodia\app\build\intermediates\pre-dexed\debug\classes-7b524a1ea223d2164d06d273e897f5d08a601f52.jar"
-        jar="C:\Users\android-developer\AndroidStudioProjects\app_custodia\app\build\intermediates\exploded-aar\com.android.support\support-v13\20.0.0\classes.jar"
+        dex="/home/alfuente/Desarrollo/NCX_Android/app_custodia/app/build/intermediates/pre-dexed/debug/classes-bb71c7f251f616deb34aa51c38e3123db5c011e6.jar"
+        jar="/home/alfuente/Desarrollo/NCX_Android/app_custodia/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.1.71/classes.jar"
         jumboMode="true"
         revision="21.0.1"
-        sha1="e128103d5281ddd26195a7f980b36d0d005a4e56"/>
+        sha1="0f6d5c1ef2e982c3b7858408e3df389cf5d202da"/>
     <item
-        dex="C:\Users\android-developer\AndroidStudioProjects\app_custodia\app\build\intermediates\pre-dexed\debug\ksoap2-android-assembly-3.3.0-jar-with-dependencies-dd563b1106854a8c8a7fbabf74799370e2a27b76.jar"
-        jar="C:\Users\android-developer\AndroidStudioProjects\app_custodia\app\libs\ksoap2-android-assembly-3.3.0-jar-with-dependencies.jar"
+        dex="/home/alfuente/Desarrollo/NCX_Android/app_custodia/app/build/intermediates/pre-dexed/debug/saripaar-11242012-eafbf1adf3bebaa8c28233dc832d5a20f27ecf94.jar"
+        jar="/home/alfuente/Desarrollo/NCX_Android/app_custodia/app/libs/saripaar-11242012.jar"
         jumboMode="true"
         revision="21.0.1"
-        sha1="62681b8212ca52278feafec31775fd0cb096d99a"/>
+        sha1="4316acd545d3f9dc0c23130d4a178a89787f6d95"/>
     <item
-        dex="C:\Users\android-developer\AndroidStudioProjects\app_custodia\app\build\intermediates\pre-dexed\debug\commons-io-2.4-6fd7cfbab975179eeae918d6c9ef9373e8673ff8.jar"
-        jar="C:\Users\android-developer\AndroidStudioProjects\app_custodia\app\libs\commons-io-2.4.jar"
+        dex="/home/alfuente/Desarrollo/NCX_Android/app_custodia/app/build/intermediates/pre-dexed/debug/support-annotations-20.0.0-e038d183e3f9f52808e0d12f4f54b89a2ea24f0a.jar"
+        jar="/home/alfuente/Desarrollo/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/20.0.0/support-annotations-20.0.0.jar"
+        jumboMode="true"
+        revision="21.0.1"
+        sha1="9d9013e9ff35fc3756411e62873c363c70c638fa"/>
+    <item
+        dex="/home/alfuente/Desarrollo/NCX_Android/app_custodia/app/build/intermediates/pre-dexed/debug/greendao-1.3.0-beta-1-58c78197cbd1ae6e1b84b8a5b873da2fc7c05073.jar"
+        jar="/home/alfuente/Desarrollo/NCX_Android/app_custodia/app/libs/greendao-1.3.0-beta-1.jar"
+        jumboMode="true"
+        revision="21.0.1"
+        sha1="185a8ff3f50dbd99e5238d6d411ee86dd87d2b0a"/>
+    <item
+        dex="/home/alfuente/Desarrollo/NCX_Android/app_custodia/app/build/intermediates/pre-dexed/debug/commons-io-2.4-b01cdc82117365efd223836411fb61168689d44e.jar"
+        jar="/home/alfuente/Desarrollo/NCX_Android/app_custodia/app/libs/commons-io-2.4.jar"
         jumboMode="true"
         revision="21.0.1"
         sha1="b1b6ea3b7e4aa4f492509a4952029cd8e48019ad"/>
     <item
-        dex="C:\Users\android-developer\AndroidStudioProjects\app_custodia\app\build\intermediates\pre-dexed\debug\ormlite-core-4.48-7b60468753960124c7e5ce43317487525ca40a04.jar"
-        jar="C:\Users\android-developer\AndroidStudioProjects\app_custodia\app\libs\ormlite-core-4.48.jar"
+        dex="/home/alfuente/Desarrollo/NCX_Android/app_custodia/app/build/intermediates/pre-dexed/debug/classes-144c08ae7a9b4d28456a770f995f5441ddf96e58.jar"
+        jar="/home/alfuente/Desarrollo/NCX_Android/app_custodia/app/build/intermediates/exploded-aar/com.android.support/support-v4/20.0.0/classes.jar"
+        jumboMode="true"
+        revision="21.0.1"
+        sha1="8694693636ab36910c8100ce527c258ff3ebece0"/>
+    <item
+        dex="/home/alfuente/Desarrollo/NCX_Android/app_custodia/app/build/intermediates/pre-dexed/debug/android-async-http-1.4.5-a22306ce63b359d5dc45b1b24c3c951199b73bc3.jar"
+        jar="/home/alfuente/.gradle/caches/modules-2/files-2.1/com.loopj.android/android-async-http/1.4.5/77bf7cacf9cefe19dc105e5425d2eb1bb5285881/android-async-http-1.4.5.jar"
+        jumboMode="true"
+        revision="21.0.1"
+        sha1="77bf7cacf9cefe19dc105e5425d2eb1bb5285881"/>
+    <item
+        dex="/home/alfuente/Desarrollo/NCX_Android/app_custodia/app/build/intermediates/pre-dexed/debug/gson-2.3.1-9034081ce4a5f2ad35469cb6f0664297f9982b8e.jar"
+        jar="/home/alfuente/Desarrollo/NCX_Android/app_custodia/app/libs/gson-2.3.1.jar"
+        jumboMode="true"
+        revision="21.0.1"
+        sha1="ecb6e1f8e4b0e84c4b886c2f14a1500caf309757"/>
+    <item
+        dex="/home/alfuente/Desarrollo/NCX_Android/app_custodia/app/build/intermediates/pre-dexed/debug/internal_impl-20.0.0-a8cb62d51de9bb892c76825eb1e026bb6b32aefd.jar"
+        jar="/home/alfuente/Desarrollo/NCX_Android/app_custodia/app/build/intermediates/exploded-aar/com.android.support/support-v4/20.0.0/libs/internal_impl-20.0.0.jar"
+        jumboMode="true"
+        revision="21.0.1"
+        sha1="e40b3078e3fbd353c9f44da8df25a8fc0078209d"/>
+    <item
+        dex="/home/alfuente/Desarrollo/NCX_Android/app_custodia/app/build/intermediates/pre-dexed/debug/ksoap2-android-assembly-3.3.0-jar-with-dependencies-6dcc81d12dc8de76f17558d99139238b3cede7c5.jar"
+        jar="/home/alfuente/Desarrollo/NCX_Android/app_custodia/app/libs/ksoap2-android-assembly-3.3.0-jar-with-dependencies.jar"
+        jumboMode="true"
+        revision="21.0.1"
+        sha1="62681b8212ca52278feafec31775fd0cb096d99a"/>
+    <item
+        dex="/home/alfuente/Desarrollo/NCX_Android/app_custodia/app/build/intermediates/pre-dexed/debug/droidText.0.4-3efe104cb8349ab75d8de70049890f2c58be2a5e.jar"
+        jar="/home/alfuente/Desarrollo/NCX_Android/app_custodia/app/libs/droidText.0.4.jar"
+        jumboMode="true"
+        revision="21.0.1"
+        sha1="b2c14c76d9f558463af239be951367e61ea1c270"/>
+    <item
+        dex="/home/alfuente/Desarrollo/NCX_Android/app_custodia/app/build/intermediates/pre-dexed/debug/classes-afaa0eb02728527f9961c24e05c7885aeddcb47f.jar"
+        jar="/home/alfuente/Desarrollo/NCX_Android/app_custodia/app/build/intermediates/exploded-aar/com.android.support/support-v13/20.0.0/classes.jar"
+        jumboMode="true"
+        revision="21.0.1"
+        sha1="e128103d5281ddd26195a7f980b36d0d005a4e56"/>
+    <item
+        dex="/home/alfuente/Desarrollo/NCX_Android/app_custodia/app/build/intermediates/pre-dexed/debug/ormlite-core-4.48-7e6a7fb5306e799d5510ed431dc8e4eb5ad32d68.jar"
+        jar="/home/alfuente/Desarrollo/NCX_Android/app_custodia/app/libs/ormlite-core-4.48.jar"
         jumboMode="true"
         revision="21.0.1"
         sha1="e579bd2905d0399af5029aaaf9817d5fa0ca88a5"/>
     <item
-        dex="C:\Users\android-developer\AndroidStudioProjects\app_custodia\app\build\intermediates\pre-dexed\debug\internal_impl-20.0.0-15eb1354598db9c1be5468db78fb425ca8d02f14.jar"
-        jar="C:\Users\android-developer\AndroidStudioProjects\app_custodia\app\build\intermediates\exploded-aar\com.android.support\support-v4\20.0.0\libs\internal_impl-20.0.0.jar"
+        dex="/home/alfuente/Desarrollo/NCX_Android/app_custodia/app/build/intermediates/pre-dexed/debug/slidingmenu-1.4.2-sources-b3aee7b0b3365d2b70874590164de67a2d674827.jar"
+        jar="/home/alfuente/Desarrollo/NCX_Android/app_custodia/app/libs/slidingmenu-1.4.2-sources.jar"
         jumboMode="true"
         revision="21.0.1"
-        sha1="e40b3078e3fbd353c9f44da8df25a8fc0078209d"/>
+        sha1="90dd4ae8a06af802b3c39d1370f8190d94d50a1c"/>
+    <item
+        dex="/home/alfuente/Desarrollo/NCX_Android/app_custodia/app/build/intermediates/pre-dexed/debug/ormlite-android-4.48-94981dbe244d4571eea6a5df996318cf23f6c0eb.jar"
+        jar="/home/alfuente/Desarrollo/NCX_Android/app_custodia/app/libs/ormlite-android-4.48.jar"
+        jumboMode="true"
+        revision="21.0.1"
+        sha1="afa06f539a4026c10b247386312aa67404b80a16"/>
+    <item
+        dex="/home/alfuente/Desarrollo/NCX_Android/app_custodia/app/build/intermediates/pre-dexed/debug/picketbox-4.0.9.Final-redhat-1-be1887f78ddeaec506d6ba78f5495c042b4ebca5.jar"
+        jar="/home/alfuente/Desarrollo/NCX_Android/app_custodia/app/libs/picketbox-4.0.9.Final-redhat-1.jar"
+        jumboMode="true"
+        revision="21.0.1"
+        sha1="7b52bc118a714f77ce9439d55347570a166aa7c2"/>
 
 </pre-dex-items>

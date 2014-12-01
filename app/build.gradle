@@ -39,6 +39,7 @@ dependencies {
     compile files('libs/saripaar-11242012.jar')
     compile files('libs/itextg-5.5.2.jar')
     compile files('libs/droidText.0.4.jar')
+    compile files('libs/gson-2.3.1.jar')
     //compile files('libs/slidingmenu-1.4.2-sources.jar')
     // You must install or update the Support Repository through the SDK manager to use this dependency.
     // You must install or update the Google Repository through the SDK manager to use this dependency.
