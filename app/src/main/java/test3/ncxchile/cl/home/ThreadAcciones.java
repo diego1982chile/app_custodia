@@ -42,7 +42,7 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
     private AccionController accionController;
 
 
-    private Hashtable<String,String> actasJSON = null;
+    private Hashtable<Long,String> actasJSON = null;
 
     public ThreadAcciones(long startTime, long interval, Context activityContext, Context appContext)
     {
@@ -52,7 +52,7 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
         accionController = new AccionController(appContext);
 
 
-        actasJSON = new Hashtable<String, String>():
+        actasJSON = new Hashtable<Long, String>();
     }
 
     @Override
@@ -119,11 +119,25 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
 
                     String json = JSONUtil.actaToJson(acta);
 
-                    String georef = String.valueOf(siguienteAccion.getLongitud() + ";" + siguienteAccion.getLatitud());
+                    String georef = "{" + String.valueOf(siguienteAccion.getLongitud() + "," + siguienteAccion.getLatitud()+ "}");
 
                     String firmaAutoridad = firma.getFirmaAutoridad();
                     String firmaGruero = firma.getFirmaGruero();
                     String actaJSON = json;
+
+                    /*
+                    if (actasJSON.containsKey(tarea.getId())) {
+                        actaJSON = actasJSON.get(tarea.getId());
+                        System.out.println("Leyendo actaJSON a la mala = "+ actaJSON);
+                    }
+                    */
+                    if (acta.getActaJson() != null) {
+                        actaJSON = acta.getActaJson();
+                        System.out.println("Leyendo actaJSON de la BD = "+ actaJSON);
+                    }
+
+
+
                     String recinto = "Recinto Principal"; //TODO temporal
 
                     System.out.println("Finalizando Acta");
@@ -193,6 +207,8 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                 JSONObject obj = (JSONObject) value.get(0);
                 String json = obj.toString();
 
+
+
                 ActaController actaController= new ActaController(context);
 
                 Accion siguienteAccion = (Accion) source;
@@ -200,8 +216,20 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                 Acta nuevaActa = JSONUtil.jsonToActa(json);
                 actaController.insertarActa(nuevaActa);
                 */
+
+                actasJSON.put(siguienteAccion.getTarea().getId(), json);
+
+
+
+
                 actaController.crearActa(obj, siguienteAccion.getTarea());
 
+
+                Acta acta = Global.daoSession.getActaDao().getByIdTarea(siguienteAccion.getTarea().getId());
+                if (acta != null) {
+                    acta.setActaJson(json);
+                    acta.update();
+                }
 
                 siguienteAccion.setSincronizada(true);
                 siguienteAccion.update();

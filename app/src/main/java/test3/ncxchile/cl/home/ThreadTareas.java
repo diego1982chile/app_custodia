@@ -103,7 +103,12 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
         HashMap<String, String> user = session.getUserDetails();
         String rutGruero = user.get(SessionManager.KEY_RUT);
 
-        String rut = String.valueOf(LoginController.parseRut(rutGruero));
+        System.out.println("RUT GRUERO= " + rutGruero);
+
+        String rut = rutGruero;
+        if (rutGruero.indexOf("-") > 0 || rutGruero.indexOf(".") > 0) {
+            rut = String.valueOf(LoginController.parseRut(rutGruero));
+        }
 
         System.out.println("ACTUALIZAR TAREAS = " + rut);
 
@@ -248,6 +253,8 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
         context.runOnUiThread(new Runnable() {
             @Override
             public void run() {
+
+                //context.recreate();
                 TableLayout table = (TableLayout) context.findViewById(R.id.tareas);
                 //TableFixHeaders table = (TableFixHeaders) context.findViewById(R.id.tareas);
                 for (int i = 0; i < tareas.size(); i++) {

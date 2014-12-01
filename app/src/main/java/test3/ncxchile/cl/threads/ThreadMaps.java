@@ -52,7 +52,7 @@ public class ThreadMaps extends CountDownTimer {
 
     @Override
     public void onFinish() {
-        actuaizarMapas();
+        actualizarMapas();
         start();
 
     }

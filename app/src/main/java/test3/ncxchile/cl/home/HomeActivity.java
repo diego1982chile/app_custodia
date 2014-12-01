@@ -475,6 +475,8 @@ public class HomeActivity extends Activity {
     }
 
     public void cargarTarea(View view){
+
+        //recreate();
         // Se debe chequear si existe conexion:
         // Si existe, debe existir una tarea seleccionada
         // Si no, se debe permitir crearla manualmente
