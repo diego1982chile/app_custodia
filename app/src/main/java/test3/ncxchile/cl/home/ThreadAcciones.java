@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import java.util.Vector;
 
 import test3.ncxchile.cl.acta.ActaController;
+import test3.ncxchile.cl.db.Global;
 import test3.ncxchile.cl.greenDAO.Accion;
 import test3.ncxchile.cl.greenDAO.Acta;
 import test3.ncxchile.cl.greenDAO.Firma;
@@ -61,9 +62,15 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
 
     public void sincronizarAcciones(){
 
-        String username = "tester"; // TODO temporal
 
-        System.out.println("Sincronizar Acciones=" + accionController.accionEnCola());
+        String username = Global.sessionManager.getUserName();
+        if (username == null) {
+            username = "tester"; // TODO temporal
+        }
+
+
+
+        System.out.println("Sincronizar Acciones = " + accionController.accionEnCola() + "(" + username + ")");
 
         if(!sincronizando && accionController.accionEnCola()){
             sincronizando=true;

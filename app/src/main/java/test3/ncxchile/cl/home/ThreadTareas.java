@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Vector;
 
 import test3.ncxchile.cl.db.Global;
+import test3.ncxchile.cl.greenDAO.Acta;
 import test3.ncxchile.cl.greenDAO.DaoMaster;
 import test3.ncxchile.cl.greenDAO.DaoSession;
 import test3.ncxchile.cl.greenDAO.Accion;
@@ -179,14 +180,22 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
 
 
                 Tarea consulta = daoSession.getTareaDao().getByServicio(servicio);
+                System.out.println("Tarea " + item + "=" + consulta);
                 if (consulta == null ) {
-                    Tarea consultaExiste = daoSession.getTareaDao().getByServicio(servicio);
-                    if (consultaExiste == null) {
-                        daoSession.getTareaDao().insertOrReplace(tarea); // TODO pasar a tx
-                        daoSession.getTareaDao().refresh(tarea);
+                    daoSession.getTareaDao().insertOrReplace(tarea); // TODO pasar a tx
+                    daoSession.getTareaDao().refresh(tarea);
+                }
+                else {
+                    Acta acta = daoSession.getActaDao().getByIdTarea(consulta.getId());
+                    if (acta == null) {
+                        System.out.println("Leyendo acta para Tarea #" + consulta.getId());
+                        Date timeStamp= new Date();
+                        SimpleDateFormat fechaSDF = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat horaSDF = new SimpleDateFormat("HH:mm:ss");
+                        Accion accion= new Accion(null,"Buscar Acta",fechaSDF.format(timeStamp),horaSDF.format(timeStamp),timeStamp,Global.sessionManager.getLatitud(),Global.sessionManager.getLongitud(),false,consulta.getId(),null,null);
+                        accionController.encolarAccion(accion);
 
                     }
-
 
                 }
 

@@ -49,7 +49,7 @@ import test3.ncxchile.cl.security.PasswordHelper;
  * Master of DAO (schema version 1000): knows all DAOs.
 */
 public class DaoMaster extends AbstractDaoMaster {
-    public static final int SCHEMA_VERSION = 1087;
+    public static final int SCHEMA_VERSION = 1088;
 
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(SQLiteDatabase db, boolean ifNotExists) {
@@ -297,6 +297,7 @@ public class DaoMaster extends AbstractDaoMaster {
                     try {
                         JSONObject jsonObject= new JSONObject(resultAutoridad);
                         JSONArray jsonArray = jsonObject.getJSONArray("autoridades");
+
                         JSONObject oneObject = jsonArray.getJSONObject((int)id-1);
 
                         SQLiteStatement mIdStatement = db.compileStatement("SELECT max(_id)+1 from DIRECCION");
