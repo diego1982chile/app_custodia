@@ -161,6 +161,9 @@ public class FragmentX7 extends android.app.Fragment {
                     view6_09.setText(view6_04.getText().toString());
                     view6_10.setText(view6_05.getText().toString());
 
+                    view6_02_paterno2.setText(view6_02_paterno.getText().toString());
+                    view6_02_materno2.setText(view6_02_materno.getText().toString());
+
                     /*
                     setDisable(view6_07,false);
                     setDisable(view6_08,false);

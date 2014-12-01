@@ -50,13 +50,14 @@ public class ActaDao extends AbstractDao<Acta, Long> {
         public final static Property CargaInicial = new Property(23, Boolean.class, "cargaInicial", false, "CARGA_INICIAL");
         public final static Property ActaIncautacion = new Property(24, String.class, "actaIncautacion", false, "ACTA_INCAUTACION");
         public final static Property OficioRemisor = new Property(25, String.class, "oficioRemisor", false, "OFICIO_REMISOR");
-        public final static Property VehiculoDataID = new Property(26, long.class, "vehiculoDataID", false, "VEHICULO_DATA_ID");
-        public final static Property DireccionID = new Property(27, long.class, "direccionID", false, "DIRECCION_ID");
-        public final static Property AutoridadID = new Property(28, long.class, "autoridadID", false, "AUTORIDAD_ID");
-        public final static Property GrueroID = new Property(29, long.class, "grueroID", false, "GRUERO_ID");
-        public final static Property TribunalID = new Property(30, long.class, "tribunalID", false, "TRIBUNAL_ID");
-        public final static Property TareaId = new Property(31, long.class, "tareaId", false, "TAREA_ID");
-        public final static Property FirmaID = new Property(32, long.class, "FirmaID", false, "FIRMA_ID");
+        public final static Property ActaJson = new Property(26, String.class, "actaJson", false, "ACTA_JSON");
+        public final static Property VehiculoDataID = new Property(27, long.class, "vehiculoDataID", false, "VEHICULO_DATA_ID");
+        public final static Property DireccionID = new Property(28, long.class, "direccionID", false, "DIRECCION_ID");
+        public final static Property AutoridadID = new Property(29, long.class, "autoridadID", false, "AUTORIDAD_ID");
+        public final static Property GrueroID = new Property(30, long.class, "grueroID", false, "GRUERO_ID");
+        public final static Property TribunalID = new Property(31, long.class, "tribunalID", false, "TRIBUNAL_ID");
+        public final static Property TareaId = new Property(32, long.class, "tareaId", false, "TAREA_ID");
+        public final static Property FirmaID = new Property(33, long.class, "FirmaID", false, "FIRMA_ID");
     };
 
     private DaoSession daoSession;
@@ -101,6 +102,7 @@ public class ActaDao extends AbstractDao<Acta, Long> {
                 "'CARGA_INICIAL' INTEGER," + // 23: cargaInicial
                 "'ACTA_INCAUTACION' TEXT," + // 24: actaIncautacion
                 "'OFICIO_REMISOR' TEXT," + // 25: oficioRemisor
+                "'ACTA_JSON' TEXT," + // 25: oficioRemisor
                 "'VEHICULO_DATA_ID' INTEGER NOT NULL ," + // 26: vehiculoDataID
                 "'DIRECCION_ID' INTEGER NOT NULL ," + // 27: direccionID
                 "'AUTORIDAD_ID' INTEGER NOT NULL ," + // 28: autoridadID
@@ -250,13 +252,19 @@ public class ActaDao extends AbstractDao<Acta, Long> {
         if (oficioRemisor != null) {
             stmt.bindString(26, oficioRemisor);
         }
-        stmt.bindLong(27, entity.getVehiculoDataID());
-        stmt.bindLong(28, entity.getDireccionID());
-        stmt.bindLong(29, entity.getAutoridadID());
-        stmt.bindLong(30, entity.getGrueroID());
-        stmt.bindLong(31, entity.getTribunalID());
-        stmt.bindLong(32, entity.getTareaId());
-        stmt.bindLong(33, entity.getFirmaID());
+
+        String actaJson = entity.getActaJson();
+        if (actaJson != null) {
+            stmt.bindString(27, actaJson);
+        }
+
+        stmt.bindLong(28, entity.getVehiculoDataID());
+        stmt.bindLong(29, entity.getDireccionID());
+        stmt.bindLong(30, entity.getAutoridadID());
+        stmt.bindLong(31, entity.getGrueroID());
+        stmt.bindLong(32, entity.getTribunalID());
+        stmt.bindLong(33, entity.getTareaId());
+        stmt.bindLong(34, entity.getFirmaID());
     }
 
     @Override
@@ -277,7 +285,7 @@ public class ActaDao extends AbstractDao<Acta, Long> {
         System.out.println("readEntity_1");
         Acta entity = new Acta( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.getLong(offset + 31), // tareaID
+            cursor.getLong(offset + 32), // tareaID
             //cursor.getLong(offset + 1), // tribunalID
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // observacion
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // causaRetiro
@@ -304,12 +312,13 @@ public class ActaDao extends AbstractDao<Acta, Long> {
             cursor.isNull(offset + 23) ? null : cursor.getShort(offset + 23) != 0, // cargaInicial
             cursor.isNull(offset + 24) ? null : cursor.getString(offset + 24), // actaIncautacion
             cursor.isNull(offset + 25) ? null : cursor.getString(offset + 25), // oficioRemisor
-            cursor.getLong(offset + 26), // vehiculoDataID
-            cursor.getLong(offset + 27), // direccionID
-            cursor.getLong(offset + 28), // autoridadID
-            cursor.getLong(offset + 29), // grueroID
-            cursor.getLong(offset + 30), // tribunalID
-            cursor.getLong(offset + 32) // tribunalID
+            cursor.isNull(offset + 26) ? null : cursor.getString(offset + 26), // actaJson
+            cursor.getLong(offset + 27), // vehiculoDataID
+            cursor.getLong(offset + 28), // direccionID
+            cursor.getLong(offset + 29), // autoridadID
+            cursor.getLong(offset + 30), // grueroID
+            cursor.getLong(offset + 31), // tribunalID
+            cursor.getLong(offset + 33) // tribunalID
         );
         return entity;
     }
@@ -319,7 +328,7 @@ public class ActaDao extends AbstractDao<Acta, Long> {
     public void readEntity(Cursor cursor, Acta entity, int offset) {
         System.out.println("readEntity_2");
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setTareaId(cursor.getLong(offset + 31));
+        entity.setTareaId(cursor.getLong(offset + 32));
         entity.setObservacion(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setCausaRetiro(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setExistImage(cursor.isNull(offset + 3) ? null : cursor.getShort(offset + 3) != 0);
@@ -345,12 +354,13 @@ public class ActaDao extends AbstractDao<Acta, Long> {
         entity.setCargaInicial(cursor.isNull(offset + 23) ? null : cursor.getShort(offset + 23) != 0);
         entity.setActaIncautacion(cursor.isNull(offset + 24) ? null : cursor.getString(offset + 24));
         entity.setOficioRemisor(cursor.isNull(offset + 25) ? null : cursor.getString(offset + 25));
-        entity.setVehiculoDataID(cursor.getLong(offset + 26));
-        entity.setDireccionID(cursor.getLong(offset + 27));
-        entity.setAutoridadID(cursor.getLong(offset + 28));
-        entity.setGrueroID(cursor.getLong(offset + 29));
-        entity.setTribunalID(cursor.getLong(offset + 30));
-        entity.setFirmaID(cursor.getLong(offset + 32));
+        entity.setActaJson(cursor.isNull(offset + 26) ? null : cursor.getString(offset + 26));
+        entity.setVehiculoDataID(cursor.getLong(offset + 27));
+        entity.setDireccionID(cursor.getLong(offset + 28));
+        entity.setAutoridadID(cursor.getLong(offset + 29));
+        entity.setGrueroID(cursor.getLong(offset + 30));
+        entity.setTribunalID(cursor.getLong(offset + 31));
+        entity.setFirmaID(cursor.getLong(offset + 33));
      }
     
     /** @inheritdoc */

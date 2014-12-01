@@ -96,7 +96,6 @@ public class FragmentX extends android.app.Fragment {
             view1_02.setText(myActivity.acta.getAutoridad().getPersona().getNombre());
             view1_02_paterno.setText(myActivity.acta.getAutoridad().getPersona().getApellidoPaterno());
             view1_02_materno.setText(myActivity.acta.getAutoridad().getPersona().getApellidoMaterno());
-            System.out.println("telefonos_id="+myActivity.acta.getAutoridad().getPersona().getTelefonosID());
             if(!myActivity.acta.getAutoridad().getPersona().getTelefonos().isEmpty())
                 view1_02_telefonos.setText(myActivity.acta.getAutoridad().getPersona().getTelefonos().get(0).getEmail());
             myActivity.acta.getAutoridad().getPersona().resetTelefonos();

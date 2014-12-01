@@ -36,6 +36,7 @@ public class Acta {
     private Boolean cargaInicial;
     private String actaIncautacion;
     private String oficioRemisor;
+    private String actaJson;
     private long vehiculoDataID;
     private long direccionID;
     private long autoridadID;
@@ -79,7 +80,7 @@ public class Acta {
         this.id = id;
     }
 
-    public Acta(Long id, Long tareaId, String observacion, String causaRetiro, Boolean existImage, Boolean existVideo, java.util.Date fechaCreacion, java.util.Date fechaFirma, Integer idSolicitud, Integer idOt, Integer idGrua, Boolean fiscalia, String nue, String ruc, String parte, String unidadPolicial, java.util.Date fechaParte, Integer servicio, Boolean gruaExterna, String observacionImgenes, String nombreExterno, Integer numeroFactura, Integer montoFactura, String numeroPatente, Boolean cargaInicial, String actaIncautacion, String oficioRemisor, long vehiculoDataID, long direccionID, long autoridadID, long grueroID, long tribunalID, long firmaID) {
+    public Acta(Long id, Long tareaId, String observacion, String causaRetiro, Boolean existImage, Boolean existVideo, java.util.Date fechaCreacion, java.util.Date fechaFirma, Integer idSolicitud, Integer idOt, Integer idGrua, Boolean fiscalia, String nue, String ruc, String parte, String unidadPolicial, java.util.Date fechaParte, Integer servicio, Boolean gruaExterna, String observacionImgenes, String nombreExterno, Integer numeroFactura, Integer montoFactura, String numeroPatente, Boolean cargaInicial, String actaIncautacion, String oficioRemisor, String actaJson, long vehiculoDataID, long direccionID, long autoridadID, long grueroID, long tribunalID, long firmaID) {
         this.id = id;
         this.tareaId = tareaId;
         this.observacion = observacion;
@@ -107,6 +108,7 @@ public class Acta {
         this.cargaInicial = cargaInicial;
         this.actaIncautacion = actaIncautacion;
         this.oficioRemisor = oficioRemisor;
+        this.actaJson = actaJson;
         this.vehiculoDataID = vehiculoDataID;
         this.direccionID = direccionID;
         this.autoridadID = autoridadID;
@@ -335,6 +337,14 @@ public class Acta {
 
     public void setOficioRemisor(String oficioRemisor) {
         this.oficioRemisor = oficioRemisor;
+    }
+
+    public String getActaJson() {
+        return actaJson;
+    }
+
+    public void setActaJson(String actaJson) {
+        this.actaJson = actaJson;
     }
 
     public long getVehiculoDataID() {
