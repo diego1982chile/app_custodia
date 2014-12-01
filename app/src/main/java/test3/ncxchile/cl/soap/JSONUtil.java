@@ -48,7 +48,7 @@ public class JSONUtil {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(timeStamp);
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
 		String fecha = sdf.format(calendar.getTime());
 		System.out.println(timestamp);
@@ -69,7 +69,7 @@ public class JSONUtil {
 
 		Gson gson = new GsonBuilder().setPrettyPrinting()
 				.setExclusionStrategies(new JSONExclStrat())
-				.setDateFormat("yyyy-MM-dd hh:mm:ss").setPrettyPrinting()
+				.setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").setPrettyPrinting()
 				.serializeNulls().create();
 		
 		Acta acta = gson.fromJson(json, Acta.class);
@@ -84,7 +84,7 @@ public class JSONUtil {
 		
 		Gson gson = new GsonBuilder().setPrettyPrinting()
 				.setExclusionStrategies(new JSONExclStrat())
-				.setDateFormat("yyyy-MM-dd hh:mm:ss").setPrettyPrinting()
+				.setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").setPrettyPrinting()
 				.serializeNulls().create();
 
 		JsonObject obj = gson.toJsonTree(acta).getAsJsonObject();

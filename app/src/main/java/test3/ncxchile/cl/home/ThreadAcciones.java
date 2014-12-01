@@ -6,6 +6,7 @@ import android.os.CountDownTimer;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Hashtable;
 import java.util.Vector;
 
 import test3.ncxchile.cl.acta.ActaController;
@@ -40,12 +41,18 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
     private Context appContext;
     private AccionController accionController;
 
+
+    private Hashtable<String,String> actasJSON = null;
+
     public ThreadAcciones(long startTime, long interval, Context activityContext, Context appContext)
     {
         super(startTime, interval);
         this.appContext = appContext;
 
         accionController = new AccionController(appContext);
+
+
+        actasJSON = new Hashtable<String, String>():
     }
 
     @Override
@@ -117,8 +124,13 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                     String firmaAutoridad = firma.getFirmaAutoridad();
                     String firmaGruero = firma.getFirmaGruero();
                     String actaJSON = json;
-                    String recinto = "00"; //TODO temporal
-                    SoapProxy.finalizarActaGruero(tarea.getServicio(),tarea.getFecha(), georef,siguienteAccion, actaJSON, firmaAutoridad, firmaGruero, recinto, this);
+                    String recinto = "Recinto Principal"; //TODO temporal
+
+                    System.out.println("Finalizando Acta");
+                    System.out.println("JSON=" + actaJSON);
+                    System.out.println("FirmaAutoridad=" + firmaAutoridad);
+                    System.out.println("FirmaGruero=" + firmaGruero);
+                    SoapProxy.finalizarActaGruero(tarea.getServicio(), tarea.getFecha(), georef, siguienteAccion, actaJSON, firmaAutoridad, firmaGruero, recinto, this);
 
                 }
                 else if (nombreAccion.equals("Retiro Realizado")) {

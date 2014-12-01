@@ -87,6 +87,9 @@ public class ActaController {
                     acta.setCausaRetiro(actaJson.getString("causaRetiro"));
                     acta.setIdGrua(actaJson.getInt("idGrua"));
 
+
+                    acta.setFiscalia(actaJson.getBoolean("fiscalia"));
+
                     acta.setTarea(tareaActual);
 
                     // Datos del vehiculo
@@ -108,6 +111,15 @@ public class ActaController {
                     vehiculo.setColor(vehiculoJson.getString("color"));
                     vehiculo.setCaracteristicas(vehiculoJson.getString("caracteristicas"));
                     vehiculo.setPuedeRodar(vehiculoJson.getBoolean("puedeRodar"));
+
+                    long kmts = -1;
+
+                    if (!vehiculoJson.isNull("kilometraje")) {
+                        kmts = vehiculoJson.getLong("kilometraje");
+                    }
+
+                    vehiculo.setKilometraje(kmts);
+
 
                     Global.daoSession.getVehiculoDao().insert(vehiculo);
                     vehiculoData.setVehiculo(vehiculo);
@@ -131,7 +143,12 @@ public class ActaController {
                         persona.setNombre(autoridadJson.getString("nombre"));
                         persona.setApellidoPaterno(autoridadJson.getString("apellidoPaterno"));
                         persona.setApellidoMaterno(autoridadJson.getString("apellidoMaterno"));
-                        persona.setRut(autoridadJson.getString("rut"));
+
+
+                        String rut = autoridadJson.getString("rut");
+                        rut = rut.replace("-","");
+
+                        persona.setRut(rut);
                         persona.setUsuario(autoridadJson.getString("usuario"));
                         Global.daoSession.getPersonaDao().insert(persona);
 
@@ -253,8 +270,17 @@ public class ActaController {
         acta.getAutoridad().getPersona().setNombre(datosPDF.getView1_02());
         acta.getAutoridad().getPersona().setApellidoPaterno(datosPDF.getView1_02_apellidopaterno());
         acta.getAutoridad().getPersona().setApellidoMaterno(datosPDF.getView1_02_apellidomaterno());
-        acta.getAutoridad().getPersona().getTelefonos().get(0).setEmail(datosPDF.getView1_02_telefonos());
-        acta.getAutoridad().getPersona().getCorreos().get(0).setEmail(datosPDF.getView1_02_correos());
+
+        Telefonos telefonos= new Telefonos(null,datosPDF.getView1_02_telefonos(),0);
+        telefonos.setTelefonosID(acta.getAutoridad().getPersonaID());
+        Global.daoSession.getTelefonosDao().insert(telefonos);
+        acta.getAutoridad().getPersona().getTelefonos().add(telefonos);
+
+        Correos correos= new Correos(null,datosPDF.getView1_02_correos(),0);
+        correos.setCorreosID(acta.getAutoridad().getPersonaID());
+        Global.daoSession.getCorreosDao().insert(correos);
+        acta.getAutoridad().getPersona().getCorreos().add(correos);
+
         acta.getAutoridad().setInstitucion(datosPDF.getView1_03());
         acta.getAutoridad().setCargo(datosPDF.getView1_04());
         acta.getAutoridad().setUnidadPolicial(datosPDF.getView1_05());
@@ -269,6 +295,8 @@ public class ActaController {
         acta.getDireccion().setReferencias(datosPDF.getView1_00());
 
         // Actualizar información policial
+
+
 
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy",new Locale("es","CL"));

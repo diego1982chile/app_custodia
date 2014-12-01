@@ -188,7 +188,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
 
             System.out.println("Internet=?" + isInternetPresent);
             if(isInternetPresent) {
+                rutActual = rut;
                 mAuthTask.loginOnLine(this);
+
             }
             else {
                 loginResponse= mAuthTask.loginOffLine();

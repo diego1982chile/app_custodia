@@ -188,12 +188,14 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
                 else {
                     Acta acta = daoSession.getActaDao().getByIdTarea(consulta.getId());
                     if (acta == null) {
+                        /*
                         System.out.println("Leyendo acta para Tarea #" + consulta.getId());
                         Date timeStamp= new Date();
                         SimpleDateFormat fechaSDF = new SimpleDateFormat("dd-MM-yyyy");
                         SimpleDateFormat horaSDF = new SimpleDateFormat("HH:mm:ss");
                         Accion accion= new Accion(null,"Buscar Acta",fechaSDF.format(timeStamp),horaSDF.format(timeStamp),timeStamp,Global.sessionManager.getLatitud(),Global.sessionManager.getLongitud(),false,consulta.getId(),null,null);
                         accionController.encolarAccion(accion);
+                        */
 
                     }
 
