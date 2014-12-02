@@ -7,7 +7,7 @@ import org.ksoap2.serialization.PropertyInfo;
 
 public class SoapProxy {
 	
-	private static String baseURL = "http://192.168.1.41:8380"; // Local
+	private static String baseURL = "http://192.168.0.8:8380"; // Local
     //private static String baseURL = "http://192.168.0.14:8380"; // Local
     //private static String baseURL = "http://200.27.19.44:8380"; // Remote
 
