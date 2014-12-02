@@ -212,7 +212,7 @@ public class TareaDao extends AbstractDao<Tarea, Long> {
 
     public List getAsignadas(){
         List tareas= queryBuilder()
-                .where(Properties.Status.in(Arrays.asList(0, 1, 2, 3))).list();
+                .where(Properties.Status.in(Arrays.asList(0, 1, 2, 3))).orderDesc(Properties.TimeStamp).list();
         return tareas;
     }
 
