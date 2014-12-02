@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.test.UiThreadTest;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,6 +37,7 @@ import test3.ncxchile.cl.db.Global;
 import test3.ncxchile.cl.greenDAO.Logs;
 import test3.ncxchile.cl.greenDAO.Sesion;
 import test3.ncxchile.cl.greenDAO.User;
+import test3.ncxchile.cl.greenDAO.UserDao;
 import test3.ncxchile.cl.greenDAO.UserName;
 import test3.ncxchile.cl.helpers.InternetDetector;
 import test3.ncxchile.cl.helpers.Logger;
@@ -107,11 +109,16 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
 
         gruaDialogFragment = new GruaDialogFragment();
 
+        Global.daoSession.clear();
+        System.out.println("Nro Usuarios=" + Global.daoSession.getUserDao().getAll().size());
 
-        if (Global.daoSession.getUserDao().getAll().size() == 0) {
+        Global.daoSession.clear();
+
+        if (Global.daoSession.getUserDao().getAll().size() < 2) {
             System.out.println("BackupGruero");
             SoapProxy.backupGruero(this);
         }
+
 
     }
 
@@ -213,10 +220,11 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
         }
     }
 
-
+    @UiThreadTest
     private void postLogin(int loginResponse, boolean online) {
         System.out.println("postLogin=" + loginResponse);
         showProgress(false);
+
         mEmailView.setError(null);
         ErrorDialog ed= new ErrorDialog(LoginActivity.this);
 
@@ -283,7 +291,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
 
         if (methodName == null && source == null && value == null) {
             System.out.println("Error de comunicación..");
-            showProgress(false);
+            postLogin(-1,false);
             return;
         }
         System.out.println("ResultValue=" + methodName);
@@ -317,8 +325,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
                 System.out.println(item);
 
 
-                if (Global.daoSession.getUserDao().getByRut(rut) == null) {
-                    User user = new User();
+                 User user = new User();
                     user.setId(null);
                     user.setRut(rut);
                     user.setDv(dv);
@@ -328,17 +335,16 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
                     user.setApellidoMaterno(apellidoMaterno);
                     Global.daoSession.getUserDao().insertOrReplace(user); // TODO pasar a tx
 
+
                     UserName userName = new UserName();
                     userName.setId(null);
                     userName.setRut((long)rut);
                     userName.setUserName(username);
-                    Global.daoSession.getUserNameDao().insertOrReplace(userName);
 
-                }
-                else {
-                    System.out.println("Usuario con mismo rut ya existe = " + rut);
-                }
+                    Global.daoSession.getUserNameDao().insertOrReplace(userName);
             }
+            System.out.println("Nro Usuarios=" + Global.daoSession.getUserDao().getAll().size());
+
 
         }
 

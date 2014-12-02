@@ -111,18 +111,17 @@ public class LoginController implements Serializable {
 
 
     public User getUsuario() {
-        System.out.println(mRut);
-        usuarios = Global.daoSession.getUserDao().getByRut(mRut);
-        if (usuarios == null) {
-            return null;
-        }
-        else {
-            return (User)usuarios.get(0);
-        }
+        System.out.println("getUsuario=" + mRut);
+        return Global.daoSession.getUserDao().getByRutUnique(mRut);
+
     }
 
     public String getRut() {
         return String.valueOf(mRut);
+    }
+
+    public int getRutAsInt() {
+        return mRut;
     }
 
     protected int loginOnLine(SoapHandler handler) {
