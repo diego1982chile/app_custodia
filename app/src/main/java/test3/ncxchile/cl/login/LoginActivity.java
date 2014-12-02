@@ -36,6 +36,7 @@ import test3.ncxchile.cl.db.Global;
 import test3.ncxchile.cl.greenDAO.Logs;
 import test3.ncxchile.cl.greenDAO.Sesion;
 import test3.ncxchile.cl.greenDAO.User;
+import test3.ncxchile.cl.greenDAO.UserName;
 import test3.ncxchile.cl.helpers.InternetDetector;
 import test3.ncxchile.cl.helpers.Logger;
 import test3.ncxchile.cl.home.HomeActivity;
@@ -96,8 +97,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
-        mEmailView.setText("66221261");
-        mPasswordView.setText("Ncx123456");
+
+
+        mEmailView.setText("118522451");
+        mPasswordView.setText("Murillo1");
+        //mEmailView.setText("66221261");
+        //mPasswordView.setText("Ncx123456");
 
         gruaDialogFragment = new GruaDialogFragment();
     }
@@ -287,6 +292,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
                 String nombre = item.getPropertyAsString("nombre");
                 String apellidoPaterno = item.getPropertyAsString("apellidoPaterno");
                 String apellidoMaterno = item.getPropertyAsString("apellidoMaterno");
+                String username = item.getPropertyAsString("username");
+
                 System.out.println(item);
 
 
@@ -299,6 +306,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
                 user.setApellidoPaterno(apellidoPaterno);
                 user.setApellidoMaterno(apellidoMaterno);
                 Global.daoSession.getUserDao().insertOrReplace(user); // TODO pasar a tx
+
+                UserName userName = new UserName();
+                userName.setId(null);
+                userName.setRut((long)rut);
+                userName.setUserName(username);
+                Global.daoSession.getUserNameDao().insertOrReplace(userName);
 
             }
             int loginResponse = 0;
