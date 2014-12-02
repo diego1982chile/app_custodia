@@ -113,13 +113,6 @@ public class AccionController {
         documento.add(new Paragraph("Camino Lo Echevers 920 Quilicura - Santiago"));
         documento.add(new Paragraph("FONO: 800 000 106"));
 
-        /*
-        ficheroPdf.close();
-        writer.close();
-        documento.close();
-        */
-
-        /*
 
         Bitmap bitmap = BitmapFactory.decodeResource(localContext.getResources(), R.drawable.logo_pdf);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -148,7 +141,7 @@ public class AccionController {
 
         List acciones=Global.daoSession.getAccionDao().getAccionesByTarea(Global.sessionManager.getTareaActiva());
 
-        /*
+
         for(int i=0;i<acciones.size();++i){
             Accion accion=(Accion)acciones.get(i);
             PdfPTable tablaAccion = new PdfPTable(1);
@@ -175,7 +168,6 @@ public class AccionController {
             PdfPTable hora = new PdfPTable(1);
             fecha.addCell("Hora: " +accion.getHora());
             PdfPTable mapa = new PdfPTable(1);
-            Image imagen = null;
             try {
                 imagen = Image.getInstance(Base64.decode(accion.getMapa().getMapa(), Base64.DEFAULT));
             } catch (BadElementException e) {
@@ -185,15 +177,14 @@ public class AccionController {
             } catch (OutOfMemoryError e) {
                 e.printStackTrace();
             }
-            //imagen.setWidthPercentage(10f);
-            //mapa.addCell("Mapa: " +imagen);
+            imagen.setWidthPercentage(10f);
+            mapa.addCell("Mapa: " +imagen);
             tablaAccion.addCell(nombre);
             tablaAccion.addCell(fecha);
             tablaAccion.addCell(hora);
             //tablaAccion.addCell(mapa);
             documento.add(tablaAccion);
         }
-        */
     }
 
     public void showPdfFile(File storageDir, String fileName, Context context) {

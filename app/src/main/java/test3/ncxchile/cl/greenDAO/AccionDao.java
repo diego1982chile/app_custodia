@@ -367,7 +367,14 @@ public class AccionDao extends AbstractDao<Accion, Long> {
 
     public List getAccionesSinMapa(){
         List acciones= queryBuilder()
-                .where(Properties.Sincronizada.eq(false),Properties.IdMapa.isNull())
+                .where(Properties.IdMapa.isNull())
+                .list();
+        return acciones;
+    }
+
+    public List getAccionesByTarea(Long idTarea){
+        List acciones= queryBuilder()
+                .where(Properties.IdTarea.eq(idTarea))
                 .list();
         return acciones;
     }

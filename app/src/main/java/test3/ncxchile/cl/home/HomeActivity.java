@@ -177,16 +177,16 @@ public class HomeActivity extends Activity {
         marcada = 0;
 
         threadTareas = new ThreadTareas(31000, 31000, HomeActivity.this, getApplicationContext());
-        threadTareas.start();
+        //threadTareas.start();
 
         threadAcciones = new ThreadAcciones(10000, 10000, HomeActivity.this, getApplicationContext());
-        threadAcciones.start();
+        //threadAcciones.start();
 
         threadLocalizacion = new ThreadLocalizacion(30000, 30000, HomeActivity.this, getApplicationContext());
         threadLocalizacion.start();
 
         threadMapas = new ThreadMapas(20000, 20000, HomeActivity.this, getApplicationContext());
-        //threadMapas.start();
+        threadMapas.start();
 
         alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setTitle("GPS/Hora");
@@ -252,6 +252,7 @@ public class HomeActivity extends Activity {
                     e.printStackTrace();
                 }
                 finally {
+                    documento.close();
                     accionController.showPdfFile(storageDir,nombre_documento,this);
                 }
                 //Intent dbmanager = new Intent(this, AndroidDatabaseManager.class);
@@ -500,10 +501,41 @@ public class HomeActivity extends Activity {
             return;
         }
 
-        tareaActiva=tareaController.getTareaById(tablerow.getId());
-        // Setear tarea activa en la sesión
-        Global.sessionManager.setTareaActiva(tablerow.getId());
-        Global.sessionManager.setServicio(tareaActiva.getServicio());
+        if (tareaController.getStatusTarea(tablerow.getId())==3) {
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setTitle("Confirmación");
+            alertDialog.setMessage("¿Estas seguro de iniciar traslado?");
+            alertDialog.setIcon(R.drawable.luzverde);
+            alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    // Habilitar siguiente accion
+                    setEnabled(tomarTarea, false);
+                    setEnabled(confirmarArribo, false);
+                    setEnabled(completarActa, false);
+                    setEnabled(retiroRealizado, false);
+                    // Almacenar vector asociado a esta acción
+                    tareaActiva=tareaController.getTareaById(tablerow.getId());
+                    accionController.encolarAccion("Retiro Realizado");
+                    Logger.log("Retiro Realizado");
+                    // Actualizar estado interno de la tarea
+                    tareaController.setStatusTarea(tablerow.getId(),4);
+                    // Setear tarea activa en la sesión
+                    Global.sessionManager.setTareaActiva(-1);
+                    // Setear estado de la tarea activa en la sesión
+                    // Actualizar estado de la tarea activa en la sesión
+                    Global.sessionManager.setServicio(-1);
+                    tablerow.removeAllViews();
+                    //tablerow.setBackgroundColor(Color.GREEN);
+                }
+            });
+
+            alertDialog.setButton(Dialog.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    // here you can add functions
+                }
+            });
+            alertDialog.show();
+        }
 
         accionController.encolarAccion("Retiro Realizado");
         Logger.log("Retiro Realizado");

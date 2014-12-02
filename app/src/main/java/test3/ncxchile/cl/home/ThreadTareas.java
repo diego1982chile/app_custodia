@@ -378,7 +378,7 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
                         row.setVerticalGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
 
                         // add the TableRow to the TableLayout
-                        table.addView(row, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
+                        table.addView(row, 0, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
 
                         row.setOnClickListener(new View.OnClickListener() {
                             @Override
