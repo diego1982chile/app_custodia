@@ -131,7 +131,8 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                     */
                     String actaJSON = acta.getActaJson();
 
-                    String recinto = "Recinto Principal"; //TODO temporal
+                    String recinto = tarea.getRecinto();
+                    System.out.println("Recinto=" + recinto);
 
                     System.out.println("Finalizando Acta");
                     System.out.println("JSON=" + actaJSON);

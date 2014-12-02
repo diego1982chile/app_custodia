@@ -124,9 +124,7 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
                 System.out.println("LLAMANDO WEB SERVICE: " + rut);
                 SoapProxy.buscarOTS(rut, this);
 
-                if(!GoogleMaps.busy){
-                    new Thread(new GoogleMaps()).start();
-                }
+
             }
         }else{
             // Se pierde la conexion, luego si se vuelve a detectar conexion, es necesario volver a consumir el webservice
@@ -139,6 +137,39 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
             }
             //System.out.println("Se perdio la conexion. Se deberá utilizar los repositorios locales para operar");
         }
+
+
+        List<Tarea> tareas = tareaController.getTareasAsignadas();
+        System.out.println("Tareas Asignadas=" + tareas);
+        actualizarTablaTareas(tareas);
+
+        /*
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.DATE, -2);  // number of days to add
+        actualizarTablaAcciones(accionController.getUltimasAcciones(c.getTime()));
+        */
+    }
+
+    public void forzarActualizarTareas(){
+        InternetDetector cd = new InternetDetector(_context); //instancie el objeto
+        Boolean isInternetPresent = cd.hayConexion(); // true o false dependiendo de si hay conexion
+
+        HashMap<String, String> user = session.getUserDetails();
+        String rutGruero = user.get(SessionManager.KEY_RUT);
+
+        System.out.println("RUT GRUERO= " + rutGruero);
+
+        String rut = String.valueOf(LoginController.parseRut(rutGruero));
+
+        System.out.println("ACTUALIZAR TAREAS = " + rut);
+
+        if(isInternetPresent){
+            System.out.println("LLAMANDO WEB SERVICE: " + rut);
+                SoapProxy.buscarOTS(rut, this);
+
+
+         }
 
 
         List<Tarea> tareas = tareaController.getTareasAsignadas();
@@ -186,6 +217,7 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
                 tarea.setDireccion(direccion);
                 tarea.setComuna(comuna);
                 tarea.setEstado(estado);
+                tarea.setRecinto(recinto);
                 tarea.setStatus(0);
 
                 Tarea consulta = daoSession.getTareaDao().getByServicio(servicio);
