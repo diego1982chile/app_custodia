@@ -43,6 +43,7 @@ import test3.ncxchile.cl.home.HomeActivity;
 import test3.ncxchile.cl.home.TareaDialogFragment;
 import test3.ncxchile.cl.session.SessionManager;
 import test3.ncxchile.cl.soap.SoapHandler;
+import test3.ncxchile.cl.soap.SoapProxy;
 import test3.ncxchile.cl.validators.RutValidator;
 import test3.ncxchile.cl.widgets.ErrorDialog;
 import test3.ncxchile.cl.widgets.RutEditText;
@@ -99,12 +100,19 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
 
 
 
-        mEmailView.setText("118522451");
-        mPasswordView.setText("Murillo1");
-        //mEmailView.setText("66221261");
-        //mPasswordView.setText("Ncx123456");
+        //mEmailView.setText("118522451"); // DEV VM
+        //mPasswordView.setText("Murillo1"); // DEV VM
+        mEmailView.setText("66221261");
+        mPasswordView.setText("Ncx123456");
 
         gruaDialogFragment = new GruaDialogFragment();
+
+
+        if (Global.daoSession.getUserDao().getAll().size() == 0) {
+            System.out.println("BackupGruero");
+            SoapProxy.backupGruero(this);
+        }
+
     }
 
     /*
@@ -227,12 +235,15 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
                 ed.show();
                 break;
             case 1:
-                try {// Si el login fue exitoso
                     // Simulate network access.
                     //System.out.println("EL LOGIN FUE EXITOSO!!");
                     // Session Manager
                     final UUID idSesion= UUID.randomUUID();
                     usuario = mAuthTask.getUsuario();
+                    if (usuario == null) {
+                        ed.show();
+                        break;
+                    }
 
                     Date timeStamp= new Date();
                     SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
@@ -245,10 +256,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
                     Global.sesion.setCookies(idSesion.toString());
                     Global.daoSession.getSesionDao().insert(Global.sesion);
 
-                    while (usuario == null) {
-                        Thread.sleep(2000);
-                        usuario = mAuthTask.getUsuario();
-                    }
                     if(online) {
                         // Creating user login session
                         String userName= Global.daoSession.getUserNameDao().getByRut(usuario.getRut()).getUserName();
@@ -266,10 +273,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
                         gruaDialogFragment.show(getFragmentManager(), "NoticeDialogFragment");
                     }
 
-                } catch (InterruptedException e) {
-                    //System.out.println("Error al cargar Home: "+ e);
-                    e.printStackTrace();
-                }
+
                 break;
         }
     }
@@ -279,50 +283,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
 
         if (methodName == null && source == null && value == null) {
             System.out.println("Error de comunicación..");
+            showProgress(false);
             return;
         }
         System.out.println("ResultValue=" + methodName);
-        if (methodName.equals("backupGruero") && value != null) {
-            for (int i = 0; i < value.size(); i++) {
-                SoapObject item = (SoapObject) value.get(i);
-                String rutString = item.getPropertyAsString("rut");
-                int rut = Integer.parseInt(rutString);
-                String dv = item.getPropertyAsString("dv");
-                String password = item.getPropertyAsString("password");
-                String nombre = item.getPropertyAsString("nombre");
-                String apellidoPaterno = item.getPropertyAsString("apellidoPaterno");
-                String apellidoMaterno = item.getPropertyAsString("apellidoMaterno");
-                String username = item.getPropertyAsString("username");
 
-                System.out.println(item);
-
-
-                User user = new User();
-                user.setId(null);
-                user.setRut(rut);
-                user.setDv(dv);
-                user.setPassword(password);
-                user.setNombre(nombre);
-                user.setApellidoPaterno(apellidoPaterno);
-                user.setApellidoMaterno(apellidoMaterno);
-                Global.daoSession.getUserDao().insertOrReplace(user); // TODO pasar a tx
-
-                UserName userName = new UserName();
-                userName.setId(null);
-                userName.setRut((long)rut);
-                userName.setUserName(username);
-                Global.daoSession.getUserNameDao().insertOrReplace(userName);
-
-            }
-            int loginResponse = 0;
-            try {
-                loginResponse= mAuthTask.loginOffLine();
-                postLogin(loginResponse,false);
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            }
-        }
-        else if (value != null) {
+        if (methodName.equals("loginGruero") && value != null) {
             String cod = value.get(0).toString();
             String msg = value.get(1).toString();
             int codigo = Integer.parseInt(cod);
@@ -332,6 +298,48 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
             else {
                 postLogin(-3,true); //TODO: revisar otros casos
             }
+        }
+        else if (methodName.equals("backupGruero") && value != null) {
+            for (int i = 0; i < value.size(); i++) {
+                SoapObject item = (SoapObject) value.get(i);
+                String rutString = item.getPropertyAsString("rut");
+                int rut = Integer.parseInt(rutString);
+                String dv = item.getPropertyAsString("dv");
+                String password = item.getPropertyAsString("password");
+                String nombre = item.getPropertyAsString("nombre");
+                String apellidoPaterno = item.getPropertyAsString("apellidoPaterno");
+                String apellidoMaterno = item.getPropertyAsString("apellidoMaterno");
+                String username = "tester";
+                if (item.hasProperty("username")) {
+                    username = item.getPropertyAsString("username");
+                }
+
+                System.out.println(item);
+
+
+                if (Global.daoSession.getUserDao().getByRut(rut) == null) {
+                    User user = new User();
+                    user.setId(null);
+                    user.setRut(rut);
+                    user.setDv(dv);
+                    user.setPassword(password);
+                    user.setNombre(nombre);
+                    user.setApellidoPaterno(apellidoPaterno);
+                    user.setApellidoMaterno(apellidoMaterno);
+                    Global.daoSession.getUserDao().insertOrReplace(user); // TODO pasar a tx
+
+                    UserName userName = new UserName();
+                    userName.setId(null);
+                    userName.setRut((long)rut);
+                    userName.setUserName(username);
+                    Global.daoSession.getUserNameDao().insertOrReplace(userName);
+
+                }
+                else {
+                    System.out.println("Usuario con mismo rut ya existe = " + rut);
+                }
+            }
+
         }
 
     }
