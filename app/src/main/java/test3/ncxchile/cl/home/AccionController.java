@@ -156,10 +156,10 @@ public class AccionController {
                 case 1:
                     nombre.addCell("Nombre: " + "Arribo Confirmado");
                     break;
-                case 2:
+                case 3:
                     nombre.addCell("Nombre: " + "Acta Completada");
                     break;
-                case 3:
+                case 4:
                     nombre.addCell("Nombre: " + "Retiro Realizado");
                     break;
             }
@@ -182,7 +182,7 @@ public class AccionController {
             tablaAccion.addCell(nombre);
             tablaAccion.addCell(fecha);
             tablaAccion.addCell(hora);
-            //tablaAccion.addCell(mapa);
+            tablaAccion.addCell(mapa);
             documento.add(tablaAccion);
         }
     }
