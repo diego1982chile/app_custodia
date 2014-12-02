@@ -168,6 +168,7 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
                 String direccion =item.getPropertyAsString("direccion");
                 String comuna = item.getPropertyAsString("comuna");
                 String estado = item.getPropertyAsString("estado");
+                String recinto = item.getPropertyAsString("recinto");
 
                 int servicio = Integer.parseInt(servicioString);
 
