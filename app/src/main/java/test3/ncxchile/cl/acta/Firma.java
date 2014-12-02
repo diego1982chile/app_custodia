@@ -58,7 +58,7 @@ public class Firma extends Activity {
     private final static String NOMBRE_DIRECTORIO = "";
     public String NOMBRE_DOCUMENTO = "";
     public String NOMBRE_DOCUMENTO_XML = "";
-    File storageDir;
+    static File storageDir;
     private final static String ETIQUETA_ERROR = "ERROR";
     public DrawingView mDrawingView;
     public DrawingView mDrawingView2;
@@ -199,13 +199,6 @@ public class Firma extends Activity {
         //source = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),File.separator + fileName);
         source = new File(storageDir,fileName);
 
-        /*
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.fromFile(source), "application/pdf");
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        */
-
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setPackage("com.dynamixsoftware.printershare");
         intent.setDataAndType(Uri.fromFile(source),"text/plain");
@@ -246,7 +239,7 @@ public class Firma extends Activity {
         SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
         SimpleDateFormat hora = new SimpleDateFormat("HH:mm:ss");
         Accion accion= new Accion(null,"Acta Completada",fecha.format(timeStamp),hora.format(timeStamp),timeStamp,Global.sessionManager.getLatitud(),Global.sessionManager.getLongitud(),false,Global.sessionManager.getTareaActiva(),null,acta.getId());
-        accionController.encolarAccion(accion);
+        accionController.encolarAccion("Acta Completada");
         // Actualizar estado interno de la tarea
         tareaController.setStatusTarea(Global.sessionManager.getTareaActiva(),3);
         // Setear tarea activa en la sesión

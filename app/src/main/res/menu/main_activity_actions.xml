@@ -7,4 +7,7 @@
         android:title="Administrar BD"
         android:icon="@drawable/database"
         android:showAsAction="never"/>
+    <item android:id="@+id/action_tracking"
+        android:title="Generar Tracking"
+        android:showAsAction="never"/>
 </menu>

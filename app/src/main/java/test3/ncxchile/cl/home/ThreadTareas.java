@@ -15,6 +15,7 @@ import org.ksoap2.serialization.SoapObject;
 
 import java.text.SimpleDateFormat;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -144,10 +145,12 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
         System.out.println("Tareas Asignadas=" + tareas);
         actualizarTablaTareas(tareas);
 
+        /*
         Calendar c = Calendar.getInstance();
         c.setTime(new Date());
         c.add(Calendar.DATE, -2);  // number of days to add
         actualizarTablaAcciones(accionController.getUltimasAcciones(c.getTime()));
+        */
     }
 
     @Override
@@ -159,9 +162,13 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
         //daoSession.getAccionDao().deleteAll();// TODO: revisar
 
         if (value != null) {
+            List<Long> tareasVigentes= new ArrayList<Long>();
+
             for (int i = 0; i < value.size(); i++) {
                 SoapObject item = (SoapObject) value.get(i);
                 //Long tareaId = (Long)item.getProperty("id");
+                tareasVigentes.add(Long.parseLong(item.getPropertyAsString("servicio")));
+
                 String servicioString = item.getPropertyAsString("servicio");
                 String fecha = item.getPropertyAsString("fecha");
                 String tamano = item.getPropertyAsString("tamano");
@@ -180,7 +187,6 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
                 tarea.setEstado(estado);
                 tarea.setStatus(0);
 
-
                 Tarea consulta = daoSession.getTareaDao().getByServicio(servicio);
                 System.out.println("Tarea " + item + "=" + consulta);
                 if (consulta == null ) {
@@ -198,22 +204,21 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
                         Accion accion= new Accion(null,"Buscar Acta",fechaSDF.format(timeStamp),horaSDF.format(timeStamp),timeStamp,Global.sessionManager.getLatitud(),Global.sessionManager.getLongitud(),false,consulta.getId(),null,null);
                         accionController.encolarAccion(accion);
                         */
-
                     }
-
                 }
-
             }
-
+            Global.daoSession.getTareaDao().actualizarTareas(tareasVigentes);
         }
         List<Tarea> tareas = tareaController.getTareasAsignadas();
         System.out.println("Tareas Asignadas (" + tareas.size() + ")=" + tareas);
         actualizarTablaTareas(tareas);
 
+        /*
         Calendar c = Calendar.getInstance();
         c.setTime(new Date());
         c.add(Calendar.DATE, -2);  // number of days to add
         actualizarTablaAcciones(accionController.getUltimasAcciones(c.getTime()));
+        */
     }
 
     @Override

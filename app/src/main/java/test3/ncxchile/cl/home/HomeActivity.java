@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,8 +25,11 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lowagie.text.DocumentException;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Document;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -38,6 +42,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 import test3.ncxchile.cl.acta.ActaController;
+import test3.ncxchile.cl.acta.Firma;
 import test3.ncxchile.cl.acta.MyActivity;
 import test3.ncxchile.cl.db.AndroidDatabaseManager;
 import test3.ncxchile.cl.db.Global;
@@ -48,6 +53,7 @@ import test3.ncxchile.cl.greenDAO.Tarea;
 import test3.ncxchile.cl.helpers.Logger;
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.session.SessionManager;
+import test3.ncxchile.cl.threads.ThreadMapas;
 
 public class HomeActivity extends Activity {
 
@@ -74,8 +80,10 @@ public class HomeActivity extends Activity {
     Tarea tareaActiva= new Tarea();
     //private ThreadActa threadActa;
     private ThreadAcciones threadAcciones;
+    private ThreadMapas threadMapas;
 
     public AlertDialog alertDialog;
+    public AlertDialog dialogActa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,10 +182,11 @@ public class HomeActivity extends Activity {
         threadAcciones = new ThreadAcciones(10000, 10000, HomeActivity.this, getApplicationContext());
         threadAcciones.start();
 
-        //threadActa = new ThreadActa(10000, 10000, HomeActivity.this, getApplicationContext());
-
         threadLocalizacion = new ThreadLocalizacion(30000, 30000, HomeActivity.this, getApplicationContext());
         threadLocalizacion.start();
+
+        threadMapas = new ThreadMapas(20000, 20000, HomeActivity.this, getApplicationContext());
+        //threadMapas.start();
 
         alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setTitle("GPS/Hora");
@@ -186,6 +195,16 @@ public class HomeActivity extends Activity {
         Drawable errorIcon = getResources().getDrawable(R.drawable.action_fail_small);
         alertDialog.setIcon(errorIcon);
         alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Aceptar",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        dialogActa = new AlertDialog.Builder(this).create();
+        dialogActa.setTitle("Error Acta");
+        dialogActa.setMessage("El Acta de Recepción asociada a esta Orden de Trabajo aún no ha sido sincronizada con la tablet. Por favor vuelve a intentarlo en unos minutos");
+
+        dialogActa.setIcon(errorIcon);
+        dialogActa.setButton(Dialog.BUTTON_POSITIVE, "Aceptar",new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
             }
         });
@@ -209,6 +228,34 @@ public class HomeActivity extends Activity {
             case R.id.action_dba:
                 Intent dbmanager = new Intent(this, AndroidDatabaseManager.class);
                 startActivity(dbmanager);
+                return true;
+            case R.id.action_tracking:
+                int os= Global.sessionManager.getServicio();
+
+                String timeStamp = "Tracking_OS_"+os;
+
+                File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS+"/OS_"+os+"/");
+
+                if(!storageDir.exists())
+                    storageDir.mkdirs();
+
+                String nombre_documento=timeStamp + ".pdf";
+
+                // Creamos el documento.
+                com.lowagie.text.Document documento = new com.lowagie.text.Document();
+
+                try {
+                    accionController.generarTracking(storageDir,nombre_documento,documento);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (DocumentException e) {
+                    e.printStackTrace();
+                }
+                finally {
+                    accionController.showPdfFile(storageDir,nombre_documento,this);
+                }
+                //Intent dbmanager = new Intent(this, AndroidDatabaseManager.class);
+                //startActivity(dbmanager);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -350,11 +397,8 @@ public class HomeActivity extends Activity {
                 setEnabled(retiroRealizado, false);
                 // Almacenar vector asociado a esta acción
                 tareaActiva=tareaController.getTareaById(tablerow.getId());
-                Date timeStamp= new Date();
-                SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
-                SimpleDateFormat hora = new SimpleDateFormat("HH:mm:ss");
-                Accion accion= new Accion(null,"Tarea Tomada",fecha.format(timeStamp),hora.format(timeStamp),timeStamp,Global.sessionManager.getLatitud(),Global.sessionManager.getLongitud(),false,tareaActiva.getId(),null,null);
-                accionController.encolarAccion(accion);
+
+                accionController.encolarAccion("Tarea Tomada");
                 Logger.log("Tarea Tomada");
                 // Actualizar estado interno de la tarea
                 tareaController.setStatusTarea(tablerow.getId(),1);
@@ -397,16 +441,10 @@ public class HomeActivity extends Activity {
                     setEnabled(retiroRealizado, false);
                     // Almacenar vector asociado a esta acción
                     tareaActiva=tareaController.getTareaById(tablerow.getId());
-                    Date timeStamp= new Date();
-                    SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
-                    SimpleDateFormat hora = new SimpleDateFormat("HH:mm:ss");
-                    Accion accion= new Accion(null,"Arribo Confirmado",fecha.format(timeStamp),hora.format(timeStamp),timeStamp,Global.sessionManager.getLatitud(),Global.sessionManager.getLongitud(),false,tareaActiva.getId(),null,null);
-                    accionController.encolarAccion(accion);
-
-                    Accion accion2= new Accion(null,"Buscar Acta",fecha.format(timeStamp),hora.format(timeStamp),timeStamp,Global.sessionManager.getLatitud(),Global.sessionManager.getLongitud(),false,tareaActiva.getId(),null,null);
-                    accionController.encolarAccion(accion2);
-
-
+                    accionController.encolarAccion("Arribo Confirmado");
+                    Logger.log("Tarea Tomada");
+                    accionController.encolarAccion("Buscar Acta");
+                    Logger.log("Buscar Acta");
                     // Actualizar estado interno de la tarea
                     tareaController.setStatusTarea(tablerow.getId(),2);
                     // Setear tarea activa en la sesión
@@ -442,11 +480,19 @@ public class HomeActivity extends Activity {
         Global.sessionManager.setTareaActiva(tablerow.getId());
         Global.sessionManager.setServicio(tareaActiva.getServicio());
 
+        // Si el acta no ha sido creada, no dejar completarla
+        if(Global.daoSession.getActaDao().getByIdTarea(Global.sessionManager.getTareaActiva())==null)
+        {
+            dialogActa.show();
+            return;
+        }
+
         if (tareaController.getStatusTarea(tablerow.getId())==2) {
             Intent myIntent = new Intent(HomeActivity.this, MyActivity.class);
             HomeActivity.this.startActivity(myIntent);
         }
     }
+
     public void retiroRealizado(View view) {
 
         if(!threadLocalizacion.actualizarLocalizacion()){
@@ -459,12 +505,8 @@ public class HomeActivity extends Activity {
         Global.sessionManager.setTareaActiva(tablerow.getId());
         Global.sessionManager.setServicio(tareaActiva.getServicio());
 
-        Date timeStamp= new Date();
-        SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
-        SimpleDateFormat hora = new SimpleDateFormat("HH:mm:ss");
-
-        Accion accion= new Accion(null,"Retiro Realizado",fecha.format(timeStamp),hora.format(timeStamp),timeStamp,Global.sessionManager.getLatitud(),Global.sessionManager.getLongitud(),false,tareaActiva.getId(),null,null);
-        accionController.encolarAccion(accion);
+        accionController.encolarAccion("Retiro Realizado");
+        Logger.log("Retiro Realizado");
 
         /*
         if (tareaController.getStatusTarea(tablerow.getId())==2) {

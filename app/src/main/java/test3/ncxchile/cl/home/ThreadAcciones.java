@@ -228,7 +228,7 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
 
                 actasJSON.put(siguienteAccion.getTarea().getId(), json);
 
-                actaController.crearActa(obj, siguienteAccion.getTarea());
+                actaController.crearActaFromJson(obj, siguienteAccion.getTarea());
 
 
                 Acta acta = Global.daoSession.getActaDao().getByIdTarea(siguienteAccion.getTarea().getId());

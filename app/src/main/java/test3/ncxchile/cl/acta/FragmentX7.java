@@ -65,29 +65,30 @@ public class FragmentX7 extends android.app.Fragment {
         MyActivity myActivity=(MyActivity)context;
 
         //System.out.println("acta.getVehiculoData().getClientePropietario().getId(): "+myActivity.acta.getVehiculoData().getClientePropietario().getId());
+        if(myActivity.acta!=null){
+            if(myActivity.acta.getVehiculoData().getClientePropietario().size()>0) {
+                view6_01.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(0).getPersona().getRut());
+                view6_02.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(0).getPersona().getNombre());
+                view6_02_paterno.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(0).getPersona().getApellidoPaterno());
+                view6_02_materno.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(0).getPersona().getApellidoMaterno());
+                view6_03.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(0).getLicencia());
+                if(myActivity.acta.getVehiculoData().getClientePropietario().get(0).getPersona().getCorreos().size()>0)
+                    view6_04.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(0).getPersona().getCorreos().get(0).getEmail());
+                if(myActivity.acta.getVehiculoData().getClientePropietario().get(0).getPersona().getTelefonos().size()>0)
+                    view6_05.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(0).getPersona().getTelefonos().get(0).getEmail());
+            }
 
-        if(myActivity.acta.getVehiculoData().getClientePropietario().size()>0) {
-            view6_01.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(0).getPersona().getRut());
-            view6_02.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(0).getPersona().getNombre());
-            view6_02_paterno.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(0).getPersona().getApellidoPaterno());
-            view6_02_materno.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(0).getPersona().getApellidoMaterno());
-            view6_03.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(0).getLicencia());
-            if(myActivity.acta.getVehiculoData().getClientePropietario().get(0).getPersona().getCorreos().size()>0)
-                view6_04.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(0).getPersona().getCorreos().get(0).getEmail());
-            if(myActivity.acta.getVehiculoData().getClientePropietario().get(0).getPersona().getTelefonos().size()>0)
-                view6_05.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(0).getPersona().getTelefonos().get(0).getEmail());
-        }
-
-        if(myActivity.acta.getVehiculoData().getClientePropietario().size()>1) {
-            view6_06.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(1).getPersona().getRut());
-            view6_07.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(1).getPersona().getNombre());
-            view6_02_paterno2.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(1).getPersona().getApellidoPaterno());
-            view6_02_materno2.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(1).getPersona().getApellidoMaterno());
-            view6_08.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(1).getLicencia());
-            if(myActivity.acta.getVehiculoData().getClientePropietario().get(1).getPersona().getCorreos().size()>0)
-                view6_09.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(1).getPersona().getCorreos().get(0).getEmail());
-            if(myActivity.acta.getVehiculoData().getClientePropietario().get(1).getPersona().getTelefonos().size()>0)
-                view6_10.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(1).getPersona().getTelefonos().get(0).getEmail());
+            if(myActivity.acta.getVehiculoData().getClientePropietario().size()>1) {
+                view6_06.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(1).getPersona().getRut());
+                view6_07.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(1).getPersona().getNombre());
+                view6_02_paterno2.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(1).getPersona().getApellidoPaterno());
+                view6_02_materno2.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(1).getPersona().getApellidoMaterno());
+                view6_08.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(1).getLicencia());
+                if(myActivity.acta.getVehiculoData().getClientePropietario().get(1).getPersona().getCorreos().size()>0)
+                    view6_09.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(1).getPersona().getCorreos().get(0).getEmail());
+                if(myActivity.acta.getVehiculoData().getClientePropietario().get(1).getPersona().getTelefonos().size()>0)
+                    view6_10.setText(myActivity.acta.getVehiculoData().getClientePropietario().get(1).getPersona().getTelefonos().get(0).getEmail());
+            }
         }
 
         return rootView;

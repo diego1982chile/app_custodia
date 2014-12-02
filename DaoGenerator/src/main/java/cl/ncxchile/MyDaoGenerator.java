@@ -34,7 +34,9 @@ public class MyDaoGenerator {
 
         //addVehiculoDataClientePersona(schema);
 
-        addUserName(schema);
+        //addUserName(schema);
+
+        addTareaActaAccion(schema);
 
         new DaoGenerator().generateAll(schema, "upload/src-gen");
     }
@@ -155,6 +157,16 @@ public class MyDaoGenerator {
 
         Entity tarea = schema.addEntity("Tarea");
         tarea.addIdProperty();
+        tarea.addIntProperty("servicio");
+        tarea.addStringProperty("fecha");
+        tarea.addStringProperty("hora");
+        tarea.addDateProperty("timeStamp");
+        tarea.addStringProperty("tamano");
+        tarea.addStringProperty("direccion");
+        tarea.addStringProperty("comuna");
+        tarea.addStringProperty("estado");
+        tarea.addStringProperty("recinto");
+        tarea.addIntProperty("status");
 
         Entity accion = schema.addEntity("Accion");
         accion.addIdProperty();
