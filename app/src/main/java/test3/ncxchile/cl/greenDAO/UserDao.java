@@ -158,6 +158,16 @@ public class UserDao extends AbstractDao<User, Long> {
         return usuarios;
     }
 
+    public User getByRutUnique(int rut){
+        User user= queryBuilder()
+                .where(Properties.Rut.eq(rut))
+                .unique();
+        if (user != null) {
+            refresh(user);
+        }
+        return user;
+    }
+
     public List getAll(){
         List usuarios= queryBuilder()
                 .list();
