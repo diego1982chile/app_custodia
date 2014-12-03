@@ -72,6 +72,10 @@ public class AccionController {
         return Global.daoSession.getAccionDao().insert(accion);
     }
 
+    public long encolarAccion(Accion accion){
+        return Global.daoSession.getAccionDao().insert(accion);
+    }
+
     public boolean accionEnCola() { return Global.daoSession.getAccionDao().isNotEmpty(); }
 
     public Accion dequeue() { return  Global.daoSession.getAccionDao().getNext(); }

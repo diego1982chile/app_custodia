@@ -177,10 +177,10 @@ public class HomeActivity extends Activity {
         marcada = 0;
 
         threadTareas = new ThreadTareas(31000, 31000, HomeActivity.this, getApplicationContext());
-        //threadTareas.start();
+        threadTareas.start();
 
         threadAcciones = new ThreadAcciones(10000, 10000, HomeActivity.this, getApplicationContext());
-        //threadAcciones.start();
+        threadAcciones.start();
 
         threadLocalizacion = new ThreadLocalizacion(30000, 30000, HomeActivity.this, getApplicationContext());
         threadLocalizacion.start();

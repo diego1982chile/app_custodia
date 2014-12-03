@@ -6,6 +6,8 @@ import android.os.CountDownTimer;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.Vector;
 
@@ -44,6 +46,9 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
 
     private Hashtable<Long,String> actasJSON = null;
 
+    private Hashtable<Long, Integer> retryCount = null;
+
+
     public ThreadAcciones(long startTime, long interval, Context activityContext, Context appContext)
     {
         super(startTime, interval);
@@ -53,6 +58,9 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
 
 
         actasJSON = new Hashtable<Long, String>();
+
+        retryCount = new Hashtable<Long, Integer>();
+
     }
 
     @Override
@@ -67,6 +75,8 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
 
     }
 
+
+    public static int UMBRAL_RETRY = 10;
     public void sincronizarAcciones(){
 
 
@@ -77,7 +87,7 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
 
 
 
-        System.out.println("Sincronizar Acciones = " + accionController.accionEnCola() + "(" + username + ")");
+        System.out.println("Sincronizar Acciones = " + accionController.accionEnCola() + "(" + username + ") =" + sincronizando);
 
         if(!sincronizando && accionController.accionEnCola()){
             sincronizando=true;
@@ -100,8 +110,35 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                 else if (nombreAccion.equals("Buscar Acta")) {
                     Tarea tarea = siguienteAccion.getTarea();
 
-                    System.out.println("buscarActaJSON=" + tarea.getServicio());
-                    SoapProxy.buscarActaJSON(tarea.getServicio(),siguienteAccion, this);
+                    int count = 0;
+                    if (retryCount.containsKey(tarea.getId())) {
+                        count = retryCount.get(tarea.getId());
+                    }
+
+                    count++;
+
+                    retryCount.put(tarea.getId(), count);
+
+
+                    if (count < UMBRAL_RETRY) {
+                        System.out.println("buscarActaJSON=" + tarea.getServicio());
+                        SoapProxy.buscarActaJSON(tarea.getServicio(),siguienteAccion, this);
+                    }
+                    else {
+
+                        Date timeStamp= new Date();
+                        SimpleDateFormat fechaSDF = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat horaSDF = new SimpleDateFormat("HH:mm:ss");
+                        Accion accionNueva = new Accion(null,"Buscar Acta",fechaSDF.format(timeStamp),horaSDF.format(timeStamp),timeStamp,Global.sessionManager.getLatitud(),Global.sessionManager.getLongitud(),false,tarea.getId(),null,null);
+                        accionController.encolarAccion(accionNueva);
+
+                        siguienteAccion.setSincronizada(true);
+                        siguienteAccion.delete();
+                        sincronizando = false;
+                        retryCount.put(tarea.getId(), 0);
+
+                    }
+
                 }
                 else if (nombreAccion.equals("Arribo Confirmado")) {
                     Tarea tarea = siguienteAccion.getTarea();
