@@ -42,7 +42,7 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
 
     private Context appContext;
     private AccionController accionController;
-
+    private ActaController actaController;
 
     private Hashtable<Long,String> actasJSON = null;
 
@@ -55,7 +55,7 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
         this.appContext = appContext;
 
         accionController = new AccionController(appContext);
-
+        actaController = new ActaController(appContext);
 
         actasJSON = new Hashtable<Long, String>();
 
@@ -153,8 +153,6 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                     Acta acta = siguienteAccion.getActa();
                     Firma firma = acta.getFirma();
 
-
-
                     String georef = "{" + String.valueOf(siguienteAccion.getLongitud() + "," + siguienteAccion.getLatitud()+ "}");
 
                     String firmaAutoridad = firma.getFirmaAutoridad();
@@ -166,7 +164,8 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                         System.out.println("Leyendo actaJSON a la mala = "+ actaJSON);
                     }
                     */
-                    String actaJSON = acta.getActaJson();
+                    //String actaJSON = acta.getActaJson();
+                    String actaJSON = actaController.parseJson(acta).toString();
 
                     String recinto = tarea.getRecinto();
                     System.out.println("Recinto=" + recinto);

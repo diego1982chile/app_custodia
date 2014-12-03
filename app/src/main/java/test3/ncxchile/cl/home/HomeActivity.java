@@ -47,6 +47,7 @@ import test3.ncxchile.cl.acta.MyActivity;
 import test3.ncxchile.cl.db.AndroidDatabaseManager;
 import test3.ncxchile.cl.db.Global;
 import test3.ncxchile.cl.greenDAO.Accion;
+import test3.ncxchile.cl.greenDAO.Acta;
 import test3.ncxchile.cl.greenDAO.Logs;
 import test3.ncxchile.cl.greenDAO.Tarea;
 
@@ -118,6 +119,9 @@ public class HomeActivity extends Activity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        //Acta acta= actaController.getActaByTarea(new Long(47));
+        //actaController.parseJson(acta);
 
         /**
          * Call this function whenever you want to check user login
@@ -513,6 +517,7 @@ public class HomeActivity extends Activity {
                     setEnabled(confirmarArribo, false);
                     setEnabled(completarActa, false);
                     setEnabled(retiroRealizado, false);
+                    setEnabled(pdf, false);
                     // Almacenar vector asociado a esta acción
                     tareaActiva=tareaController.getTareaById(tablerow.getId());
                     accionController.encolarAccion("Retiro Realizado");

@@ -223,7 +223,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
     @UiThreadTest
     private void postLogin(int loginResponse, boolean online) {
         System.out.println("postLogin=" + loginResponse);
-        showProgress(false);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                //stuff that updates ui
+                showProgress(false);
+            }
+        });
 
         mEmailView.setError(null);
         ErrorDialog ed= new ErrorDialog(LoginActivity.this);

@@ -101,7 +101,7 @@ public class ActaController {
                 // Setear especies
                 if(acta.getVehiculoData().getEspeciasList()!=null){
                     for(int i=0;i<acta.getVehiculoData().getEspeciasList().size();++i)
-                        especiasJson.put(i,acta.getVehiculoData().getEspeciasList().get(i));
+                        especiasJson.put(i,acta.getVehiculoData().getEspeciasList().get(i).getNombre());
                 }
 
                 vehiculoDataJson.put("especias",especiasJson);
@@ -154,10 +154,10 @@ public class ActaController {
                         personaJson.put("apellidoPaterno", acta.getVehiculoData().getClientePropietario().get(0).getPersona().getApellidoPaterno());
                         personaJson.put("apellidoMaterno", acta.getVehiculoData().getClientePropietario().get(0).getPersona().getApellidoMaterno());
                         for (int i = 0; i < acta.getVehiculoData().getClientePropietario().get(0).getPersona().getTelefonos().size(); ++i)
-                            telefonosJson.put(i, acta.getVehiculoData().getClientePropietario().get(0).getPersona().getTelefonos().get(i));
+                            telefonosJson.put(i, acta.getVehiculoData().getClientePropietario().get(0).getPersona().getTelefonos().get(i).getEmail());
                         personaJson.put("telefonos", telefonosJson);
                         for (int i = 0; i < acta.getVehiculoData().getClientePropietario().get(0).getPersona().getCorreos().size(); ++i)
-                            correosJson.put(i, acta.getVehiculoData().getClientePropietario().get(0).getPersona().getCorreos().get(i));
+                            correosJson.put(i, acta.getVehiculoData().getClientePropietario().get(0).getPersona().getCorreos().get(i).getEmail());
                         personaJson.put("correos", correosJson);
                         propietarioJson.put("persona", personaJson);
                     }
@@ -172,10 +172,10 @@ public class ActaController {
                         personaJson.put("apellidoMaterno", acta.getVehiculoData().getClientePropietario().get(1).getPersona().getApellidoMaterno());
 
                         for (int i = 0; i < acta.getVehiculoData().getClientePropietario().get(1).getPersona().getTelefonos().size(); ++i)
-                            telefonosJson.put(i, acta.getVehiculoData().getClientePropietario().get(1).getPersona().getTelefonos().get(i));
+                            telefonosJson.put(i, acta.getVehiculoData().getClientePropietario().get(1).getPersona().getTelefonos().get(i).getEmail());
                         personaJson.put("telefonos", telefonosJson);
                         for (int i = 0; i < acta.getVehiculoData().getClientePropietario().get(1).getPersona().getCorreos().size(); ++i)
-                            correosJson.put(i, acta.getVehiculoData().getClientePropietario().get(1).getPersona().getCorreos().get(i));
+                            correosJson.put(i, acta.getVehiculoData().getClientePropietario().get(1).getPersona().getCorreos().get(i).getEmail());
                         personaJson.put("correos", correosJson);
                         conductorJson.put("persona", personaJson);
                     }
@@ -202,7 +202,7 @@ public class ActaController {
                 if(acta.getAutoridad()!=null){
                     autoridadJson.put("cargo",acta.getAutoridad().getCargo());
                     for(int i=0;i<acta.getAutoridad().getPersona().getCorreos().size();++i)
-                        correosJson.put(i, acta.getAutoridad().getPersona().getCorreos().get(i));
+                        correosJson.put(i, acta.getAutoridad().getPersona().getCorreos().get(i).getEmail());
                     autoridadJson.put("correos",correosJson);
                     autoridadJson.put("numeroFuncionario",acta.getAutoridad().getNumeroFuncionario());
                     autoridadJson.put("apellidoPaterno",acta.getAutoridad().getPersona().getApellidoPaterno());
@@ -216,7 +216,7 @@ public class ActaController {
                     }
                     autoridadJson.put("direccion",direccionJson);
                     for(int i=0;i<acta.getAutoridad().getPersona().getTelefonos().size();++i)
-                        correosJson.put(i,acta.getAutoridad().getPersona().getTelefonos().get(i));
+                        correosJson.put(i,acta.getAutoridad().getPersona().getTelefonos().get(i).getEmail());
                     autoridadJson.put("telefonos",telefonosJson);
                     autoridadJson.put("institucion",acta.getAutoridad().getInstitucion());
                     autoridadJson.put("usuario",acta.getAutoridad().getPersona().getUsuario());
@@ -237,7 +237,7 @@ public class ActaController {
                 if(acta.getPersona()!=null){
                     correosJson= new JSONArray();
                     for(int i=0;i<acta.getPersona().getCorreos().size();++i)
-                        correosJson.put(i, acta.getPersona().getCorreos().get(i));
+                        correosJson.put(i, acta.getPersona().getCorreos().get(i).getEmail());
                     personaJson.put("correos",correosJson);
                     personaJson.put("apellidoPaterno",acta.getPersona().getApellidoPaterno());
                     personaJson.put("apellidoMaterno",acta.getPersona().getApellidoMaterno());
@@ -245,9 +245,10 @@ public class ActaController {
                     personaJson.put("usuario",acta.getPersona().getUsuario());
                     telefonosJson= new JSONArray();
                     for(int i=0;i<acta.getPersona().getTelefonos().size();++i)
-                        telefonosJson.put(i, acta.getPersona().getTelefonos().get(i));
+                        telefonosJson.put(i, acta.getPersona().getTelefonos().get(i).getEmail());
                     personaJson.put("telefonos",telefonosJson);
                     direccionJson=new JSONObject();
+
                     if(acta.getPersona().getDireccion()!=null){
                         direccionJson.put("calle",acta.getAutoridad().getPersona().getDireccion().getCalle());
                         direccionJson.put("numeracion",acta.getAutoridad().getPersona().getDireccion().getNumeracion());
@@ -261,11 +262,11 @@ public class ActaController {
                 // Setear datos del retiro
 
                 direccionJson=new JSONObject();
-                if(acta.getAutoridad().getPersona().getDireccion()!=null){
-                    direccionJson.put("calle",acta.getAutoridad().getPersona().getDireccion().getCalle());
-                    direccionJson.put("numeracion",acta.getAutoridad().getPersona().getDireccion().getNumeracion());
-                    direccionJson.put("interseccion",acta.getAutoridad().getPersona().getDireccion().getInterseccion());
-                    direccionJson.put("referencias",acta.getAutoridad().getPersona().getDireccion().getReferencias());
+                if(acta.getDireccion()!=null){
+                    direccionJson.put("calle",acta.getDireccion().getCalle());
+                    direccionJson.put("numeracion",acta.getDireccion().getNumeracion());
+                    direccionJson.put("interseccion",acta.getDireccion().getInterseccion());
+                    direccionJson.put("referencias",acta.getDireccion().getReferencias());
                 }
                 actaJson.put("direccion",direccionJson);
 
@@ -279,6 +280,8 @@ public class ActaController {
                 actaJson.put("observacion",actaTemplateJson.optLong("observacion"));
                 actaJson.put("tribunal",acta.getTribunalID());
             }
+
+            System.out.println("actaJson="+actaJson.toString(1));
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -308,6 +311,10 @@ public class ActaController {
                     acta.setFechaCreacion(new Date(actaJson.getLong("fechaCreacion")));
                     acta.setCausaRetiro(actaJson.getString("causaRetiro"));
                     acta.setIdGrua(actaJson.getInt("idGrua"));
+
+                    // Setear grua en la sesión
+
+                    Global.sessionManager.setGrua(actaJson.optString("idGrua"));
 
                     acta.setFiscalia(actaJson.getBoolean("fiscalia"));
 
