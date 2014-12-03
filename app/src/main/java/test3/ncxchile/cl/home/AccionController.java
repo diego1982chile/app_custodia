@@ -23,6 +23,7 @@ import com.lowagie.text.Phrase;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -61,6 +62,8 @@ public class AccionController {
         accion.setFecha(fecha.format(timeStamp));
         accion.setHora(hora.format(timeStamp));
         accion.setTimeStamp(timeStamp);
+        accion.setLatitud(Global.sessionManager.getLatitud());
+        accion.setLongitud(Global.sessionManager.getLongitud());
         accion.setNombre(nombre);
         accion.setSincronizada(false);
         accion.setIdTarea(Global.sessionManager.getTareaActiva());
@@ -118,6 +121,7 @@ public class AccionController {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         Image imagen = Image.getInstance(stream.toByteArray());
+        Bitmap imagen2 = null;
         imagen.setAbsolutePosition(450f, 720f);
         documento.add(imagen);
 
@@ -140,7 +144,6 @@ public class AccionController {
         documento.add(preface2);
 
         List acciones=Global.daoSession.getAccionDao().getAccionesByTarea(Global.sessionManager.getTareaActiva());
-
 
         for(int i=0;i<acciones.size();++i){
             Accion accion=(Accion)acciones.get(i);
@@ -170,10 +173,9 @@ public class AccionController {
             PdfPTable mapa = new PdfPTable(1);
             try {
                 imagen = Image.getInstance(Base64.decode(accion.getMapa().getMapa(), Base64.DEFAULT));
-            } catch (BadElementException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+                //ByteArrayInputStream imageStream = new ByteArrayInputStream(accion.getMapa().getMapa());
+                //imagen2= BitmapFactory.decodeStream(imageStream);
+                //imagen = Image.getInstance(accion.getMapa().getMapa());
             } catch (OutOfMemoryError e) {
                 e.printStackTrace();
             }
