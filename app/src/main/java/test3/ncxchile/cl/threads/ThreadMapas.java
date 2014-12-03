@@ -7,6 +7,7 @@ import android.os.CountDownTimer;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.Base64;
 
 import org.apache.http.Header;
 
@@ -84,7 +85,7 @@ public class ThreadMapas extends CountDownTimer {
 
         AsyncHttpClient client = new AsyncHttpClient();
 
-        String URL = "http://maps.google.com/maps/api/staticmap?center="+accion.getLatitud()+","+accion.getLongitud()+"&zoom=15&size=200x200&sensor=false";
+        String URL = "http://maps.googleapis.com/maps/api/staticmap?center="+accion.getLatitud()+","+accion.getLongitud()+"&zoom=15&size=200x200&sensor=false";
 
         //synchronized(monitor) {
             client.get(URL, new AsyncHttpResponseHandler() {
@@ -102,7 +103,7 @@ public class ThreadMapas extends CountDownTimer {
                     Mapa mapa = new Mapa();
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                    String text = android.util.Base64.encodeToString(stream.toByteArray(), android.util.Base64.DEFAULT);
+                    String text = Base64.encodeToString(stream.toByteArray(), Base64.DEFAULT);
 
                     mapa.setMapa(text);
                     Global.daoSession.getMapaDao().insert(mapa);
