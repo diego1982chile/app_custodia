@@ -102,10 +102,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
 
 
 
-        //mEmailView.setText("118522451"); // DEV VM
-        //mPasswordView.setText("Murillo1"); // DEV VM
-        mEmailView.setText("66221261");
-        mPasswordView.setText("Ncx123456");
+        mEmailView.setText("118522451"); // DEV VM
+        mPasswordView.setText("Murillo1"); // DEV VM
+        //mEmailView.setText("66221261");
+        //mPasswordView.setText("Ncx123456");
 
         gruaDialogFragment = new GruaDialogFragment();
 

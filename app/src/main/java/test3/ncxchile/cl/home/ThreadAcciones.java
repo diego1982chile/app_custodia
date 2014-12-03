@@ -43,6 +43,8 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
     private Context appContext;
     private AccionController accionController;
 
+    private TareaController tareaController;
+
 
     private Hashtable<Long,String> actasJSON = null;
 
@@ -55,7 +57,7 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
         this.appContext = appContext;
 
         accionController = new AccionController(appContext);
-
+        tareaController = new TareaController(appContext);
 
         actasJSON = new Hashtable<Long, String>();
 
@@ -221,6 +223,19 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                     /*
                     Acción si retorna un mensaje de error
                      */
+
+                    System.out.println("No se pudo confirmar la OT!!!");
+                    Accion siguienteAccion = (Accion) source;
+                    Tarea tarea = siguienteAccion.getTarea();
+                    tareaController.setStatusTarea(tarea.getId(),4);
+                    siguienteAccion.setSincronizada(true);
+                    siguienteAccion.update();
+                    Global.sessionManager.setTareaActiva(-1);
+                    // Setear estado de la tarea activa en la sesión
+                    // Actualizar estado de la tarea activa en la sesión
+                    Global.sessionManager.setServicio(-1);
+                    HomeActivity.tablerow.removeAllViews();
+
                 }
 
             }

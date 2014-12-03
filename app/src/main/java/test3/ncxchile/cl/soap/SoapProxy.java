@@ -7,9 +7,9 @@ import org.ksoap2.serialization.PropertyInfo;
 
 public class SoapProxy {
 	
-	//private static String baseURL = "http://192.168.0.8:8380"; // Local
+	private static String baseURL = "http://192.168.0.8:8380"; // Local
     //private static String baseURL = "http://192.168.0.14:8380"; // Local
-    private static String baseURL = "http://200.27.19.44:8380"; // Remote
+    //private static String baseURL = "http://200.27.19.44:8380"; // Remote
 
 	//"11852245" "Murillo1"
 	public static boolean loginGruero(String rutValor, String passwordValor, SoapHandler handler) {
