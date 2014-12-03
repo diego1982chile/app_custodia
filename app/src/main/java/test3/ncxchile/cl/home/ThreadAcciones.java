@@ -217,6 +217,11 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                     siguienteAccion.setSincronizada(true);
                     siguienteAccion.update();
                 }
+                else {
+                    /*
+                    Acción si retorna un mensaje de error
+                     */
+                }
 
             }
 
@@ -236,6 +241,11 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                     Accion siguienteAccion = (Accion) source;
                     siguienteAccion.setSincronizada(true);
                     siguienteAccion.update();
+                }
+                else {
+                    /*
+                    Acción si retorna un mensaje de error
+                     */
                 }
 
             }
@@ -305,6 +315,11 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                         siguienteAccion.update();
 
                     }
+                    else {
+                    /*
+                    Acción si retorna un mensaje de error
+                     */
+                    }
                 }
 
             }
@@ -325,6 +340,11 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                     Accion siguienteAccion = (Accion) source;
                     siguienteAccion.setSincronizada(true);
                     siguienteAccion.update();
+                }
+                else {
+                    /*
+                    Acción si retorna un mensaje de error
+                     */
                 }
 
             }
