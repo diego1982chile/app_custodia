@@ -231,61 +231,61 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
                 mEmailView.setError(null);
                 showProgress(false);
 
-        final ErrorDialog ed= new ErrorDialog(LoginActivity.this);
+                final ErrorDialog ed= new ErrorDialog(LoginActivity.this);
 
-        switch (loginResponse)
-        {
-            case -1:
-                //System.out.println("No existe el usuario");
-                ed.show();
-                break;
-            case -2:
-                //System.out.println("el rut es ambiguo: mas de un usuario con el mismo rut");
-                ed.show();
-                break;
-            case -3:
-                //System.out.println("password incorrecta");
-                ed.show();
-                break;
-            case 1:
-                    // Simulate network access.
-                    //System.out.println("EL LOGIN FUE EXITOSO!!");
-                    // Session Manager
-                    final UUID idSesion= UUID.randomUUID();
-                    usuario = mAuthTask.getUsuario();
-                    if (usuario == null) {
+                switch (loginResponse)
+                {
+                    case -1:
+                        //System.out.println("No existe el usuario");
                         ed.show();
                         break;
-                    }
+                    case -2:
+                        //System.out.println("el rut es ambiguo: mas de un usuario con el mismo rut");
+                        ed.show();
+                        break;
+                    case -3:
+                        //System.out.println("password incorrecta");
+                        ed.show();
+                        break;
+                    case 1:
+                        // Simulate network access.
+                        //System.out.println("EL LOGIN FUE EXITOSO!!");
+                        // Session Manager
+                        final UUID idSesion= UUID.randomUUID();
+                        usuario = mAuthTask.getUsuario();
+                        if (usuario == null) {
+                            ed.show();
+                            break;
+                        }
 
-                    Date timeStamp= new Date();
-                    SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
-                    SimpleDateFormat hora = new SimpleDateFormat("HH:mm");
+                        Date timeStamp= new Date();
+                        SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat hora = new SimpleDateFormat("HH:mm");
 
-                    Global.sesion= new Sesion();
-                    Global.sesion.setFecha(fecha.format(timeStamp));
-                    Global.sesion.setHora_inicio(hora.format(timeStamp));
-                    Global.sesion.setTimeStamp(timeStamp);
-                    Global.sesion.setCookies(idSesion.toString());
-                    Global.daoSession.getSesionDao().insert(Global.sesion);
+                        Global.sesion= new Sesion();
+                        Global.sesion.setFecha(fecha.format(timeStamp));
+                        Global.sesion.setHora_inicio(hora.format(timeStamp));
+                        Global.sesion.setTimeStamp(timeStamp);
+                        Global.sesion.setCookies(idSesion.toString());
+                        Global.daoSession.getSesionDao().insert(Global.sesion);
 
-                    if(online) {
-                        // Creating user login session
-                        String userName= Global.daoSession.getUserNameDao().getByRut(usuario.getRut()).getUserName();
-                        Global.sessionManager.createLoginSession(usuario.getRut() + usuario.getDv().toString(), usuario.getNombre(), usuario.getApellidoPaterno(), usuario.getApellidoMaterno(),userName);
-                        Global.sessionManager.setId(idSesion.toString());
-                        Logger.log("Login Online:" + usuario.getNombre() + " " + usuario.getApellidoPaterno() + " Grúa:");
+                        if(online) {
+                            // Creating user login session
+                            String userName= Global.daoSession.getUserNameDao().getByRut(usuario.getRut()).getUserName();
+                            Global.sessionManager.createLoginSession(usuario.getRut() + usuario.getDv().toString(), usuario.getNombre(), usuario.getApellidoPaterno(), usuario.getApellidoMaterno(),userName);
+                            Global.sessionManager.setId(idSesion.toString());
+                            Logger.log("Login Online:" + usuario.getNombre() + " " + usuario.getApellidoPaterno() + " Grúa:");
 
-                        Intent myIntent = new Intent(LoginActivity.this, HomeActivity.class);
-                        LoginActivity.this.startActivity(myIntent);
-                    }
-                    else{
-                        // Si es login offline, solicitar identificación de la grúa
-                        // Create an instance of the dialog fragment and show it
+                            Intent myIntent = new Intent(LoginActivity.this, HomeActivity.class);
+                            LoginActivity.this.startActivity(myIntent);
+                        }
+                        else{
+                            // Si es login offline, solicitar identificación de la grúa
+                            // Create an instance of the dialog fragment and show it
 
-                        gruaDialogFragment.show(getFragmentManager(), "NoticeDialogFragment");
-                    }
-                break;
+                            gruaDialogFragment.show(getFragmentManager(), "NoticeDialogFragment");
+                        }
+                        break;
                 }
             }
         });

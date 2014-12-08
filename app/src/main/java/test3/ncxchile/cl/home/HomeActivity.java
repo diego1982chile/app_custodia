@@ -531,6 +531,8 @@ public class HomeActivity extends Activity {
                     Global.sessionManager.setServicio(-1);
                     tablerow.removeAllViews();
                     //tablerow.setBackgroundColor(Color.GREEN);
+
+                    //TODO: eliminar tarea de la BD.
                 }
             });
 
