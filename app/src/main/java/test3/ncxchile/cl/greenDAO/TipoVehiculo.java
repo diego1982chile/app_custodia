@@ -37,4 +37,8 @@ public class TipoVehiculo {
         this.nombre = nombre;
     }
 
+    @Override
+    public String toString() {
+        return nombre;
+    }
 }

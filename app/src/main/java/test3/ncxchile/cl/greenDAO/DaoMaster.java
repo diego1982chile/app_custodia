@@ -49,7 +49,7 @@ import test3.ncxchile.cl.security.PasswordHelper;
  * Master of DAO (schema version 1000): knows all DAOs.
 */
 public class DaoMaster extends AbstractDaoMaster {
-    public static final int SCHEMA_VERSION = 1118;
+    public static final int SCHEMA_VERSION = 1180;
 
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(SQLiteDatabase db, boolean ifNotExists) {
@@ -82,6 +82,7 @@ public class DaoMaster extends AbstractDaoMaster {
         SesionDao.createTable(db, ifNotExists);
         MapaDao.createTable(db, ifNotExists);
         UserNameDao.createTable(db, ifNotExists);
+        TribunalDao.createTable(db, ifNotExists);
     }
     
     /** Drops underlying database table using DAOs. */
@@ -115,6 +116,7 @@ public class DaoMaster extends AbstractDaoMaster {
         SesionDao.dropTable(db, ifExists);
         MapaDao.dropTable(db, ifExists);
         UserNameDao.dropTable(db, ifExists);
+        TribunalDao.dropTable(db, ifExists);
     }
     
     public static abstract class OpenHelper extends SQLiteOpenHelper {
@@ -150,8 +152,47 @@ public class DaoMaster extends AbstractDaoMaster {
             mInsertAttributeStatement.execute();
 
             ////////////////////////////////////
-            // Poblar instituciones
+            // Poblar estadoVisual
             InputStream myInput=null;
+
+            //System.out.print("ASSETS1="+getAssets().toString());
+            try {
+                myInput = mContext.getAssets().open("estadoVisual.txt");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            BufferedReader br = null;
+            String thisLine = null;
+
+            try {
+                br = new BufferedReader((new InputStreamReader(myInput)));
+                long id = 1;
+                while ((thisLine = br.readLine()) != null) {
+                    String[] campos= thisLine.split(";");
+                    mInsertAttributeStatement = db.compileStatement("INSERT INTO ESTADO_VISUAL (_id,NOMBRE,RESPUESTA_BINARIA,HABILITADO,TIPO) VALUES (?,?,?,?,?)");
+                    mInsertAttributeStatement.bindLong(1, Long.parseLong(campos[0]));
+                    mInsertAttributeStatement.bindString(2, campos[1].toString());
+                    mInsertAttributeStatement.bindString(3, campos[2].toString());
+                    mInsertAttributeStatement.bindLong(4, Long.parseLong(campos[3]));
+                    mInsertAttributeStatement.bindLong(5, Long.parseLong(campos[4]));
+                    mInsertAttributeStatement.execute();
+                    ++id;
+                }
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            } finally {                       // always close the file
+                if (br != null) try {
+                    br.close();
+                } catch (IOException ioe2) {
+                    // just ignore it
+                }
+            }
+
+
+            ////////////////////////////////////
+            // Poblar instituciones
+            myInput=null;
 
             //System.out.print("ASSETS1="+getAssets().toString());
             try {
@@ -160,17 +201,52 @@ public class DaoMaster extends AbstractDaoMaster {
                 e.printStackTrace();
             }
 
-            BufferedReader br = null;
-            String thisLine = null;
-
+            br = null;
+            thisLine = null;
 
             try {
                 br = new BufferedReader((new InputStreamReader(myInput)));
                 long id = 1;
                 while ((thisLine = br.readLine()) != null) {
+                    String[] campos= thisLine.split(";");
                     mInsertAttributeStatement = db.compileStatement("INSERT INTO INSTITUCION (_id, NOMBRE) VALUES (?,?)");
-                    mInsertAttributeStatement.bindLong(1, new Long(id));
-                    mInsertAttributeStatement.bindString(2, thisLine.toString());
+                    mInsertAttributeStatement.bindLong(1, Long.parseLong(campos[0]));
+                    mInsertAttributeStatement.bindString(2, campos[1].toString());
+                    mInsertAttributeStatement.execute();
+                    ++id;
+                }
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            } finally {                       // always close the file
+                if (br != null) try {
+                    br.close();
+                } catch (IOException ioe2) {
+                    // just ignore it
+                }
+            }
+
+            ////////////////////////////////////
+            // Poblar tribunales
+            myInput=null;
+
+            //System.out.print("ASSETS1="+getAssets().toString());
+            try {
+                myInput = mContext.getAssets().open("tribunales.txt");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            br = null;
+            thisLine = null;
+
+            try {
+                br = new BufferedReader((new InputStreamReader(myInput)));
+                long id = 1;
+                while ((thisLine = br.readLine()) != null) {
+                    String[] campos= thisLine.split(";");
+                    mInsertAttributeStatement = db.compileStatement("INSERT INTO TRIBUNAL (_id, NOMBRE) VALUES (?,?)");
+                    mInsertAttributeStatement.bindLong(1, Long.parseLong(campos[0]));
+                    mInsertAttributeStatement.bindString(2, campos[1].toString());
                     mInsertAttributeStatement.execute();
                     ++id;
                 }
@@ -218,7 +294,7 @@ public class DaoMaster extends AbstractDaoMaster {
                 }
             }
 
-            /*
+
             ////////////////////////////////////
             // Poblar tareas
             myInput=null;
@@ -282,6 +358,7 @@ public class DaoMaster extends AbstractDaoMaster {
                     Long tareaId= mInsertAttributeStatement.executeInsert();
 
                     ////////////////////// Insertar datos de solicitud en el acta asociada a esta tarea ///////////////////////
+                    /*
 
                     StringBuilder sb = new StringBuilder();
                     sb.append(thisLineAutoridad+"\n");
@@ -443,8 +520,8 @@ public class DaoMaster extends AbstractDaoMaster {
                         mInsertAttributeStatement = db.compileStatement("INSERT INTO ACTA (_id, OBSERVACION, CAUSA_RETIRO, EXIST_IMAGE, " +
                                 "EXIST_VIDEO, FECHA_CREACION, FECHA_FIRMA, ID_SOLICITUD, ID_OT, ID_GRUA, FISCALIA, NUE, RUC, PARTE, UNIDAD_POLICIAL," +
                                 " FECHA_PARTE, SERVICIO, GRUA_EXTERNA, OBSERVACION_IMGENES, NOMBRE_EXTERNO, NUMERO_FACTURA, MONTO_FACTURA, NUMERO_PATENTE," +
-                                " CARGA_INICIAL, ACTA_INCAUTACION, OFICIO_REMISOR, VEHICULO_DATA_ID, DIRECCION_ID, AUTORIDAD_ID, GRUERO_ID," +
-                                " TRIBUNAL_ID, TAREA_ID ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                                " CARGA_INICIAL, ACTA_INCAUTACION, OFICIO_REMISOR, ACTA_JSON, VEHICULO_DATA_ID, DIRECCION_ID, AUTORIDAD_ID, GRUERO_ID," +
+                                " TRIBUNAL_ID, TAREA_ID ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
                         mInsertAttributeStatement.bindLong(1, new Long(id));
                         mInsertAttributeStatement.bindString(2, oneObject.getString("observacion")); // observacion
                         mInsertAttributeStatement.bindString(3, oneObject.getString("motivo"));
@@ -471,12 +548,13 @@ public class DaoMaster extends AbstractDaoMaster {
                         mInsertAttributeStatement.bindString(24, ""); //private Boolean cargaInicial;
                         mInsertAttributeStatement.bindString(25, ""); //private String actaIncautacion;
                         mInsertAttributeStatement.bindString(26, ""); //private String oficioRemisor;
-                        mInsertAttributeStatement.bindLong(27, vehiculoDataId);
-                        mInsertAttributeStatement.bindLong(28, direccionRetiroId);
-                        mInsertAttributeStatement.bindLong(29, autoridadId);
-                        mInsertAttributeStatement.bindLong(30, 0);
+                        mInsertAttributeStatement.bindString(27, oneObject.getString("actaJson")); //private String oficioRemisor;
+                        mInsertAttributeStatement.bindLong(28, vehiculoDataId);
+                        mInsertAttributeStatement.bindLong(29, direccionRetiroId);
+                        mInsertAttributeStatement.bindLong(30, autoridadId);
                         mInsertAttributeStatement.bindLong(31, 0);
-                        mInsertAttributeStatement.bindLong(32, tareaId);
+                        mInsertAttributeStatement.bindLong(32, 0);
+                        mInsertAttributeStatement.bindLong(33, tareaId);
                         //mInsertAttributeStatement.bindLong(33, null);
                         //mInsertAttributeStatement.execute();
                         Long actaId= mInsertAttributeStatement.executeInsert();
@@ -484,6 +562,7 @@ public class DaoMaster extends AbstractDaoMaster {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    */
                     ++id;
                 }
             } catch (IOException ioe) {
@@ -498,7 +577,7 @@ public class DaoMaster extends AbstractDaoMaster {
                     // just ignore it
                 }
             }
-            */
+
             ////////////////////////////////////
             // Poblar motivos
             myInput=null;
@@ -601,7 +680,7 @@ public class DaoMaster extends AbstractDaoMaster {
                 }
             }
 
-            /*
+
             ////////////////////////////////////
             // Poblar users
             myInput=null;
@@ -638,7 +717,6 @@ public class DaoMaster extends AbstractDaoMaster {
                     // just ignore it
                 }
             }
-            */
         }
     }
     
@@ -693,6 +771,7 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(SesionDao.class);
         registerDaoClass(MapaDao.class);
         registerDaoClass(UserNameDao.class);
+        registerDaoClass(TribunalDao.class);
     }
     
     public DaoSession newSession() {

@@ -36,8 +36,8 @@ public class Comuna {
         this.nombre = nombre;
     }
 
-    public String toString(){
-        return this.nombre;
+    @Override
+    public String toString() {
+        return nombre;
     }
-
 }

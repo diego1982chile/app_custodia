@@ -220,19 +220,18 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
         }
     }
 
-    @UiThreadTest
-    private void postLogin(int loginResponse, boolean online) {
+    private void postLogin(final int loginResponse, final boolean online) {
         System.out.println("postLogin=" + loginResponse);
+
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 //stuff that updates ui
+                mEmailView.setError(null);
                 showProgress(false);
-            }
-        });
 
-        mEmailView.setError(null);
-        ErrorDialog ed= new ErrorDialog(LoginActivity.this);
+        final ErrorDialog ed= new ErrorDialog(LoginActivity.this);
 
         switch (loginResponse)
         {
@@ -286,10 +285,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
 
                         gruaDialogFragment.show(getFragmentManager(), "NoticeDialogFragment");
                     }
-
-
                 break;
-        }
+                }
+            }
+        });
     }
 
     @Override

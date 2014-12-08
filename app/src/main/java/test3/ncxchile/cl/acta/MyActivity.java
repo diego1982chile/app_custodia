@@ -22,6 +22,8 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import test3.ncxchile.cl.greenDAO.Acta;
+import test3.ncxchile.cl.greenDAO.FichaEstadoVisual;
+import test3.ncxchile.cl.greenDAO.Tribunal;
 import test3.ncxchile.cl.models.DatosPDF;
 
 import test3.ncxchile.cl.greenDAO.FinalizarActaDao;
@@ -47,7 +49,8 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
     public boolean view2_00;
     public String view2_01, view2_02, view2_03, view2_04, view2_05, view2_06;
     // Fragment 3
-    public String view3_01, view3_02, view3_03, view3_04, view3_05, view3_06, view3_07, view3_08;
+    public String view3_01, view3_02, view3_03, view3_04, view3_05, view3_06, view3_07;
+    public long  view3_08;
     // Fragment 4
     public String view4_00, view4_01, view4_02, view4_03, view4_05, view4_07, view4_08, view4_04, view4_06;
     public boolean view4_09;
@@ -55,8 +58,10 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
     // Fragment 5
     public boolean view5_01, view5_02;
 
-    public String view5_03, view5_04, view5_05, view5_06, view5_07, view5_08, view5_09;
-    public boolean view5_10, view5_11, view5_12, view5_13, view5_14, view5_15, view5_16, view5_17;
+    public String view5_03;//, view5_04, view5_05, view5_06, view5_07, view5_08, view5_09;
+    //public boolean view5_10, view5_11, view5_12, view5_13, view5_14, view5_15, view5_16, view5_17;
+
+    public ArrayList<FichaEstadoVisual> view5;
     // Fragment 6
     public String view6_01, view6_02, view6_02_paterno, view6_02_materno, view6_03, view6_04, view6_05, view6_06, view6_06_paterno, view6_06_materno, view6_07, view6_08, view6_09, view6_10;
     // Fragment 7
@@ -64,7 +69,6 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
     // Fragment 8
     public ArrayList view8_01;
 
-    public String[] view1, view2, view3, view5, view6, view7;
 
     public String prueba;
 
@@ -73,7 +77,7 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
     Fragment c = new FragmentX3().newInstance(2);
     Fragment d = new FragmentX4().newInstance(3);
     Fragment e = new FragmentX5().newInstance(4); // Fragment FotoVideo
-    Fragment f = new FragmentX6().newInstance(5);
+    Fragment f = new FragmentX6_2().newInstance(5);
     Fragment g = new FragmentX7().newInstance(6);
     Fragment h = new FragmentX8().newInstance(7);
     Fragment i = new FragmentX9().newInstance(8);
@@ -231,11 +235,12 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
 
         if(tab.getPosition() == 6 /*|| tab.getPosition() == 6 || tab.getPosition() == 7 || tab.getPosition() == 8*/ ){
             //FragmentX3 f3 = (FragmentX3) getFragment(2);
-            FragmentX6 f6 = (FragmentX6) getFragment(5);
+            FragmentX6_2 f6 = (FragmentX6_2) getFragment(5);
 
             if (!f6.validarDatosFragment5()) {
                 errorFragment(5);
             }
+
         }
 
         if(tab.getPosition() == 7 /*|| tab.getPosition() == 8 || tab.getPosition() == 9*/){
@@ -418,7 +423,7 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         FragmentX3 c = (FragmentX3) getFragment(2);
         FragmentX4 d = (FragmentX4) getFragment(3);
         FragmentX5 e = (FragmentX5) getFragment(4);
-        FragmentX6 f = (FragmentX6) getFragment(5);
+        FragmentX6_2 f = (FragmentX6_2) getFragment(5);
         FragmentX7 g = (FragmentX7) getFragment(6);
         FragmentX8 h = (FragmentX8) getFragment(7);
         FragmentX9 i = (FragmentX9) getFragment(8);
@@ -478,19 +483,7 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         datospdf.setView5_01(view5_01);
         datospdf.setView5_02(view5_02);
         datospdf.setView5_03(view5_03);
-        datospdf.setView5_04(view5_04);
-        datospdf.setView5_05(view5_05);
-        datospdf.setView5_06(view5_06);
-        datospdf.setView5_07(view5_07);
-        datospdf.setView5_08(view5_08);
-        datospdf.setView5_09(view5_09);
-        datospdf.setView5_10(view5_10);
-        datospdf.setView5_11(view5_11);
-        datospdf.setView5_12(view5_12);
-        datospdf.setView5_13(view5_13);
-        datospdf.setView5_14(view5_14);
-        datospdf.setView5_15(view5_15);
-        datospdf.setView5_16(view5_16);
+        datospdf.setView5(view5);
 
         datospdf.setView6_01(view6_01);
         datospdf.setView6_02(view6_02);
@@ -542,7 +535,7 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         view2_06 = f.getText().toString();
     }
 
-    public void recibeDatosFragmentX3(EditText a, EditText b, EditText c, EditText d, EditText e, EditText f, EditText g, EditText h){
+    public void recibeDatosFragmentX3(EditText a, EditText b, EditText c, EditText d, EditText e, EditText f, EditText g, CustomAutoComplete h){
         view3_01 = a.getText().toString();
         view3_02 = b.getText().toString();
         view3_03 = c.getText().toString();
@@ -550,7 +543,8 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         view3_05 = e.getText().toString();
         view3_06 = f.getText().toString();
         view3_07 = g.getText().toString();
-        view3_08 = h.getText().toString();
+        Tribunal tribunal=(Tribunal)h.getSelectedItem();
+        view3_08 = tribunal.getId();
     }
 
     public void recibeDatosFragmentX4(CustomAutoComplete z, EditText a, EditText b, EditText c, EditText d, EditText e, EditText f, EditText g, EditText h, boolean i){
@@ -572,20 +566,8 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         view5_03 = motivo_imgvid;
     }
 
-    public void recibeDatosFragmentX6( String q1_response, String q2_response,  String q3_response,  String q4_response,  String q5_response, String q6_response, boolean switch1_response, boolean switch2_response, boolean switch3_response, boolean switch4_response, boolean switch5_response, boolean switch6_response, boolean switch7_response){
-        view5_04 = q1_response;
-        view5_05 = q2_response;
-        view5_06 = q3_response;
-        view5_07 = q4_response;
-        view5_08 = q5_response;
-        view5_09 = q6_response;
-        view5_10 = switch1_response;
-        view5_11 = switch2_response;
-        view5_12 = switch3_response;
-        view5_13 = switch4_response;
-        view5_14 = switch5_response;
-        view5_15 = switch6_response;
-        view5_16 = switch7_response;
+    public void recibeDatosFragmentX6(ArrayList<FichaEstadoVisual> fichaEstadoVisualList){
+        view5 = fichaEstadoVisualList;
     }
 
     public void recibeDatosFragmentX7(EditText a, EditText b, EditText b1, EditText b2, EditText b3, EditText b4, EditText c, EditText d, EditText e, EditText f, EditText g, EditText h, EditText i, EditText j){
@@ -615,6 +597,7 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         view8_01 = a;
     }
 
+    /*
     public void onCheckboxClicked(View v)
     {
         FragmentX6 frg = (FragmentX6) getFragment(4);
@@ -692,6 +675,7 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         FragmentX6 frg = (FragmentX6) getFragment(5);
         frg.sinObs6();
     }
+    */
 
     private Fragment recreateFragment(Fragment f)
     {

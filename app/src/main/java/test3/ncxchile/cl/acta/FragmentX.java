@@ -142,6 +142,11 @@ public class FragmentX extends android.app.Fragment {
             esValido=false;
         }
 
+        if(view1_03.getSelectedItem()==null){
+            view1_03.setError("Debes seleccionar un item de la lista");
+            esValido=false;
+        }
+
         if (view1_01.getText().toString().equals("")){
             view1_01.setError(getString(R.string.error_field_required));
             esValido=false;

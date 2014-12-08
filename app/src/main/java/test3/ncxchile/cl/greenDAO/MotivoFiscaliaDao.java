@@ -109,5 +109,11 @@ public class MotivoFiscaliaDao extends AbstractDao<MotivoFiscalia, Long> {
     protected boolean isEntityUpdateable() {
         return true;
     }
-    
+
+    public MotivoFiscalia getByString(String nombre){
+        MotivoFiscalia motivoFiscalia= queryBuilder().
+                where(Properties.Nombre.like(nombre))
+                .unique();
+        return motivoFiscalia;
+    }
 }

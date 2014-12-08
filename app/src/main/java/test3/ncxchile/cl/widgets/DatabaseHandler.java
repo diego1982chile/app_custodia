@@ -47,9 +47,9 @@ public class DatabaseHandler{
     }
 
     // Read records related to the search term
-    public List<Institucion> read(String searchTerm) {
+    public List<Object> read(String searchTerm) {
 
-        List<Institucion> recordsList = new ArrayList<Institucion>();
+        List<Object> recordsList = new ArrayList<Object>();
 
         // select query
         String sql = "";
@@ -69,7 +69,7 @@ public class DatabaseHandler{
             do {
 
                 // int productId = Integer.parseInt(cursor.getString(cursor.getColumnIndex(fieldProductId)));
-                Institucion institucion = new Institucion(cursor.getLong(0),cursor.getString(1));
+                Object institucion = new Institucion(cursor.getLong(0),cursor.getString(1));
                 // add to list
                 recordsList.add(institucion);
 

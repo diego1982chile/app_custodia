@@ -109,5 +109,11 @@ public class MotivoDao extends AbstractDao<Motivo, Long> {
     protected boolean isEntityUpdateable() {
         return true;
     }
-    
+
+    public Motivo getByString(String nombre){
+        Motivo motivo= queryBuilder().
+                where(Properties.Nombre.like(nombre))
+                .unique();
+        return motivo;
+    }
 }

@@ -1,0 +1,13 @@
+1;Estado pintura;FALSE;0;1
+2;Estado carrocería;FALSE;1;1
+3;Estado ruedas;FALSE;0;1
+4;Estado cristales;FALSE;1;1
+5;Estado focos;FALSE;1;1
+6;Estado chapas;FALSE;0;1
+7;Abierto;TRUE;1;2
+8;Llaves del vehículos;TRUE;1;2
+9;Radio;TRUE;1;2
+10;Rueda de repuesto;TRUE;1;2
+11;Antena;TRUE;1;2
+12;Kit seguridad;TRUE;1;2
+13;Chapas;TRUE;0;2

@@ -19,7 +19,6 @@ import test3.ncxchile.cl.greenDAO.TipoVehiculoDao;
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.widgets.CustomAutoComplete;
 import test3.ncxchile.cl.widgets.CustomScrollView;
-import test3.ncxchile.cl.widgets.CustomSpinner;
 import test3.ncxchile.cl.widgets.PatenteEditText;
 import test3.ncxchile.cl.widgets.ScrollArrow;
 

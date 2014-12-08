@@ -17,7 +17,6 @@ import test3.ncxchile.cl.greenDAO.MotivoFiscaliaDao;
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.session.SessionManager;
 import test3.ncxchile.cl.widgets.CustomAutoComplete;
-import test3.ncxchile.cl.widgets.CustomSpinner;
 import test3.ncxchile.cl.widgets.RequiredEditText;
 
 /**
@@ -138,6 +137,21 @@ public class FragmentX2 extends android.app.Fragment {
 
         if(comunas.getText().toString().equals("")){
             comunas.setError(getString(R.string.error_field_required));
+            esValido=false;
+        }
+
+        if(comunas.getSelectedItem()==null){
+            comunas.setError("Debes seleccionar un item de la lista");
+            esValido=false;
+        }
+
+        if(spinner_motivo1.getSelectedItem()==null && spinner_motivo1.getVisibility()==View.VISIBLE){
+            spinner_motivo1.setError("Debes seleccionar un item de la lista");
+            esValido=false;
+        }
+
+        if(spinner_motivo2.getSelectedItem()==null && spinner_motivo2.getVisibility()==View.VISIBLE){
+            spinner_motivo2.setError("Debes seleccionar un item de la lista");
             esValido=false;
         }
 

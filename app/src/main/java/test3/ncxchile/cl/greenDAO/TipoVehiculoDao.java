@@ -109,5 +109,12 @@ public class TipoVehiculoDao extends AbstractDao<TipoVehiculo, Long> {
     protected boolean isEntityUpdateable() {
         return true;
     }
+
+    public TipoVehiculo getByString(String nombre){
+        TipoVehiculo tipoVehiculo= queryBuilder().
+                where(Properties.Nombre.like(nombre))
+                .unique();
+        return tipoVehiculo;
+    }
     
 }

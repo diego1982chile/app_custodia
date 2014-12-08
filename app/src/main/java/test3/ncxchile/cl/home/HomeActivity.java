@@ -101,8 +101,8 @@ public class HomeActivity extends Activity {
         String resultActa=null;
 
         try {
-            myInputActa = this.getAssets().open("ActaJson.json");
-            brActa = new BufferedReader((new InputStreamReader(myInputActa)));
+            myInputActa = this.getAssets().open("actaJson2.json");
+            brActa = new BufferedReader((new InputStreamReader(myInputActa,"UTF-8")));
             thisLineActa = brActa.readLine();
 
             StringBuilder sb = new StringBuilder();
@@ -111,7 +111,7 @@ public class HomeActivity extends Activity {
 
             try {
                 JSONObject jsonObject= new JSONObject(resultActa);
-                //actaController.crearActa(jsonObject);
+                //actaController.crearActaFromJson(jsonObject,tareaController.getTareaById(1));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -120,8 +120,8 @@ public class HomeActivity extends Activity {
             e.printStackTrace();
         }
 
-        //Acta acta= actaController.getActaByTarea(new Long(47));
-        //actaController.parseJson(acta);
+        Acta acta= actaController.getActaByTarea(new Long(1));
+        actaController.parseJson(acta);
 
         /**
          * Call this function whenever you want to check user login

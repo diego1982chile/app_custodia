@@ -14,7 +14,10 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import test3.ncxchile.cl.greenDAO.InstitucionDao;
+import test3.ncxchile.cl.greenDAO.TribunalDao;
 import test3.ncxchile.cl.login.R;
+import test3.ncxchile.cl.widgets.CustomAutoComplete;
 import test3.ncxchile.cl.widgets.CustomScrollView;
 import test3.ncxchile.cl.widgets.RequiredEditText;
 import test3.ncxchile.cl.widgets.ScrollArrow;
@@ -34,7 +37,8 @@ public class FragmentX3 extends android.app.Fragment {
     //view3_07: *Oficio remisor -> Texto
     //view3_08: *Tribunal competente -> Texto
 
-    public RequiredEditText view3_01, view3_02, view3_03, view3_04, view3_05, view3_06, view3_07, view3_08;
+    public RequiredEditText view3_01, view3_02, view3_03, view3_04, view3_05, view3_06, view3_07; //view3_08;
+    public CustomAutoComplete view3_08;
     public ScrollView scrollView;
 
     public FragmentX3 newInstance(int sectionNumber){
@@ -60,7 +64,9 @@ public class FragmentX3 extends android.app.Fragment {
         view3_05 = (RequiredEditText) rootView.findViewById(R.id.view3_05_ruc);
         view3_06 = (RequiredEditText) rootView.findViewById(R.id.view3_06_actaincautacion);
         view3_07 = (RequiredEditText) rootView.findViewById(R.id.view3_07_oficioremisor);
-        view3_08 = (RequiredEditText) rootView.findViewById(R.id.view3_08_tribunal);
+        //view3_08 = (RequiredEditText) rootView.findViewById(R.id.view3_08_tribunal);
+        view3_08 = (CustomAutoComplete) rootView.findViewById(R.id.view3_08_tribunal);
+        view3_08.setSource(TribunalDao.TABLENAME);
         scrollView = (ScrollView) rootView.findViewById( R.id.scrollView2);
         //errores = (RequiredEditText) rootView.findViewById(R.id.errores3);
 
@@ -70,7 +76,7 @@ public class FragmentX3 extends android.app.Fragment {
 
         //view3_01.setText(new SimpleDateFormat("dd-MM-yyyy").format(myActivity.acta.getFechaParte()));
 
-        /*
+
         view3_02.setText("1234");
         view3_03.setText("16");
         view3_04.setText("A-05");
@@ -78,7 +84,7 @@ public class FragmentX3 extends android.app.Fragment {
         view3_06.setText("1578");
         view3_07.setText("Fiscal");
         view3_08.setText("Tribunal oral");
-        */
+
 
         return rootView;
     }
@@ -123,6 +129,11 @@ public class FragmentX3 extends android.app.Fragment {
 
         if(view3_07.getText().toString().equals("")){
             view3_07.setError(getString(R.string.error_field_required));
+            esValido=false;
+        }
+
+        if(view3_08.getSelectedItem()==null){
+            view3_08.setError("Debes seleccionar un item de la lista");
             esValido=false;
         }
 

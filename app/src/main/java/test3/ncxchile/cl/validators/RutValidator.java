@@ -18,6 +18,16 @@ public abstract class RutValidator {
         return sCurrentPattern.matcher(s).matches();
     }
 
+    public static String parseRut(String rut){
+        if (rut.indexOf('.') > 0) {
+            rut = rut.replace(".", "");
+        }
+        if (rut.indexOf('-') > 0) {
+            rut=rut.replace("-","");
+        }
+        return rut;
+    }
+
     public static boolean isWellFormed(int rut, char dv ) {
         int m = 0, s = 1;
         for (; rut != 0; rut /= 10) {

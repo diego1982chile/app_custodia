@@ -287,7 +287,16 @@
                     android:textSize="18dp"
                     android:id="@+id/textView9" />
 
-                <test3.ncxchile.cl.widgets.RequiredEditText
+                <!--test3.ncxchile.cl.widgets.RequiredEditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/view3_08_tribunal"
+                    android:layout_weight="0.51"
+                    android:singleLine="true"
+                    android:imeOptions="actionNext"
+                    android:layout_marginLeft="15dp" /-->
+
+                <test3.ncxchile.cl.widgets.CustomAutoComplete
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/view3_08_tribunal"

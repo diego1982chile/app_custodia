@@ -11,6 +11,7 @@ public class DetalleEstadoVisual {
 
     private Long id;
     private Boolean valor;
+    private Boolean nombre;
     private String observacion;
     private long idVehiculo;
 
@@ -31,9 +32,10 @@ public class DetalleEstadoVisual {
         this.id = id;
     }
 
-    public DetalleEstadoVisual(Long id, Boolean valor, String observacion, long idVehiculo) {
+    public DetalleEstadoVisual(Long id, Boolean valor, Boolean nombre, String observacion, long idVehiculo) {
         this.id = id;
         this.valor = valor;
+        this.nombre = nombre;
         this.observacion = observacion;
         this.idVehiculo = idVehiculo;
     }
@@ -58,6 +60,14 @@ public class DetalleEstadoVisual {
 
     public void setValor(Boolean valor) {
         this.valor = valor;
+    }
+
+    public Boolean getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(Boolean nombre) {
+        this.nombre = nombre;
     }
 
     public String getObservacion() {

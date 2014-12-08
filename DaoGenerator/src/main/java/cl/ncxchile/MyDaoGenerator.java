@@ -28,7 +28,7 @@ public class MyDaoGenerator {
         addMotivoFiscalia(schema);
         addTipoVehiculo(schema);*/
 
-        //addVehiculoDetalleEstadoVisual(schema);
+        addTribunal(schema);
 
         //addCorreosTelefonosPersona(schema);
 
@@ -36,7 +36,7 @@ public class MyDaoGenerator {
 
         //addUserName(schema);
 
-        addTareaActaAccion(schema);
+        //addTareaActaAccion(schema);
 
         new DaoGenerator().generateAll(schema, "upload/src-gen");
     }
@@ -64,7 +64,14 @@ public class MyDaoGenerator {
         Entity vehiculo = schema.addEntity("Vehiculo");
         vehiculo.addIdProperty();
 
-        Entity detalleEstadoVisual = schema.addEntity("DetalleEstadoVisual");
+        Entity estadoVisual = schema.addEntity("EstadoVisual");
+        estadoVisual.addIdProperty();
+        estadoVisual.addStringProperty("nombre");
+        estadoVisual.addBooleanProperty("respuestaBinaria");
+        estadoVisual.addBooleanProperty("habilitado");
+        estadoVisual.addIntProperty("tipo");
+
+        Entity detalleEstadoVisual = schema.addEntity("FichaEstadoVisual");
         detalleEstadoVisual.addIdProperty();
         detalleEstadoVisual.addBooleanProperty("valor");
         detalleEstadoVisual.addStringProperty("observacion");
@@ -73,8 +80,15 @@ public class MyDaoGenerator {
         detalleEstadoVisual.addToOne(vehiculo, idVehiculo);
 
         ToMany vehiculoToDetalleEstadoVisual = vehiculo.addToMany(detalleEstadoVisual, idVehiculo);
-        vehiculoToDetalleEstadoVisual.setName("detalleEstadoVisual");
+        vehiculoToDetalleEstadoVisual.setName("FichaEstadoVisual");
         vehiculoToDetalleEstadoVisual.orderAsc(idVehiculo);
+
+        Property idEstadoVisual = detalleEstadoVisual.addLongProperty("idEstadoVisual").notNull().getProperty();
+        detalleEstadoVisual.addToOne(estadoVisual, idEstadoVisual);
+
+        ToMany estadoVisualToDetalleEstadoVisual = estadoVisual.addToMany(detalleEstadoVisual, idEstadoVisual);
+        estadoVisualToDetalleEstadoVisual.setName("FichaEstadoVisual");
+        estadoVisualToDetalleEstadoVisual.orderAsc(idEstadoVisual);
     }
 
     private static void addCorreosTelefonosPersona(Schema schema) {
@@ -214,5 +228,17 @@ public class MyDaoGenerator {
         ToMany customerToOrders = customer.addToMany(order, customerId);
         customerToOrders.setName("orders");
         customerToOrders.orderAsc(orderDate);
+    }
+
+    private static void addInstitucion(Schema schema) {
+        Entity institucion = schema.addEntity("Institucion");
+        institucion.addIdProperty();
+        institucion.addStringProperty("nombre");
+    }
+
+    private static void addTribunal(Schema schema) {
+        Entity institucion = schema.addEntity("Tribunal");
+        institucion.addIdProperty();
+        institucion.addStringProperty("nombre");
     }
 }

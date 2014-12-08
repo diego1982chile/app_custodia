@@ -1,0 +1,88 @@
+219;Carabineros;Carabinero Autoridad
+198;44ª Comisaría Lo Prado;Carabineros
+179;61 Subcomisaría Cabo 2° Pablo Silva Pizarro;Carabineros
+188;Subcom.Peñalolen;Carabineros
+197;Subcomisaría San Bernardo Centro;Carabineros
+164;Subcomisaría Cerrillos;Carabineros
+165;34 com. Vista Alegre;Carabineros
+166;45ª Comisaría Cerro Navia;Carabineros
+167;5ª Comisaría Conchali;Carabineros
+168;21ª Comisaría Estacion Central;Carabineros
+169;58  Comisaria Alessandri;Carabineros
+170;Dpto. Encargo y Búsqueda de Vehículos;Carabineros
+171;9ª Comisaría, Independencia;Carabineros
+172;30ª Comisaría Radiopatrullas;Carabineros
+173;39ª Comisaría del Tránsito Motorizada;Carabineros
+174;Subcomisaría Villa Moderna, Independencia;Carabineros
+175;Tenencia Juan Antonio Rios, Independencia;Carabineros
+176;10ª Comisaría; La Cisterna;Carabineros
+177;Tenencia Nueva España ;Carabineros
+178;36ª Comisaría La Florida;Carabineros
+180;Subcomisaría Los Quillayes;Carabineros
+181;41ª Comisaría La Pintana;Carabineros
+182;56 Comisaría Lo Barnechea;Carabineros
+183;44ª Comisaría Lo Prado;Carabineros
+196;14ª Comisaría San Bernardo;Carabineros
+195;Subcomisaría Lo Velasquez;Carabineros
+194;7ª Comisaría Renca;Carabineros
+193;Tenencia José Santos Ossa;Carabineros
+192;Tenencia El Salto;Carabineros
+191;6ª Comisaría Recoleta;Carabineros
+190;62 San Gerónimo;Carabineros
+189;20ª Comisaría Puente Alto;Carabineros
+187;Tenencia San Luís de Macul;Carabineros
+186;43ª Comisaría Peñalolen;Carabineros
+185;33ª Comisaría Los Libertadores, Ñuñoa;Carabineros
+184;18ª Comisaría Ñuñoa;Carabineros
+154421;Nom Institucion;Carabineros
+154423;Inst 3;Carabineros
+154411;Institucion Test 1;Carabineros
+200;2ª Comisaría Santiago Central;Carabineros
+201;3ª Comisaría Santiago Central;Carabineros
+199;1ª Comisaría Santiago Central;Carabineros
+154426;inst 4;Carabineros
+209;16a. Comisaria La Reina;Carabineros
+208;Tenencia Lo Castillo;Carabineros
+207;37ª Comisaría Vitacura;Carabineros
+206;38ª Comisaría de Mujeres;Carabineros
+205;34ª Comisaría de Menores (Masculino);Carabineros
+204;32ª Comisaría de Tránsito;Carabineros
+203;28ª y 29ª Comisaría Fuerzas Especiales;Carabineros
+202;4ª Comisaría Santiago Central;Carabineros
+154435;Segundo juzgado de Policia Local de Vitacura;Juzgado de Garantía
+3;Juzgado de Garantía;Juzgado de Garantía
+130;Juzgado Policía Local Cerrillos;Juzgado de Garantía
+131;Juzgado de Policía Local Conchali;Juzgado de Garantía
+132;Primer Juzgado Policía Local Estación Central;Juzgado de Garantía
+133;Segundo Juzgado Policía Local Estación Central;Juzgado de Garantía
+134;Juzgado de Policía Local Independencia;Juzgado de Garantía
+135;Juzgado Policía Local La Cisterna;Juzgado de Garantía
+136;Primer Juzgado de Policía Local La Florida;Juzgado de Garantía
+137;Tercer Juzgado de Policía Local La Florida;Juzgado de Garantía
+139;Juzgado de Policía Local Barnechea;Juzgado de Garantía
+140;Juzgado de Policía Local  Lo Prado;Juzgado de Garantía
+142;Segundo Juzgado Policía Local Ñuñoa;Juzgado de Garantía
+143;Juzgado Policía Local Local Peñalolén;Juzgado de Garantía
+147;Juzgado de Policía Local Renca;Juzgado de Garantía
+151;Juzgado de Policía Local San Ramon;Juzgado de Garantía
+152;Primer Juzgado Policía Local  Santiago;Juzgado de Garantía
+153;Segundo Juzgado Policía Local  Santiago;Juzgado de Garantía
+154;Tercer Juzgado Policía Local  Santiago;Juzgado de Garantía
+155;Cuarto Juzgado Policía Local  Santiago;Juzgado de Garantía
+156;Quinto Juzgado Policía Local  Santiago;Juzgado de Garantía
+158;Juzgado de Policía Local Cerro Navia;Juzgado de Garantía
+159;Segundo Juzgado de Policía Local La Florida;Juzgado de Garantía
+160;Juzgado de Policía Local La Reina;Juzgado de Garantía
+145;Segundo Juzgado Policía Local Puente Alto;Juzgado de Garantía
+146;Segundo Juzgado Policía Local Recoleta;Juzgado de Garantía
+148;Primer Juzgado Policía Local San Bernardo;Juzgado de Garantía
+141;Primer Juzgado Policía Local Ñuñoa ;Juzgado de Garantía
+149;Segundo Juzgado Policía Local San Bernardo;Juzgado de Garantía
+150;Segundo Juzgado Policía Local San Miguel;Juzgado de Garantía
+157;Juzgado Policía Local Vitacura;Juzgado de Garantía
+161;Primer Juzgado Policía Local Recoleta;Juzgado de Garantía
+162;Primer Juzgado Policá Local San Miguel;Juzgado de Garantía
+138;Juzgado de Policía Local Pintana;Juzgado de Garantía
+144;Primer Juzgado Policía Local Puente Alto;Juzgado de Garantía
+220;Juzgado sin definir;Juzgado de Garantía
+217;Policía de Investigaciones;Policía

@@ -17,16 +17,22 @@ import android.widget.AutoCompleteTextView;
 
 import java.util.List;
 
+import test3.ncxchile.cl.db.Global;
+import test3.ncxchile.cl.greenDAO.Comuna;
 import test3.ncxchile.cl.greenDAO.Institucion;
+import test3.ncxchile.cl.greenDAO.Motivo;
+import test3.ncxchile.cl.greenDAO.MotivoFiscalia;
+import test3.ncxchile.cl.greenDAO.TipoVehiculo;
+import test3.ncxchile.cl.greenDAO.Tribunal;
 import test3.ncxchile.cl.login.R;
 
 public class CustomAutoComplete extends AutoCompleteTextView {
 
     // just to add some initial value
-    Institucion[] items = {new Institucion()};
-    ArrayAdapter<Institucion> myAdapter;
+    Object[] items = {new Object()};
+    ArrayAdapter<Object> myAdapter;
     // adapter for auto-complete
-    Institucion itemSelected= new Institucion();
+    Object itemSelected= null;
     String myResource="";
 
     public CustomAutoComplete(Context context) {
@@ -47,6 +53,10 @@ public class CustomAutoComplete extends AutoCompleteTextView {
     public void setSource(String source){
         // just to add some initial value
         myResource=source;
+    }
+
+    public Object getSelectedItem(){
+        return itemSelected;
     }
 
     // this is how to disable AutoCompleteTextView filter
@@ -87,19 +97,38 @@ public class CustomAutoComplete extends AutoCompleteTextView {
      */
 
         try {
+
             TextWatcher fieldValidatorTextWatcher = new TextWatcher() {
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     // if you want to see in the logcat what the user types
+                    System.out.println("onTextChanged()");
 
                     // query the database based on the user input
                     items = getItemsFromDb(s.toString(), context);
 
                     // update the adapater
                     //myAdapter.notifyDataSetChanged();
-                    myAdapter = new ArrayAdapter<Institucion>(context, R.layout.item, R.id.item, items);
+                    myAdapter = new ArrayAdapter<Object>(context, R.layout.item, R.id.item, items);
                     setAdapter(myAdapter);
+
+                    System.out.println("myResource: "+myResource+" s.toString().length():"+s.toString().length());
+
+                    if(s.toString().length()>5){
+                        if(myResource.toLowerCase().equals("institucion"))
+                            itemSelected= Global.daoSession.getInstitucionDao().getByString(s.toString());
+                        if(myResource.toLowerCase().equals("tribunal"))
+                            itemSelected= Global.daoSession.getTribunalDao().getByString(s.toString());
+                        if(myResource.toLowerCase().equals("motivo"))
+                            itemSelected = Global.daoSession.getMotivoDao().getByString(s.toString());
+                        if(myResource.toLowerCase().equals("motivo_fiscalia"))
+                            itemSelected= Global.daoSession.getMotivoFiscaliaDao().getByString(s.toString());
+                        if(myResource.toLowerCase().equals("tipo_vehiculo"))
+                            itemSelected= Global.daoSession.getTipoVehiculoDao().getByString(s.toString());
+                        if(myResource.toLowerCase().equals("comuna"))
+                            itemSelected= Global.daoSession.getComunaDao().getByString(s.toString());
+                    }
                 }
 
                 @Override
@@ -115,10 +144,10 @@ public class CustomAutoComplete extends AutoCompleteTextView {
 
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    itemSelected= (Institucion)getAdapter().getItem(0);
-                    if(focusSearch(FOCUS_DOWN)!=null)
-                        focusSearch(FOCUS_DOWN).requestFocus();
-                    setError(null);
+                itemSelected= (Institucion)getAdapter().getItem(0);
+                if(focusSearch(FOCUS_DOWN)!=null)
+                    focusSearch(FOCUS_DOWN).requestFocus();
+                setError(null);
                 }
             };
 
@@ -137,11 +166,13 @@ public class CustomAutoComplete extends AutoCompleteTextView {
                     String s = getText().toString();
                     if (b) {
                         mText = s;
-                        itemSelected= new Institucion(new Long(0),s);
-                        setText("");
+                            setText("");
                     } else {
-                        setText(itemSelected.getNombre());
-                    }
+                            if(itemSelected!=null)
+                                setText(itemSelected.toString());
+                            else
+                                setText("");
+                        }
                 }
             };
 
@@ -162,18 +193,18 @@ public class CustomAutoComplete extends AutoCompleteTextView {
      }
 
     // this function is used in CustomAutoCompleteTextChangedListener.java
-    public Institucion[] getItemsFromDb(String searchTerm, Context context){
+    public Object[] getItemsFromDb(String searchTerm, Context context){
 
         // add items on the array dynamically
         DatabaseHandler DbH= new DatabaseHandler(context);
         DbH.setTable(myResource);
-        List<Institucion> instituciones = DbH.read(searchTerm);
+        List<Object> instituciones = DbH.read(searchTerm);
         int rowCount = instituciones.size();
 
-        Institucion[] mItem = new Institucion[rowCount];
+        Object[] mItem = new Object[rowCount];
         int x = 0;
 
-        for (Institucion record : instituciones) {
+        for (Object record : instituciones) {
 
             mItem[x] = record;
             x++;

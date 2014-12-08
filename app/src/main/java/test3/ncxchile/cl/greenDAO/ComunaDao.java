@@ -116,4 +116,11 @@ public class ComunaDao extends AbstractDao<Comuna, Long> {
                 .list();
         return instituciones;
     }
+
+    public Comuna getByString(String nombre){
+        Comuna comuna= queryBuilder().
+                where(Properties.Nombre.like(nombre))
+                .unique();
+        return comuna;
+    }
 }

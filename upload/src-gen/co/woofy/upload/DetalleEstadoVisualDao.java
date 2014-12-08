@@ -30,8 +30,9 @@ public class DetalleEstadoVisualDao extends AbstractDao<DetalleEstadoVisual, Lon
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Valor = new Property(1, Boolean.class, "valor", false, "VALOR");
-        public final static Property Observacion = new Property(2, String.class, "observacion", false, "OBSERVACION");
-        public final static Property IdVehiculo = new Property(3, long.class, "idVehiculo", false, "ID_VEHICULO");
+        public final static Property Nombre = new Property(2, Boolean.class, "nombre", false, "NOMBRE");
+        public final static Property Observacion = new Property(3, String.class, "observacion", false, "OBSERVACION");
+        public final static Property IdVehiculo = new Property(4, long.class, "idVehiculo", false, "ID_VEHICULO");
     };
 
     private DaoSession daoSession;
@@ -53,8 +54,9 @@ public class DetalleEstadoVisualDao extends AbstractDao<DetalleEstadoVisual, Lon
         db.execSQL("CREATE TABLE " + constraint + "'DETALLE_ESTADO_VISUAL' (" + //
                 "'_id' INTEGER PRIMARY KEY ," + // 0: id
                 "'VALOR' INTEGER," + // 1: valor
-                "'OBSERVACION' TEXT," + // 2: observacion
-                "'ID_VEHICULO' INTEGER NOT NULL );"); // 3: idVehiculo
+                "'NOMBRE' INTEGER," + // 2: nombre
+                "'OBSERVACION' TEXT," + // 3: observacion
+                "'ID_VEHICULO' INTEGER NOT NULL );"); // 4: idVehiculo
     }
 
     /** Drops the underlying database table. */
@@ -78,11 +80,16 @@ public class DetalleEstadoVisualDao extends AbstractDao<DetalleEstadoVisual, Lon
             stmt.bindLong(2, valor ? 1l: 0l);
         }
  
+        Boolean nombre = entity.getNombre();
+        if (nombre != null) {
+            stmt.bindLong(3, nombre ? 1l: 0l);
+        }
+ 
         String observacion = entity.getObservacion();
         if (observacion != null) {
-            stmt.bindString(3, observacion);
+            stmt.bindString(4, observacion);
         }
-        stmt.bindLong(4, entity.getIdVehiculo());
+        stmt.bindLong(5, entity.getIdVehiculo());
     }
 
     @Override
@@ -103,8 +110,9 @@ public class DetalleEstadoVisualDao extends AbstractDao<DetalleEstadoVisual, Lon
         DetalleEstadoVisual entity = new DetalleEstadoVisual( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getShort(offset + 1) != 0, // valor
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // observacion
-            cursor.getLong(offset + 3) // idVehiculo
+            cursor.isNull(offset + 2) ? null : cursor.getShort(offset + 2) != 0, // nombre
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // observacion
+            cursor.getLong(offset + 4) // idVehiculo
         );
         return entity;
     }
@@ -114,8 +122,9 @@ public class DetalleEstadoVisualDao extends AbstractDao<DetalleEstadoVisual, Lon
     public void readEntity(Cursor cursor, DetalleEstadoVisual entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setValor(cursor.isNull(offset + 1) ? null : cursor.getShort(offset + 1) != 0);
-        entity.setObservacion(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setIdVehiculo(cursor.getLong(offset + 3));
+        entity.setNombre(cursor.isNull(offset + 2) ? null : cursor.getShort(offset + 2) != 0);
+        entity.setObservacion(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setIdVehiculo(cursor.getLong(offset + 4));
      }
     
     /** @inheritdoc */

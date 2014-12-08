@@ -4,7 +4,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+
+import test3.ncxchile.cl.greenDAO.*;
+import test3.ncxchile.cl.greenDAO.FichaEstadoVisual;
 
 /**
  * Created by BOBO on 07-08-2014.
@@ -17,14 +21,17 @@ public class DatosPDF implements Serializable {
     boolean view2_00;
     public String view2_01, view2_02, view2_03, view2_04, view2_05, view2_06;
     // Fragment 3
-    public String view3_01, view3_02, view3_03, view3_04, view3_05, view3_06, view3_07, view3_08;
+    public String view3_01, view3_02, view3_03, view3_04, view3_05, view3_06, view3_07;
+    public long view3_08;
     // Fragment 4
     public String view4_00, view4_01, view4_02, view4_03, view4_05, view4_07, view4_08, view4_04, view4_06;
     boolean view4_09;
     // Fragment 5
     public boolean view5_01, view5_02;
-    public String view5_03, view5_04, view5_05, view5_06, view5_07, view5_08, view5_09;
-    public boolean view5_10, view5_11, view5_12, view5_13, view5_14, view5_15, view5_16, view5_17;
+    public String view5_03; //view5_04, view5_05, view5_06, view5_07, view5_08, view5_09;
+    //public boolean view5_10, view5_11, view5_12, view5_13, view5_14, view5_15, view5_16, view5_17;
+
+    public ArrayList<FichaEstadoVisual> view5;
     // Fragment 6
     public String view6_01, view6_02, view6_02_paterno, view6_02_materno, view6_03, view6_04, view6_05, view6_06, view6_06_paterno, view6_06_materno, view6_07, view6_08, view6_09, view6_10;
     // Fragment 7
@@ -264,11 +271,11 @@ public class DatosPDF implements Serializable {
         this.view3_07 = view3_07;
     }
 
-    public String getView3_08() {
+    public long getView3_08() {
         return view3_08;
     }
 
-    public void setView3_08(String view3_08) {
+    public void setView3_08(long view3_08) {
         this.view3_08 = view3_08;
     }
 
@@ -504,116 +511,10 @@ public class DatosPDF implements Serializable {
         this.view5_03 = view5_03;
     }
 
-    public String getView5_04() {
-        return view5_04;
-    }
+    public ArrayList<test3.ncxchile.cl.greenDAO.FichaEstadoVisual> getView5(){ return view5; }
 
-    public void setView5_04(String view5_04) {
-        this.view5_04 = view5_04;
-    }
-
-    public String getView5_05() {
-        return view5_05;
-    }
-
-    public void setView5_05(String view5_05) {
-        this.view5_05 = view5_05;
-    }
-
-    public String getView5_06() {
-        return view5_06;
-    }
-
-    public void setView5_06(String view5_06) {
-        this.view5_06 = view5_06;
-    }
-
-    public String getView5_07() {
-        return view5_07;
-    }
-
-    public void setView5_07(String view5_07) {
-        this.view5_07 = view5_07;
-    }
-
-    public String getView5_08() {
-        return view5_08;
-    }
-
-    public void setView5_08(String view5_08) {
-        this.view5_08 = view5_08;
-    }
-
-    public String getView5_09() {
-        return view5_09;
-    }
-
-    public void setView5_09(String view5_09) {
-        this.view5_09 = view5_09;
-    }
-
-    public boolean getView5_10() {
-        return view5_10;
-    }
-
-    public void setView5_10(boolean view5_10) {
-        this.view5_10 = view5_10;
-    }
-
-    public boolean getView5_11() {
-        return view5_11;
-    }
-
-    public void setView5_11(boolean view5_11) {
-        this.view5_11 = view5_11;
-    }
-
-    public boolean getView5_12() {
-        return view5_12;
-    }
-
-    public void setView5_12(boolean view5_12) {
-        this.view5_12 = view5_12;
-    }
-
-    public boolean getView5_13() {
-        return view5_13;
-    }
-
-    public void setView5_13(boolean view5_13) {
-        this.view5_13 = view5_13;
-    }
-
-    public boolean getView5_14() {
-        return view5_14;
-    }
-
-    public void setView5_14(boolean view5_14) {
-        this.view5_14 = view5_14;
-    }
-
-    public boolean getView5_15() {
-        return view5_15;
-    }
-
-    public void setView5_15(boolean view5_15) {
-        this.view5_15 = view5_15;
-    }
-
-    public boolean getView5_16() {
-        return view5_16;
-    }
-
-    public void setView5_16(boolean view5_16) {
-        this.view5_16 = view5_16;
-    }
-
-    public boolean getView5_17() {
-        return view5_17;
-    }
-
-    public void setView5_17(boolean view5_17) {
-        this.view5_17 = view5_17;
+    public void setView5(ArrayList<test3.ncxchile.cl.greenDAO.FichaEstadoVisual> fichaEstadoVisualList){
+        this.view5=fichaEstadoVisualList;
     }
 
     public ArrayList getView8_01() {

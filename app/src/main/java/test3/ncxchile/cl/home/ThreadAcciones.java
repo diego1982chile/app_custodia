@@ -164,8 +164,8 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                         System.out.println("Leyendo actaJSON a la mala = "+ actaJSON);
                     }
                     */
-                    //String actaJSON = acta.getActaJson();
-                    String actaJSON = actaController.parseJson(acta).toString();
+                    String actaJSON = acta.getActaJson();
+                    //String actaJSON = actaController.parseJson(acta).toString();
 
                     String recinto = tarea.getRecinto();
                     System.out.println("Recinto=" + recinto);
@@ -262,8 +262,6 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                 System.out.println("buscarActaJSON=" + source + "=" + value + "(" + value.size() + ")");
                 JSONObject obj = (JSONObject) value.get(0);
                 String json = obj.toString();
-
-
 
                 ActaController actaController= new ActaController(context);
 
