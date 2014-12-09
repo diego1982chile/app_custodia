@@ -100,7 +100,7 @@ public class ActaController {
             actaJson.putOpt("idOt",actaTemplateJson.optLong("idOt"));
             actaJson.putOpt("observacionImgenes",acta.getObservacionImgenes());
             actaJson.putOpt("montoFactura",actaTemplateJson.optLong("montoFactura"));
-            actaJson.putOpt("gruaExterna",actaTemplateJson.optLong("gruaExterna"));
+            actaJson.putOpt("gruaExterna",actaTemplateJson.optBoolean("gruaExterna"));
 
             //Setear vehiculoData
             if(acta.getVehiculoData()!=null){
@@ -160,9 +160,10 @@ public class ActaController {
                             vehiculoJson.putOpt("carpetaVehiculo", vehiculoTemplateJson.optLong("carpetaVehiculo"));
                             vehiculoJson.putOpt("modificado", vehiculoTemplateJson.optBoolean("modificado"));
                             vehiculoJson.putOpt("id", vehiculoTemplateJson.optLong("id"));
-                            vehiculoJson.putOpt("clonado", vehiculoTemplateJson.optLong("clonado"));
+                            vehiculoJson.putOpt("clonado", vehiculoTemplateJson.optBoolean("clonado"));
                             vehiculoJson.putOpt("vin", vehiculoTemplateJson.optLong("vin"));
                             vehiculoJson.putOpt("caracteristicas", vehiculoTemplateJson.optString("caracteristicas"));
+                            vehiculoJson.putOpt("servicio", vehiculoTemplateJson.optLong("servicio"));
                             vehiculoJson.putOpt("puedeRodar", vehiculoTemplateJson.optBoolean("puedeRodar"));
                         }
                     }
@@ -247,7 +248,7 @@ public class ActaController {
 
                 actaJson.putOpt("fechaParte",acta.getFechaParte().getTime());
                 actaJson.putOpt("servicio",actaTemplateJson.optLong("servicio"));
-                actaJson.putOpt("cargaInicial",actaTemplateJson.optLong("cargaInicial"));
+                actaJson.putOpt("cargaInicial",actaTemplateJson.optBoolean("cargaInicial"));
                 actaJson.putOpt("existImage",acta.getExistImage());
                 actaJson.putOpt("idSolicitud",actaTemplateJson.optLong("idSolicitud"));
                 actaJson.putOpt("fechaCreacion",acta.getFechaCreacion().getTime());
@@ -357,8 +358,14 @@ public class ActaController {
                 actaJson.putOpt("idGrua",actaTemplateJson.optLong("idGrua"));
                 actaJson.putOpt("actaIncautacion",acta.getActaIncautacion());
                 actaJson.putOpt("id",actaTemplateJson.optLong("id"));
-                actaJson.putOpt("nombreExterno",actaTemplateJson.optLong("nombreExterno"));
-                actaJson.putOpt("observacion",actaTemplateJson.optLong("observacion"));
+                if(actaTemplateJson.optLong("nombreExterno")==0)
+                    actaJson.putOpt("nombreExterno",null);
+                else
+                    actaJson.putOpt("nombreExterno",actaTemplateJson.optLong("nombreExterno"));
+                if(actaTemplateJson.optLong("observacion")==0)
+                    actaJson.putOpt("observacion",null);
+                else
+                    actaJson.putOpt("observacion",actaTemplateJson.optLong("observacion"));
 
                 Tribunal tribunal=Global.daoSession.getTribunalDao().getById(acta.getTribunalID());
 
@@ -422,15 +429,20 @@ public class ActaController {
                     acta.setOficioRemisor(actaJson.optString("oficioRemisor"));
                     acta.setParte(actaJson.optString("parte"));
                     acta.setIdOt(actaJson.optInt("idOt"));
-                    acta.setMontoFactura(actaJson.optInt("montoFactura"));
+                    if(actaJson.optInt("montoFactura")==0)
+                        acta.setMontoFactura(null);
+                    else
+                        acta.setMontoFactura(actaJson.optInt("montoFactura"));
                     acta.setGruaExterna(actaJson.optBoolean("gruaExterna"));
                     acta.setServicio(actaJson.optInt("servicio"));
                     acta.setCargaInicial(actaJson.optBoolean("cargaInicial"));
                     acta.setIdSolicitud(actaJson.optInt("idSolicitud"));
                     acta.setFechaCreacion(new Date(actaJson.optLong("fechaCreacion")));
                     acta.setCausaRetiro(actaJson.optString("causaRetiro"));
-                    acta.setIdGrua(actaJson.optInt("idGrua"));
-
+                    if(actaJson.optInt("idGrua")==0)
+                        acta.setIdGrua(null);
+                    else
+                        acta.setIdGrua(actaJson.optInt("idGrua"));
                     // Setear grua en la sesión
 
                     Global.sessionManager.setGrua(actaJson.optString("idGrua"));

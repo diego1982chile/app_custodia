@@ -39,7 +39,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/scrollView"
         android:layout_marginTop="10dp"
-        android:layout_below="@id/imageView1"
         android:fadeScrollbars="false"
         android:scrollbarStyle="insideOverlay">
         <LinearLayout

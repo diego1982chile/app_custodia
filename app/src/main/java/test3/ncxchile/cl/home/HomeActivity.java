@@ -85,6 +85,7 @@ public class HomeActivity extends Activity {
 
     public AlertDialog alertDialog;
     public AlertDialog dialogActa;
+    public AlertDialog tareaDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,11 +193,14 @@ public class HomeActivity extends Activity {
         threadMapas = new ThreadMapas(20000, 20000, HomeActivity.this, getApplicationContext());
         threadMapas.start();
 
+        Drawable errorIcon = getResources().getDrawable(R.drawable.luzroja);
+        Drawable warningIcon = getResources().getDrawable(R.drawable.luzamarilla);
+        Drawable successIcon = getResources().getDrawable(R.drawable.luzverde);
+
         alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setTitle("GPS/Hora");
         alertDialog.setMessage("El GPS y la Hora del sistema deben estar habilitados. Por favor chequea la configuración");
 
-        Drawable errorIcon = getResources().getDrawable(R.drawable.action_fail_small);
         alertDialog.setIcon(errorIcon);
         alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Aceptar",new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
@@ -205,10 +209,20 @@ public class HomeActivity extends Activity {
 
         dialogActa = new AlertDialog.Builder(this).create();
         dialogActa.setTitle("Error Acta");
-        dialogActa.setMessage("El Acta de Recepción asociada a esta Orden de Trabajo aún no ha sido sincronizada con la tablet. Por favor vuelve a intentarlo en unos minutos");
+        dialogActa.setMessage("El Acta asociada a esta OT aún no ha sido sincronizada. Por favor vuelve a intentarlo en unos minutos");
 
         dialogActa.setIcon(errorIcon);
         dialogActa.setButton(Dialog.BUTTON_POSITIVE, "Aceptar",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        tareaDialog = new AlertDialog.Builder(this).create();
+        tareaDialog.setTitle("Tarea Timeout");
+        tareaDialog.setMessage("Tiempo de espera agotado, tarea desasignada.");
+
+        tareaDialog.setIcon(errorIcon);
+        tareaDialog.setButton(Dialog.BUTTON_POSITIVE, "Aceptar",new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
             }
         });
@@ -392,7 +406,7 @@ public class HomeActivity extends Activity {
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.setTitle("Confirmación");
             alertDialog.setMessage("¿Estás seguro de tomar ésta tarea?");
-            alertDialog.setIcon(R.drawable.luzverde);
+            alertDialog.setIcon(R.drawable.luzamarilla);
             alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                 // Habilitar siguiente accion
@@ -436,7 +450,7 @@ public class HomeActivity extends Activity {
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.setTitle("Confirmación");
             alertDialog.setMessage("¿Estas seguro de confirmar arribo?");
-            alertDialog.setIcon(R.drawable.luzverde);
+            alertDialog.setIcon(R.drawable.luzamarilla);
             alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     // Habilitar siguiente accion
@@ -509,7 +523,7 @@ public class HomeActivity extends Activity {
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.setTitle("Confirmación");
             alertDialog.setMessage("¿Estas seguro de iniciar traslado?");
-            alertDialog.setIcon(R.drawable.luzverde);
+            alertDialog.setIcon(R.drawable.luzamarilla);
             alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     // Habilitar siguiente accion
@@ -592,8 +606,6 @@ public class HomeActivity extends Activity {
             alertDialog.show();
         }
         */
-
-
     }
 
     public void imprimirPDF(View view){
@@ -616,7 +628,7 @@ public class HomeActivity extends Activity {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         if(!storageDir.exists())
-            Toast.makeText(this, "No existe el documento asociado a esta Orden de trabajo.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No existe el documento de Acta asociado a esta OT.", Toast.LENGTH_SHORT).show();
 
         try {
             //context.startActivity(intent);

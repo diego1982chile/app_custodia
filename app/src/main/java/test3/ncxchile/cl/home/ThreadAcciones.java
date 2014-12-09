@@ -1,6 +1,10 @@
 package test3.ncxchile.cl.home;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -21,9 +25,11 @@ import test3.ncxchile.cl.greenDAO.Acta;
 import test3.ncxchile.cl.greenDAO.Firma;
 import test3.ncxchile.cl.greenDAO.Tarea;
 import test3.ncxchile.cl.helpers.InternetDetector;
+import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.soap.JSONUtil;
 import test3.ncxchile.cl.soap.SoapHandler;
 import test3.ncxchile.cl.soap.SoapProxy;
+import test3.ncxchile.cl.widgets.ErrorDialog;
 
 /**
  * Created by android-developer on 04-11-2014.
@@ -52,15 +58,30 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
 
     private Hashtable<Long, Integer> retryCount = null;
 
+    private AlertDialog tareaDialog;
+
 
     public ThreadAcciones(long startTime, long interval, Context activityContext, Context appContext)
     {
         super(startTime, interval);
         this.appContext = appContext;
+        this._context = activityContext;
 
         accionController = new AccionController(appContext);
         actaController = new ActaController(appContext);
         tareaController = new TareaController(appContext);
+
+        tareaDialog = new AlertDialog.Builder(activityContext).create();
+        tareaDialog.setTitle("Tarea Timeout");
+        tareaDialog.setMessage("Tiempo de espera agotado, tarea desasignada.");
+
+        Drawable errorIcon = appContext.getResources().getDrawable(R.drawable.luzroja);
+
+        tareaDialog.setIcon(errorIcon);
+        tareaDialog.setButton(Dialog.BUTTON_POSITIVE, "Aceptar",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
 
         actasJSON = new Hashtable<Long, String>();
 
@@ -228,21 +249,27 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                     Accion siguienteAccion = (Accion) source;
                     Tarea tarea = siguienteAccion.getTarea();
                     tareaController.setStatusTarea(tarea.getId(),4);
-                    siguienteAccion.setSincronizada(true);
-                    siguienteAccion.update();
+                    Global.daoSession.getAccionDao().discardAcciones(tarea.getId());
+                    //siguienteAccion.setSincronizada(true);
+                    //siguienteAccion.update();
                     Global.sessionManager.setTareaActiva(-1);
                     // Setear estado de la tarea activa en la sesión
                     // Actualizar estado de la tarea activa en la sesión
                     Global.sessionManager.setServicio(-1);
                     for(int i=0;i<context.tareas.getChildCount();++i){
                         if(context.tareas.getChildAt(i).getId()==tarea.getId()){
+                            tareaDialog.show();
+                            HomeActivity.setEnabled(HomeActivity.tomarTarea,false);
+                            HomeActivity.setEnabled(HomeActivity.confirmarArribo,false);
+                            HomeActivity.setEnabled(HomeActivity.completarActa,false);
+                            HomeActivity.setEnabled(HomeActivity.retiroRealizado,false);
+                            HomeActivity.setEnabled(HomeActivity.pdf,false);
                             TableRow row=(TableRow)context.tareas.getChildAt(i);
                             row.removeAllViews();
                         }
                     }
                 }
             }
-
         }
         else if (methodName.equals("confirmarArribo")) {
             if (value == null) {

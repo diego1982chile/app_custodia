@@ -4,11 +4,15 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 
 import android.os.Build;
@@ -73,6 +77,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
     private String rutActual = null;
 
     private GruaDialogFragment gruaDialogFragment;
+    public AlertDialog errorDialog;
 
     public static User usuario;
 
@@ -117,6 +122,17 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
             SoapProxy.backupGruero(this);
         }
 
+        errorDialog = new AlertDialog.Builder(this).create();
+        errorDialog.setTitle("Error de Autenticación");
+        errorDialog.setMessage("El usuario no existe o la contraseña es incorrecta");
+
+        Drawable errorIcon = getResources().getDrawable(R.drawable.luzroja);
+
+        errorDialog.setIcon(errorIcon);
+        errorDialog.setButton(Dialog.BUTTON_POSITIVE, "Aceptar",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
 
     }
 
@@ -235,15 +251,15 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
                 {
                     case -1:
                         //System.out.println("No existe el usuario");
-                        ed.show();
+                        errorDialog.show();
                         break;
                     case -2:
                         //System.out.println("el rut es ambiguo: mas de un usuario con el mismo rut");
-                        ed.show();
+                        errorDialog.show();
                         break;
                     case -3:
                         //System.out.println("password incorrecta");
-                        ed.show();
+                        errorDialog.show();
                         break;
                     case 1:
                         // Simulate network access.
@@ -252,7 +268,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
                         final UUID idSesion= UUID.randomUUID();
                         usuario = mAuthTask.getUsuario();
                         if (usuario == null) {
-                            ed.show();
+                            errorDialog.show();
                             break;
                         }
 

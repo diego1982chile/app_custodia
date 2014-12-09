@@ -92,8 +92,8 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
     public void onFinish()
     {
         // Cada vez que finaliza la cuenta regresiva, actualizar las tareas
-        forzarActualizarTareas();
-        //actualizarTareas();
+        //forzarActualizarTareas();
+        actualizarTareas();
         start();
     }
 
@@ -113,6 +113,9 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
         if(isInternetPresent){
             desconexionPrevia=false;
 
+            System.out.println("LLAMANDO WEB SERVICE: " + rut);
+            SoapProxy.buscarOTS(rut, this);
+
             if(!conexionPrevia) {
                 // Si no hay conexion previa se consumen los webservices para obtener las tareas asignadas
                 conexionPrevia=true;
@@ -121,9 +124,10 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
                 Logger.log("Internet Connection Acquired");
                 //System.out.println("Voy a consumir un WebService para sincronizar la app con el sistema RTEWEB");
 
+                /*
                 System.out.println("LLAMANDO WEB SERVICE: " + rut);
                 SoapProxy.buscarOTS(rut, this);
-
+                */
 
             }
         }else{
