@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.TextView;
 
 import test3.ncxchile.cl.login.R;
 
@@ -18,6 +19,7 @@ public class ErrorDialog extends Dialog implements android.view.View.OnClickList
     public Activity c;
     public Dialog d;
     public Button yes;
+    public TextView title,message;
 
     public ErrorDialog(Activity a) {
         super(a);
@@ -33,6 +35,8 @@ public class ErrorDialog extends Dialog implements android.view.View.OnClickList
         setContentView(R.layout.error_dialog);
         yes = (Button) findViewById(R.id.btn_yes);
         yes.setOnClickListener(this);
+        title=(TextView)findViewById(R.id.txt_error_titulo);
+        message=(TextView)findViewById(R.id.txt_error_mensaje);
     }
 
     @Override
@@ -45,5 +49,13 @@ public class ErrorDialog extends Dialog implements android.view.View.OnClickList
                 break;
         }
         dismiss();
+    }
+
+    public void setTitulo(CharSequence s){
+        title.setText(s);
+    }
+
+    public void setMensaje(CharSequence s){
+        message.setText(s);
     }
 }

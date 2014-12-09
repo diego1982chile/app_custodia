@@ -100,12 +100,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
-
-
         //mEmailView.setText("118522451"); // DEV VM
         //mPasswordView.setText("Murillo1"); // DEV VM
-        mEmailView.setText("66221261");
-        mPasswordView.setText("Ncx123456");
+        //mEmailView.setText("66221261");
+        //mPasswordView.setText("Ncx123456");
 
         gruaDialogFragment = new GruaDialogFragment();
 

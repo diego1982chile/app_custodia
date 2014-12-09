@@ -48,15 +48,15 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
     private long timeElapsed;
     private boolean timerHasStarted = false;
     // variable tipo flag para no consumir el web service innecesariamente
-    private boolean conexionPrevia = false;
-    private boolean desconexionPrevia = false;
+    private static boolean conexionPrevia = false;
+    private static boolean desconexionPrevia = false;
 
     private long startTime;
     private long interval;
 
-    private Context _context;
-    protected HomeActivity context;
-    private TareaController tareaController;
+    private static Context _context;
+    protected static HomeActivity context;
+    private static TareaController tareaController;
     private AccionController accionController;
 
     private SQLiteDatabase db;
@@ -92,7 +92,8 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
     public void onFinish()
     {
         // Cada vez que finaliza la cuenta regresiva, actualizar las tareas
-        actualizarTareas();
+        forzarActualizarTareas();
+        //actualizarTareas();
         start();
     }
 
@@ -100,7 +101,7 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
         InternetDetector cd = new InternetDetector(_context); //instancie el objeto
         Boolean isInternetPresent = cd.hayConexion(); // true o false dependiendo de si hay conexion
 
-        HashMap<String, String> user = session.getUserDetails();
+        HashMap<String, String> user = Global.sessionManager.getUserDetails();
         String rutGruero = user.get(SessionManager.KEY_RUT);
 
         System.out.println("RUT GRUERO= " + rutGruero);
@@ -154,7 +155,7 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
         InternetDetector cd = new InternetDetector(_context); //instancie el objeto
         Boolean isInternetPresent = cd.hayConexion(); // true o false dependiendo de si hay conexion
 
-        HashMap<String, String> user = session.getUserDetails();
+        HashMap<String, String> user = Global.sessionManager.getUserDetails();
         String rutGruero = user.get(SessionManager.KEY_RUT);
 
         System.out.println("RUT GRUERO= " + rutGruero);
@@ -262,7 +263,7 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
     //<img src='"+successIcon+"'>
     //><img src='"+failIcon+"'>
 
-    public void notificarConexion(final boolean conectado){
+    public static void notificarConexion(final boolean conectado){
         context.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -279,7 +280,7 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
         });
     }
 
-    public void actualizarTablaTareas(final List tareas){
+    public static void actualizarTablaTareas(final List tareas){
         //System.out.println("size="+tareas.size());
         if (tareas == null) {
             return;

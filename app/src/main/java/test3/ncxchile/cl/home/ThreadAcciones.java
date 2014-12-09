@@ -2,6 +2,9 @@ package test3.ncxchile.cl.home;
 
 import android.content.Context;
 import android.os.CountDownTimer;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TableRow;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,6 +46,7 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
     private Context appContext;
     private AccionController accionController;
     private ActaController actaController;
+    private TareaController tareaController;
 
     private Hashtable<Long,String> actasJSON = null;
 
@@ -56,6 +60,7 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
 
         accionController = new AccionController(appContext);
         actaController = new ActaController(appContext);
+        tareaController = new TareaController(appContext);
 
         actasJSON = new Hashtable<Long, String>();
 
@@ -85,9 +90,8 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
             username = "tester"; // TODO temporal
         }
 
-
-
         System.out.println("Sincronizar Acciones = " + accionController.accionEnCola() + "(" + username + ") =" + sincronizando);
+
 
         if(!sincronizando && accionController.accionEnCola()){
             sincronizando=true;
@@ -164,8 +168,8 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                         System.out.println("Leyendo actaJSON a la mala = "+ actaJSON);
                     }
                     */
-                    String actaJSON = acta.getActaJson();
-                    //String actaJSON = actaController.parseJson(acta).toString();
+                    //String actaJSON = acta.getActaJson();
+                    String actaJSON = actaController.parseJson(acta).toString();
 
                     String recinto = tarea.getRecinto();
                     System.out.println("Recinto=" + recinto);
@@ -220,8 +224,23 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                     /*
                     Acción si retorna un mensaje de error
                      */
+                    System.out.println("No se pudo confirmar la OT!!!");
+                    Accion siguienteAccion = (Accion) source;
+                    Tarea tarea = siguienteAccion.getTarea();
+                    tareaController.setStatusTarea(tarea.getId(),4);
+                    siguienteAccion.setSincronizada(true);
+                    siguienteAccion.update();
+                    Global.sessionManager.setTareaActiva(-1);
+                    // Setear estado de la tarea activa en la sesión
+                    // Actualizar estado de la tarea activa en la sesión
+                    Global.sessionManager.setServicio(-1);
+                    for(int i=0;i<context.tareas.getChildCount();++i){
+                        if(context.tareas.getChildAt(i).getId()==tarea.getId()){
+                            TableRow row=(TableRow)context.tareas.getChildAt(i);
+                            row.removeAllViews();
+                        }
+                    }
                 }
-
             }
 
         }

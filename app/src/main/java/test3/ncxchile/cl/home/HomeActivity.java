@@ -63,7 +63,7 @@ public class HomeActivity extends Activity {
     public Drawable marca;
     public int marcada;
     public ImageView erroress,iconoGps,iconoHora;
-    public TableLayout tareas;
+    public static TableLayout tareas;
     //public TableFixHeaders tareas;
     public TextView statusGps,statusHora;
     public FrameLayout statusMensajes,historialAcciones;
@@ -120,8 +120,8 @@ public class HomeActivity extends Activity {
             e.printStackTrace();
         }
 
-        Acta acta= actaController.getActaByTarea(new Long(1));
-        actaController.parseJson(acta);
+        //Acta acta= actaController.getActaByTarea(new Long(1));
+        //actaController.parseJson(acta);
 
         /**
          * Call this function whenever you want to check user login

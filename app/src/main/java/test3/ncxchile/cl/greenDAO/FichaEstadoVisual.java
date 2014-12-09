@@ -8,7 +8,7 @@ import de.greenrobot.dao.DaoException;
 /**
  * Entity mapped to table FICHA_ESTADO_VISUAL.
  */
-public class FichaEstadoVisual implements Serializable {
+public class FichaEstadoVisual implements Serializable{
 
     private Long id;
     private Boolean valor;
