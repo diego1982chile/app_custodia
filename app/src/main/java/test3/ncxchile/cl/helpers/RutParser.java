@@ -5,9 +5,8 @@ package test3.ncxchile.cl.helpers;
  */
 public abstract class RutParser {
 
-    public static Integer parseRut(String str){
+    public static String parseRut(String str){
 
-        int rut=0;
         if (str.indexOf('.') > 0) {
             str=str.replace(".","");
         }
@@ -17,14 +16,7 @@ public abstract class RutParser {
         if (str.indexOf('-') > 0) {
             str=str.replace("-","");
         }
-
-        try {
-            rut = Integer.parseInt(str.subSequence(0,str.length()-1).toString());
-        } catch(NumberFormatException nfe) {
-            //System.out.println("Could not parse " + nfe);
-            return -1;
-        }
-        return rut;
+        return str;
     }
 
     public static String formatRut(String rut){
