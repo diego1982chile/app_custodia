@@ -111,16 +111,17 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
             username = "tester"; // TODO temporal
         }
 
-        System.out.println("Sincronizar Acciones = " + accionController.accionEnCola() + "(" + username + ") =" + sincronizando);
+        System.out.println("Sincronizar Acciones = " + accionController.accionEnCola() + " (" + username + ") =" + sincronizando);
 
 
         if(!sincronizando && accionController.accionEnCola()){
-            sincronizando=true;
 
             InternetDetector cd = new InternetDetector(appContext); //instancie el objeto
             Boolean isInternetPresent = cd.hayConexion(); // true o false dependiendo de si hay conexion
             // Si hay conexion autenticar online. Si no hay conexion autenticar offline
             if(isInternetPresent){
+                sincronizando=true;
+
                 Accion siguienteAccion=accionController.dequeue();
 
                 String nombreAccion = siguienteAccion.getNombre();
@@ -129,7 +130,6 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                 if (nombreAccion.equals("Tarea Tomada")) {
                     Tarea tarea = siguienteAccion.getTarea();
                     SoapProxy.confirmarOT(tarea.getServicio(), tarea.getFecha(), username, siguienteAccion, this);
-
 
                 }
                 else if (nombreAccion.equals("Buscar Acta")) {

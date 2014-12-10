@@ -110,7 +110,7 @@ public class FragmentX6_2 extends android.app.Fragment {
                         final EditText observacion= new EditText(getActivity());
                         params = new TableRow.LayoutParams(700,TableRow.LayoutParams.WRAP_CONTENT);
                         params.setMargins(15, 5, 5, 5);
-                        observacion.setInputType(InputType.TYPE_CLASS_TEXT);
+                        observacion.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
                         observacion.setLayoutParams(params);
                         observacion.setHint("Ingresar Observación");
                         linearLayout.addView(observacion);
@@ -179,14 +179,16 @@ public class FragmentX6_2 extends android.app.Fragment {
                                 fichaEstadoVisual.setObservacion("Sin Observación");
                             }
                             fichaEstadoVisual.setIdEstadoVisual(tablaEstadoVisual.getChildAt(i).getId());
-                            fichaEstadoVisualList.add(fichaEstadoVisual);
+                            if(!fichaEstadoVisualList.contains(fichaEstadoVisual))
+                                fichaEstadoVisualList.add(fichaEstadoVisual);
                         }
                         if(linearLayout.getChildAt(1) instanceof Switch){
                             Switch opcion= (Switch)linearLayout.getChildAt(1);
                             fichaEstadoVisual.setValor(opcion.isChecked());
                             fichaEstadoVisual.setObservacion(null);
                             fichaEstadoVisual.setIdEstadoVisual(tablaEstadoVisual.getChildAt(i).getId());
-                            fichaEstadoVisualList.add(fichaEstadoVisual);
+                            if(!fichaEstadoVisualList.contains(fichaEstadoVisual))
+                                fichaEstadoVisualList.add(fichaEstadoVisual);
                         }
                     }
                 }

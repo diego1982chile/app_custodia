@@ -161,6 +161,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/view2_02_avocalle"
                 android:layout_weight="0.51"
+                android:inputType="textCapWords"
                 android:maxLength="40"
                 android:singleLine="true"
                 android:imeOptions="actionNext"
@@ -217,6 +218,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/entrecalles_ret"
                 android:textColor="#003076"
+                android:inputType="textCapWords"
                 android:textSize="18dp"
                 android:layout_marginTop="8dp"
                 android:id="@+id/textView4" />
@@ -294,6 +296,7 @@
                 android:layout_weight="0.51"
                 android:singleLine="true"
                 android:imeOptions="actionNext"
+                android:inputType="textCapWords"
                 android:maxLength="70"
                 android:layout_marginLeft="15dp" />
         </TableRow>

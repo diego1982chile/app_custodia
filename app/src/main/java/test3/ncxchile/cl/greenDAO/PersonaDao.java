@@ -269,6 +269,7 @@ public class PersonaDao extends AbstractDao<Persona, Long> {
     }
 
     public Persona getByRut(String rut){
+        System.out.println("rut= "+rut);
         Persona persona= queryBuilder()
                 .where(Properties.Rut.eq(rut))
                 .unique();

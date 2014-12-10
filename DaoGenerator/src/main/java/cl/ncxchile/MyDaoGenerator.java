@@ -28,7 +28,7 @@ public class MyDaoGenerator {
         addMotivoFiscalia(schema);
         addTipoVehiculo(schema);*/
 
-        addTribunal(schema);
+        //addTribunal(schema);
 
         //addCorreosTelefonosPersona(schema);
 
@@ -36,7 +36,7 @@ public class MyDaoGenerator {
 
         //addUserName(schema);
 
-        //addTareaActaAccion(schema);
+        addTareaActaAccionMapa(schema);
 
         new DaoGenerator().generateAll(schema, "upload/src-gen");
     }
@@ -167,7 +167,7 @@ public class MyDaoGenerator {
         userName.addStringProperty("UserName");
     }
 
-    private static void addTareaActaAccion(Schema schema) {
+    private static void addTareaActaAccionMapa(Schema schema) {
 
         Entity tarea = schema.addEntity("Tarea");
         tarea.addIdProperty();
@@ -184,10 +184,13 @@ public class MyDaoGenerator {
 
         Entity accion = schema.addEntity("Accion");
         accion.addIdProperty();
+        accion.addStringProperty("fecha");
+        accion.addStringProperty("hora");
         Property timeStamp=accion.addDateProperty("timeStamp").notNull().getProperty();
         accion.addFloatProperty("longitud");
         accion.addFloatProperty("latitud");
         accion.addBooleanProperty("sincronizada");
+        accion.addBooleanProperty("cancelada");
 
         Property idTarea = accion.addLongProperty("idTarea").notNull().getProperty();
 
@@ -206,6 +209,13 @@ public class MyDaoGenerator {
         acta.addToOne(tarea, idTarea);
 
         accion.addToOne(acta, idActa);
+
+        Entity mapa = schema.addEntity("Mapa");
+        mapa.addIdProperty();
+
+        Property idMapa = accion.addLongProperty("idMapa").getProperty();
+
+        accion.addToOne(mapa, idMapa);
 
         ToMany actaToAcciones = acta.addToMany(accion, idActa);
         actaToAcciones.setName("accion");

@@ -82,6 +82,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/view8_01"
                     android:layout_weight="0.51"
+                    android:inputType="textCapWords"
                     android:singleLine="true"
                     android:imeOptions="actionNext"
                     android:layout_marginLeft="15dp" />

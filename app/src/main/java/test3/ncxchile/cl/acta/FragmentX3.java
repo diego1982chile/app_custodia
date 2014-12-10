@@ -76,7 +76,7 @@ public class FragmentX3 extends android.app.Fragment {
 
         //view3_01.setText(new SimpleDateFormat("dd-MM-yyyy").format(myActivity.acta.getFechaParte()));
 
-
+        /*
         view3_02.setText("1234");
         view3_03.setText("16");
         view3_04.setText("A-05");
@@ -84,7 +84,7 @@ public class FragmentX3 extends android.app.Fragment {
         view3_06.setText("1578");
         view3_07.setText("Fiscal");
         view3_08.setText("Tribunal oral");
-
+        */
 
         return rootView;
     }

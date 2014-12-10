@@ -259,6 +259,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/view3_07_oficioremisor"
+                    android:inputType="textCapWords"
                     android:layout_weight="0.51"
                     android:singleLine="true"
                     android:imeOptions="actionNext"

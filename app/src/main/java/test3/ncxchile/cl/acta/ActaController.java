@@ -115,7 +115,7 @@ public class ActaController {
 
                 if(acta.getVehiculoData().getVehiculo()!=null) {
                     // Setear vehiculo
-                    vehiculoJson.putOpt("tamano", acta.getVehiculoData().getVehiculo().getTamano());
+                    //vehiculoJson.putOpt("tamano", acta.getVehiculoData().getVehiculo().getTamano());
                     vehiculoJson.putOpt("modelo", acta.getVehiculoData().getVehiculo().getModelo());
                     vehiculoJson.putOpt("numeroMotor", acta.getVehiculoData().getVehiculo().getNumeroMotor());
                     vehiculoJson.putOpt("matricula", acta.getVehiculoData().getVehiculo().getMatricula());
@@ -157,6 +157,7 @@ public class ActaController {
                         JSONObject vehiculoTemplateJson = vehiculoDataTemplateJson.optJSONObject("vehiculo");
                         if (vehiculoTemplateJson != null) {
                             JSONObject parqueaderoTemplateJson = vehiculoDataJson.optJSONObject("parqueadero");
+                            vehiculoJson.putOpt("tamano", vehiculoTemplateJson.optString("tamano"));
                             vehiculoJson.putOpt("parqueadero", parqueaderoTemplateJson);
                             vehiculoJson.putOpt("carpetaVehiculo", vehiculoTemplateJson.optLong("carpetaVehiculo"));
                             vehiculoJson.putOpt("modificado", vehiculoTemplateJson.optBoolean("modificado"));
@@ -287,7 +288,7 @@ public class ActaController {
                     autoridadJson.putOpt("telefonos",telefonosJson);
                     autoridadJson.putOpt("institucion",acta.getAutoridad().getInstitucion());
                     autoridadJson.putOpt("usuario",acta.getAutoridad().getPersona().getUsuario());
-                    autoridadJson.putOpt("rut",RutParser.formatRut(acta.getPersona().getRut()));
+                    autoridadJson.putOpt("rut",RutParser.formatRut(acta.getAutoridad().getPersona().getRut()));
                     autoridadJson.putOpt("unidadPolicial",acta.getAutoridad().getUnidadPolicial());
                     autoridadJson.putOpt("apellidoMaterno",acta.getAutoridad().getPersona().getApellidoMaterno());
                 }
@@ -511,28 +512,28 @@ public class ActaController {
                             persona.setRut(RutValidator.parseRut(rut));
                             persona.setUsuario(autoridadJson.getString("usuario"));
                             Global.daoSession.getPersonaDao().insertOrReplace(persona);
-                        }
 
-                        if(telefonosJson.length()>0) {
-                            telefonos.setEmail(telefonosJson.get(0).toString());
-                            Global.daoSession.getTelefonosDao().insert(telefonos);
-                            persona.getTelefonos().add(telefonos);
-                        }
+                            if(telefonosJson.length()>0) {
+                                telefonos.setEmail(telefonosJson.get(0).toString());
+                                Global.daoSession.getTelefonosDao().insert(telefonos);
+                                persona.getTelefonos().add(telefonos);
+                            }
 
-                        if(correosJson.length()>0){
-                            correos.setEmail(correosJson.get(0).toString());
-                            Global.daoSession.getCorreosDao().insert(correos);
-                            persona.getCorreos().add(correos);
-                        }
+                            if(correosJson.length()>0){
+                                correos.setEmail(correosJson.get(0).toString());
+                                Global.daoSession.getCorreosDao().insert(correos);
+                                persona.getCorreos().add(correos);
+                            }
 
-                        if(direccionJson!=null){
-                            direccion.setCalle(direccionJson.optString("calle"));
-                            direccion.setComuna(direccionJson.optString("comuna"));
-                            direccion.setNumeracion(direccionJson.optString("numeracion"));
-                            direccion.setInterseccion(direccionJson.optString("interseccion"));
-                            direccion.setReferencias(direccionJson.optString("referencias"));
-                            Global.daoSession.getDireccionDao().insert(direccion);
-                            persona.setDireccion(direccion);
+                            if(direccionJson!=null){
+                                direccion.setCalle(direccionJson.optString("calle"));
+                                direccion.setComuna(direccionJson.optString("comuna"));
+                                direccion.setNumeracion(direccionJson.optString("numeracion"));
+                                direccion.setInterseccion(direccionJson.optString("interseccion"));
+                                direccion.setReferencias(direccionJson.optString("referencias"));
+                                Global.daoSession.getDireccionDao().insert(direccion);
+                                persona.setDireccion(direccion);
+                            }
                         }
 
                         autoridad.setCargo(autoridadJson.getString("cargo"));
@@ -566,26 +567,26 @@ public class ActaController {
                             persona.setRut(RutValidator.parseRut(grueroJson.optString("rut")));
                             persona.setUsuario(grueroJson.optString("usuario"));
                             Global.daoSession.getPersonaDao().insertOrReplace(persona);
-                        }
 
-                        if(telefonosJson.length()>0){
-                            telefonos.setEmail(telefonosJson.get(0).toString());
-                            Global.daoSession.getTelefonosDao().insertOrReplace(telefonos);
-                            persona.getTelefonos().add(telefonos);
-                        }
-                        if(correosJson.length()>0){
-                            correos.setEmail(correosJson.get(0).toString());
-                            Global.daoSession.getCorreosDao().insertOrReplace(correos);
-                            persona.getCorreos().add(correos);
-                        }
-                        if(direccionJson!=null){
-                            direccion.setCalle(direccionJson.optString("calle"));
-                            direccion.setComuna(direccionJson.getString("comuna"));
-                            direccion.setNumeracion(direccionJson.optString("numeracion"));
-                            direccion.setInterseccion(direccionJson.optString("interseccion"));
-                            direccion.setReferencias(direccionJson.optString("referencias"));
-                            Global.daoSession.getDireccionDao().insert(direccion);
-                            persona.setDireccion(direccion);
+                            if(telefonosJson.length()>0){
+                                telefonos.setEmail(telefonosJson.get(0).toString());
+                                Global.daoSession.getTelefonosDao().insertOrReplace(telefonos);
+                                persona.getTelefonos().add(telefonos);
+                            }
+                            if(correosJson.length()>0){
+                                correos.setEmail(correosJson.get(0).toString());
+                                Global.daoSession.getCorreosDao().insertOrReplace(correos);
+                                persona.getCorreos().add(correos);
+                            }
+                            if(direccionJson!=null){
+                                direccion.setCalle(direccionJson.optString("calle"));
+                                direccion.setComuna(direccionJson.getString("comuna"));
+                                direccion.setNumeracion(direccionJson.optString("numeracion"));
+                                direccion.setInterseccion(direccionJson.optString("interseccion"));
+                                direccion.setReferencias(direccionJson.optString("referencias"));
+                                Global.daoSession.getDireccionDao().insert(direccion);
+                                persona.setDireccion(direccion);
+                            }
                         }
 
                         acta.setPersona(persona);
@@ -732,19 +733,19 @@ public class ActaController {
                     if((propietario=Global.daoSession.getPersonaDao().getByRut(datosPDF.getView6_01()))==null) {
                         propietario = new Persona(null, datosPDF.getView6_02(), datosPDF.getView6_01(), datosPDF.getView6_02_paterno(), datosPDF.getView6_02_materno(), "", 0, 0, 0);
                         Global.daoSession.getPersonaDao().insertOrReplace(propietario);
+
+                        propietario.getCorreos();
+                        correoPropietario = new Correos(null, datosPDF.getView6_04(), 0);
+                        correoPropietario.setCorreosID(propietario.getId());
+                        Global.daoSession.getCorreosDao().insertOrReplace(correoPropietario);
+                        propietario.getCorreos().add(correoPropietario);
+
+                        propietario.getTelefonos();
+                        fonoPropietario = new Telefonos(null, datosPDF.getView6_05(), 0);
+                        fonoPropietario.setTelefonosID(propietario.getId());
+                        Global.daoSession.getTelefonosDao().insertOrReplace(fonoPropietario);
+                        propietario.getTelefonos().add(fonoPropietario);
                     }
-
-                    propietario.getCorreos();
-                    correoPropietario = new Correos(null, datosPDF.getView6_04(), 0);
-                    correoPropietario.setCorreosID(propietario.getId());
-                    Global.daoSession.getCorreosDao().insertOrReplace(correoPropietario);
-                    propietario.getCorreos().add(correoPropietario);
-
-                    propietario.getTelefonos();
-                    fonoPropietario = new Telefonos(null, datosPDF.getView6_05(), 0);
-                    fonoPropietario.setTelefonosID(propietario.getId());
-                    Global.daoSession.getTelefonosDao().insertOrReplace(fonoPropietario);
-                    propietario.getTelefonos().add(fonoPropietario);
 
                     // Agregar clientePropietario
                     acta.getVehiculoData().getClientePropietario();
@@ -764,19 +765,19 @@ public class ActaController {
                         if((conductor=Global.daoSession.getPersonaDao().getByRut(datosPDF.getView6_06()))==null) {
                             conductor = new Persona(null, datosPDF.getView6_07(), datosPDF.getView6_06(), datosPDF.getView6_06_paterno(), datosPDF.getView6_06_materno(), "", 0, 0, 0);
                             Global.daoSession.getPersonaDao().insertOrReplace(conductor);
+
+                            conductor.getCorreos();
+                            correoConductor = new Correos(null, datosPDF.getView6_09(), 0);
+                            correoConductor.setCorreosID(conductor.getId());
+                            Global.daoSession.getCorreosDao().insertOrReplace(correoConductor);
+                            conductor.getCorreos().add(correoConductor);
+
+                            conductor.getTelefonos();
+                            fonoConductor = new Telefonos(null, datosPDF.getView6_10(), 0);
+                            fonoConductor.setTelefonosID(conductor.getId());
+                            Global.daoSession.getTelefonosDao().insertOrReplace(fonoConductor);
+                            conductor.getTelefonos().add(fonoConductor);
                         }
-
-                        conductor.getCorreos();
-                        correoConductor = new Correos(null, datosPDF.getView6_09(), 0);
-                        correoConductor.setCorreosID(conductor.getId());
-                        Global.daoSession.getCorreosDao().insertOrReplace(correoConductor);
-                        conductor.getCorreos().add(correoConductor);
-
-                        conductor.getTelefonos();
-                        fonoConductor = new Telefonos(null, datosPDF.getView6_10(), 0);
-                        fonoConductor.setTelefonosID(conductor.getId());
-                        Global.daoSession.getTelefonosDao().insertOrReplace(fonoConductor);
-                        conductor.getTelefonos().add(fonoConductor);
                     }
                     else{
                         conductor=propietario;

@@ -124,6 +124,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/view7_02_nombreop"
                 android:singleLine="true"
+                android:inputType="textCapWords"
                 android:imeOptions="actionNext"
                 android:layout_weight="0.51"
                 android:layout_marginLeft="15dp" />

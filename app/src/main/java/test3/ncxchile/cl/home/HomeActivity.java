@@ -112,7 +112,7 @@ public class HomeActivity extends Activity {
 
             try {
                 JSONObject jsonObject= new JSONObject(resultActa);
-                //actaController.crearActaFromJson(jsonObject,tareaController.getTareaById(1));
+                actaController.crearActaFromJson(jsonObject,tareaController.getTareaById(1));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

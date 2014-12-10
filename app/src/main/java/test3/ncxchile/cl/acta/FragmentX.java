@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import test3.ncxchile.cl.greenDAO.InstitucionDao;
 import test3.ncxchile.cl.login.R;
+import test3.ncxchile.cl.validators.CorreoValidator;
 import test3.ncxchile.cl.validators.RutValidator;
 import test3.ncxchile.cl.widgets.CorreoEditText;
 import test3.ncxchile.cl.widgets.CustomAutoComplete;
@@ -139,6 +140,11 @@ public class FragmentX extends android.app.Fragment {
 
         if(view1_00.getText().toString().equals("")){
             view1_00.setError(getString(R.string.error_field_required));
+            esValido=false;
+        }
+
+        if(!CorreoValidator.isFormatValid(view1_02_correos.getText().toString())){
+            view1_02_correos.setError(getString(R.string.prompt_valid_correo));
             esValido=false;
         }
 
