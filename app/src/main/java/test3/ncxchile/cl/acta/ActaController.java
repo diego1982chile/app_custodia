@@ -45,6 +45,7 @@ import java.util.Locale;
 
 import test3.ncxchile.cl.db.Global;
 import test3.ncxchile.cl.greenDAO.*;
+import test3.ncxchile.cl.helpers.RutParser;
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.models.DatosPDF;
 import test3.ncxchile.cl.session.SessionManager;
@@ -177,7 +178,7 @@ public class ActaController {
                         correosJson= new JSONArray();
 
                         propietarioJson.putOpt("licencia", acta.getVehiculoData().getClientePropietario().get(0).getLicencia());
-                        propietarioJson.putOpt("rut", acta.getVehiculoData().getClientePropietario().get(0).getPersona().getRut());
+                        propietarioJson.putOpt("rut", RutParser.formatRut(acta.getVehiculoData().getClientePropietario().get(0).getPersona().getRut()));
                         propietarioJson.putOpt("nombre", acta.getVehiculoData().getClientePropietario().get(0).getPersona().getNombre());
                         propietarioJson.putOpt("nombreCompleto", acta.getVehiculoData().getClientePropietario().get(0).getPersona().getNombre()+" "+
                                                               acta.getVehiculoData().getClientePropietario().get(0).getPersona().getApellidoPaterno()+" "+
@@ -209,7 +210,7 @@ public class ActaController {
                         correosJson= new JSONArray();
 
                         conductorJson.putOpt("licencia", acta.getVehiculoData().getClientePropietario().get(1).getLicencia());
-                        conductorJson.putOpt("rut", acta.getVehiculoData().getClientePropietario().get(1).getPersona().getRut());
+                        conductorJson.putOpt("rut", RutParser.formatRut(acta.getVehiculoData().getClientePropietario().get(1).getPersona().getRut()));
                         conductorJson.putOpt("nombre", acta.getVehiculoData().getClientePropietario().get(1).getPersona().getNombre());
                         propietarioJson.putOpt("nombreCompleto", acta.getVehiculoData().getClientePropietario().get(1).getPersona().getNombre()+" "+
                                 acta.getVehiculoData().getClientePropietario().get(1).getPersona().getApellidoPaterno()+" "+
@@ -286,7 +287,7 @@ public class ActaController {
                     autoridadJson.putOpt("telefonos",telefonosJson);
                     autoridadJson.putOpt("institucion",acta.getAutoridad().getInstitucion());
                     autoridadJson.putOpt("usuario",acta.getAutoridad().getPersona().getUsuario());
-                    autoridadJson.putOpt("rut",acta.getPersona().getRut());
+                    autoridadJson.putOpt("rut",RutParser.formatRut(acta.getPersona().getRut()));
                     autoridadJson.putOpt("unidadPolicial",acta.getAutoridad().getUnidadPolicial());
                     autoridadJson.putOpt("apellidoMaterno",acta.getAutoridad().getPersona().getApellidoMaterno());
                 }
@@ -310,7 +311,7 @@ public class ActaController {
                     personaJson.putOpt("correos",correosJson);
                     personaJson.putOpt("apellidoPaterno",acta.getPersona().getApellidoPaterno());
                     personaJson.putOpt("apellidoMaterno",acta.getPersona().getApellidoMaterno());
-                    personaJson.putOpt("rut",acta.getPersona().getRut());
+                    personaJson.putOpt("rut", RutParser.formatRut(acta.getPersona().getRut()));
                     personaJson.putOpt("usuario",acta.getPersona().getUsuario());
                     telefonosJson= new JSONArray();
                     for(int i=0;i<acta.getPersona().getTelefonos().size();++i)
@@ -499,15 +500,18 @@ public class ActaController {
 
                     if(autoridadJson!=null){
 
-                        persona.setNombre(autoridadJson.getString("nombre"));
-                        persona.setApellidoPaterno(autoridadJson.getString("apellidoPaterno"));
-                        persona.setApellidoMaterno(autoridadJson.getString("apellidoMaterno"));
+                        if((persona=Global.daoSession.getPersonaDao().getByRut(RutParser.parseRut(autoridadJson.getString("rut")).toString()))==null) {
+                            persona = new Persona();
+                            persona.setNombre(autoridadJson.getString("nombre"));
+                            persona.setApellidoPaterno(autoridadJson.getString("apellidoPaterno"));
+                            persona.setApellidoMaterno(autoridadJson.getString("apellidoMaterno"));
 
-                        String rut = autoridadJson.getString("rut");
+                            String rut = autoridadJson.getString("rut");
 
-                        persona.setRut(RutValidator.parseRut(rut));
-                        persona.setUsuario(autoridadJson.getString("usuario"));
-                        Global.daoSession.getPersonaDao().insertOrReplace(persona);
+                            persona.setRut(RutValidator.parseRut(rut));
+                            persona.setUsuario(autoridadJson.getString("usuario"));
+                            Global.daoSession.getPersonaDao().insertOrReplace(persona);
+                        }
 
                         if(telefonosJson.length()>0) {
                             telefonos.setEmail(telefonosJson.get(0).toString());
@@ -553,12 +557,16 @@ public class ActaController {
                         correosJson= grueroJson.optJSONArray("correos");
                         direccionJson= grueroJson.optJSONObject("direccion");
 
-                        persona.setNombre(grueroJson.optString("nombre"));
-                        persona.setApellidoPaterno(grueroJson.optString("apellidoPaterno"));
-                        persona.setApellidoMaterno(grueroJson.optString("apellidoMaterno"));
-                        persona.setRut(RutValidator.parseRut(grueroJson.optString("rut")));
-                        persona.setUsuario(grueroJson.optString("usuario"));
-                        Global.daoSession.getPersonaDao().insertOrReplace(persona);
+
+                        if((persona=Global.daoSession.getPersonaDao().getByRut(RutParser.parseRut(grueroJson.optString("rut")).toString()))==null) {
+                            persona=new Persona();
+                            persona.setNombre(grueroJson.optString("nombre"));
+                            persona.setApellidoPaterno(grueroJson.optString("apellidoPaterno"));
+                            persona.setApellidoMaterno(grueroJson.optString("apellidoMaterno"));
+                            persona.setRut(RutValidator.parseRut(grueroJson.optString("rut")));
+                            persona.setUsuario(grueroJson.optString("usuario"));
+                            Global.daoSession.getPersonaDao().insertOrReplace(persona);
+                        }
 
                         if(telefonosJson.length()>0){
                             telefonos.setEmail(telefonosJson.get(0).toString());
@@ -721,8 +729,10 @@ public class ActaController {
                 if(!datosPDF.getView6_01().toString().equals("")) {
 
                     // Primero agregar persona propietario
-                    propietario = new Persona(null, datosPDF.getView6_02(), datosPDF.getView6_01(), datosPDF.getView6_02_paterno(), datosPDF.getView6_02_materno(), "", 0, 0, 0);
-                    Global.daoSession.getPersonaDao().insertOrReplace(propietario);
+                    if((propietario=Global.daoSession.getPersonaDao().getByRut(datosPDF.getView6_01()))==null) {
+                        propietario = new Persona(null, datosPDF.getView6_02(), datosPDF.getView6_01(), datosPDF.getView6_02_paterno(), datosPDF.getView6_02_materno(), "", 0, 0, 0);
+                        Global.daoSession.getPersonaDao().insertOrReplace(propietario);
+                    }
 
                     propietario.getCorreos();
                     correoPropietario = new Correos(null, datosPDF.getView6_04(), 0);
@@ -750,8 +760,11 @@ public class ActaController {
 
                     // Primero agregar persona conductor
                     if(!datosPDF.getView6_06().toString().equals(datosPDF.getView6_06().toString())){
-                        conductor = new Persona(null, datosPDF.getView6_07(), datosPDF.getView6_06(), datosPDF.getView6_06_paterno(), datosPDF.getView6_06_materno(), "", 0, 0, 0);
-                        Global.daoSession.getPersonaDao().insertOrReplace(conductor);
+
+                        if((conductor=Global.daoSession.getPersonaDao().getByRut(datosPDF.getView6_06()))==null) {
+                            conductor = new Persona(null, datosPDF.getView6_07(), datosPDF.getView6_06(), datosPDF.getView6_06_paterno(), datosPDF.getView6_06_materno(), "", 0, 0, 0);
+                            Global.daoSession.getPersonaDao().insertOrReplace(conductor);
+                        }
 
                         conductor.getCorreos();
                         correoConductor = new Correos(null, datosPDF.getView6_09(), 0);
@@ -778,12 +791,13 @@ public class ActaController {
                 }
                 //acta.getVehiculoData().getClientePropietario().set.setPersona(conductor);
 
-                Persona gruero= Global.daoSession.getPersonaDao().getByRut(rutGruero);
+                Persona gruero;
 
-                if(gruero==null){
+                if((gruero=Global.daoSession.getPersonaDao().getByRut(rutGruero))==null) {
                     gruero= new Persona(null,nombreGruero,rutGruero,apellidoPaternoGruero,apellidoMaternoGruero,"",0,0,0);
                     Global.daoSession.getPersonaDao().insertOrReplace(gruero);
                 }
+
                 acta.setPersona(gruero);
 
                 for(int i=0;i<datosPDF.getView8_01().size();++i) {
