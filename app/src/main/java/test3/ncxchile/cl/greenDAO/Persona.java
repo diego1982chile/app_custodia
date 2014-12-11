@@ -183,7 +183,6 @@ public class Persona {
     /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */
     public List<Telefonos> getTelefonos() {
         if (telefonos == null) {
-            System.out.println("ENTRE");
             if (daoSession == null) {
                 throw new DaoException("Entity is detached from DAO context");
             }

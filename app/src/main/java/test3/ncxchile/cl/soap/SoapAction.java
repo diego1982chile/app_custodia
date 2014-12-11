@@ -48,9 +48,6 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
 			SoapMethod current = methods[i];
             lastSource = current.source;
 
-            Logger.log("Call WS: SoapProxy." + current.methodName);
-
-
 			SoapObject request = new SoapObject(current.namespace,
 					current.methodName);
 
@@ -115,7 +112,7 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
 
             currentMethod = current;
 			try {
-
+                Logger.log("Call WS: SoapProxy." + current.methodName);
 				ht.call(current.soapAction, envelope);
 
 			} catch (IOException e) {

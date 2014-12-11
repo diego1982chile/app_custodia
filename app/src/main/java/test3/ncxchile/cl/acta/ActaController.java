@@ -364,10 +364,8 @@ public class ActaController {
                     actaJson.putOpt("nombreExterno",null);
                 else
                     actaJson.putOpt("nombreExterno",actaTemplateJson.optLong("nombreExterno"));
-                if(actaTemplateJson.optLong("observacion")==0)
-                    actaJson.putOpt("observacion",null);
-                else
-                    actaJson.putOpt("observacion",actaTemplateJson.optLong("observacion"));
+
+                actaJson.putOpt("observacion",actaTemplateJson.optString("observacion"));
 
                 Tribunal tribunal=Global.daoSession.getTribunalDao().getById(acta.getTribunalID());
 
@@ -515,12 +513,14 @@ public class ActaController {
 
                             if(telefonosJson.length()>0) {
                                 telefonos.setEmail(telefonosJson.get(0).toString());
+                                telefonos.setTelefonosID(persona.getId());
                                 Global.daoSession.getTelefonosDao().insert(telefonos);
                                 persona.getTelefonos().add(telefonos);
                             }
 
                             if(correosJson.length()>0){
                                 correos.setEmail(correosJson.get(0).toString());
+                                correos.setCorreosID(persona.getId());
                                 Global.daoSession.getCorreosDao().insert(correos);
                                 persona.getCorreos().add(correos);
                             }
@@ -558,7 +558,6 @@ public class ActaController {
                         correosJson= grueroJson.optJSONArray("correos");
                         direccionJson= grueroJson.optJSONObject("direccion");
 
-
                         if((persona=Global.daoSession.getPersonaDao().getByRut(RutParser.parseRut(grueroJson.optString("rut")).toString()))==null) {
                             persona=new Persona();
                             persona.setNombre(grueroJson.optString("nombre"));
@@ -570,13 +569,19 @@ public class ActaController {
 
                             if(telefonosJson.length()>0){
                                 telefonos.setEmail(telefonosJson.get(0).toString());
-                                Global.daoSession.getTelefonosDao().insertOrReplace(telefonos);
-                                persona.getTelefonos().add(telefonos);
+                                telefonos.setTelefonosID(persona.getId());
+                                if(!acta.getPersona().getTelefonos().contains(telefonos)) {
+                                    Global.daoSession.getTelefonosDao().insertOrReplace(telefonos);
+                                    persona.getTelefonos().add(telefonos);
+                                }
                             }
                             if(correosJson.length()>0){
                                 correos.setEmail(correosJson.get(0).toString());
-                                Global.daoSession.getCorreosDao().insertOrReplace(correos);
-                                persona.getCorreos().add(correos);
+                                correos.setCorreosID(persona.getId());
+                                if(!acta.getPersona().getCorreos().contains(correos)){
+                                    Global.daoSession.getCorreosDao().insertOrReplace(correos);
+                                    persona.getCorreos().add(correos);
+                                }
                             }
                             if(direccionJson!=null){
                                 direccion.setCalle(direccionJson.optString("calle"));
@@ -654,13 +659,19 @@ public class ActaController {
 
                 Telefonos telefonos= new Telefonos(null,datosPDF.getView1_02_telefonos(),0);
                 telefonos.setTelefonosID(acta.getAutoridad().getPersonaID());
-                Global.daoSession.getTelefonosDao().insert(telefonos);
-                acta.getAutoridad().getPersona().getTelefonos().add(telefonos);
+
+                if(!acta.getAutoridad().getPersona().getTelefonos().contains(telefonos)){
+                    Global.daoSession.getTelefonosDao().insert(telefonos);
+                    acta.getAutoridad().getPersona().getTelefonos().add(telefonos);
+                }
 
                 Correos correos= new Correos(null,datosPDF.getView1_02_correos(),0);
                 correos.setCorreosID(acta.getAutoridad().getPersonaID());
-                Global.daoSession.getCorreosDao().insert(correos);
-                acta.getAutoridad().getPersona().getCorreos().add(correos);
+
+                if(!acta.getAutoridad().getPersona().getCorreos().contains(correos)){
+                    Global.daoSession.getCorreosDao().insert(correos);
+                    acta.getAutoridad().getPersona().getCorreos().add(correos);
+                }
 
                 acta.getAutoridad().setInstitucion(datosPDF.getView1_03());
                 acta.getAutoridad().setCargo(datosPDF.getView1_04());
@@ -737,14 +748,18 @@ public class ActaController {
                         propietario.getCorreos();
                         correoPropietario = new Correos(null, datosPDF.getView6_04(), 0);
                         correoPropietario.setCorreosID(propietario.getId());
-                        Global.daoSession.getCorreosDao().insertOrReplace(correoPropietario);
-                        propietario.getCorreos().add(correoPropietario);
+                        if(!acta.getVehiculoData().getClientePropietario().get(0).getPersona().getCorreos().contains(correoPropietario)){
+                            Global.daoSession.getCorreosDao().insertOrReplace(correoPropietario);
+                            propietario.getCorreos().add(correoPropietario);
+                        }
 
                         propietario.getTelefonos();
                         fonoPropietario = new Telefonos(null, datosPDF.getView6_05(), 0);
                         fonoPropietario.setTelefonosID(propietario.getId());
-                        Global.daoSession.getTelefonosDao().insertOrReplace(fonoPropietario);
-                        propietario.getTelefonos().add(fonoPropietario);
+                        if(!acta.getVehiculoData().getClientePropietario().get(0).getPersona().getTelefonos().contains(fonoPropietario)){
+                            Global.daoSession.getTelefonosDao().insertOrReplace(fonoPropietario);
+                            propietario.getTelefonos().add(fonoPropietario);
+                        }
                     }
 
                     // Agregar clientePropietario
@@ -769,14 +784,19 @@ public class ActaController {
                             conductor.getCorreos();
                             correoConductor = new Correos(null, datosPDF.getView6_09(), 0);
                             correoConductor.setCorreosID(conductor.getId());
-                            Global.daoSession.getCorreosDao().insertOrReplace(correoConductor);
-                            conductor.getCorreos().add(correoConductor);
+
+                            if(!acta.getVehiculoData().getClientePropietario().get(1).getPersona().getTelefonos().contains(correoConductor)){
+                                Global.daoSession.getCorreosDao().insertOrReplace(correoConductor);
+                                conductor.getCorreos().add(correoConductor);
+                            }
 
                             conductor.getTelefonos();
                             fonoConductor = new Telefonos(null, datosPDF.getView6_10(), 0);
                             fonoConductor.setTelefonosID(conductor.getId());
-                            Global.daoSession.getTelefonosDao().insertOrReplace(fonoConductor);
-                            conductor.getTelefonos().add(fonoConductor);
+                            if(!acta.getVehiculoData().getClientePropietario().get(1).getPersona().getTelefonos().contains(fonoConductor)){
+                                Global.daoSession.getTelefonosDao().insertOrReplace(fonoConductor);
+                                conductor.getTelefonos().add(fonoConductor);
+                            }
                         }
                     }
                     else{
