@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Vector;
 
@@ -112,6 +113,17 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
 
             currentMethod = current;
 			try {
+                if(Arrays.asList("confirmarArribo","buscarActaJSON","finalizarActaGruero").contains(currentMethod.methodName)) {
+                    System.out.println("WAIT: 5 Segundos de Holgura Procesamiento BPM");
+                    try {
+                        synchronized (this) {
+                            wait(5000);
+                            notify();
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
                 Logger.log("Call WS: SoapProxy." + current.methodName);
 				ht.call(current.soapAction, envelope);
 

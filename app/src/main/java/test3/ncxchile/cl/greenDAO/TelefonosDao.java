@@ -237,5 +237,12 @@ public class TelefonosDao extends AbstractDao<Telefonos, Long> {
         Cursor cursor = db.rawQuery(getSelectDeep() + where, selectionArg);
         return loadDeepAllAndCloseCursor(cursor);
     }
- 
+
+    public Telefonos getByValue(String value){
+        Telefonos fono= queryBuilder()
+                .where(Properties.Email.like(value.trim()))
+                .unique();
+        return fono;
+    }
 }
+

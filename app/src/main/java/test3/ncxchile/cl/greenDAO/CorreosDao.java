@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 
+import com.google.android.gms.common.ConnectionResult;
+
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
 import de.greenrobot.dao.internal.SqlUtils;
@@ -239,5 +241,11 @@ public class CorreosDao extends AbstractDao<Correos, Long> {
         Cursor cursor = db.rawQuery(getSelectDeep() + where, selectionArg);
         return loadDeepAllAndCloseCursor(cursor);
     }
- 
+
+    public Correos getByValue(String value){
+        Correos correo= queryBuilder()
+                .where(Properties.Email.like(value))
+                .unique();
+        return correo;
+    }
 }

@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -67,6 +68,7 @@ public class HomeActivity extends Activity {
     //public TableFixHeaders tareas;
     public TextView statusGps,statusHora;
     public FrameLayout statusMensajes,historialAcciones;
+    public static LinearLayout linlaHeaderProgress;
 
     public static Button tomarTarea, confirmarArribo, completarActa, retiroRealizado, pdf;
 
@@ -143,7 +145,6 @@ public class HomeActivity extends Activity {
         // email
         String apellido_materno = user.get(SessionManager.KEY_APELLIDO_MATERNO);
 
-
         setContentView(R.layout.activity_home);
 
         TextView lblName = (TextView) findViewById(R.id.name_value);
@@ -161,6 +162,8 @@ public class HomeActivity extends Activity {
         completarActa= (Button) findViewById(R.id.completarActa);
         retiroRealizado= (Button) findViewById(R.id.retiroRealizado);
         pdf= (Button) findViewById(R.id.button8);
+
+        linlaHeaderProgress = (LinearLayout) findViewById(R.id.linlaHeaderProgress);
 
         setEnabled(tomarTarea, false);
         setEnabled(confirmarArribo, false);
@@ -417,17 +420,23 @@ public class HomeActivity extends Activity {
                 // Almacenar vector asociado a esta acción
                 tareaActiva=tareaController.getTareaById(tablerow.getId());
 
-                accionController.encolarAccion("Tarea Tomada");
-                Logger.log("Tarea Tomada");
-                // Actualizar estado interno de la tarea
-                tareaController.setStatusTarea(tablerow.getId(),1);
-                // Setear tarea activa en la sesión
-                Global.sessionManager.setTareaActiva(tablerow.getId());
-                // Setear estado de la tarea activa en la sesión
-                Global.sessionManager.setServicio(tareaActiva.getServicio());
+                Global.daoSession.runInTx(new Runnable() {
+                    @Override
+                    public void run() {
+                        tareaController.setStatusTarea(tablerow.getId(), 1);
+                        // Setear tarea activa en la sesión
+                        Global.sessionManager.setTareaActiva(tablerow.getId());
+                        // Setear estado de la tarea activa en la sesión
+                        Global.sessionManager.setServicio(tareaActiva.getServicio());
 
-                //tablerow.setBackgroundColor(Color.GRAY);
-                //marcada = 3;
+                        accionController.encolarAccion("Tarea Tomada");
+                        Logger.log("Tarea Tomada");
+                        // Actualizar estado interno de la tarea
+
+                        //tablerow.setBackgroundColor(Color.GRAY);
+                        //marcada = 3;
+                    }
+                });
                 }
             });
             alertDialog.setButton(Dialog.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
@@ -460,21 +469,23 @@ public class HomeActivity extends Activity {
                     setEnabled(retiroRealizado, false);
                     // Almacenar vector asociado a esta acción
                     tareaActiva=tareaController.getTareaById(tablerow.getId());
-                    accionController.encolarAccion("Arribo Confirmado");
-                    Logger.log("Tarea Tomada");
-                    accionController.encolarAccion("Buscar Acta");
-                    Logger.log("Buscar Acta");
-                    // Actualizar estado interno de la tarea
-                    tareaController.setStatusTarea(tablerow.getId(),2);
-                    // Setear tarea activa en la sesión
-                    Global.sessionManager.setTareaActiva(tablerow.getId());
-                    // Setear estado de la tarea activa en la sesión
-                    // Consumir WebService con los datos del Acta
-                    //threadActa = new ThreadActa(10000, 10000, HomeActivity.this, getApplicationContext());
-                    //threadActa.start();
-                    // Actualizar estado de la tarea activa en la sesión
-                    Global.sessionManager.setServicio(tareaActiva.getServicio());
-                    //tablerow.setBackgroundColor(Color.GREEN);
+                    Global.daoSession.runInTx(new Runnable() {
+                        @Override
+                        public void run() {
+                            // Actualizar estado interno de la tarea
+                            tareaController.setStatusTarea(tablerow.getId(), 2);
+                            // Setear tarea activa en la sesión
+                            Global.sessionManager.setTareaActiva(tablerow.getId());
+                            // Setear estado de la tarea activa en la sesión
+                            // Actualizar estado de la tarea activa en la sesión
+                            Global.sessionManager.setServicio(tareaActiva.getServicio());
+                            accionController.encolarAccion("Arribo Confirmado");
+                            Logger.log("Arribo Confirmado");
+                            accionController.encolarAccion("Buscar Acta");
+                            Logger.log("Buscar Acta");
+                            //tablerow.setBackgroundColor(Color.GREEN);
+                        }
+                    });
                 }
             });
 
@@ -534,19 +545,25 @@ public class HomeActivity extends Activity {
                     setEnabled(pdf, false);
                     // Almacenar vector asociado a esta acción
                     tareaActiva=tareaController.getTareaById(tablerow.getId());
-                    accionController.encolarAccion("Retiro Realizado");
-                    Logger.log("Retiro Realizado");
-                    // Actualizar estado interno de la tarea
-                    tareaController.setStatusTarea(tablerow.getId(),4);
-                    // Setear tarea activa en la sesión
-                    Global.sessionManager.setTareaActiva(-1);
-                    // Setear estado de la tarea activa en la sesión
-                    // Actualizar estado de la tarea activa en la sesión
-                    Global.sessionManager.setServicio(-1);
-                    tablerow.removeAllViews();
-                    //tablerow.setBackgroundColor(Color.GREEN);
 
-                    //TODO: eliminar tarea de la BD.
+                    Global.daoSession.runInTx(new Runnable() {
+                        @Override
+                        public void run() {
+                            accionController.encolarAccion("Retiro Realizado");
+                            Logger.log("Retiro Realizado");
+                            // Actualizar estado interno de la tarea
+                            tareaController.setStatusTarea(tablerow.getId(), 4);
+                            // Setear tarea activa en la sesión
+                            Global.sessionManager.setTareaActiva(-1);
+                            // Setear estado de la tarea activa en la sesión
+                            // Actualizar estado de la tarea activa en la sesión
+                            Global.sessionManager.setServicio(-1);
+                            tablerow.removeAllViews();
+                            //tablerow.setBackgroundColor(Color.GREEN);
+
+                            //TODO: eliminar tarea de la BD.
+                        }
+                    });
                 }
             });
 

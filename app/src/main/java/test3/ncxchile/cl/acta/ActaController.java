@@ -479,7 +479,6 @@ public class ActaController {
 
                     vehiculo.setKilometraje(kmts);
 
-
                     Global.daoSession.getVehiculoDao().insert(vehiculo);
                     vehiculoData.setVehiculo(vehiculo);
                     Global.daoSession.getVehiculoDataDao().insert(vehiculoData);
@@ -512,17 +511,21 @@ public class ActaController {
                             Global.daoSession.getPersonaDao().insertOrReplace(persona);
 
                             if(telefonosJson.length()>0) {
-                                telefonos.setEmail(telefonosJson.get(0).toString());
+                                telefonos.setEmail(telefonosJson.get(0).toString().trim());
                                 telefonos.setTelefonosID(persona.getId());
-                                Global.daoSession.getTelefonosDao().insert(telefonos);
-                                persona.getTelefonos().add(telefonos);
+                                if(Global.daoSession.getTelefonosDao().getByValue(telefonos.getEmail())==null){
+                                    Global.daoSession.getTelefonosDao().insert(telefonos);
+                                    persona.getTelefonos().add(telefonos);
+                                }
                             }
 
                             if(correosJson.length()>0){
-                                correos.setEmail(correosJson.get(0).toString());
+                                correos.setEmail(correosJson.get(0).toString().trim());
                                 correos.setCorreosID(persona.getId());
-                                Global.daoSession.getCorreosDao().insert(correos);
-                                persona.getCorreos().add(correos);
+                                if(Global.daoSession.getCorreosDao().getByValue(telefonos.getEmail())==null) {
+                                    Global.daoSession.getCorreosDao().insert(correos);
+                                    persona.getCorreos().add(correos);
+                                }
                             }
 
                             if(direccionJson!=null){
@@ -568,7 +571,7 @@ public class ActaController {
                             Global.daoSession.getPersonaDao().insertOrReplace(persona);
 
                             if(telefonosJson.length()>0){
-                                telefonos.setEmail(telefonosJson.get(0).toString());
+                                telefonos.setEmail(telefonosJson.get(0).toString().trim());
                                 telefonos.setTelefonosID(persona.getId());
                                 if(!acta.getPersona().getTelefonos().contains(telefonos)) {
                                     Global.daoSession.getTelefonosDao().insertOrReplace(telefonos);
@@ -576,7 +579,7 @@ public class ActaController {
                                 }
                             }
                             if(correosJson.length()>0){
-                                correos.setEmail(correosJson.get(0).toString());
+                                correos.setEmail(correosJson.get(0).toString().trim());
                                 correos.setCorreosID(persona.getId());
                                 if(!acta.getPersona().getCorreos().contains(correos)){
                                     Global.daoSession.getCorreosDao().insertOrReplace(correos);
@@ -657,18 +660,18 @@ public class ActaController {
                 acta.getAutoridad().getPersona().setApellidoPaterno(datosPDF.getView1_02_apellidopaterno());
                 acta.getAutoridad().getPersona().setApellidoMaterno(datosPDF.getView1_02_apellidomaterno());
 
-                Telefonos telefonos= new Telefonos(null,datosPDF.getView1_02_telefonos(),0);
+                Telefonos telefonos= new Telefonos(null,datosPDF.getView1_02_telefonos().trim(),0);
                 telefonos.setTelefonosID(acta.getAutoridad().getPersonaID());
 
-                if(!acta.getAutoridad().getPersona().getTelefonos().contains(telefonos)){
+                if(Global.daoSession.getTelefonosDao().getByValue(telefonos.getEmail())==null){
                     Global.daoSession.getTelefonosDao().insert(telefonos);
                     acta.getAutoridad().getPersona().getTelefonos().add(telefonos);
                 }
 
-                Correos correos= new Correos(null,datosPDF.getView1_02_correos(),0);
+                Correos correos= new Correos(null,datosPDF.getView1_02_correos().trim(),0);
                 correos.setCorreosID(acta.getAutoridad().getPersonaID());
 
-                if(!acta.getAutoridad().getPersona().getCorreos().contains(correos)){
+                if(Global.daoSession.getCorreosDao().getByValue(correos.getEmail())==null){
                     Global.daoSession.getCorreosDao().insert(correos);
                     acta.getAutoridad().getPersona().getCorreos().add(correos);
                 }
@@ -746,17 +749,19 @@ public class ActaController {
                         Global.daoSession.getPersonaDao().insertOrReplace(propietario);
 
                         propietario.getCorreos();
-                        correoPropietario = new Correos(null, datosPDF.getView6_04(), 0);
+                        correoPropietario = new Correos(null, datosPDF.getView6_04().trim(), 0);
                         correoPropietario.setCorreosID(propietario.getId());
-                        if(!acta.getVehiculoData().getClientePropietario().get(0).getPersona().getCorreos().contains(correoPropietario)){
+
+                        if(Global.daoSession.getCorreosDao().getByValue(correoPropietario.getEmail())==null){
                             Global.daoSession.getCorreosDao().insertOrReplace(correoPropietario);
                             propietario.getCorreos().add(correoPropietario);
                         }
 
                         propietario.getTelefonos();
-                        fonoPropietario = new Telefonos(null, datosPDF.getView6_05(), 0);
+                        fonoPropietario = new Telefonos(null, datosPDF.getView6_05().trim(), 0);
                         fonoPropietario.setTelefonosID(propietario.getId());
-                        if(!acta.getVehiculoData().getClientePropietario().get(0).getPersona().getTelefonos().contains(fonoPropietario)){
+
+                        if(Global.daoSession.getTelefonosDao().getByValue(fonoPropietario.getEmail())==null){
                             Global.daoSession.getTelefonosDao().insertOrReplace(fonoPropietario);
                             propietario.getTelefonos().add(fonoPropietario);
                         }
@@ -782,18 +787,18 @@ public class ActaController {
                             Global.daoSession.getPersonaDao().insertOrReplace(conductor);
 
                             conductor.getCorreos();
-                            correoConductor = new Correos(null, datosPDF.getView6_09(), 0);
+                            correoConductor = new Correos(null, datosPDF.getView6_09().trim(), 0);
                             correoConductor.setCorreosID(conductor.getId());
 
-                            if(!acta.getVehiculoData().getClientePropietario().get(1).getPersona().getTelefonos().contains(correoConductor)){
+                            if(Global.daoSession.getTelefonosDao().getByValue(correoConductor.getEmail())==null){
                                 Global.daoSession.getCorreosDao().insertOrReplace(correoConductor);
                                 conductor.getCorreos().add(correoConductor);
                             }
 
                             conductor.getTelefonos();
-                            fonoConductor = new Telefonos(null, datosPDF.getView6_10(), 0);
+                            fonoConductor = new Telefonos(null, datosPDF.getView6_10().trim(), 0);
                             fonoConductor.setTelefonosID(conductor.getId());
-                            if(!acta.getVehiculoData().getClientePropietario().get(1).getPersona().getTelefonos().contains(fonoConductor)){
+                            if(Global.daoSession.getTelefonosDao().getByValue(fonoConductor.getEmail())==null){
                                 Global.daoSession.getTelefonosDao().insertOrReplace(fonoConductor);
                                 conductor.getTelefonos().add(fonoConductor);
                             }

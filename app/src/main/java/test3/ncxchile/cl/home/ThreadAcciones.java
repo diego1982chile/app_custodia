@@ -60,12 +60,16 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
 
     private AlertDialog tareaDialog;
 
+    private Object sem;
+
 
     public ThreadAcciones(long startTime, long interval, Context activityContext, Context appContext)
     {
         super(startTime, interval);
         this.appContext = appContext;
         this._context = activityContext;
+
+        sem= new Object();
 
         accionController = new AccionController(appContext);
         actaController = new ActaController(appContext);
@@ -120,6 +124,7 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
             Boolean isInternetPresent = cd.hayConexion(); // true o false dependiendo de si hay conexion
             // Si hay conexion autenticar online. Si no hay conexion autenticar offline
             if(isInternetPresent){
+                HomeActivity.linlaHeaderProgress.setVisibility(View.VISIBLE);
                 sincronizando=true;
 
                 Accion siguienteAccion=accionController.dequeue();
@@ -144,13 +149,12 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
 
                     retryCount.put(tarea.getId(), count);
 
-
                     if (count < UMBRAL_RETRY) {
                         System.out.println("buscarActaJSON=" + tarea.getServicio());
                         SoapProxy.buscarActaJSON(tarea.getServicio(),siguienteAccion, this);
                     }
                     else {
-
+                        /*
                         Date timeStamp= new Date();
                         SimpleDateFormat fechaSDF = new SimpleDateFormat("dd-MM-yyyy");
                         SimpleDateFormat horaSDF = new SimpleDateFormat("HH:mm:ss");
@@ -159,6 +163,7 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
 
                         siguienteAccion.setSincronizada(true);
                         siguienteAccion.delete();
+                        */
                         sincronizando = false;
                         retryCount.put(tarea.getId(), 0);
 
@@ -169,7 +174,10 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                     Tarea tarea = siguienteAccion.getTarea();
                     String georef = String.valueOf(siguienteAccion.getLongitud() + ";" + siguienteAccion.getLatitud());
 
-                    SoapProxy.confirmarArribo(tarea.getServicio(), tarea.getFecha(), username, siguienteAccion, georef,this);
+                    if(tarea==null)
+                        siguienteAccion.setSincronizada(true);
+                    else
+                        SoapProxy.confirmarArribo(tarea.getServicio(), tarea.getFecha(), username, siguienteAccion, georef,this);
                 }
                 else if (nombreAccion.equals("Acta Completada")) {
 
@@ -217,7 +225,7 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
     }
 
     @Override
-    public void resultValue(String methodName, Object source, Vector value) {
+    public void resultValue(String methodName, final Object source, Vector value) {
 
         if (methodName == null && source == null && value == null) {
             sincronizando = false;
@@ -246,28 +254,33 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                     Acción si retorna un mensaje de error
                      */
                     System.out.println("No se pudo confirmar la OT!!!");
-                    Accion siguienteAccion = (Accion) source;
-                    Tarea tarea = siguienteAccion.getTarea();
-                    tareaController.setStatusTarea(tarea.getId(),4);
-                    Global.daoSession.getAccionDao().discardAcciones(tarea.getId());
-                    //siguienteAccion.setSincronizada(true);
-                    //siguienteAccion.update();
-                    Global.sessionManager.setTareaActiva(-1);
-                    // Setear estado de la tarea activa en la sesión
-                    // Actualizar estado de la tarea activa en la sesión
-                    Global.sessionManager.setServicio(-1);
-                    for(int i=0;i<context.tareas.getChildCount();++i){
-                        if(context.tareas.getChildAt(i).getId()==tarea.getId()){
-                            tareaDialog.show();
-                            HomeActivity.setEnabled(HomeActivity.tomarTarea,false);
-                            HomeActivity.setEnabled(HomeActivity.confirmarArribo,false);
-                            HomeActivity.setEnabled(HomeActivity.completarActa,false);
-                            HomeActivity.setEnabled(HomeActivity.retiroRealizado,false);
-                            HomeActivity.setEnabled(HomeActivity.pdf,false);
-                            TableRow row=(TableRow)context.tareas.getChildAt(i);
-                            row.removeAllViews();
-                        }
-                    }
+                    Global.daoSession.runInTx(new Runnable() {
+                          @Override
+                          public void run() {
+                              Accion siguienteAccion = (Accion) source;
+                              Tarea tarea = siguienteAccion.getTarea();
+                              tareaController.setStatusTarea(tarea.getId(),4);
+                              Global.daoSession.getAccionDao().discardAcciones(tarea.getId());
+                              //siguienteAccion.setSincronizada(true);
+                              //siguienteAccion.update();
+                              Global.sessionManager.setTareaActiva(-1);
+                              // Setear estado de la tarea activa en la sesión
+                              // Actualizar estado de la tarea activa en la sesión
+                              Global.sessionManager.setServicio(-1);
+                              for(int i=0;i<context.tareas.getChildCount();++i){
+                                  if(context.tareas.getChildAt(i).getId()==tarea.getId()){
+                                      tareaDialog.show();
+                                      HomeActivity.setEnabled(HomeActivity.tomarTarea,false);
+                                      HomeActivity.setEnabled(HomeActivity.confirmarArribo,false);
+                                      HomeActivity.setEnabled(HomeActivity.completarActa,false);
+                                      HomeActivity.setEnabled(HomeActivity.retiroRealizado,false);
+                                      HomeActivity.setEnabled(HomeActivity.pdf,false);
+                                      TableRow row=(TableRow)context.tareas.getChildAt(i);
+                                      row.removeAllViews();
+                                  }
+                              }
+                          }
+                      });
                 }
             }
         }
@@ -393,6 +406,7 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
             }
         }
         sincronizando=false;
+        HomeActivity.linlaHeaderProgress.setVisibility(View.INVISIBLE);
         sincronizarAcciones();
     }
 }
