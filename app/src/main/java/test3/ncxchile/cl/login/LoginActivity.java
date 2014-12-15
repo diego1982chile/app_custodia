@@ -236,7 +236,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
 
     private void postLogin(final int loginResponse, final boolean online) {
         System.out.println("postLogin=" + loginResponse);
-
+        if(online){
+            errorDialog.setTitle("Error autenticación Online");
+            errorDialog.setMessage("El usuario no existe o la contraseña es incorrecta");
+        }
+        else{
+            errorDialog.setTitle("Error autenticación Offline");
+            errorDialog.setMessage("El usuario no existe en la base de datos local, o la contraseña es incorrecta");
+        }
 
         runOnUiThread(new Runnable() {
             @Override
@@ -244,8 +251,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
                 //stuff that updates ui
                 mEmailView.setError(null);
                 showProgress(false);
-
-                final ErrorDialog ed= new ErrorDialog(LoginActivity.this);
 
                 switch (loginResponse)
                 {

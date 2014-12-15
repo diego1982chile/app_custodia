@@ -44,6 +44,8 @@ public class ThreadMapas extends CountDownTimer {
     public ThreadMapas(long startTime, long interval, Context activityContext, Context appContext)
     {
         super(startTime, interval);
+        context=(HomeActivity)activityContext;
+        _context=appContext;
     }
 
     @Override
@@ -85,7 +87,8 @@ public class ThreadMapas extends CountDownTimer {
 
         AsyncHttpClient client = new AsyncHttpClient();
 
-        String URL = "http://maps.googleapis.com/maps/api/staticmap?center="+accion.getLatitud()+","+accion.getLongitud()+"&zoom=15&size=200x200&sensor=false";
+        String URL = "http://maps.googleapis.com/maps/api/staticmap?center="+accion.getLatitud()+","+accion.getLongitud()+"&zoom=15&size=200x200&scale=2&markers="+accion.getLatitud()+","+accion.getLongitud()+"&sensor=true";
+
 
         //synchronized(monitor) {
             client.get(URL, new AsyncHttpResponseHandler() {

@@ -6,13 +6,18 @@ import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
+import android.util.Base64;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,7 +31,9 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lowagie.text.BadElementException;
 import com.lowagie.text.DocumentException;
+import com.lowagie.text.Image;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,7 +56,10 @@ import test3.ncxchile.cl.db.AndroidDatabaseManager;
 import test3.ncxchile.cl.db.Global;
 import test3.ncxchile.cl.greenDAO.Accion;
 import test3.ncxchile.cl.greenDAO.Acta;
+import test3.ncxchile.cl.greenDAO.InstitucionDao;
 import test3.ncxchile.cl.greenDAO.Logs;
+import test3.ncxchile.cl.greenDAO.Mapa;
+import test3.ncxchile.cl.greenDAO.MapaDao;
 import test3.ncxchile.cl.greenDAO.Tarea;
 
 import test3.ncxchile.cl.helpers.Logger;
@@ -251,6 +261,10 @@ public class HomeActivity extends Activity {
                 startActivity(dbmanager);
                 return true;
             case R.id.action_tracking:
+                if(tablerow==null){
+
+                }
+
                 int os= Global.sessionManager.getServicio();
 
                 String timeStamp = "Tracking_OS_"+os;
@@ -276,8 +290,6 @@ public class HomeActivity extends Activity {
                     documento.close();
                     accionController.showPdfFile(storageDir,nombre_documento,this);
                 }
-                //Intent dbmanager = new Intent(this, AndroidDatabaseManager.class);
-                //startActivity(dbmanager);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

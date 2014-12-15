@@ -20,6 +20,7 @@ import com.lowagie.text.HeaderFooter;
 import com.lowagie.text.Image;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
+import com.lowagie.text.pdf.PdfCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
@@ -99,7 +100,6 @@ public class AccionController {
         // guardaremos el pdf.
         FileOutputStream ficheroPdf = new FileOutputStream(file.getAbsolutePath());
 
-
         // Asociamos el flujo que acabamos de crear al documento.
         PdfWriter writer = PdfWriter.getInstance(documento, ficheroPdf);
 
@@ -147,8 +147,51 @@ public class AccionController {
         preface2.add(chunk2);
         documento.add(preface2);
 
-        List acciones=Global.daoSession.getAccionDao().getAccionesByTarea(Global.sessionManager.getTareaActiva());
+        List acciones=Global.daoSession.getAccionDao().getAccionesByTarea(new Long(75));
+        //List acciones=Global.daoSession.getAccionDao().getAccionesByTarea(Global.sessionManager.getTareaActiva());
+        //List acciones=Global.daoSession.getAccionDao().getAll();
+        PdfPTable table=new PdfPTable(1);
+        PdfPTable header=new PdfPTable(5);
+        header.addCell("N°Servicio");
+        header.addCell("Actividad");
+        header.addCell("Fecha");
+        header.addCell("Hora");
+        header.addCell("Lugar");
+        header.setWidthPercentage(100f);
+        header.setWidths(new float[]{16f, 18f, 18f, 16f, 32f});
+        header.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(header);
 
+        for(int i=0;i<4;++i){
+            PdfPTable row=new PdfPTable(5);
+
+            row.setWidthPercentage(100f);
+            row.setWidths(new float[]{16f, 18f, 18f, 16f, 32f});
+            row.setHorizontalAlignment(Element.ALIGN_MIDDLE);
+
+            Accion accion=(Accion)acciones.get(i);
+
+            Paragraph servicio= new Paragraph(accion.getTarea().getServicio().toString());
+            servicio.setAlignment(Element.ALIGN_MIDDLE);
+
+            row.addCell(servicio);
+            row.addCell(accion.getNombre());
+            row.addCell(accion.getFecha());
+            row.addCell(accion.getHora());
+
+            byte[] decodedString=Base64.decode(accion.getMapa().getMapa(),Base64.DEFAULT);
+            Bitmap bm = BitmapFactory.decodeByteArray(decodedString,0,decodedString.length);
+            ByteArrayOutputStream stream2 = new ByteArrayOutputStream();
+            bm.compress(Bitmap.CompressFormat.PNG, 100, stream2);
+            Image imagen3 = Image.getInstance(stream2.toByteArray());
+            //imagen3.setWidthPercentage(20f);
+            row.addCell(imagen3);
+            table.addCell(row);
+        }
+
+        documento.add(table);
+
+        /*
         for(int i=0;i<acciones.size();++i){
             Accion accion=(Accion)acciones.get(i);
             PdfPTable tablaAccion = new PdfPTable(1);
@@ -191,6 +234,7 @@ public class AccionController {
             tablaAccion.addCell(mapa);
             documento.add(tablaAccion);
         }
+        */
     }
 
     public void showPdfFile(File storageDir, String fileName, Context context) {
