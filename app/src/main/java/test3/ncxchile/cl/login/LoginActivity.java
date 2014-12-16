@@ -133,7 +133,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
             public void onClick(DialogInterface dialog, int which) {
             }
         });
-
     }
 
     /*

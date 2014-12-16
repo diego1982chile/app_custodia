@@ -59,7 +59,7 @@
                     android:maxLines="1"
                     android:maxLength="9"
                     android:singleLine="true"
-                    android:typeface="monospace" />
+                     />
                 <EditText
                     android:id="@+id/password"
                     android:layout_width="match_parent"

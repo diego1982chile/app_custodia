@@ -110,10 +110,10 @@ public class SessionManager {
         editor.putInt(KEY_CANTIDAD_FOTOS, 0);
 
         // Storing id of active task
-        editor.putLong(KEY_TAREA_ACTIVA, 0);
+        editor.putLong(KEY_TAREA_ACTIVA, -1);
 
         // Storing status of active task
-        editor.putInt(KEY_SERVICIO, 0);
+        editor.putInt(KEY_SERVICIO, -1);
 
         // Storing latitud
         editor.putFloat(KEY_LATITUD, 0);

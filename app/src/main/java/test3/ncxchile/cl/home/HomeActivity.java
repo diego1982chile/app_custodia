@@ -6,18 +6,12 @@ import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.DocumentsContract;
-import android.util.Base64;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,41 +25,29 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.lowagie.text.BadElementException;
 import com.lowagie.text.DocumentException;
-import com.lowagie.text.Image;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.w3c.dom.Document;
-
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
 import test3.ncxchile.cl.acta.ActaController;
-import test3.ncxchile.cl.acta.Firma;
 import test3.ncxchile.cl.acta.MyActivity;
 import test3.ncxchile.cl.db.AndroidDatabaseManager;
 import test3.ncxchile.cl.db.Global;
 import test3.ncxchile.cl.greenDAO.Accion;
-import test3.ncxchile.cl.greenDAO.Acta;
-import test3.ncxchile.cl.greenDAO.InstitucionDao;
-import test3.ncxchile.cl.greenDAO.Logs;
-import test3.ncxchile.cl.greenDAO.Mapa;
-import test3.ncxchile.cl.greenDAO.MapaDao;
 import test3.ncxchile.cl.greenDAO.Tarea;
 
 import test3.ncxchile.cl.helpers.Logger;
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.session.SessionManager;
+import test3.ncxchile.cl.threads.ThreadAcciones;
+import test3.ncxchile.cl.threads.ThreadLocalizacion;
 import test3.ncxchile.cl.threads.ThreadMapas;
+import test3.ncxchile.cl.threads.ThreadTareas;
 
 public class HomeActivity extends Activity {
 
@@ -79,12 +61,13 @@ public class HomeActivity extends Activity {
     public TextView statusGps,statusHora;
     public FrameLayout statusMensajes,historialAcciones;
     public static LinearLayout linlaHeaderProgress;
+    private TrackingDialogFragment trackingDialogFragment;
 
     public static Button tomarTarea, confirmarArribo, completarActa, retiroRealizado, pdf;
 
-    TareaController tareaController;
-    AccionController accionController;
-    ActaController actaController;
+    public static TareaController tareaController;
+    public static AccionController accionController;
+    public static ActaController actaController;
 
     private ThreadTareas threadTareas;
     private ThreadLocalizacion threadLocalizacion;
@@ -108,6 +91,7 @@ public class HomeActivity extends Activity {
         accionController = new AccionController(this);
         actaController= new ActaController(this);
 
+        /*
         InputStream myInputActa=null;
         BufferedReader brActa= null;
         String thisLineActa = null;
@@ -239,6 +223,8 @@ public class HomeActivity extends Activity {
             public void onClick(DialogInterface dialog, int which) {
             }
         });
+
+        trackingDialogFragment = new TrackingDialogFragment();
     }
 
     @Override
@@ -261,34 +247,35 @@ public class HomeActivity extends Activity {
                 startActivity(dbmanager);
                 return true;
             case R.id.action_tracking:
-                if(tablerow==null){
-
+                if(Global.sessionManager.getServicio()==-1){
+                    trackingDialogFragment.show(getFragmentManager(), "NoticeDialogFragment");
                 }
+                else{
+                    int os= Global.sessionManager.getServicio();
 
-                int os= Global.sessionManager.getServicio();
+                    String timeStamp = "Tracking_OS_"+os;
 
-                String timeStamp = "Tracking_OS_"+os;
+                    File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS+"/OS_"+os+"/");
 
-                File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS+"/OS_"+os+"/");
+                    if(!storageDir.exists())
+                        storageDir.mkdirs();
 
-                if(!storageDir.exists())
-                    storageDir.mkdirs();
+                    String nombre_documento=timeStamp + ".pdf";
 
-                String nombre_documento=timeStamp + ".pdf";
+                    // Creamos el documento.
+                    com.lowagie.text.Document documento = new com.lowagie.text.Document();
 
-                // Creamos el documento.
-                com.lowagie.text.Document documento = new com.lowagie.text.Document();
-
-                try {
-                    accionController.generarTracking(storageDir,nombre_documento,documento);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (DocumentException e) {
-                    e.printStackTrace();
-                }
-                finally {
-                    documento.close();
-                    accionController.showPdfFile(storageDir,nombre_documento,this);
+                    try {
+                        accionController.generarTracking(storageDir,nombre_documento,documento);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (DocumentException e) {
+                        e.printStackTrace();
+                    }
+                    finally {
+                        documento.close();
+                        accionController.showPdfFile(storageDir,nombre_documento,this);
+                    }
                 }
                 return true;
             default:
@@ -570,7 +557,6 @@ public class HomeActivity extends Activity {
                             // Setear estado de la tarea activa en la sesión
                             // Actualizar estado de la tarea activa en la sesión
                             Global.sessionManager.setServicio(-1);
-                            tablerow.removeAllViews();
                             //tablerow.setBackgroundColor(Color.GREEN);
 
                             //TODO: eliminar tarea de la BD.
@@ -586,9 +572,6 @@ public class HomeActivity extends Activity {
             });
             alertDialog.show();
         }
-
-        accionController.encolarAccion("Retiro Realizado");
-        Logger.log("Retiro Realizado");
 
         /*
         if (tareaController.getStatusTarea(tablerow.getId())==2) {

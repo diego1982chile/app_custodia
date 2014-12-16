@@ -1354,7 +1354,7 @@ public class ActaController {
         tabla43.setWidthPercentage(100f);
         tabla43.addCell("Conductor del vehículo");
         PdfPTable tabla44 = new PdfPTable(2);
-        tabla44.addCell("Nombre: " + datosPdf.getView6_07().toString());
+        tabla44.addCell("Nombre: " + datosPdf.getView6_07().toString()+" "+datosPdf.getView6_06_paterno()+" "+datosPdf.getView6_06_materno());
         tabla44.addCell("Rut: " + datosPdf.getView6_06().toString());
         PdfPTable tabla45 = new PdfPTable(2);
         tabla45.addCell("Teléfono: " + datosPdf.getView6_10().toString());
@@ -1370,7 +1370,7 @@ public class ActaController {
         tabla47.setWidthPercentage(100f);
         tabla47.addCell("Propietario del Vehículo");
         PdfPTable tabla48 = new PdfPTable(2);
-        tabla48.addCell("Nombre: " + datosPdf.getView6_02().toString());
+        tabla48.addCell("Nombre: " + datosPdf.getView6_02().toString()+" "+datosPdf.getView6_02_paterno()+" "+datosPdf.getView6_02_materno());
         tabla48.addCell("Rut: " + datosPdf.getView6_01().toString());
         PdfPTable tabla49 = new PdfPTable(2);
         tabla49.addCell("Teléfono: " + datosPdf.getView6_05().toString());

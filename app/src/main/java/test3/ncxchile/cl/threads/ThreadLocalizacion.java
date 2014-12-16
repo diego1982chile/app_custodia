@@ -1,4 +1,4 @@
-package test3.ncxchile.cl.home;
+package test3.ncxchile.cl.threads;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -25,6 +25,7 @@ import test3.ncxchile.cl.db.Global;
 import test3.ncxchile.cl.helpers.InternetDetector;
 import test3.ncxchile.cl.helpers.GpsDetector;
 import test3.ncxchile.cl.helpers.NtpDetector;
+import test3.ncxchile.cl.home.HomeActivity;
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.session.SessionManager;
 
@@ -226,13 +227,13 @@ public class ThreadLocalizacion extends CountDownTimer implements
                 @Override
                 public void run() {
                     // Decirle al usuario que active Fecha y hora automática
-                    context.iconoHora.setImageResource(R.drawable.hora_no_ok_small);
+                    context.iconoHora.setImageResource(R.drawable.hora_no_ok_small1);
                 }
             });
         }
         else
         {
-            context.iconoHora.setImageResource(R.drawable.hora_ok_small);
+            context.iconoHora.setImageResource(R.drawable.hora_ok_small1);
             componentesHabilitados++;
         }
 
@@ -242,12 +243,12 @@ public class ThreadLocalizacion extends CountDownTimer implements
                 @Override
                 public void run() {
                     // Decirle al usuario que active GPS
-                    context.iconoGps.setImageResource(R.drawable.gps_no_ok_small);
+                    context.iconoGps.setImageResource(R.drawable.gps_no_ok_small1);
                 }
             });
         }
         else{
-            context.iconoGps.setImageResource(R.drawable.gps_ok_small);
+            context.iconoGps.setImageResource(R.drawable.gps_ok_small1);
 
             if(servicesConnected()) {
                 if(mLocationClient.isConnected()) {

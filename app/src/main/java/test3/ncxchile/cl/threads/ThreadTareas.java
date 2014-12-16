@@ -1,4 +1,4 @@
-package test3.ncxchile.cl.home;
+package test3.ncxchile.cl.threads;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -33,6 +33,9 @@ import test3.ncxchile.cl.greenDAO.Logs;
 import test3.ncxchile.cl.greenDAO.Tarea;
 import test3.ncxchile.cl.helpers.InternetDetector;
 import test3.ncxchile.cl.helpers.Logger;
+import test3.ncxchile.cl.home.AccionController;
+import test3.ncxchile.cl.home.HomeActivity;
+import test3.ncxchile.cl.home.TareaController;
 import test3.ncxchile.cl.login.LoginController;
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.session.SessionManager;
@@ -273,7 +276,8 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
             public void run() {
 
                 if(!conectado) {
-                    context.erroress.setImageResource(R.drawable.wifi_no_ok_small);
+                    context.erroress.setImageResource(R.drawable.wifi_no_ok_small1);
+                    HomeActivity.linlaHeaderProgress.setVisibility(View.INVISIBLE);
                     Toast.makeText(context, "No hay conexión a internet", Toast.LENGTH_LONG).show();
                 }
                 else {

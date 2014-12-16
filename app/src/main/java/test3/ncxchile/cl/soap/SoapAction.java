@@ -140,6 +140,7 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
                 if (obj instanceof Vector) {
                     data = (Vector) obj;
                     System.out.println("SoapResponse Vector=" + data);
+                    Logger.log("Response WS: SoapProxy. "+current.methodName+" SoapResponse Vector = "+data);
                 }
                 else if (obj instanceof SoapPrimitive) {
                     SoapPrimitive resp = (SoapPrimitive) obj;
@@ -148,12 +149,12 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
                     JSONObject jsonObj = new JSONObject(json);
                     data = new Vector();
                     data.add(jsonObj);
-
+                    Logger.log("Response WS: SoapProxy. "+current.methodName+" SoapResponse SoapPrimitive = "+json);
                 }
                 else {
                     System.out.println("SoapAction Tipo de Objeto Incorrecto =" + obj + "= methodName=" + currentMethod.methodName);
+                    Logger.log("Response WS: SoapProxy. "+current.methodName+" SoapResponse Tipo de Objeto Incorrecto = "+obj);
                 }
-                //Logger.log("Response WS: SoapProxy."+current.methodName);
                 return data;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -162,7 +163,7 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
                 PrintWriter pw = new PrintWriter(sw);
                 e.printStackTrace(pw);
 
-                Logger.log("Error WS: SoapProxy."+current.methodName+" StackTrace:"+sw.toString());
+                Logger.log("Error WS: SoapProxy. "+current.methodName+" StackTrace:"+sw.toString());
 
                 handler.resultValue(null,null,null);
             }

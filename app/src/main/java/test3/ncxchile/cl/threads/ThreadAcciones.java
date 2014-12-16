@@ -1,4 +1,4 @@
-package test3.ncxchile.cl.home;
+package test3.ncxchile.cl.threads;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -25,6 +25,9 @@ import test3.ncxchile.cl.greenDAO.Acta;
 import test3.ncxchile.cl.greenDAO.Firma;
 import test3.ncxchile.cl.greenDAO.Tarea;
 import test3.ncxchile.cl.helpers.InternetDetector;
+import test3.ncxchile.cl.home.AccionController;
+import test3.ncxchile.cl.home.HomeActivity;
+import test3.ncxchile.cl.home.TareaController;
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.soap.JSONUtil;
 import test3.ncxchile.cl.soap.SoapHandler;
@@ -348,10 +351,6 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                 System.out.println("buscarActaJSON=" + source + "=" + value + "(value nulo)");
             }
 
-
-
-
-
         }
         else if (methodName.equals("finalizarActaGruero")) {
             if (value == null) {
@@ -396,6 +395,7 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                     Accion siguienteAccion = (Accion) source;
                     siguienteAccion.setSincronizada(true);
                     siguienteAccion.update();
+                    HomeActivity.tablerow.removeAllViews();
                 }
                 else {
                     /*

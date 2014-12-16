@@ -22,7 +22,7 @@ public class TareaController {
         localContext=context;
     }
 
-    List getTareasAsignadas(){
+    public List getTareasAsignadas(){
         return Global.daoSession.getTareaDao().getAsignadas();
     }
 

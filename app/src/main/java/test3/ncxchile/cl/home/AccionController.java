@@ -38,6 +38,7 @@ import test3.ncxchile.cl.db.Global;
 import test3.ncxchile.cl.greenDAO.Accion;
 import test3.ncxchile.cl.greenDAO.Acta;
 import test3.ncxchile.cl.greenDAO.Logs;
+import test3.ncxchile.cl.greenDAO.Tarea;
 import test3.ncxchile.cl.login.R;
 
 import static android.support.v4.app.ActivityCompat.startActivity;
@@ -113,8 +114,7 @@ public class AccionController {
         documento.setFooter(pie);
 
         // Añadimos un título con la fuente por defecto.
-        documento.add(new Paragraph("Soc. Concesionaria Centro Metropolitano de Vehículos Retirados de Circulación"));
-        documento.add(new Paragraph("S.A."));
+        documento.add(new Paragraph("Soc. Concesionaria Centro Metropolitano de Vehículos Retirados de Circulación S.A."));
         documento.add(new Paragraph("R.U.T: 76.101.714-4"));
         documento.add(new Paragraph("WWW.CUSTODIAMETROPOLITANA.CL"));
         documento.add(new Paragraph("Camino Lo Echevers 920 Quilicura - Santiago"));
@@ -136,10 +136,10 @@ public class AccionController {
         preface.setSpacingBefore(30f);
         preface.setFont(h1);
         preface.add(chunk);
-        documento.add(preface);
+        //documento.add(preface);
 
         Paragraph preface2 = new Paragraph();
-        Chunk chunk2 = new Chunk("Orden de Servicio N° " + Global.sessionManager.getServicio());
+        Chunk chunk2 = new Chunk("Tracking OS N°" + Global.sessionManager.getServicio());
         preface2.setAlignment(Element.ALIGN_CENTER);
         preface2.setFont(h1);
         preface2.setSpacingBefore(15f);
@@ -147,7 +147,12 @@ public class AccionController {
         preface2.add(chunk2);
         documento.add(preface2);
 
-        List acciones=Global.daoSession.getAccionDao().getAccionesByTarea(new Long(75));
+        System.out.println("Global.sessionManager.getServicio()= "+Global.sessionManager.getServicio());
+
+        Tarea tarea=Global.daoSession.getTareaDao().getByServicio(Global.sessionManager.getServicio());
+        List acciones=Global.daoSession.getAccionDao().getAccionesByTarea(tarea.getId());
+
+        System.out.println("acciones.size()= "+acciones.size());
         //List acciones=Global.daoSession.getAccionDao().getAccionesByTarea(Global.sessionManager.getTareaActiva());
         //List acciones=Global.daoSession.getAccionDao().getAll();
         PdfPTable table=new PdfPTable(1);
@@ -162,7 +167,7 @@ public class AccionController {
         header.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(header);
 
-        for(int i=0;i<4;++i){
+        for(int i=0;i<acciones.size();++i){
             PdfPTable row=new PdfPTable(5);
 
             row.setWidthPercentage(100f);
@@ -190,51 +195,6 @@ public class AccionController {
         }
 
         documento.add(table);
-
-        /*
-        for(int i=0;i<acciones.size();++i){
-            Accion accion=(Accion)acciones.get(i);
-            PdfPTable tablaAccion = new PdfPTable(1);
-            tablaAccion.setWidthPercentage(100f);
-            PdfPTable nombre = new PdfPTable(1);
-
-            switch(i){
-                case 0:
-                    // Accion TareaTomada
-                    nombre.addCell("Nombre: " + "Tarea Tomada");
-                    break;
-                case 1:
-                    nombre.addCell("Nombre: " + "Arribo Confirmado");
-                    break;
-                case 3:
-                    nombre.addCell("Nombre: " + "Acta Completada");
-                    break;
-                case 4:
-                    nombre.addCell("Nombre: " + "Retiro Realizado");
-                    break;
-            }
-            PdfPTable fecha = new PdfPTable(1);
-            fecha.addCell("Fecha: " +accion.getFecha());
-            PdfPTable hora = new PdfPTable(1);
-            fecha.addCell("Hora: " +accion.getHora());
-            PdfPTable mapa = new PdfPTable(1);
-            try {
-                imagen = Image.getInstance(Base64.decode(accion.getMapa().getMapa(), Base64.DEFAULT));
-                //ByteArrayInputStream imageStream = new ByteArrayInputStream(accion.getMapa().getMapa());
-                //imagen2= BitmapFactory.decodeStream(imageStream);
-                //imagen = Image.getInstance(accion.getMapa().getMapa());
-            } catch (OutOfMemoryError e) {
-                e.printStackTrace();
-            }
-            imagen.setWidthPercentage(10f);
-            mapa.addCell("Mapa: " +imagen);
-            tablaAccion.addCell(nombre);
-            tablaAccion.addCell(fecha);
-            tablaAccion.addCell(hora);
-            tablaAccion.addCell(mapa);
-            documento.add(tablaAccion);
-        }
-        */
     }
 
     public void showPdfFile(File storageDir, String fileName, Context context) {

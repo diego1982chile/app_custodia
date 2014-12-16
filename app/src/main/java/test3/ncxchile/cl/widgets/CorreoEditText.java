@@ -36,7 +36,7 @@ public class CorreoEditText extends EditText {
 
     public void init(final Context context){
         successIcon = getResources().getDrawable(R.drawable.green_circle_check);
-        successIcon.setBounds(new Rect(0, 0, 20, 20));
+        successIcon.setBounds(0, 0, (int)getTextSize()+2, (int)getTextSize()+2);
 
         View.OnFocusChangeListener fieldValidatorText = new View.OnFocusChangeListener() {
             @Override

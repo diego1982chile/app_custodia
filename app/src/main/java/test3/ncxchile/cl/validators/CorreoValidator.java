@@ -7,7 +7,9 @@ import java.util.regex.Pattern;
  */
 public abstract class CorreoValidator {
 
-    private static final Pattern sFinalPattern = Pattern.compile("^\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,3}$");
+    private static final Pattern sFinalPattern = Pattern.compile("^\\w+.?\\w+.?\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,3}$");
+
+    //private static final Pattern sFinalPattern = Pattern.compile("^\\[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$");
 
     public static boolean isFormatValid(CharSequence s) {
         return sFinalPattern.matcher(s).matches();
