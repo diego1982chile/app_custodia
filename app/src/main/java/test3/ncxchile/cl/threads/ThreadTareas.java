@@ -51,8 +51,8 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
     private long timeElapsed;
     private boolean timerHasStarted = false;
     // variable tipo flag para no consumir el web service innecesariamente
-    private static boolean conexionPrevia = false;
-    private static boolean desconexionPrevia = false;
+    public static boolean conexionPrevia = false;
+    public static boolean desconexionPrevia = false;
 
     private long startTime;
     private long interval;
@@ -137,6 +137,8 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
             // Se pierde la conexion, luego si se vuelve a detectar conexion, es necesario volver a consumir el webservice
             conexionPrevia=false;
 
+            System.out.println("!desconexionPrevia="+!desconexionPrevia);
+
             if(!desconexionPrevia){
                 Logger.log("Internet Connection Lost");
                 desconexionPrevia=true;
@@ -156,6 +158,23 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
         c.add(Calendar.DATE, -2);  // number of days to add
         actualizarTablaAcciones(accionController.getUltimasAcciones(c.getTime()));
         */
+    }
+
+    public static void notificarConexion(final boolean conectado){
+        context.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                if(!conectado) {
+                    context.erroress.setImageResource(R.drawable.wifi_no_ok_small1);
+                    Toast.makeText(context, "No hay conexión a internet", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    context.erroress.setImageResource(R.drawable.wifi_ok_small);
+                    Toast.makeText(context, "Dispositivo conectado", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     public void forzarActualizarTareas(){
@@ -269,24 +288,6 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
 
     //<img src='"+successIcon+"'>
     //><img src='"+failIcon+"'>
-
-    public static void notificarConexion(final boolean conectado){
-        context.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-                if(!conectado) {
-                    context.erroress.setImageResource(R.drawable.wifi_no_ok_small1);
-                    HomeActivity.linlaHeaderProgress.setVisibility(View.INVISIBLE);
-                    Toast.makeText(context, "No hay conexión a internet", Toast.LENGTH_LONG).show();
-                }
-                else {
-                    context.erroress.setImageResource(R.drawable.wifi_ok_small);
-                    Toast.makeText(context, "Dispositivo conectado", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-    }
 
     public static void actualizarTablaTareas(final List tareas){
         //System.out.println("size="+tareas.size());

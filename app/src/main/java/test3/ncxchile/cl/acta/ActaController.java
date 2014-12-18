@@ -513,7 +513,7 @@ public class ActaController {
                             if(telefonosJson.length()>0) {
                                 telefonos.setEmail(telefonosJson.get(0).toString().trim());
                                 telefonos.setTelefonosID(persona.getId());
-                                if(Global.daoSession.getTelefonosDao().getByValue(telefonos.getEmail())==null){
+                                if(Global.daoSession.getTelefonosDao().getByValue(telefonos)==null){
                                     Global.daoSession.getTelefonosDao().insert(telefonos);
                                     persona.getTelefonos().add(telefonos);
                                 }
@@ -522,7 +522,7 @@ public class ActaController {
                             if(correosJson.length()>0){
                                 correos.setEmail(correosJson.get(0).toString().trim());
                                 correos.setCorreosID(persona.getId());
-                                if(Global.daoSession.getCorreosDao().getByValue(telefonos.getEmail())==null) {
+                                if(Global.daoSession.getCorreosDao().getByValue(correos)==null) {
                                     Global.daoSession.getCorreosDao().insert(correos);
                                     persona.getCorreos().add(correos);
                                 }
@@ -663,7 +663,7 @@ public class ActaController {
                 Telefonos telefonos= new Telefonos(null,datosPDF.getView1_02_telefonos().trim(),0);
                 telefonos.setTelefonosID(acta.getAutoridad().getPersonaID());
 
-                if(Global.daoSession.getTelefonosDao().getByValue(telefonos.getEmail())==null){
+                if(Global.daoSession.getTelefonosDao().getByValue(telefonos)==null){
                     Global.daoSession.getTelefonosDao().insert(telefonos);
                     acta.getAutoridad().getPersona().getTelefonos().add(telefonos);
                 }
@@ -671,7 +671,7 @@ public class ActaController {
                 Correos correos= new Correos(null,datosPDF.getView1_02_correos().trim(),0);
                 correos.setCorreosID(acta.getAutoridad().getPersonaID());
 
-                if(Global.daoSession.getCorreosDao().getByValue(correos.getEmail())==null){
+                if(Global.daoSession.getCorreosDao().getByValue(correos)==null){
                     Global.daoSession.getCorreosDao().insert(correos);
                     acta.getAutoridad().getPersona().getCorreos().add(correos);
                 }
@@ -745,6 +745,7 @@ public class ActaController {
 
                     // Primero agregar persona propietario
                     if((propietario=Global.daoSession.getPersonaDao().getByRut(datosPDF.getView6_01()))==null) {
+                        System.out.println("No existe el propietario, asi que se va a agregar el nuevo propietario");
                         propietario = new Persona(null, datosPDF.getView6_02(), datosPDF.getView6_01(), datosPDF.getView6_02_paterno(), datosPDF.getView6_02_materno(), "", 0, 0, 0);
                         Global.daoSession.getPersonaDao().insertOrReplace(propietario);
 
@@ -752,7 +753,8 @@ public class ActaController {
                         correoPropietario = new Correos(null, datosPDF.getView6_04().trim(), 0);
                         correoPropietario.setCorreosID(propietario.getId());
 
-                        if(Global.daoSession.getCorreosDao().getByValue(correoPropietario.getEmail())==null){
+                        if(Global.daoSession.getCorreosDao().getByValue(correoPropietario)==null){
+                            System.out.println("No existe el correo para este propietario, asi que se va a agregar el nuevo correo");
                             Global.daoSession.getCorreosDao().insertOrReplace(correoPropietario);
                             propietario.getCorreos().add(correoPropietario);
                         }
@@ -761,7 +763,8 @@ public class ActaController {
                         fonoPropietario = new Telefonos(null, datosPDF.getView6_05().trim(), 0);
                         fonoPropietario.setTelefonosID(propietario.getId());
 
-                        if(Global.daoSession.getTelefonosDao().getByValue(fonoPropietario.getEmail())==null){
+                        if(Global.daoSession.getTelefonosDao().getByValue(fonoPropietario)==null){
+                            System.out.println("No existe el fono para este propietario, asi que se va a agregar el nuevo fono");
                             Global.daoSession.getTelefonosDao().insertOrReplace(fonoPropietario);
                             propietario.getTelefonos().add(fonoPropietario);
                         }
@@ -780,9 +783,10 @@ public class ActaController {
                 if(!datosPDF.getView6_06().toString().equals("")) {
 
                     // Primero agregar persona conductor
-                    if(!datosPDF.getView6_06().toString().equals(datosPDF.getView6_06().toString())){
+                    if(!datosPDF.getView6_06().toString().equals(datosPDF.getView6_02().toString())){
 
                         if((conductor=Global.daoSession.getPersonaDao().getByRut(datosPDF.getView6_06()))==null) {
+                            System.out.println("No existe el conductor, asi que se va a agregar el nuevo conductor");
                             conductor = new Persona(null, datosPDF.getView6_07(), datosPDF.getView6_06(), datosPDF.getView6_06_paterno(), datosPDF.getView6_06_materno(), "", 0, 0, 0);
                             Global.daoSession.getPersonaDao().insertOrReplace(conductor);
 
@@ -790,7 +794,8 @@ public class ActaController {
                             correoConductor = new Correos(null, datosPDF.getView6_09().trim(), 0);
                             correoConductor.setCorreosID(conductor.getId());
 
-                            if(Global.daoSession.getTelefonosDao().getByValue(correoConductor.getEmail())==null){
+                            if(Global.daoSession.getCorreosDao().getByValue(correoConductor)==null){
+                                System.out.println("No existe el correo para este conductor, asi que se va a agregar el nuevo correo");
                                 Global.daoSession.getCorreosDao().insertOrReplace(correoConductor);
                                 conductor.getCorreos().add(correoConductor);
                             }
@@ -798,7 +803,8 @@ public class ActaController {
                             conductor.getTelefonos();
                             fonoConductor = new Telefonos(null, datosPDF.getView6_10().trim(), 0);
                             fonoConductor.setTelefonosID(conductor.getId());
-                            if(Global.daoSession.getTelefonosDao().getByValue(fonoConductor.getEmail())==null){
+                            if(Global.daoSession.getTelefonosDao().getByValue(fonoConductor)==null){
+                                System.out.println("No existe el fono para este conductor, asi que se va a agregar el nuevo fono");
                                 Global.daoSession.getTelefonosDao().insertOrReplace(fonoConductor);
                                 conductor.getTelefonos().add(fonoConductor);
                             }

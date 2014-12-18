@@ -238,11 +238,11 @@ public class TelefonosDao extends AbstractDao<Telefonos, Long> {
         return loadDeepAllAndCloseCursor(cursor);
     }
 
-    public Telefonos getByValue(String value){
-        Telefonos fono= queryBuilder()
-                .where(Properties.Email.like(value.trim()))
+    public Telefonos getByValue(Telefonos fono){
+        Telefonos _fono= queryBuilder()
+                .where(Properties.Email.like(fono.getEmail().trim()),Properties.TelefonosID.eq(fono.getTelefonosID()))
                 .unique();
-        return fono;
+        return _fono;
     }
 }
 

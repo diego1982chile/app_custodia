@@ -36,7 +36,7 @@ public class MyDaoGenerator {
 
         //addUserName(schema);
 
-        addTareaActaAccionMapa(schema);
+        addMarca(schema);
 
         new DaoGenerator().generateAll(schema, "upload/src-gen");
     }
@@ -244,6 +244,12 @@ public class MyDaoGenerator {
         Entity institucion = schema.addEntity("Institucion");
         institucion.addIdProperty();
         institucion.addStringProperty("nombre");
+    }
+
+    private static void addMarca(Schema schema) {
+        Entity marca = schema.addEntity("Marca");
+        marca.addIdProperty();
+        marca.addStringProperty("nombre");
     }
 
     private static void addTribunal(Schema schema) {

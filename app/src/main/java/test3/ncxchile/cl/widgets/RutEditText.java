@@ -51,13 +51,13 @@ public class RutEditText extends EditText {
                     if(!RutValidator.isRutValid(s))
                         setError(context.getString(R.string.error_invalid_email));
                     else
-                        setError(context.getString(R.string.prompt_valid_rut), successIcon);
+                        setError(null, successIcon);
                 }
                 else
                 {
                     if(s.length()==9) {
                         if (RutValidator.isRutValid(s))
-                            setError(context.getString(R.string.prompt_valid_rut), successIcon);
+                            setError(null, successIcon);
                     }
                 }
             }
@@ -94,7 +94,7 @@ public class RutEditText extends EditText {
             public void afterTextChanged(Editable s) {
                 if(s.length()==9) {
                     if (RutValidator.isRutValid(s)) {
-                        setError(context.getString(R.string.prompt_valid_rut), successIcon);
+                        setError(null, successIcon);
                         if(focusSearch(FOCUS_DOWN)!=null)
                             focusSearch(FOCUS_DOWN).requestFocus();
                     }

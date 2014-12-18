@@ -94,8 +94,8 @@ public class FragmentX5 extends Fragment {
         buttonVideo = (Button) rootView.findViewById(R.id.button_video);
         //items.add(new ImageItem(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.placeholder),""));
 
-        ImageItem imagePlaceHolder = new ImageItem(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.photo_placeholder),
-                                                   BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.photo_placeholder),
+        ImageItem imagePlaceHolder = new ImageItem(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.photo_placeholder_small),
+                                                   BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.photo_placeholder_small),
                                                    Uri.parse(getActivity().getPackageName() + R.drawable.video_placeholder),"");
 
         if(imageItems.size()>0) {
@@ -117,7 +117,7 @@ public class FragmentX5 extends Fragment {
         }
 
         VideoItem videoPlaceHolder= new VideoItem(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.video_placeholder),
-                                                  BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.photo_placeholder),
+                                                  BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.photo_placeholder_small),
                                                   Uri.parse(getActivity().getPackageName() + R.drawable.video_placeholder),"");
 
         if(videoItems.size()>0) {

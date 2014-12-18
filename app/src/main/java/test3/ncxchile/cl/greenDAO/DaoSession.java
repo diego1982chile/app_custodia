@@ -50,6 +50,7 @@ public class DaoSession extends AbstractDaoSession {
     private final DaoConfig mapaDaoConfig;
     private final DaoConfig userNameDaoConfig;
     private final DaoConfig tribunalDaoConfig;
+    private final DaoConfig marcaDaoConfig;
 
     private final FinalizarActaDao finalizarActaDao;
     private final ActaDao actaDao;
@@ -81,6 +82,7 @@ public class DaoSession extends AbstractDaoSession {
     private final MapaDao mapaDao;
     private final UserNameDao userNameDao;
     private final TribunalDao tribunalDao;
+    private final MarcaDao marcaDao;
 
     public DaoSession(SQLiteDatabase db, IdentityScopeType type, Map<Class<? extends AbstractDao<?, ?>>, DaoConfig>
             daoConfigMap) {
@@ -176,6 +178,9 @@ public class DaoSession extends AbstractDaoSession {
         tribunalDaoConfig = daoConfigMap.get(TribunalDao.class).clone();
         tribunalDaoConfig.initIdentityScope(type);
 
+        marcaDaoConfig = daoConfigMap.get(MarcaDao.class).clone();
+        marcaDaoConfig.initIdentityScope(type);
+
         finalizarActaDao = new FinalizarActaDao(finalizarActaDaoConfig, this);
         actaDao = new ActaDao(actaDaoConfig, this);
         vehiculoDataDao = new VehiculoDataDao(vehiculoDataDaoConfig, this);
@@ -206,6 +211,7 @@ public class DaoSession extends AbstractDaoSession {
         mapaDao = new MapaDao(mapaDaoConfig, this);
         userNameDao = new UserNameDao(userNameDaoConfig, this);
         tribunalDao = new TribunalDao(tribunalDaoConfig, this);
+        marcaDao = new MarcaDao(marcaDaoConfig, this);
 
         registerDao(FinalizarActa.class, finalizarActaDao);
         registerDao(Acta.class, actaDao);
@@ -237,6 +243,7 @@ public class DaoSession extends AbstractDaoSession {
         registerDao(Mapa.class, mapaDao);
         registerDao(UserName.class, userNameDao);
         registerDao(Tribunal.class, tribunalDao);
+        registerDao(Marca.class, marcaDao);
     }
     
     public void clear() {
@@ -270,6 +277,7 @@ public class DaoSession extends AbstractDaoSession {
         mapaDaoConfig.getIdentityScope().clear();
         userNameDaoConfig.getIdentityScope().clear();
         tribunalDaoConfig.getIdentityScope().clear();
+        marcaDaoConfig.getIdentityScope().clear();
     }
 
     public FinalizarActaDao getFinalizarActaDao() {
@@ -390,5 +398,9 @@ public class DaoSession extends AbstractDaoSession {
 
     public TribunalDao getTribunalDao() {
         return tribunalDao;
+    }
+
+    public MarcaDao getMarcaDao() {
+        return marcaDao;
     }
 }

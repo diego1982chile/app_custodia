@@ -74,7 +74,12 @@ public class AccionController {
             Acta acta= actaController.getActaByTarea(Global.sessionManager.getTareaActiva());
             accion.setIdActa(acta.getId());
         }
-        return Global.daoSession.getAccionDao().insert(accion);
+
+        long idAccion=Global.daoSession.getAccionDao().insert(accion);
+        String labelAccion=accion.getNombre()+" [OS-"+accion.getTarea().getServicio()+"]";
+        HomeActivity.setStatus(labelAccion,4);
+
+        return idAccion;
     }
 
     public long encolarAccion(Accion accion){
@@ -184,16 +189,25 @@ public class AccionController {
             row.addCell(accion.getFecha());
             row.addCell(accion.getHora());
 
-            byte[] decodedString=Base64.decode(accion.getMapa().getMapa(),Base64.DEFAULT);
-            Bitmap bm = BitmapFactory.decodeByteArray(decodedString,0,decodedString.length);
+            Bitmap bm=BitmapFactory.decodeResource(localContext.getResources(), R.drawable.photo_placeholder_small);
             ByteArrayOutputStream stream2 = new ByteArrayOutputStream();
             bm.compress(Bitmap.CompressFormat.PNG, 100, stream2);
             Image imagen3 = Image.getInstance(stream2.toByteArray());
+
+            if(accion.getMapa()!=null){
+                byte[] decodedString = Base64.decode(accion.getMapa().getMapa(), Base64.DEFAULT);
+                bm = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                stream2 = new ByteArrayOutputStream();
+                bm.compress(Bitmap.CompressFormat.PNG, 100, stream2);
+                imagen3 = Image.getInstance(stream2.toByteArray());
+            }
             //imagen3.setWidthPercentage(20f);
             row.addCell(imagen3);
             table.addCell(row);
         }
-
+        // Des-setear el servicio
+        Global.sessionManager.setServicio(-1);
+        Global.sessionManager.setTareaActiva(-1);
         documento.add(table);
     }
 

@@ -137,10 +137,12 @@ public class FragmentX3 extends android.app.Fragment {
             esValido=false;
         }
 
+        /*
         if(view3_08.getText().toString().equals("")){
             view3_08.setError(getString(R.string.error_field_required));
             esValido=false;
         }
+        */
         return esValido;
     }
 

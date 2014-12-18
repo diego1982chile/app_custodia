@@ -141,7 +141,7 @@
                 android:layout_marginTop="8dp"
                 android:id="@+id/textView3" />
 
-            <EditText
+            <test3.ncxchile.cl.widgets.CustomAutoComplete
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/view4_02_marca"
@@ -206,7 +206,7 @@
                 android:layout_marginTop="8dp"
                 android:id="@+id/textView4" />
 
-            <EditText
+            <test3.ncxchile.cl.widgets.CustomSpinner
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/view4_04_ano"

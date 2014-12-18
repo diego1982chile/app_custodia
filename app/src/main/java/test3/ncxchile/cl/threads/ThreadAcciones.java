@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -43,6 +45,7 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
     private boolean timerHasStarted = false;
     // variable tipo flag para no consumir el web service innecesariamente
     private boolean conexionPrevia = false;
+    private String labelAccion="";
 
     boolean sincronizando=false;
 
@@ -61,7 +64,7 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
 
     private Hashtable<Long, Integer> retryCount = null;
 
-    private AlertDialog tareaDialog;
+    private AlertDialog tareaDialog,actaDialog;
 
     private Object sem;
 
@@ -87,8 +90,23 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
         tareaDialog.setIcon(errorIcon);
         tareaDialog.setButton(Dialog.BUTTON_POSITIVE, "Aceptar",new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
+                HomeActivity.setStatus(labelAccion,5);
             }
         });
+
+        actaDialog = new AlertDialog.Builder(activityContext).create();
+        actaDialog.setTitle("Acta recepcionada");
+        actaDialog.setMessage("El acta se recibió correctamente y puede ser completada");
+
+        Drawable successIcon = appContext.getResources().getDrawable(R.drawable.luzverde);
+
+        actaDialog.setIcon(successIcon);
+        actaDialog.setButton(Dialog.BUTTON_POSITIVE, "Aceptar",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                HomeActivity.setStatus(labelAccion,5);
+            }
+        });
+
 
         actasJSON = new Hashtable<Long, String>();
 
@@ -127,13 +145,17 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
             Boolean isInternetPresent = cd.hayConexion(); // true o false dependiendo de si hay conexion
             // Si hay conexion autenticar online. Si no hay conexion autenticar offline
             if(isInternetPresent){
-                HomeActivity.linlaHeaderProgress.setVisibility(View.VISIBLE);
                 sincronizando=true;
 
                 Accion siguienteAccion=accionController.dequeue();
-
                 String nombreAccion = siguienteAccion.getNombre();
+
                 System.out.println("Sincronizando Accion =" + nombreAccion + "=" + siguienteAccion.getId());
+
+                labelAccion=nombreAccion+" [OS-"+siguienteAccion.getTarea().getServicio()+"]";
+
+                HomeActivity.setStatus(labelAccion,1);
+
                 boolean resultadoSincronizacion = false;
                 if (nombreAccion.equals("Tarea Tomada")) {
                     Tarea tarea = siguienteAccion.getTarea();
@@ -248,6 +270,7 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                 String status = (String)value.get(0).toString();
                 String msg = (String)value.get(1).toString();
                 if (status.equals("00")) {
+                    HomeActivity.setStatus(labelAccion,2);
                     Accion siguienteAccion = (Accion) source;
                     siguienteAccion.setSincronizada(true);
                     siguienteAccion.update();
@@ -257,6 +280,7 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                     Acción si retorna un mensaje de error
                      */
                     System.out.println("No se pudo confirmar la OT!!!");
+                    HomeActivity.setStatus(labelAccion,3);
                     Global.daoSession.runInTx(new Runnable() {
                           @Override
                           public void run() {
@@ -299,6 +323,7 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                 String status = (String)value.get(0).toString();
                 String msg = (String)value.get(1).toString();
                 if (status.equals("00")) {
+                    HomeActivity.setStatus(labelAccion,2);
                     Accion siguienteAccion = (Accion) source;
                     siguienteAccion.setSincronizada(true);
                     siguienteAccion.update();
@@ -346,6 +371,9 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
 
                 siguienteAccion.setSincronizada(true);
                 siguienteAccion.update();
+
+                HomeActivity.setStatus(labelAccion,2);
+                actaDialog.show();
             }
             else {
                 System.out.println("buscarActaJSON=" + source + "=" + value + "(value nulo)");
@@ -364,6 +392,7 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                 String status = (String)value.get(0).toString();
                 String msg = (String)value.get(1).toString();
                 if (status.equals("00")) {
+                    HomeActivity.setStatus(labelAccion,2);
                     Accion siguienteAccion = (Accion) source;
                     if (siguienteAccion != null) {
                         siguienteAccion.setSincronizada(true);
@@ -392,6 +421,7 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                 String status = (String)value.get(0).toString();
                 String msg = (String)value.get(1).toString();
                 if (status.equals("00")) {
+                    HomeActivity.setStatus(labelAccion,2);
                     Accion siguienteAccion = (Accion) source;
                     siguienteAccion.setSincronizada(true);
                     siguienteAccion.update();
@@ -406,7 +436,7 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
             }
         }
         sincronizando=false;
-        HomeActivity.linlaHeaderProgress.setVisibility(View.INVISIBLE);
+        //context.linlaHeaderProgress.setVisibility(View.INVISIBLE);
         sincronizarAcciones();
-    }
+    }    
 }

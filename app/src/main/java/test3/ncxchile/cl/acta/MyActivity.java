@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -30,6 +29,7 @@ import test3.ncxchile.cl.greenDAO.FinalizarActaDao;
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.session.SessionManager;
 import test3.ncxchile.cl.widgets.CustomAutoComplete;
+import test3.ncxchile.cl.widgets.CustomSpinner;
 import test3.ncxchile.cl.widgets.RequiredEditText;
 
 
@@ -77,7 +77,7 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
     Fragment c = new FragmentX3().newInstance(2);
     Fragment d = new FragmentX4().newInstance(3);
     Fragment e = new FragmentX5().newInstance(4); // Fragment FotoVideo
-    Fragment f = new FragmentX6_2().newInstance(5);
+    Fragment f = new FragmentX6().newInstance(5);
     Fragment g = new FragmentX7().newInstance(6);
     Fragment h = new FragmentX8().newInstance(7);
     Fragment i = new FragmentX9().newInstance(8);
@@ -117,6 +117,7 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager.setOffscreenPageLimit(9);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         // When swiping between different sections, select the corresponding
@@ -235,7 +236,7 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
 
         if(tab.getPosition() == 6 /*|| tab.getPosition() == 6 || tab.getPosition() == 7 || tab.getPosition() == 8*/ ){
             //FragmentX3 f3 = (FragmentX3) getFragment(2);
-            FragmentX6_2 f6 = (FragmentX6_2) getFragment(5);
+            FragmentX6 f6 = (FragmentX6) getFragment(5);
 
             if (!f6.validarDatosFragment5()) {
                 errorFragment(5);
@@ -423,7 +424,7 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         FragmentX3 c = (FragmentX3) getFragment(2);
         FragmentX4 d = (FragmentX4) getFragment(3);
         FragmentX5 e = (FragmentX5) getFragment(4);
-        FragmentX6_2 f = (FragmentX6_2) getFragment(5);
+        FragmentX6 f = (FragmentX6) getFragment(5);
         FragmentX7 g = (FragmentX7) getFragment(6);
         FragmentX8 h = (FragmentX8) getFragment(7);
         FragmentX9 i = (FragmentX9) getFragment(8);
@@ -547,12 +548,12 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         view3_08 = tribunal.getId();
     }
 
-    public void recibeDatosFragmentX4(CustomAutoComplete z, EditText a, EditText b, EditText c, EditText d, EditText e, EditText f, EditText g, EditText h, boolean i){
+    public void recibeDatosFragmentX4(CustomAutoComplete z, EditText a, CustomAutoComplete b, EditText c, CustomSpinner d, EditText e, EditText f, EditText g, EditText h, boolean i){
         view4_00 = z.getText().toString();
         view4_01 = a.getText().toString();
         view4_02 = b.getText().toString();
         view4_03 = c.getText().toString();
-        view4_04 = d.getText().toString();
+        view4_04 = d.getSelectedItem().toString();
         view4_05 = e.getText().toString();
         view4_06 = f.getText().toString();
         view4_07 = g.getText().toString();

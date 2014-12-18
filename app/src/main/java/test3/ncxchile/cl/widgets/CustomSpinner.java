@@ -14,7 +14,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import test3.ncxchile.cl.greenDAO.Institucion;
 import test3.ncxchile.cl.login.R;
@@ -25,9 +27,8 @@ import test3.ncxchile.cl.login.R;
 public class CustomSpinner extends Spinner{
 
     Context mContext;
-    ArrayList<Institucion> myItems;
+    ArrayList<String> myItems;
     private Paint pincel;
-    String myResource="motivos";
 
     public CustomSpinner(Context context) {
         super(context);
@@ -56,15 +57,6 @@ public class CustomSpinner extends Spinner{
         init(context);
     }
 
-    public void setSource(String source){
-        myResource=source;
-        // just to add some initial value
-        myItems= populateList(mContext, myResource);
-        // adapter for spinner
-        ArrayAdapter myAdapter = new ArrayAdapter<Institucion>(mContext, android.R.layout.simple_spinner_item, myItems);
-        setAdapter(myAdapter);
-    }
-
     public void init(final Context context) {
      /*
      * Change to type CustomAutoCompleteView instead of AutoCompleteTextView
@@ -75,8 +67,10 @@ public class CustomSpinner extends Spinner{
         //myItems= populateList(context, myResource);
 
         // adapter for spinner
+        myItems= populateList();
 
-        ArrayAdapter myAdapter = new ArrayAdapter<Institucion>(context, android.R.layout.simple_spinner_item, myItems);
+        ArrayAdapter myAdapter = new ArrayAdapter<String>(context, R.layout.item, R.id.item, myItems);
+        //myAdapter = new ArrayAdapter<Object>(context, R.layout.item, R.id.item, items);
 
         setAdapter(myAdapter);
 
@@ -106,35 +100,17 @@ public class CustomSpinner extends Spinner{
 
     }
 
-    public ArrayList<Institucion> populateList(Context context,String resource)
+    public ArrayList<String> populateList()
     {
-        ArrayList<Institucion> customObjects = new ArrayList<Institucion>();
-        InputStream myInput=null;
-        BufferedReader br = null;
-        String thisLine = null;
+        ArrayList<String> customObjects = new ArrayList<String>();
+        Date timeStamp= new Date();
+        SimpleDateFormat fecha = new SimpleDateFormat("yyyy");
+        String añoActual=fecha.format(timeStamp);
+        customObjects.add("");
 
-        try {
-            myInput = context.getAssets().open(resource+".txt");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        for(Integer i=1950;i<=Integer.parseInt(añoActual);++i)
+            customObjects.add(i.toString());
 
-        try {
-            br = new BufferedReader((new InputStreamReader(myInput)));
-            long id = 1;
-            while ((thisLine = br.readLine()) != null) {
-                customObjects.add(new Institucion(id, thisLine.toString()));
-                ++id;
-            }
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        } finally {                       // always close the file
-            if (br != null) try {
-                br.close();
-            } catch (IOException ioe2) {
-                // just ignore it
-            }
-        }
         return customObjects;
     }
 }

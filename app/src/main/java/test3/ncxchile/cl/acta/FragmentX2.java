@@ -135,15 +135,17 @@ public class FragmentX2 extends android.app.Fragment {
             esValido=false;
         }
 
-        if(comunas.getText().toString().equals("")){
+        if(comunas.getSelectedItem()==null){
             comunas.setError(getString(R.string.error_field_required));
             esValido=false;
         }
 
+        /*
         if(comunas.getSelectedItem()==null){
             comunas.setError("Debes seleccionar un item de la lista");
             esValido=false;
         }
+        */
 
         if(spinner_motivo1.getSelectedItem()==null && spinner_motivo1.getVisibility()==View.VISIBLE){
             spinner_motivo1.setError("Debes seleccionar un item de la lista");

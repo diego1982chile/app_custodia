@@ -49,7 +49,7 @@ import test3.ncxchile.cl.security.PasswordHelper;
  * Master of DAO (schema version 1000): knows all DAOs.
 */
 public class DaoMaster extends AbstractDaoMaster {
-    public static final int SCHEMA_VERSION = 1209;
+    public static final int SCHEMA_VERSION = 1256;
 
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(SQLiteDatabase db, boolean ifNotExists) {
@@ -83,6 +83,7 @@ public class DaoMaster extends AbstractDaoMaster {
         MapaDao.createTable(db, ifNotExists);
         UserNameDao.createTable(db, ifNotExists);
         TribunalDao.createTable(db, ifNotExists);
+        MarcaDao.createTable(db, ifNotExists);
     }
     
     /** Drops underlying database table using DAOs. */
@@ -117,6 +118,7 @@ public class DaoMaster extends AbstractDaoMaster {
         MapaDao.dropTable(db, ifExists);
         UserNameDao.dropTable(db, ifExists);
         TribunalDao.dropTable(db, ifExists);
+        MarcaDao.dropTable(db, ifExists);
     }
     
     public static abstract class OpenHelper extends SQLiteOpenHelper {
@@ -188,7 +190,6 @@ public class DaoMaster extends AbstractDaoMaster {
                     // just ignore it
                 }
             }
-
 
             ////////////////////////////////////
             // Poblar instituciones
@@ -680,6 +681,40 @@ public class DaoMaster extends AbstractDaoMaster {
                 }
             }
 
+            ////////////////////////////////////
+            // Poblar marcas
+            myInput=null;
+
+            //System.out.print("ASSETS1="+getAssets().toString());
+            try {
+                myInput = mContext.getAssets().open("marcas.txt");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            br = null;
+            thisLine = null;
+
+            try {
+                br = new BufferedReader((new InputStreamReader(myInput)));
+                long id = 1;
+                while ((thisLine = br.readLine()) != null) {
+                    String[] campos= thisLine.split(";");
+                    mInsertAttributeStatement = db.compileStatement("INSERT INTO MARCA (_id, NOMBRE) VALUES (?,?)");
+                    mInsertAttributeStatement.bindLong(1, new Long(campos[0]));
+                    mInsertAttributeStatement.bindString(2, campos[1].toString());
+                    mInsertAttributeStatement.execute();
+                    ++id;
+                }
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            } finally {                       // always close the file
+                if (br != null) try {
+                    br.close();
+                } catch (IOException ioe2) {
+                    // just ignore it
+                }
+            }
 
             ////////////////////////////////////
             // Poblar users
@@ -772,6 +807,7 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(MapaDao.class);
         registerDaoClass(UserNameDao.class);
         registerDaoClass(TribunalDao.class);
+        registerDaoClass(MarcaDao.class);
     }
     
     public DaoSession newSession() {

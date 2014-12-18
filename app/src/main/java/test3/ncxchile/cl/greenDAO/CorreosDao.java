@@ -242,10 +242,10 @@ public class CorreosDao extends AbstractDao<Correos, Long> {
         return loadDeepAllAndCloseCursor(cursor);
     }
 
-    public Correos getByValue(String value){
-        Correos correo= queryBuilder()
-                .where(Properties.Email.like(value))
+    public Correos getByValue(Correos correo){
+        Correos _correo= queryBuilder()
+                .where(Properties.Email.like(correo.getEmail()),Properties.CorreosID.eq(correo.getCorreosID()))
                 .unique();
-        return correo;
+        return _correo;
     }
 }

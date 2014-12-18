@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,6 +21,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -27,8 +29,14 @@ import android.widget.Toast;
 
 import com.lowagie.text.DocumentException;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,6 +47,7 @@ import test3.ncxchile.cl.acta.MyActivity;
 import test3.ncxchile.cl.db.AndroidDatabaseManager;
 import test3.ncxchile.cl.db.Global;
 import test3.ncxchile.cl.greenDAO.Accion;
+import test3.ncxchile.cl.greenDAO.Acta;
 import test3.ncxchile.cl.greenDAO.Tarea;
 
 import test3.ncxchile.cl.helpers.Logger;
@@ -53,7 +62,7 @@ public class HomeActivity extends Activity {
 
     public static TableRow tablerow;
     public int color;
-    public Drawable marca;
+    public static Drawable marca,greenProgress,redProgress;
     public int marcada;
     public ImageView erroress,iconoGps,iconoHora;
     public static TableLayout tareas;
@@ -61,6 +70,8 @@ public class HomeActivity extends Activity {
     public TextView statusGps,statusHora;
     public FrameLayout statusMensajes,historialAcciones;
     public static LinearLayout linlaHeaderProgress;
+    public static ProgressBar accionProgress;
+    public static TextView progressLabel;
     private TrackingDialogFragment trackingDialogFragment;
 
     public static Button tomarTarea, confirmarArribo, completarActa, retiroRealizado, pdf;
@@ -91,7 +102,6 @@ public class HomeActivity extends Activity {
         accionController = new AccionController(this);
         actaController= new ActaController(this);
 
-        /*
         InputStream myInputActa=null;
         BufferedReader brActa= null;
         String thisLineActa = null;
@@ -175,6 +185,9 @@ public class HomeActivity extends Activity {
         statusMensajes = (FrameLayout) findViewById(R.id.status_mensajes);
         historialAcciones = (FrameLayout) findViewById(R.id.historial_acciones);
 
+        accionProgress = (ProgressBar) findViewById(R.id.status_actividad_progress);
+        progressLabel = (TextView) findViewById(R.id.actividad_progress_label);
+
         color = 0;
         marcada = 0;
 
@@ -223,6 +236,9 @@ public class HomeActivity extends Activity {
             public void onClick(DialogInterface dialog, int which) {
             }
         });
+
+        greenProgress=getResources().getDrawable(R.drawable.green_progress);
+        redProgress=getResources().getDrawable(R.drawable.yellow_progress);
 
         trackingDialogFragment = new TrackingDialogFragment();
     }
@@ -296,6 +312,7 @@ public class HomeActivity extends Activity {
         Global.daoSession.getSesionDao().update(Global.sesion);
         Logger.log("User Logout");
         threadTareas.cancel();
+        ThreadTareas.desconexionPrevia=false;
         threadLocalizacion.cancel();
         threadAcciones.cancel();
         super.onDestroy();
@@ -659,6 +676,7 @@ public class HomeActivity extends Activity {
         Global.daoSession.getSesionDao().update(Global.sesion);
         Logger.log("User Logout");
         threadTareas.cancel();
+        ThreadTareas.desconexionPrevia=false;
         threadLocalizacion.cancel();
         threadAcciones.cancel();
         finish();
@@ -672,5 +690,46 @@ public class HomeActivity extends Activity {
             b.setBackgroundResource(R.drawable.blue_button);
         else
             b.setBackgroundResource(R.drawable.blue_button_inactive);
+    }
+
+    public static void setStatus(final String texto, int caso){
+        switch (caso){
+            case 1: // Sincronizando
+                HomeActivity.accionProgress.setIndeterminate(true);
+                HomeActivity.progressLabel.setTextColor(Color.WHITE);
+                HomeActivity.progressLabel.setText("Sincronizando: "+texto);
+                break;
+            case 2: // Exito
+                HomeActivity.accionProgress.setIndeterminate(false);
+                HomeActivity.accionProgress.setProgressDrawable(greenProgress);
+                HomeActivity.accionProgress.setProgress(100);
+                HomeActivity.progressLabel.setText("OK: "+texto);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {setStatus(texto,5);}},2000);
+                break;
+            case 3: // Fracaso
+                HomeActivity.accionProgress.setIndeterminate(false);
+                HomeActivity.accionProgress.setProgressDrawable(redProgress);
+                HomeActivity.accionProgress.setProgress(100);
+                HomeActivity.progressLabel.setTextColor(Color.WHITE);
+                HomeActivity.progressLabel.setText("Cancelada: "+texto);
+                break;
+            case 4: // Pendiente
+                HomeActivity.accionProgress.setIndeterminate(false);
+                HomeActivity.accionProgress.setProgressDrawable(greenProgress);
+                HomeActivity.accionProgress.setProgress(0);
+                HomeActivity.progressLabel.setTextColor(Color.BLACK);
+                HomeActivity.progressLabel.setText("Pendiente: "+texto);
+                break;
+            case 5: // Sin actividad
+                HomeActivity.accionProgress.setIndeterminate(false);
+                HomeActivity.accionProgress.setProgressDrawable(redProgress);
+                HomeActivity.accionProgress.setProgress(0);
+                HomeActivity.progressLabel.setTextColor(Color.parseColor("#40000000"));
+                HomeActivity.progressLabel.setText("NINGUNA ACTIVIDAD PENDIENTE");
+                break;
+        }
     }
 }

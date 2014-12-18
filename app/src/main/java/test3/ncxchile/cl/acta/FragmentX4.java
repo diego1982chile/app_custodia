@@ -15,10 +15,12 @@ import android.widget.Spinner;
 import java.util.ArrayList;
 import java.util.List;
 
+import test3.ncxchile.cl.greenDAO.MarcaDao;
 import test3.ncxchile.cl.greenDAO.TipoVehiculoDao;
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.widgets.CustomAutoComplete;
 import test3.ncxchile.cl.widgets.CustomScrollView;
+import test3.ncxchile.cl.widgets.CustomSpinner;
 import test3.ncxchile.cl.widgets.PatenteEditText;
 import test3.ncxchile.cl.widgets.ScrollArrow;
 
@@ -42,9 +44,10 @@ public class FragmentX4 extends android.app.Fragment  {
 
     //public PatenteEditText view4_01;
     public EditText view4_01;
-    public EditText view4_02, view4_03, view4_04, view4_05, view4_06, view4_07, view4_08;
+    public EditText view4_03, view4_05, view4_06, view4_07, view4_08;
+    public CustomSpinner view4_04;
     public ScrollView scrollView;
-    public CustomAutoComplete spinner;
+    public CustomAutoComplete spinner,view4_02;
     public RadioGroup view4_09;
     public Button validador_04;
     public boolean view4_09_response;
@@ -63,9 +66,10 @@ public class FragmentX4 extends android.app.Fragment  {
         View rootView = inflater.inflate(R.layout.fragment4, container, false);
         //view4_01 = (PatenteEditText) rootView.findViewById(R.id.view4_01_numplaca);
         view4_01 = (EditText) rootView.findViewById(R.id.view4_01_numplaca);
-        view4_02 = (EditText) rootView.findViewById(R.id.view4_02_marca);
+        view4_02 = (CustomAutoComplete) rootView.findViewById(R.id.view4_02_marca);
+        view4_02.setSource(MarcaDao.TABLENAME);
         view4_03 = (EditText) rootView.findViewById(R.id.view4_03_modelo);
-        view4_04 = (EditText) rootView.findViewById(R.id.view4_04_ano);
+        view4_04 = (CustomSpinner) rootView.findViewById(R.id.view4_04_ano);
         view4_05 = (EditText) rootView.findViewById(R.id.view4_05_color);
         view4_06 = (EditText) rootView.findViewById(R.id.view4_06_kilometraje);
         view4_07 = (EditText) rootView.findViewById(R.id.view4_07_nummotor);
@@ -83,16 +87,21 @@ public class FragmentX4 extends android.app.Fragment  {
 
         if(myActivity.acta!=null){
             view4_01.setText(myActivity.acta.getVehiculoData().getVehiculo().getMatricula());
-            view4_02.setText(myActivity.acta.getVehiculoData().getVehiculo().getMarca());
+            if(myActivity.acta.getVehiculoData().getVehiculo().getMarca()!=null)
+                view4_02.setText(myActivity.acta.getVehiculoData().getVehiculo().getMarca());
             view4_03.setText(myActivity.acta.getVehiculoData().getVehiculo().getModelo());
             if(myActivity.acta.getVehiculoData().getVehiculo().getAnio()!=0)
-                view4_04.setText(String.valueOf(myActivity.acta.getVehiculoData().getVehiculo().getAnio()));
+                view4_04.setSelection(1);
             view4_05.setText(myActivity.acta.getVehiculoData().getVehiculo().getColor().toLowerCase());
             if(myActivity.acta.getVehiculoData().getVehiculo().getKilometraje()!=0)
                 view4_06.setText(myActivity.acta.getVehiculoData().getVehiculo().getKilometraje().toString().toLowerCase());
             view4_07.setText(myActivity.acta.getVehiculoData().getVehiculo().getNumeroMotor());
             view4_08.setText(myActivity.acta.getVehiculoData().getVehiculo().getNumeroChasis());
             spinner.setText(myActivity.acta.getVehiculoData().getVehiculo().getTamano().toLowerCase());
+            if(myActivity.acta.getVehiculoData().getVehiculo().getOrigenVehiculo())
+                view4_09.check(R.id.radioButton1);
+            else
+                view4_09.check(R.id.radioButton2);
         }
 
         return rootView;

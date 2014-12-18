@@ -83,8 +83,8 @@ public class GridViewAdapter extends ArrayAdapter  {
                             */
                             remove(item);
 
-                            add(new ImageItem(BitmapFactory.decodeResource(context.getResources(), R.drawable.photo_placeholder),
-                                    BitmapFactory.decodeResource(context.getResources(), R.drawable.photo_placeholder),
+                            add(new ImageItem(BitmapFactory.decodeResource(context.getResources(), R.drawable.photo_placeholder_small),
+                                    BitmapFactory.decodeResource(context.getResources(), R.drawable.photo_placeholder_small),
                                     Uri.parse(context.getPackageName() + R.drawable.video_placeholder),""));
                             SessionManager session = new SessionManager(context);
                             session.setCantidadFotos(session.getCantidadFotos() - 1);

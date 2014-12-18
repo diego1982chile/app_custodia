@@ -78,7 +78,7 @@ public class GridViewVideoAdapter extends ArrayAdapter {
                         if(deleted){
                             remove(item);
                             add(new VideoItem(BitmapFactory.decodeResource(context.getResources(), R.drawable.video_placeholder),
-                                    BitmapFactory.decodeResource(context.getResources(), R.drawable.photo_placeholder),
+                                    BitmapFactory.decodeResource(context.getResources(), R.drawable.photo_placeholder_small),
                                     Uri.parse(context.getPackageName() + R.drawable.video_placeholder),""));
                             /*
                             insert(new VideoItem(BitmapFactory.decodeResource(context.getResources(), R.drawable.video_placeholder),

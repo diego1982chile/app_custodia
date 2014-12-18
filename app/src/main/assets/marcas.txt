@@ -1,0 +1,216 @@
+1;Abarth
+2;AC
+3;Acorpa
+4;Acura
+5;Adly
+6;Aixam
+7;Aiyumo
+8;Alfa Romeo
+9;Alfer VR
+10;Alpina Renania
+11;AM General
+12;AMC
+13;Aprilia
+14;Aro
+15;Asi Motors
+16;Aston Martin
+17;Auburn
+18;Audi
+19;Austin
+20;Autobianchi
+21;Autorrad
+22;Azel
+23;Bellier
+24;Benelli
+25;Bentley
+26;Bertone
+27;Beta
+28;Bimota
+29;Blata
+30;BMW
+31;BMW-Alpina
+32;Buell American Motorcycles
+33;Bugatti
+34;Buggy
+35;Buick
+36;Bultaco
+37;BYD
+38;Cadillac 
+39;Cagiva
+40;Changan
+41;Chery
+42;Chevrolet
+43;Chrysler
+44;Citroen
+45;Clipic
+46;Cooltra
+47;CPI
+48;CSR Motorcycles
+49;Dacia
+50;Daelim
+51;Daewoo
+52;Daf
+53;Daihatsu
+54;Daimler
+55;Datsun
+56;Derbi
+57;DFQ
+58;DFSk
+59;DH Haotian
+60;Dodge
+61;Dongfeng
+62;Ducati
+63;Eagle
+64;Ebro
+65;FAW
+66;Ferrari
+67;Fiat
+68;Ford
+69;Foton
+70;Freightliner
+71;FUSO
+72;Galloper
+73;Gas Gas
+74;Geely
+75;GEM
+76;Generic
+77;Geo
+78;Gilera
+79;GMC
+80;Goes
+81;Great Wall
+82;Grecav
+83;Hafei
+84;Haima
+85;Hammel
+86;Harley Davidson
+87;Hartford
+88;Hino
+89;HM
+90;Honda
+91;Huatian
+92;Hummer
+93;Husaberg
+94;Husqvarna
+95;Hyosung
+96;Hyundai
+97;I-Moto
+98;Infiniti
+99;Innocenti
+100;International
+101;Isuzu
+102;Italjet Moto
+103;Iveco
+104;JAC
+105;Jaguar
+106;JBC
+107;Jeep
+108;Jinbei
+109;Jincheng
+110;JMC
+111;Kawasaki
+112;Keeway Motor
+113;Kenrod
+114;Kenworth
+115;Kia
+116;KTM
+117;Kymco
+118;Lamborghini
+119;Lancia
+120;Land Rover
+121;Leonard
+122;Lexus
+123;Lifan
+124;LIGIER
+125;Lincoln
+126;Linhai
+127;LML
+128;Lotus
+129;Macbor
+130;Mack
+131;Mahindra
+132;Malaguti
+133;Man
+134;Maserati
+135;Maybach
+136;Mazda
+137;MBK
+138;McLaren
+139;Meko
+140;Mercedez-Benz
+141;Mercury
+142;Merkur
+143;MG
+144;Microcar
+145;Mini
+146;Mitsubishi
+147;Morgan
+148;Moto Guzzi
+149;Motor-Hispania
+150;Motos Norton
+151;Muz
+152;MV Agusta
+153;MX Onda
+154;Nissan
+155;Nissan Diesel
+156;Oldsmobile
+157;Opel
+158;Peterbuilt
+159;Peugeot
+160;PGO
+161;Piaggio
+162;Plymouth
+163;Polaris
+164;Polini
+165;Pontiac
+166;Porsche
+167;Proton
+168;Range Rover
+169;Renault
+170;Renault Trucks
+171;RIEJU
+172;Roll-Royce
+173;Rover
+174;Saab
+175;Sachs
+176;Samsung
+177;Santana
+178;Saturn
+179;Scania
+180;Scion
+181;Seat
+182;Shacman
+183;Sherco
+184;Sinotruck
+185;Skoda
+186;SMA
+187;Smart
+188;SsangYong
+189;Sterling
+190;Studebaker
+191;Subaru
+192;Sumco
+193;Suzuki
+194;SYM
+195;Tata
+196;TGB
+197;TM Racing
+198;Toyota
+199;Triumph
+200;Vespa
+201;Victory Motorcycles
+202;Volkswagen
+203;Volvo
+204;Vor Motorcycles
+205;Voxan
+206;Western Star
+207;Willys
+208;Wolseley
+209;Yamaha
+210;Yuejin
+211;Yugo
+212;Zastava
+213;Zeltech
+214;ZNA
+215;Zotye
+216;ZX Auto

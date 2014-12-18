@@ -4,11 +4,13 @@ package test3.ncxchile.cl.widgets;
  * Created by android-developer on 15-10-2014.
  */
 
+import android.app.Instrumentation;
 import android.content.Context;
 import android.graphics.Rect;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -103,7 +105,6 @@ public class CustomAutoComplete extends AutoCompleteTextView {
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     // if you want to see in the logcat what the user types
-                    System.out.println("onTextChanged()");
 
                     // query the database based on the user input
                     items = getItemsFromDb(s.toString(), context);
@@ -113,21 +114,12 @@ public class CustomAutoComplete extends AutoCompleteTextView {
                     myAdapter = new ArrayAdapter<Object>(context, R.layout.item, R.id.item, items);
                     setAdapter(myAdapter);
 
-                    System.out.println("myResource: "+myResource+" s.toString().length():"+s.toString().length());
+                    if(items.length==0){
+                        setText(s.subSequence(0,s.length()-1));
+                    }
 
                     if(s.toString().length()>5){
-                        if(myResource.toLowerCase().equals("institucion"))
-                            itemSelected= Global.daoSession.getInstitucionDao().getByString(s.toString());
-                        if(myResource.toLowerCase().equals("tribunal"))
-                            itemSelected= Global.daoSession.getTribunalDao().getByString(s.toString());
-                        if(myResource.toLowerCase().equals("motivo"))
-                            itemSelected = Global.daoSession.getMotivoDao().getByString(s.toString());
-                        if(myResource.toLowerCase().equals("motivo_fiscalia"))
-                            itemSelected= Global.daoSession.getMotivoFiscaliaDao().getByString(s.toString());
-                        if(myResource.toLowerCase().equals("tipo_vehiculo"))
-                            itemSelected= Global.daoSession.getTipoVehiculoDao().getByString(s.toString());
-                        if(myResource.toLowerCase().equals("comuna"))
-                            itemSelected= Global.daoSession.getComunaDao().getByString(s.toString());
+                        setItem(s.toString());
                     }
                 }
 
@@ -144,17 +136,17 @@ public class CustomAutoComplete extends AutoCompleteTextView {
 
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                itemSelected= (Institucion)getAdapter().getItem(0);
-                if(focusSearch(FOCUS_DOWN)!=null)
-                    focusSearch(FOCUS_DOWN).requestFocus();
-                setError(null);
+                    itemSelected= getAdapter().getItem(0);
+                    if(focusSearch(FOCUS_DOWN)!=null)
+                        focusSearch(FOCUS_DOWN).requestFocus();
+                    setError(null);
                 }
             };
 
             setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                performFiltering(getText(), 0);
+                    performFiltering(getText(), 0);
                 }
             });
 
@@ -166,13 +158,14 @@ public class CustomAutoComplete extends AutoCompleteTextView {
                     String s = getText().toString();
                     if (b) {
                         mText = s;
-                            setText("");
+                        setText("");
+                        setItem(s);
                     } else {
-                            if(itemSelected!=null)
-                                setText(itemSelected.toString());
-                            else
-                                setText("");
-                        }
+                        if(itemSelected!=null)
+                            setText(itemSelected.toString());
+                        else
+                            setText("");
+                    }
                 }
             };
 
@@ -190,7 +183,24 @@ public class CustomAutoComplete extends AutoCompleteTextView {
         } catch (Exception e) {
             e.printStackTrace();
         }
-     }
+    }
+
+    public void setItem(String s){
+        if(myResource.toLowerCase().equals("institucion"))
+            itemSelected= Global.daoSession.getInstitucionDao().getByString(s.toString());
+        if(myResource.toLowerCase().equals("tribunal"))
+            itemSelected= Global.daoSession.getTribunalDao().getByString(s.toString());
+        if(myResource.toLowerCase().equals("motivo"))
+            itemSelected = Global.daoSession.getMotivoDao().getByString(s.toString());
+        if(myResource.toLowerCase().equals("motivo_fiscalia"))
+            itemSelected= Global.daoSession.getMotivoFiscaliaDao().getByString(s.toString());
+        if(myResource.toLowerCase().equals("tipo_vehiculo"))
+            itemSelected= Global.daoSession.getTipoVehiculoDao().getByString(s.toString());
+        if(myResource.toLowerCase().equals("comuna"))
+            itemSelected= Global.daoSession.getComunaDao().getByString(s.toString());
+        if(myResource.toLowerCase().equals("marca"))
+            itemSelected= Global.daoSession.getMarcaDao().getByString(s.toString());
+    }
 
     // this function is used in CustomAutoCompleteTextChangedListener.java
     public Object[] getItemsFromDb(String searchTerm, Context context){
@@ -213,4 +223,4 @@ public class CustomAutoComplete extends AutoCompleteTextView {
         //System.out.println(mItem.toString());
         return mItem;
     }
-  }
+}
