@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
@@ -71,6 +72,8 @@ public class FragmentX5 extends Fragment {
     Uri mCurrentUri;
     SessionManager session;
 
+    public static int contFotos,contVideos;
+
     public FragmentX5 newInstance(int sectionNumber){
         FragmentX5 fragment = new FragmentX5();
         Bundle args = new Bundle();
@@ -93,33 +96,32 @@ public class FragmentX5 extends Fragment {
         button = (Button) rootView.findViewById(R.id.button_foto);
         buttonVideo = (Button) rootView.findViewById(R.id.button_video);
         //items.add(new ImageItem(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.placeholder),""));
+        contFotos=0;
+        contVideos=0;
 
         ImageItem imagePlaceHolder = new ImageItem(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.photo_placeholder_small),
                                                    BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.photo_placeholder_small),
                                                    Uri.parse(getActivity().getPackageName() + R.drawable.video_placeholder),"");
 
+        /*
         if(imageItems.size()>0) {
-            for(int i=0; i <10; ++i) {
-                if(!imageItems.get(i).getPath().toString().equals("")){
-                    imageItems.set(i, new ImageItem(imageItems.get(i).getImage(),
-                                                    BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.delete_small)
-                                                    ,mCurrentUri, mCurrentPath));
-                }
-                else{
-                    imageItems.set(i, imagePlaceHolder);
-                }
+            for(int i=0; i <10; ++i)
+                imageItems.set(i, imagePlaceHolder);
             }
-        }
-        else
-        {
+        else{
             for(int i=0; i <10; ++i)
                 imageItems.add(imagePlaceHolder);
         }
+        */
+
+        for(int i=0; i <10; ++i)
+            imageItems.add(imagePlaceHolder);
 
         VideoItem videoPlaceHolder= new VideoItem(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.video_placeholder),
                                                   BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.photo_placeholder_small),
                                                   Uri.parse(getActivity().getPackageName() + R.drawable.video_placeholder),"");
 
+        /*
         if(videoItems.size()>0) {
             for(int i=0; i <5; ++i) {
                 if (!videoItems.get(i).getPath().toString().equals("")) {
@@ -136,6 +138,10 @@ public class FragmentX5 extends Fragment {
             for(int i=0; i <5; ++i)
                 videoItems.add(videoPlaceHolder);
         }
+        */
+
+        for(int i=0; i <5; ++i)
+            videoItems.add(videoPlaceHolder);
 
         imageGridView = (GridView) rootView.findViewById(R.id.imageViewThumbnail);
         imageGridAdapter = new GridViewAdapter(getActivity(), R.layout.image_item, imageItems);
@@ -240,18 +246,22 @@ public class FragmentX5 extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != Activity.RESULT_CANCELED) {
             if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
-                imageItems.set(session.getCantidadFotos(), new ImageItem(decodeFile(mCurrentPath),
+                imageItems.set(contFotos, new ImageItem(decodeFile(mCurrentPath),
                         BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.delete_small)
                         ,mCurrentUri, mCurrentPath));
-                session.setCantidadFotos(session.getCantidadFotos() + 1);
+                contFotos++;
+                adjuntarImagen.setChecked(true);
+                //session.setCantidadFotos(session.getCantidadFotos() + 1);
                 imageGridView.setAdapter(imageGridAdapter);
             } else {
                 if(requestCode == REQUEST_VIDEO_CAPTURE) {
                     Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(mCurrentPath,MediaStore.Images.Thumbnails.MINI_KIND);
-                    videoItems.set(session.getCantidadVideos(), new VideoItem(bitmap,
+                    videoItems.set(contVideos, new VideoItem(bitmap,
                             BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.delete_small)
                             , mCurrentUri, mCurrentPath));
-                    session.setCantidadVideos(session.getCantidadVideos() + 1);
+                    contVideos++;
+                    adjuntarVideo.setChecked(true);
+                    //session.setCantidadVideos(session.getCantidadVideos() + 1);
                     videoGridView.setAdapter(videoGridAdapter);
                 }
                 else {
@@ -318,11 +328,13 @@ public class FragmentX5 extends Fragment {
             esValido=false;
         }
 
-        if (adjuntarImagen.isChecked() && session.getCantidadFotos()==0){
+        if (adjuntarImagen.isChecked() && contFotos==0){
             AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
             alertDialog.setTitle("Error de Fotos/Videos");
             alertDialog.setMessage("Debes sacar al menos una foto");
-            alertDialog.setIcon(R.drawable.action_fail_small);
+
+            Drawable errorIcon = getResources().getDrawable(R.drawable.luzroja);
+            alertDialog.setIcon(errorIcon);
 
             alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
@@ -333,11 +345,12 @@ public class FragmentX5 extends Fragment {
             return esValido;
         }
 
-        if (adjuntarVideo.isChecked() && session.getCantidadVideos()==0){
+        if (adjuntarVideo.isChecked() && contVideos==0){
             AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
             alertDialog.setTitle("Error de Fotos/Videos");
             alertDialog.setMessage("Debes grabar al menos un video");
-            alertDialog.setIcon(R.drawable.action_fail_small);
+            Drawable errorIcon = getResources().getDrawable(R.drawable.luzroja);
+            alertDialog.setIcon(errorIcon);
 
             alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {

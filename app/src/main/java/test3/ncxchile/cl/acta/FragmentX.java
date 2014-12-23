@@ -143,8 +143,8 @@ public class FragmentX extends android.app.Fragment {
             esValido=false;
         }
 
-        if(!CorreoValidator.isFormatValid(view1_02_correos.getText().toString())){
-            view1_02_correos.setError(getString(R.string.prompt_valid_correo));
+        if(!CorreoValidator.isFormatValid(view1_02_correos.getText().toString()) && !view1_02_correos.getText().toString().equals("")){
+            view1_02_correos.setError(getString(R.string.prompt_correo));
             esValido=false;
         }
 

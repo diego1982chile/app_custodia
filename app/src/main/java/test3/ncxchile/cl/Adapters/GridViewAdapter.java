@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import test3.ncxchile.cl.POJO.ImageItem;
+import test3.ncxchile.cl.acta.FragmentX5;
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.session.SessionManager;
 
@@ -86,8 +87,9 @@ public class GridViewAdapter extends ArrayAdapter  {
                             add(new ImageItem(BitmapFactory.decodeResource(context.getResources(), R.drawable.photo_placeholder_small),
                                     BitmapFactory.decodeResource(context.getResources(), R.drawable.photo_placeholder_small),
                                     Uri.parse(context.getPackageName() + R.drawable.video_placeholder),""));
-                            SessionManager session = new SessionManager(context);
-                            session.setCantidadFotos(session.getCantidadFotos() - 1);
+                            //SessionManager session = new SessionManager(context);
+                            //session.setCantidadFotos(session.getCantidadFotos() - 1);
+                            FragmentX5.contFotos--;
                             //imageGridView.setAdapter(imageGridAdapter);
                         }
                     }

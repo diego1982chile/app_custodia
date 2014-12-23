@@ -14,6 +14,8 @@ import android.widget.TextView;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import test3.ncxchile.cl.db.Global;
+import test3.ncxchile.cl.greenDAO.Cliente;
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.validators.CorreoValidator;
 import test3.ncxchile.cl.validators.RutValidator;
@@ -59,6 +61,8 @@ public class FragmentX7 extends android.app.Fragment {
         view6_10 = (EditText) rootView.findViewById(R.id.view6_10_telefono);
         //errores = (TextView) rootView.findViewById(R.id.errores6);
         view6_06.addTextChangedListener(replicadorCampos);
+        view6_06.addTextChangedListener(llenadorCamposConductor);
+        view6_01.addTextChangedListener(llenadorCamposPropietario);
 
         Context context= getActivity();
 
@@ -122,6 +126,12 @@ public class FragmentX7 extends android.app.Fragment {
             esValido=false;
         }
 
+        // Si las licencias son iguales no aceptar
+        if(view6_01.getText().toString().equals(view6_06.getText().toString()) && !view6_03.getText().toString().equals(view6_08.getText().toString())){
+            view6_08.setError("La licencia no es la misma");
+            esValido=false;
+        }
+
         /*
         if(view6_01.getText().toString().equals("")){
             view6_01.setError(getString(R.string.error_field_required));
@@ -137,7 +147,69 @@ public class FragmentX7 extends android.app.Fragment {
         return esValido;
     }
 
+    TextWatcher llenadorCamposPropietario = new TextWatcher() {
 
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+            if(RutValidator.isRutValid(s.toString())) {
+
+                Cliente cliente= Global.daoSession.getClienteDao().getByRut(s.toString());
+
+                System.out.println("El cliente es nulo");
+
+                if(cliente!=null){
+                    System.out.println("El cliente no es nulo");
+                    view6_02.setText(cliente.getPersona().getNombre());
+                    view6_02_paterno.setText(cliente.getPersona().getApellidoPaterno());
+                    view6_02_materno.setText(cliente.getPersona().getApellidoMaterno());
+                    view6_03.setText(cliente.getLicencia());
+                    view6_04.setText(cliente.getPersona().getCorreos().get(0).getEmail());
+                    view6_05.setText(cliente.getPersona().getTelefonos().get(0).getEmail());
+                }
+            }
+        }
+    };
+
+    TextWatcher llenadorCamposConductor = new TextWatcher() {
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+            if(RutValidator.isRutValid(s.toString())) {
+
+                Cliente cliente= Global.daoSession.getClienteDao().getByRut(s.toString());
+
+                System.out.println("El cliente es nulo");
+
+                if(cliente!=null){
+                    System.out.println("El cliente no es nulo");
+                    view6_07.setText(cliente.getPersona().getNombre());
+                    view6_02_paterno2.setText(cliente.getPersona().getApellidoPaterno());
+                    view6_02_materno2.setText(cliente.getPersona().getApellidoMaterno());
+                    view6_08.setText(cliente.getLicencia());
+                    view6_09.setText(cliente.getPersona().getCorreos().get(0).getEmail());
+                    view6_10.setText(cliente.getPersona().getTelefonos().get(0).getEmail());
+                }
+            }
+        }
+    };
 
     TextWatcher replicadorCampos = new TextWatcher() {
 
@@ -155,6 +227,7 @@ public class FragmentX7 extends android.app.Fragment {
             int rut_propietario=view6_01.getText().toString().length();
 
             if(s.length()==rut_propietario && s.length()>0) {
+
                 if(s.toString().equals(view6_01.getText().toString()))
                 {
                     view6_07.setText(view6_02.getText().toString());
@@ -164,6 +237,11 @@ public class FragmentX7 extends android.app.Fragment {
 
                     view6_02_paterno2.setText(view6_02_paterno.getText().toString());
                     view6_02_materno2.setText(view6_02_materno.getText().toString());
+
+                    // Si las licencias son iguales no aceptar
+                    if(!view6_03.getText().toString().equals(view6_08.getText().toString())){
+                        view6_08.setError("La licencia no es la misma");
+                    }
 
                     /*
                     setDisable(view6_07,false);

@@ -19,6 +19,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import test3.ncxchile.cl.POJO.VideoItem;
+import test3.ncxchile.cl.acta.FragmentX5;
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.session.SessionManager;
 
@@ -84,9 +85,10 @@ public class GridViewVideoAdapter extends ArrayAdapter {
                             insert(new VideoItem(BitmapFactory.decodeResource(context.getResources(), R.drawable.video_placeholder),
                                                  BitmapFactory.decodeResource(context.getResources(), R.drawable.photo_placeholder),
                                                  Uri.parse(context.getPackageName() + R.drawable.video_placeholder),""), position);
-                            */
-                            SessionManager session = new SessionManager(context);
-                            session.setCantidadVideos(session.getCantidadVideos() - 1);
+                            */                            
+                            FragmentX5.contVideos--;
+                            //SessionManager session = new SessionManager(context);
+                            //session.setCantidadVideos(session.getCantidadVideos() - 1);
                             //imageGridView.setAdapter(imageGridAdapter);
                         }
                     }

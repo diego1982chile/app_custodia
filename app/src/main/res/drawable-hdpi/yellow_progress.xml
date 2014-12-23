@@ -5,15 +5,14 @@
         <shape>
             <gradient
                 android:startColor="#00000000"
-                android:centerY="1.0"
                 android:endColor="#00000000"
                 android:angle="270"
                 />
             <corners
                 android:radius="6dp" />
-            <!--stroke
+            <stroke
                 android:width="1dp"
-                android:color="@android:color/background_dark" /-->
+                android:color="@android:color/background_dark" />
         </shape>
     </item>
 
@@ -22,17 +21,17 @@
         <clip>
             <shape>
                 <gradient
-                    android:startColor="#79ff1a04"
-                    android:centerY="1.0"
-                    android:endColor="#b3ff1a04"
+                    android:startColor="#db8d1700"
+                    android:centerColor="#61c62900"
+                    android:endColor="#db8d1700"
                     android:angle="270"
                     />
                 <corners
                     android:radius="6dp" />
+                <stroke
+                    android:width="1dp"
+                    android:color="#70000000" />
             </shape>
-            <!--stroke
-                android:width="1dp"
-                android:color="@android:color/background_dark" /-->
         </clip>
     </item>
-</layer-list> 
+</layer-list>

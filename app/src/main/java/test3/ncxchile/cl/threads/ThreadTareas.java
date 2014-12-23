@@ -114,6 +114,9 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
         System.out.println("ACTUALIZAR TAREAS = " + rut);
 
         if(isInternetPresent){
+            HomeActivity.tareasProgress.setVisibility(View.VISIBLE);
+            HomeActivity.cargarTareas.setVisibility(View.INVISIBLE);
+
             desconexionPrevia=false;
 
             System.out.println("LLAMANDO WEB SERVICE: " + rut);
@@ -191,6 +194,9 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
         System.out.println("ACTUALIZAR TAREAS = " + rut);
 
         if(isInternetPresent){
+            HomeActivity.tareasProgress.setVisibility(View.VISIBLE);
+            HomeActivity.cargarTareas.setVisibility(View.INVISIBLE);
+
             System.out.println("LLAMANDO WEB SERVICE: " + rut);
                 SoapProxy.buscarOTS(rut, this);
 
@@ -214,47 +220,56 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
     public void resultValue(String methodName, Object source, Vector value) {
         System.out.println("Resultado WS=" + methodName + "=" + value);
 
+        context.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
 
-        //daoSession.getTareaDao().deleteAll(); // TODO: revisar
-        //daoSession.getAccionDao().deleteAll();// TODO: revisar
+                context.tareasProgress.setVisibility(View.INVISIBLE);
+                context.cargarTareas.setVisibility(View.VISIBLE);
+            }
+        });
 
-        if (value != null) {
-            List<Long> tareasVigentes= new ArrayList<Long>();
+            //daoSession.getTareaDao().deleteAll(); // TODO: revisar
+            //daoSession.getAccionDao().deleteAll();// TODO: revisar
 
-            for (int i = 0; i < value.size(); i++) {
-                SoapObject item = (SoapObject) value.get(i);
-                //Long tareaId = (Long)item.getProperty("id");
-                tareasVigentes.add(Long.parseLong(item.getPropertyAsString("servicio")));
+            if(value!=null)
 
-                String servicioString = item.getPropertyAsString("servicio");
-                String fecha = item.getPropertyAsString("fecha");
-                String tamano = item.getPropertyAsString("tamano");
-                String direccion =item.getPropertyAsString("direccion");
-                String comuna = item.getPropertyAsString("comuna");
-                String estado = item.getPropertyAsString("estado");
-                String recinto = item.getPropertyAsString("recinto");
+            {
+                List<Long> tareasVigentes = new ArrayList<Long>();
 
-                int servicio = Integer.parseInt(servicioString);
+                for (int i = 0; i < value.size(); i++) {
+                    SoapObject item = (SoapObject) value.get(i);
+                    //Long tareaId = (Long)item.getProperty("id");
+                    tareasVigentes.add(Long.parseLong(item.getPropertyAsString("servicio")));
 
-                Tarea tarea = new Tarea();
-                tarea.setServicio(servicio);
-                tarea.setFecha(fecha);
-                tarea.setTamano(tamano);
-                tarea.setDireccion(direccion);
-                tarea.setComuna(comuna);
-                tarea.setEstado(estado);
-                tarea.setRecinto(recinto);
-                tarea.setStatus(0);
+                    String servicioString = item.getPropertyAsString("servicio");
+                    String fecha = item.getPropertyAsString("fecha");
+                    String tamano = item.getPropertyAsString("tamano");
+                    String direccion = item.getPropertyAsString("direccion");
+                    String comuna = item.getPropertyAsString("comuna");
+                    String estado = item.getPropertyAsString("estado");
+                    String recinto = item.getPropertyAsString("recinto");
 
-                Tarea consulta = daoSession.getTareaDao().getByServicio(servicio);
-                System.out.println("Tarea " + item + "=" + consulta);
-                if (consulta == null ) {
-                    daoSession.getTareaDao().insertOrReplace(tarea); // TODO pasar a tx
-                    daoSession.getTareaDao().refresh(tarea);
-                }
-                else {
-                    Acta acta = daoSession.getActaDao().getByIdTarea(consulta.getId());
-                    if (acta == null) {
+                    int servicio = Integer.parseInt(servicioString);
+
+                    Tarea tarea = new Tarea();
+                    tarea.setServicio(servicio);
+                    tarea.setFecha(fecha);
+                    tarea.setTamano(tamano);
+                    tarea.setDireccion(direccion);
+                    tarea.setComuna(comuna);
+                    tarea.setEstado(estado);
+                    tarea.setRecinto(recinto);
+                    tarea.setStatus(0);
+
+                    Tarea consulta = daoSession.getTareaDao().getByServicio(servicio);
+                    System.out.println("Tarea " + item + "=" + consulta);
+                    if (consulta == null) {
+                        daoSession.getTareaDao().insertOrReplace(tarea); // TODO pasar a tx
+                        daoSession.getTareaDao().refresh(tarea);
+                    } else {
+                        Acta acta = daoSession.getActaDao().getByIdTarea(consulta.getId());
+                        if (acta == null) {
                         /*
                         System.out.println("Leyendo acta para Tarea #" + consulta.getId());
                         Date timeStamp= new Date();
@@ -263,14 +278,16 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
                         Accion accion= new Accion(null,"Buscar Acta",fechaSDF.format(timeStamp),horaSDF.format(timeStamp),timeStamp,Global.sessionManager.getLatitud(),Global.sessionManager.getLongitud(),false,consulta.getId(),null,null);
                         accionController.encolarAccion(accion);
                         */
+                        }
                     }
                 }
+                Global.daoSession.getTareaDao().actualizarTareas(tareasVigentes);
             }
-            Global.daoSession.getTareaDao().actualizarTareas(tareasVigentes);
-        }
-        List<Tarea> tareas = tareaController.getTareasAsignadas();
-        System.out.println("Tareas Asignadas (" + tareas.size() + ")=" + tareas);
-        actualizarTablaTareas(tareas);
+
+            List<Tarea> tareas = tareaController.getTareasAsignadas();
+            System.out.println("Tareas Asignadas ("+tareas.size()+")="+tareas);
+
+            actualizarTablaTareas(tareas);
 
         /*
         Calendar c = Calendar.getInstance();
@@ -278,9 +295,9 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
         c.add(Calendar.DATE, -2);  // number of days to add
         actualizarTablaAcciones(accionController.getUltimasAcciones(c.getTime()));
         */
-    }
+        }
 
-    @Override
+        @Override
     public void onTick(long millisUntilFinished)
     {
         // Cada vez que ocurre un tick no hacer nada

@@ -539,12 +539,16 @@ public class ActaController {
                             }
                         }
 
-                        autoridad.setCargo(autoridadJson.getString("cargo"));
-                        autoridad.setUnidadPolicial(autoridadJson.getString("unidadPolicial"));
-                        autoridad.setNumeroFuncionario(autoridadJson.getString("numeroFuncionario"));
-                        autoridad.setInstitucion(autoridadJson.getString("institucion"));
-                        autoridad.setPersona(persona);
-                        Global.daoSession.getAutoridadDao().insert(autoridad);
+                        if((autoridad=Global.daoSession.getAutoridadDao().getByRut(RutParser.parseRut(autoridadJson.getString("rut")).toString()))==null){
+                            autoridad= new Autoridad();
+                            autoridad.setCargo(autoridadJson.getString("cargo"));
+                            autoridad.setUnidadPolicial(autoridadJson.getString("unidadPolicial"));
+                            autoridad.setNumeroFuncionario(autoridadJson.getString("numeroFuncionario"));
+                            autoridad.setInstitucion(autoridadJson.getString("institucion"));
+                            autoridad.setPersona(persona);
+                            Global.daoSession.getAutoridadDao().insert(autoridad);
+                        }
+
                         acta.setAutoridad(autoridad);
                     }
 
@@ -573,7 +577,7 @@ public class ActaController {
                             if(telefonosJson.length()>0){
                                 telefonos.setEmail(telefonosJson.get(0).toString().trim());
                                 telefonos.setTelefonosID(persona.getId());
-                                if(!acta.getPersona().getTelefonos().contains(telefonos)) {
+                                if(Global.daoSession.getTelefonosDao().getByValue(telefonos)==null){
                                     Global.daoSession.getTelefonosDao().insertOrReplace(telefonos);
                                     persona.getTelefonos().add(telefonos);
                                 }
@@ -581,7 +585,7 @@ public class ActaController {
                             if(correosJson.length()>0){
                                 correos.setEmail(correosJson.get(0).toString().trim());
                                 correos.setCorreosID(persona.getId());
-                                if(!acta.getPersona().getCorreos().contains(correos)){
+                                if(Global.daoSession.getCorreosDao().getByValue(correos)==null){
                                     Global.daoSession.getCorreosDao().insertOrReplace(correos);
                                     persona.getCorreos().add(correos);
                                 }

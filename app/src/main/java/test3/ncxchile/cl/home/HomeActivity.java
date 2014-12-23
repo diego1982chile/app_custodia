@@ -7,6 +7,7 @@ import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -70,11 +71,13 @@ public class HomeActivity extends Activity {
     public TextView statusGps,statusHora;
     public FrameLayout statusMensajes,historialAcciones;
     public static LinearLayout linlaHeaderProgress;
-    public static ProgressBar accionProgress;
+    public static ProgressBar accionProgress, tareasProgress;
     public static TextView progressLabel;
     private TrackingDialogFragment trackingDialogFragment;
 
     public static Button tomarTarea, confirmarArribo, completarActa, retiroRealizado, pdf;
+
+    public static TextView cargarTareas;
 
     public static TareaController tareaController;
     public static AccionController accionController;
@@ -161,6 +164,7 @@ public class HomeActivity extends Activity {
         tablerow = (TableRow) findViewById(R.id.tableRow);
         //tablerow.setBackgroundColor(Color.WHITE);
 
+        cargarTareas= (TextView) findViewById(R.id.cargar_tareas);
         tomarTarea= (Button) findViewById(R.id.tomarTarea);
         confirmarArribo= (Button) findViewById(R.id.confirmarArribo);
         completarActa= (Button) findViewById(R.id.completarActa);
@@ -184,6 +188,8 @@ public class HomeActivity extends Activity {
 
         statusMensajes = (FrameLayout) findViewById(R.id.status_mensajes);
         historialAcciones = (FrameLayout) findViewById(R.id.historial_acciones);
+
+        tareasProgress = (ProgressBar) findViewById(R.id.progress_tareas);
 
         accionProgress = (ProgressBar) findViewById(R.id.status_actividad_progress);
         progressLabel = (TextView) findViewById(R.id.actividad_progress_label);
@@ -693,6 +699,8 @@ public class HomeActivity extends Activity {
     }
 
     public static void setStatus(final String texto, int caso){
+        Handler handler = new Handler();
+
         switch (caso){
             case 1: // Sincronizando
                 HomeActivity.accionProgress.setIndeterminate(true);
@@ -703,11 +711,11 @@ public class HomeActivity extends Activity {
                 HomeActivity.accionProgress.setIndeterminate(false);
                 HomeActivity.accionProgress.setProgressDrawable(greenProgress);
                 HomeActivity.accionProgress.setProgress(100);
+                HomeActivity.progressLabel.setTextColor(Color.WHITE);
                 HomeActivity.progressLabel.setText("OK: "+texto);
-                Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
-                    public void run() {setStatus(texto,5);}},2000);
+                    public void run() {if(!accionController.accionEnCola())setStatus(texto,5);}},3000);
                 break;
             case 3: // Fracaso
                 HomeActivity.accionProgress.setIndeterminate(false);
@@ -715,12 +723,15 @@ public class HomeActivity extends Activity {
                 HomeActivity.accionProgress.setProgress(100);
                 HomeActivity.progressLabel.setTextColor(Color.WHITE);
                 HomeActivity.progressLabel.setText("Cancelada: "+texto);
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {if(!accionController.accionEnCola())setStatus(texto,5);}},3000);
                 break;
             case 4: // Pendiente
                 HomeActivity.accionProgress.setIndeterminate(false);
                 HomeActivity.accionProgress.setProgressDrawable(greenProgress);
                 HomeActivity.accionProgress.setProgress(0);
-                HomeActivity.progressLabel.setTextColor(Color.BLACK);
+                HomeActivity.progressLabel.setTextColor(Color.WHITE);
                 HomeActivity.progressLabel.setText("Pendiente: "+texto);
                 break;
             case 5: // Sin actividad

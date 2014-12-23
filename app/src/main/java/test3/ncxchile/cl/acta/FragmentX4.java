@@ -88,16 +88,16 @@ public class FragmentX4 extends android.app.Fragment  {
         if(myActivity.acta!=null){
             view4_01.setText(myActivity.acta.getVehiculoData().getVehiculo().getMatricula());
             if(myActivity.acta.getVehiculoData().getVehiculo().getMarca()!=null)
-                view4_02.setText(myActivity.acta.getVehiculoData().getVehiculo().getMarca());
+                view4_02.setText(myActivity.acta.getVehiculoData().getVehiculo().getMarca().toString());
             view4_03.setText(myActivity.acta.getVehiculoData().getVehiculo().getModelo());
             if(myActivity.acta.getVehiculoData().getVehiculo().getAnio()!=0)
                 view4_04.setSelection(1);
-            view4_05.setText(myActivity.acta.getVehiculoData().getVehiculo().getColor().toLowerCase());
-            if(myActivity.acta.getVehiculoData().getVehiculo().getKilometraje()!=0)
-                view4_06.setText(myActivity.acta.getVehiculoData().getVehiculo().getKilometraje().toString().toLowerCase());
+            view4_05.setText(myActivity.acta.getVehiculoData().getVehiculo().getColor());
+            if(myActivity.acta.getVehiculoData().getVehiculo().getKilometraje()>0)
+                view4_06.setText(myActivity.acta.getVehiculoData().getVehiculo().getKilometraje().toString());
             view4_07.setText(myActivity.acta.getVehiculoData().getVehiculo().getNumeroMotor());
             view4_08.setText(myActivity.acta.getVehiculoData().getVehiculo().getNumeroChasis());
-            spinner.setText(myActivity.acta.getVehiculoData().getVehiculo().getTamano().toLowerCase());
+            spinner.setText(myActivity.acta.getVehiculoData().getVehiculo().getTamano());
             if(myActivity.acta.getVehiculoData().getVehiculo().getOrigenVehiculo())
                 view4_09.check(R.id.radioButton1);
             else

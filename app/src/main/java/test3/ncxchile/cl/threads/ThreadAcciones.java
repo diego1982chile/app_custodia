@@ -90,7 +90,7 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
         tareaDialog.setIcon(errorIcon);
         tareaDialog.setButton(Dialog.BUTTON_POSITIVE, "Aceptar",new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                HomeActivity.setStatus(labelAccion,5);
+                //HomeActivity.setStatus(labelAccion,5);
             }
         });
 
@@ -103,7 +103,7 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
         actaDialog.setIcon(successIcon);
         actaDialog.setButton(Dialog.BUTTON_POSITIVE, "Aceptar",new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                HomeActivity.setStatus(labelAccion,5);
+                //HomeActivity.setStatus(labelAccion,5);
             }
         });
 
@@ -141,19 +141,20 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
 
         if(!sincronizando && accionController.accionEnCola()){
 
+            Accion siguienteAccion=accionController.dequeue();
+            String nombreAccion = siguienteAccion.getNombre();
+
+            labelAccion=nombreAccion+" [OS-"+siguienteAccion.getTarea().getServicio()+"]";
+            HomeActivity.setStatus(labelAccion,4);
+
             InternetDetector cd = new InternetDetector(appContext); //instancie el objeto
             Boolean isInternetPresent = cd.hayConexion(); // true o false dependiendo de si hay conexion
             // Si hay conexion autenticar online. Si no hay conexion autenticar offline
             if(isInternetPresent){
                 sincronizando=true;
 
-                Accion siguienteAccion=accionController.dequeue();
-                String nombreAccion = siguienteAccion.getNombre();
 
                 System.out.println("Sincronizando Accion =" + nombreAccion + "=" + siguienteAccion.getId());
-
-                labelAccion=nombreAccion+" [OS-"+siguienteAccion.getTarea().getServicio()+"]";
-
                 HomeActivity.setStatus(labelAccion,1);
 
                 boolean resultadoSincronizacion = false;

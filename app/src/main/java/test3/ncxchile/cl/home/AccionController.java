@@ -138,7 +138,7 @@ public class AccionController {
         Font h1 = FontFactory.getFont(FontFactory.HELVETICA, 28, Font.BOLD);
         Chunk chunk = new Chunk("Tracking");
         preface.setAlignment(Element.ALIGN_CENTER);
-        preface.setSpacingBefore(30f);
+        preface.setSpacingBefore(15f);
         preface.setFont(h1);
         preface.add(chunk);
         //documento.add(preface);
@@ -147,8 +147,8 @@ public class AccionController {
         Chunk chunk2 = new Chunk("Tracking OS N°" + Global.sessionManager.getServicio());
         preface2.setAlignment(Element.ALIGN_CENTER);
         preface2.setFont(h1);
-        preface2.setSpacingBefore(15f);
-        preface2.setSpacingAfter(15f);
+        preface2.setSpacingBefore(20f);
+        preface2.setSpacingAfter(20f);
         preface2.add(chunk2);
         documento.add(preface2);
 
@@ -175,16 +175,16 @@ public class AccionController {
         for(int i=0;i<acciones.size();++i){
             PdfPTable row=new PdfPTable(5);
 
-            row.setWidthPercentage(100f);
+            row.setWidthPercentage(100);
+            row.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
+            row.getDefaultCell().setVerticalAlignment(Element.ALIGN_MIDDLE);
+            //row.getDefaultCell().setFixedHeight(250);
             row.setWidths(new float[]{16f, 18f, 18f, 16f, 32f});
-            row.setHorizontalAlignment(Element.ALIGN_MIDDLE);
+            //row.setHorizontalAlignment(Element.ALIGN_MIDDLE);
 
             Accion accion=(Accion)acciones.get(i);
 
-            Paragraph servicio= new Paragraph(accion.getTarea().getServicio().toString());
-            servicio.setAlignment(Element.ALIGN_MIDDLE);
-
-            row.addCell(servicio);
+            row.addCell(accion.getTarea().getServicio().toString());
             row.addCell(accion.getNombre());
             row.addCell(accion.getFecha());
             row.addCell(accion.getHora());
