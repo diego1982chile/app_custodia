@@ -113,11 +113,22 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
 
             currentMethod = current;
 			try {
-                if(Arrays.asList("confirmarArribo","buscarActaJSON","finalizarActaGruero","confirmarInicioTraslado").contains(currentMethod.methodName)) {
+                if(Arrays.asList("confirmarArribo","buscarActaJSON","finalizarActaGruero").contains(currentMethod.methodName)) {
                     System.out.println("WAIT: 5 Segundos de Holgura Procesamiento BPM");
                     try {
                         synchronized (this) {
                             wait(5000);
+                            notify();
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if(Arrays.asList("confirmarInicioTraslado").contains(currentMethod.methodName)) {
+                    System.out.println("WAIT: 10 Segundos de Holgura Procesamiento BPM");
+                    try {
+                        synchronized (this) {
+                            wait(10000);
                             notify();
                         }
                     } catch (InterruptedException e) {

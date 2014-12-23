@@ -260,7 +260,8 @@ public class ClienteDao extends AbstractDao<Cliente, Long> {
             List clientes= queryBuilder()
                     .where(Properties.PersonaID.eq(persona.getId()))
                     .list();
-            return (Cliente)clientes.get(0);
+            if(clientes.size()>0)
+                return (Cliente)clientes.get(0);
         }
         return null;
     }
