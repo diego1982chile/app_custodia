@@ -64,7 +64,7 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
 
     private Hashtable<Long, Integer> retryCount = null;
 
-    private AlertDialog tareaDialog,actaDialog;
+    private AlertDialog tareaDialog,actaDialog,statusErrorDialog;
 
     private Object sem;
 
@@ -84,6 +84,10 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
         tareaDialog = new AlertDialog.Builder(activityContext).create();
         tareaDialog.setTitle("Tarea Timeout");
         tareaDialog.setMessage("Tiempo de espera agotado, tarea desasignada.");
+
+        statusErrorDialog = new AlertDialog.Builder(activityContext).create();
+        statusErrorDialog.setTitle("Error en estado de OT");
+        statusErrorDialog.setMessage("OT en estado incorrecto, se reintentará cambiar el estado");
 
         Drawable errorIcon = appContext.getResources().getDrawable(R.drawable.luzroja);
 
@@ -333,10 +337,11 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                     /*
                     Acción si retorna un mensaje de error
                      */
+                    System.out.println("No se pudo confirmar el arribo");
+                    HomeActivity.setStatus(labelAccion,6);
+                    //statusErrorDialog.show();
                 }
-
             }
-
         }
         else if (methodName.equals("buscarActaJSON")) {
 
@@ -378,6 +383,9 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
             }
             else {
                 System.out.println("buscarActaJSON=" + source + "=" + value + "(value nulo)");
+
+                HomeActivity.setStatus(labelAccion,6);
+                //statusErrorDialog.show();
             }
 
         }
@@ -404,6 +412,9 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                     /*
                     Acción si retorna un mensaje de error
                      */
+                        System.out.println("No se pudo finalizar el Acta");
+                        HomeActivity.setStatus(labelAccion,6);
+                        ///statusErrorDialog.show();
                     }
                 }
 
@@ -432,6 +443,9 @@ public class ThreadAcciones extends CountDownTimer implements SoapHandler {
                     /*
                     Acción si retorna un mensaje de error
                      */
+                    System.out.println("No se pudo confirmar el inicio del traslado");
+                    HomeActivity.setStatus(labelAccion,6);
+                    //statusErrorDialog.show();
                 }
 
             }

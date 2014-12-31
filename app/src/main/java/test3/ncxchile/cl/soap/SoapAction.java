@@ -3,9 +3,7 @@ package test3.ncxchile.cl.soap;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Vector;
 
 import org.json.JSONObject;
@@ -22,13 +20,12 @@ import org.xmlpull.v1.XmlPullParserException;
 import android.os.AsyncTask;
 
 import test3.ncxchile.cl.db.Global;
-import test3.ncxchile.cl.greenDAO.Logs;
 import test3.ncxchile.cl.helpers.Logger;
 
 public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
 
-	private final String authUsername = "clienteJbossEsb";
-	private final String authPassword = "gdyb21LQTcIANtvYMT7QVQ==";
+	private final String authUsername = Global.soap.getProperty("authUsername");
+	private final String authPassword = Global.soap.getProperty("authPassword");
 
 	private SoapHandler handler = null;
 
@@ -43,6 +40,7 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
 
 	@Override
 	protected Vector doInBackground(SoapMethod... methods) {
+        System.out.println("authUsername="+authUsername+" authPassword="+authPassword);
         Vector data = null;
 		int count = methods.length;
 		for (int i = 0; i < count; i++) {
@@ -118,6 +116,7 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
                     try {
                         synchronized (this) {
                             wait(5000);
+                            //wait(1);
                             notify();
                         }
                     } catch (InterruptedException e) {
@@ -129,6 +128,7 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
                     try {
                         synchronized (this) {
                             wait(10000);
+                            //wait(1);
                             notify();
                         }
                     } catch (InterruptedException e) {

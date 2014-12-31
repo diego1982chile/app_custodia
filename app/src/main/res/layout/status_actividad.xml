@@ -23,7 +23,7 @@
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
                 style="@android:style/Widget.ProgressBar.Horizontal"
-                android:progressDrawable="@drawable/yellow_progress"
+                android:progressDrawable="@drawable/red_progress"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" >
             </ProgressBar>
@@ -35,9 +35,6 @@
                 android:text="NINGUNA ACTIVIDAD PENDIENTE"
                 android:textColor="#40000000"
                 android:gravity="center"
-                android:shadowDx="1"
-                android:shadowDy="1"
-                android:shadowRadius="0.6"
                 android:shadowColor="@android:color/black"
                 android:layout_alignLeft="@+id/status_actividad_progress"
                 android:layout_alignTop="@+id/status_actividad_progress"

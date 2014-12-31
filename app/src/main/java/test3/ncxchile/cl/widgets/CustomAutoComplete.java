@@ -97,6 +97,7 @@ public class CustomAutoComplete extends AutoCompleteTextView {
      * since we are extending to customize the view and disable filter
      * The same with the XML view, type will be CustomAutoCompleteView
      */
+        setBackgroundResource(R.drawable.spinner_background_holo_light);
 
         try {
 
@@ -115,10 +116,13 @@ public class CustomAutoComplete extends AutoCompleteTextView {
                     setAdapter(myAdapter);
 
                     if(items.length==0){
+                        int selection=getSelectionEnd();
                         setText(s.subSequence(0,s.length()-1));
+                        if(selection>0)
+                            setSelection(s.length()-1);
                     }
 
-                    if(s.toString().length()>5){
+                    if(s.toString().length()>3){
                         setItem(s.toString());
                     }
                 }

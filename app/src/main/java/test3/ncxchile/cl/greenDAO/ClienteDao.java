@@ -261,7 +261,7 @@ public class ClienteDao extends AbstractDao<Cliente, Long> {
                     .where(Properties.PersonaID.eq(persona.getId()))
                     .list();
             if(clientes.size()>0)
-                return (Cliente)clientes.get(0);
+                return (Cliente)clientes.get(clientes.size()-1);
         }
         return null;
     }

@@ -140,6 +140,9 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
             // Se pierde la conexion, luego si se vuelve a detectar conexion, es necesario volver a consumir el webservice
             conexionPrevia=false;
 
+            HomeActivity.tareasProgress.setVisibility(View.INVISIBLE);
+            HomeActivity.cargarTareas.setVisibility(View.VISIBLE);
+
             System.out.println("!desconexionPrevia="+!desconexionPrevia);
 
             if(!desconexionPrevia){
@@ -233,7 +236,6 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
             //daoSession.getAccionDao().deleteAll();// TODO: revisar
 
             if(value!=null)
-
             {
                 List<Long> tareasVigentes = new ArrayList<Long>();
 

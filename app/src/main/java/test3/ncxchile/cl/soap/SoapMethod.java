@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.ksoap2.serialization.PropertyInfo;
 
+import test3.ncxchile.cl.db.Global;
+
 public class SoapMethod {
 	
-	public final String namespace = "http://www.cmvrc.cl/schemas/soap";
+	public final String namespace = Global.soap.getProperty("namespace");
 	public String methodName = null;
 	public String soapAction = null;
 	public List<PropertyInfo> params = null;

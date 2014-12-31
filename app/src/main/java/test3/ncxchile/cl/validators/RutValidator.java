@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
  */
 public abstract class RutValidator {
 
-    private static final Pattern sFinalPattern = Pattern.compile("(^0?[1-9]{1,2})(?>((\\d{3}){2})|((\\d{3}){2})|((\\d{3}){2}))([\\dkK])$");
+    private static final Pattern sFinalPattern = Pattern.compile("(^0?[0-9]{1,2})(?>((\\d{3}){2})|((\\d{3}){2})|((\\d{3}){2}))([\\dkK])$");
     private static final Pattern sCurrentPattern = Pattern.compile("(\\d{0,2})()(\\d{0,3})()(\\d{0,3})()([\\dkK]?)");
 
     protected static boolean isFormatValid(CharSequence s) {

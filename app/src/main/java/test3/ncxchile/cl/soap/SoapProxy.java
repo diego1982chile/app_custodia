@@ -5,11 +5,11 @@ import java.util.List;
 
 import org.ksoap2.serialization.PropertyInfo;
 
+import test3.ncxchile.cl.db.Global;
+
 public class SoapProxy {
-	
-	//private static String baseURL = "http://192.168.0.8:8380"; // Local
-    //private static String baseURL = "http://192.168.0.14:8380"; // Local
-    private static String baseURL = "http://200.27.19.44:8380"; // Remote
+
+    private static String baseURL = Global.soap.getProperty("baseURL");
 
 	//"11852245" "Murillo1"
 	public static boolean loginGruero(String rutValor, String passwordValor, SoapHandler handler) {

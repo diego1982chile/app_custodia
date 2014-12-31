@@ -3,16 +3,14 @@ package test3.ncxchile.cl.db;
 import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 import test3.ncxchile.cl.greenDAO.DaoMaster;
 import test3.ncxchile.cl.greenDAO.DaoSession;
-import test3.ncxchile.cl.greenDAO.Institucion;
 import test3.ncxchile.cl.greenDAO.Sesion;
-import test3.ncxchile.cl.greenDAO.User;
-import test3.ncxchile.cl.security.PasswordHelper;
 import test3.ncxchile.cl.session.SessionManager;
 
 /**
@@ -25,6 +23,8 @@ public class Global extends Application{
     public static SQLiteDatabase db;
     public static Sesion sesion;
     public static SessionManager sessionManager;
+    public static Properties soap = new Properties();
+    InputStream input = null;
 
     @Override
     public void onCreate() {
@@ -36,5 +36,25 @@ public class Global extends Application{
         DaoMaster daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();
         sessionManager = new SessionManager(getApplicationContext());
+
+        try {
+
+            //input = new FileInputStream("config");
+            input = this.getAssets().open("config");
+
+            // load a properties file
+            soap.load(input);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (input != null) {
+                try {
+                    input.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

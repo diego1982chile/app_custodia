@@ -7,7 +7,6 @@ import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -48,7 +47,6 @@ import test3.ncxchile.cl.acta.MyActivity;
 import test3.ncxchile.cl.db.AndroidDatabaseManager;
 import test3.ncxchile.cl.db.Global;
 import test3.ncxchile.cl.greenDAO.Accion;
-import test3.ncxchile.cl.greenDAO.Acta;
 import test3.ncxchile.cl.greenDAO.Tarea;
 
 import test3.ncxchile.cl.helpers.Logger;
@@ -63,7 +61,7 @@ public class HomeActivity extends Activity {
 
     public static TableRow tablerow;
     public int color;
-    public static Drawable marca,greenProgress,redProgress;
+    public static Drawable marca,greenProgress,redProgress,yellowProgress;
     public int marcada;
     public ImageView erroress,iconoGps,iconoHora;
     public static TableLayout tareas;
@@ -244,7 +242,8 @@ public class HomeActivity extends Activity {
         });
 
         greenProgress=getResources().getDrawable(R.drawable.green_progress);
-        redProgress=getResources().getDrawable(R.drawable.yellow_progress);
+        redProgress=getResources().getDrawable(R.drawable.red_progress);
+        yellowProgress=getResources().getDrawable(R.drawable.yellow_progress);
 
         trackingDialogFragment = new TrackingDialogFragment();
     }
@@ -700,6 +699,7 @@ public class HomeActivity extends Activity {
 
     public static void setStatus(final String texto, int caso){
         Handler handler = new Handler();
+        HomeActivity.progressLabel.setShadowLayer(6f,1,1,Color.BLACK);
 
         switch (caso){
             case 1: // Sincronizando
@@ -740,6 +740,14 @@ public class HomeActivity extends Activity {
                 HomeActivity.accionProgress.setProgress(0);
                 HomeActivity.progressLabel.setTextColor(Color.parseColor("#40000000"));
                 HomeActivity.progressLabel.setText("NINGUNA ACTIVIDAD PENDIENTE");
+                HomeActivity.progressLabel.setShadowLayer(0f,0,0,Color.BLACK);
+                break;
+            case 6: // Sin actividad
+                HomeActivity.accionProgress.setIndeterminate(false);
+                HomeActivity.accionProgress.setProgressDrawable(yellowProgress);
+                HomeActivity.accionProgress.setProgress(100);
+                HomeActivity.progressLabel.setTextColor(Color.parseColor("#40000000"));
+                HomeActivity.progressLabel.setText("Fallida: "+texto+" (Reintento en 10 seg.)");
                 break;
         }
     }
