@@ -26,6 +26,7 @@ import test3.ncxchile.cl.greenDAO.Motivo;
 import test3.ncxchile.cl.greenDAO.MotivoFiscalia;
 import test3.ncxchile.cl.greenDAO.TipoVehiculo;
 import test3.ncxchile.cl.greenDAO.Tribunal;
+import test3.ncxchile.cl.greenDAO.TribunalDao;
 import test3.ncxchile.cl.login.R;
 
 public class CustomAutoComplete extends AutoCompleteTextView {
@@ -204,6 +205,7 @@ public class CustomAutoComplete extends AutoCompleteTextView {
             itemSelected= Global.daoSession.getComunaDao().getByString(s.toString());
         if(myResource.toLowerCase().equals("marca"))
             itemSelected= Global.daoSession.getMarcaDao().getByString(s.toString());
+
     }
 
     // this function is used in CustomAutoCompleteTextChangedListener.java

@@ -89,7 +89,6 @@ public class ThreadMapas extends CountDownTimer {
 
         String URL = "http://maps.googleapis.com/maps/api/staticmap?center="+accion.getLatitud()+","+accion.getLongitud()+"&zoom=15&size=200x200&scale=2&markers="+accion.getLatitud()+","+accion.getLongitud()+"&sensor=true";
 
-
         //synchronized(monitor) {
             client.get(URL, new AsyncHttpResponseHandler() {
 
@@ -125,6 +124,7 @@ public class ThreadMapas extends CountDownTimer {
 
                 @Override
                 public void onRetry(int retryNo) {
+                    System.out.println("AsyncHttp: onRetry N°"+retryNo);
                     // called when request is retried
                 }
             });
