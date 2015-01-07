@@ -19,7 +19,6 @@ import test3.ncxchile.cl.session.SessionManager;
 public class Global extends Application{
 
     public static DaoSession daoSession;
-    public DaoMaster daoMaster;
     public static SQLiteDatabase db;
     public static Sesion sesion;
     public static SessionManager sessionManager;
@@ -32,7 +31,6 @@ public class Global extends Application{
         super.onCreate();
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "cmvrc_android", null);
         db = helper.getWritableDatabase();
-        //DaoMaster.createAllTables(db,true);
         DaoMaster daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();
         sessionManager = new SessionManager(getApplicationContext());

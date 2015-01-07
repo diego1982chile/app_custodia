@@ -74,6 +74,7 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
 					.setAttribute(
 							"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd",
 							"Id", "UsernameToken-1");
+
 			header[0].addChild(Node.ELEMENT, usernametoken);
 			Element username = new Element().createElement(null, "n0:Username");
 			username.addChild(Node.TEXT, authUsername);
@@ -107,7 +108,6 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
 					current.url);
 
 			ht.debug = true;
-
 
             currentMethod = current;
 			try {
@@ -151,7 +151,10 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
                 if (obj instanceof Vector) {
                     data = (Vector) obj;
                     System.out.println("SoapResponse Vector=" + data);
-                    Logger.log("Response WS: SoapProxy. '"+current.methodName+" SoapResponse' Vector = "+data.toString().substring(0,50)+"...");
+                    String vector=data.toString();
+                    if(vector.length()>50)
+                        vector=data.toString().substring(0,50);
+                    Logger.log("Response WS: SoapProxy. '"+current.methodName+" SoapResponse' Vector = "+vector+"...");
                 }
                 else if (obj instanceof SoapPrimitive) {
                     SoapPrimitive resp = (SoapPrimitive) obj;

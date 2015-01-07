@@ -43,6 +43,7 @@ import test3.ncxchile.cl.greenDAO.Sesion;
 import test3.ncxchile.cl.greenDAO.User;
 import test3.ncxchile.cl.greenDAO.UserDao;
 import test3.ncxchile.cl.greenDAO.UserName;
+import test3.ncxchile.cl.helpers.FixturesUpdater;
 import test3.ncxchile.cl.helpers.InternetDetector;
 import test3.ncxchile.cl.helpers.Logger;
 import test3.ncxchile.cl.home.HomeActivity;
@@ -109,6 +110,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
         //mPasswordView.setText("Murillo1"); // DEV VM
         //mEmailView.setText("66221261");
         //mPasswordView.setText("Ncx123456");
+        FixturesUpdater fixturesUpdater= new FixturesUpdater(this);
+        fixturesUpdater.updateFixtures("comunas");
 
         gruaDialogFragment = new GruaDialogFragment();
 
