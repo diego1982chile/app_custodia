@@ -137,6 +137,7 @@ public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
                 }
                 Logger.log("Call WS: SoapProxy." + current.methodName);
 				ht.call(current.soapAction, envelope);
+                //System.out.println("Request: "+ht.requestDump);
 
 			} catch (IOException e) {
 				e.printStackTrace();

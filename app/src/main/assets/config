@@ -2,6 +2,7 @@
 #local http://192.168.0.8:8380
 #testing NCX http://200.113.122.36:8380
 #capacitación http://200.27.19.44:8380
+#VM Alejandro http://192.168.0.14:8380
 baseURL=http://200.27.19.44:8380
 namespace=http://www.cmvrc.cl/schemas/soap
 authUsername=clienteJbossEsb

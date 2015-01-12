@@ -49,7 +49,7 @@ import test3.ncxchile.cl.security.PasswordHelper;
  * Master of DAO (schema version 1000): knows all DAOs.
 */
 public class DaoMaster extends AbstractDaoMaster {
-    public static final int SCHEMA_VERSION = 1277;
+    public static final int SCHEMA_VERSION = 1280;
 
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(SQLiteDatabase db, boolean ifNotExists) {

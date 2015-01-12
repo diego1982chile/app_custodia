@@ -214,7 +214,6 @@ public class SoapProxy {
         firmaGrueroParam.setName("firmaGruero");
         firmaGrueroParam.setValue(firmaGruero);
 
-
         params.add(servicioParam);
         params.add(fechaParam);
         params.add(georefParam);

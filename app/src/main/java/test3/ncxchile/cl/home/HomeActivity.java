@@ -612,7 +612,7 @@ public class HomeActivity extends Activity {
         // Si existe, debe existir una tarea seleccionada
         // Si no, se debe permitir crearla manualmente
         /*
-        ConnectionDetector cd = new ConnectionDetector(getApplicationContext()); //instancie el objeto
+        InternetDetector cd = new InternetDetector(getApplicationContext()); //instancie el objeto
         Boolean isInternetPresent = cd.hayConexion(); // true o false dependiendo de si hay conexion
 
         if(isInternetPresent) {

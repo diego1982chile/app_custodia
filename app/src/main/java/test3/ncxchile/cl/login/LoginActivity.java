@@ -111,10 +111,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
         //mEmailView.setText("66221261");
         //mPasswordView.setText("Ncx123456");
         FixturesUpdater fixturesUpdater= new FixturesUpdater(this);
-        fixturesUpdater.updateFixtures("comunas");
+        //fixturesUpdater.updateFixtures("grueros");
 
         gruaDialogFragment = new GruaDialogFragment();
-
+        gruaDialogFragment = new GruaDialogFragment();
         Global.daoSession.clear();
         System.out.println("Nro Usuarios=" + Global.daoSession.getUserDao().getAll().size());
 
@@ -350,7 +350,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
 
                 System.out.println(item);
 
-
                  User user = new User();
                     user.setId(null);
                     user.setRut(rut);
@@ -360,7 +359,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
                     user.setApellidoPaterno(apellidoPaterno);
                     user.setApellidoMaterno(apellidoMaterno);
                     Global.daoSession.getUserDao().insertOrReplace(user); // TODO pasar a tx
-
 
                     UserName userName = new UserName();
                     userName.setId(null);
