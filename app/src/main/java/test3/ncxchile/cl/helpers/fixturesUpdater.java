@@ -31,6 +31,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,8 +42,14 @@ import javax.xml.parsers.ParserConfigurationException;
 import test3.ncxchile.cl.db.Global;
 import test3.ncxchile.cl.greenDAO.Accion;
 import test3.ncxchile.cl.greenDAO.Comuna;
+import test3.ncxchile.cl.greenDAO.EstadoVisual;
 import test3.ncxchile.cl.greenDAO.Institucion;
 import test3.ncxchile.cl.greenDAO.Mapa;
+import test3.ncxchile.cl.greenDAO.Marca;
+import test3.ncxchile.cl.greenDAO.Motivo;
+import test3.ncxchile.cl.greenDAO.MotivoFiscalia;
+import test3.ncxchile.cl.greenDAO.TipoVehiculo;
+import test3.ncxchile.cl.greenDAO.Tribunal;
 import test3.ncxchile.cl.greenDAO.User;
 import test3.ncxchile.cl.greenDAO.UserName;
 import test3.ncxchile.cl.soap.EnvelopeBuilder;
@@ -82,30 +89,43 @@ public class FixturesUpdater {
         String baseURL = Global.soap.getProperty("baseURL");
         String url = baseURL + "/OTService/ebws/enterprise/OTService";
         String methodName = "";
-        Map<String,String> params = null;
+        Map<String,String> params = new HashMap<String,String>();
 
 
         if (fixtures.equals("grueros"))
             methodName = "backupGruero";
         if (fixtures.equals("comunas")){
             methodName = "obtenerTablaAuxiliar";
+            params.put("tabla","comunas");
         }
         if (fixtures.equals("estado_visual")){
             methodName = "obtenerTablaAuxiliar";
+            params.put("tabla","estados_visuales");
         }
         if (fixtures.equals("instituciones")){
             methodName = "obtenerTablaAuxiliar";
+            params.put("tabla","instituciones");
         }
-        if (fixtures.equals("marcas"))
+        if (fixtures.equals("marcas")) {
             methodName = "obtenerTablaAuxiliar";
-        if (fixtures.equals("motivos"))
+            params.put("tabla","marcas");
+        }
+        if (fixtures.equals("motivos")) {
             methodName = "obtenerTablaAuxiliar";
-        if (fixtures.equals("motivos_fiscalia"))
+            params.put("tabla","motivos");
+        }
+        if (fixtures.equals("motivos_fiscalia")) {
             methodName = "obtenerTablaAuxiliar";
-        if (fixtures.equals("tipos_vehiculo"))
+            params.put("tabla","motivos_fiscalia");
+        }
+        if (fixtures.equals("tipos_vehiculo")) {
             methodName = "obtenerTablaAuxiliar";
-        if (fixtures.equals("tribunales"))
+            params.put("tabla","tipos_vehiculo");
+        }
+        if (fixtures.equals("tribunales")) {
             methodName = "obtenerTablaAuxiliar";
+            params.put("tabla","tribunales");
+        }
 
         client.addHeader("SOAPAction", soapAction);
 
@@ -138,48 +158,48 @@ public class FixturesUpdater {
 
                     if (fixtures.equals("grueros")) {
                         // TODO actualizar fixture local
-                        //List<User> users = (List<User>)(Object)SAXXMLParser.parse(stream,fixtures);
-                        //Global.daoSession.getUserDao().insertInTx();
+                        List<User> users = (List<User>)(Object)SAXXMLParser.parse(stream,fixtures);
+                        Global.daoSession.getUserDao().insertOrReplaceInTx(users);
                     }
                     if (fixtures.equals("comunas")) {
                         // TODO actualizar fixture local
                         List<Comuna> comunas = (List<Comuna>)(Object)SAXXMLParser.parse(stream,fixtures);
-                        Global.daoSession.getComunaDao().insertInTx(comunas);
+                        Global.daoSession.getComunaDao().insertOrReplaceInTx(comunas);
                     }
                     if (fixtures.equals("instituciones")) {
                         // TODO actualizar fixture local
                         List<Institucion> instituciones = (List<Institucion>)(Object)SAXXMLParser.parse(stream,fixtures);
-                        Global.daoSession.getInstitucionDao().insertInTx(instituciones);
+                        Global.daoSession.getInstitucionDao().insertOrReplaceInTx(instituciones);
                     }
                     if (fixtures.equals("marcas")) {
                         // TODO actualizar fixture local
-                        List<User> grueros = (List<User>)(Object)SAXXMLParser.parse(stream,fixtures);
-                        Global.daoSession.getUserDao().insertInTx(grueros);
+                        List<Marca> marcas = (List<Marca>)(Object)SAXXMLParser.parse(stream,fixtures);
+                        Global.daoSession.getMarcaDao().insertOrReplaceInTx(marcas);
                     }
                     if (fixtures.equals("motivos")) {
                         // TODO actualizar fixture local
-                        List<User> grueros = (List<User>)(Object)SAXXMLParser.parse(stream,fixtures);
-                        Global.daoSession.getUserDao().insertInTx(grueros);
+                        List<Motivo> motivos = (List<Motivo>)(Object)SAXXMLParser.parse(stream,fixtures);
+                        Global.daoSession.getMotivoDao().insertOrReplaceInTx(motivos);
                     }
                     if (fixtures.equals("motivos_fiscalia")) {
                         // TODO actualizar fixture local
-                        List<User> grueros = (List<User>)(Object)SAXXMLParser.parse(stream,fixtures);
-                        Global.daoSession.getUserDao().insertInTx(grueros);
+                        List<MotivoFiscalia> motivosFiscalia = (List<MotivoFiscalia>)(Object)SAXXMLParser.parse(stream,fixtures);
+                        Global.daoSession.getMotivoFiscaliaDao().insertOrReplaceInTx(motivosFiscalia);
                     }
                     if (fixtures.equals("tipos_vehiculo")) {
                         // TODO actualizar fixture local
-                        List<User> grueros = (List<User>)(Object)SAXXMLParser.parse(stream,fixtures);
-                        Global.daoSession.getUserDao().insertInTx(grueros);
+                        List<TipoVehiculo> tiposVehiculo = (List<TipoVehiculo>)(Object)SAXXMLParser.parse(stream,fixtures);
+                        Global.daoSession.getTipoVehiculoDao().insertOrReplaceInTx(tiposVehiculo);
                     }
                     if (fixtures.equals("tribunales")) {
                         // TODO actualizar fixture local
-                        List<User> grueros = (List<User>)(Object)SAXXMLParser.parse(stream,fixtures);
-                        Global.daoSession.getUserDao().insertInTx(grueros);
+                        List<Tribunal> tribunales = (List<Tribunal>)(Object)SAXXMLParser.parse(stream,fixtures);
+                        Global.daoSession.getTribunalDao().insertOrReplaceInTx(tribunales);
                     }
-                    if (fixtures.equals("estado_visual")) {
+                    if (fixtures.equals("estados_visuales")) {
                         // TODO actualizar fixture local
-                        List<User> grueros = (List<User>)(Object)SAXXMLParser.parse(stream,fixtures);
-                        Global.daoSession.getUserDao().insertInTx(grueros);
+                        List<EstadoVisual> estadosVisuales = (List<EstadoVisual>)(Object)SAXXMLParser.parse(stream,fixtures);
+                        Global.daoSession.getEstadoVisualDao().insertOrReplaceInTx(estadosVisuales);
                     }
                 }
 

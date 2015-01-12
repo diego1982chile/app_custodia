@@ -143,20 +143,42 @@ public class SAXXMLHandler extends DefaultHandler {
     public void endElement(String uri, String localName, String qName)
             throws SAXException {
 
-        if (qName.equalsIgnoreCase("grueros"))
-            objects.add(gruero);
-        if (qName.equalsIgnoreCase("comunas"))
-            objects.add(comuna);
-        if (qName.equalsIgnoreCase("instituciones"))
-            objects.add(comuna);
-        if (qName.equalsIgnoreCase("marcas"))
-            objects.add(marca);
-        if (qName.equalsIgnoreCase("motivos"))
-            objects.add(motivo);
-        if (qName.equalsIgnoreCase("tiposVehiculo"))
-            objects.add(tipoVehiculo);
-        if (qName.equalsIgnoreCase("tribunales"))
-            objects.add(tribunal);
+        if(fixture.equalsIgnoreCase("grueros")) {
+            if (qName.equalsIgnoreCase("registrosTabla"))
+                objects.add(gruero);
+        }
+        if(fixture.equalsIgnoreCase("comunas")) {
+            if (qName.equalsIgnoreCase("registrosTabla"))
+                objects.add(comuna);
+        }
+        if(fixture.equalsIgnoreCase("instituciones")) {
+            if (qName.equalsIgnoreCase("registrosTabla"))
+                objects.add(institucion);
+        }
+        if(fixture.equalsIgnoreCase("marcas")) {
+            if (qName.equalsIgnoreCase("registrosTabla"))
+                objects.add(marca);
+        }
+        if(fixture.equalsIgnoreCase("motivos")) {
+            if (qName.equalsIgnoreCase("registrosTabla"))
+                objects.add(motivo);
+        }
+        if(fixture.equalsIgnoreCase("motivos_fiscalia")) {
+            if (qName.equalsIgnoreCase("registrosTabla"))
+                objects.add(motivoFiscalia);
+        }
+        if(fixture.equalsIgnoreCase("tipos_vehiculo")) {
+            if (qName.equalsIgnoreCase("registrosTabla"))
+                objects.add(tipoVehiculo);
+        }
+        if(fixture.equalsIgnoreCase("tribunales")) {
+            if (qName.equalsIgnoreCase("registrosTabla"))
+                objects.add(tribunal);
+        }
+        if(fixture.equalsIgnoreCase("estados_visuales")) {
+            if (qName.equalsIgnoreCase("registrosTabla"))
+                objects.add(comuna);
+        }
         if (qName.equalsIgnoreCase("estadosVisuales"))
             objects.add(estadoVisual);
     }

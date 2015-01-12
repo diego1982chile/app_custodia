@@ -22,14 +22,13 @@ public abstract class EnvelopeBuilder {
     public static StringEntity buildEnvelope(String soapMethod, Map<String,String> soapParameters){
 
         StringEntity entity = null;
-        String params="";
         String body="";
 
         if(soapParameters!=null){
             body="<"+soapMethod+" xmlns='http://www.cmvrc.cl/schemas/soap' id='o0' c:root='1'>";
             for (Map.Entry<String, String> entry : soapParameters.entrySet()) {
                 System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
-                params=params+"<"+entry.getKey()+" i:type='d:string'>"+entry.getValue()+"</"+entry.getKey()+">";
+                body=body+"<"+entry.getKey()+" i:type='d:string'>"+entry.getValue()+"</"+entry.getKey()+">";
             }
             body=body+"</"+soapMethod+">";
         }
