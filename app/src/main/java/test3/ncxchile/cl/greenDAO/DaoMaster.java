@@ -49,7 +49,7 @@ import test3.ncxchile.cl.security.PasswordHelper;
  * Master of DAO (schema version 1000): knows all DAOs.
 */
 public class DaoMaster extends AbstractDaoMaster {
-    public static final int SCHEMA_VERSION = 1280;
+    public static final int SCHEMA_VERSION = 1283;
 
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(SQLiteDatabase db, boolean ifNotExists) {
@@ -178,7 +178,7 @@ public class DaoMaster extends AbstractDaoMaster {
                     mInsertAttributeStatement.bindString(3, campos[2].toString());
                     mInsertAttributeStatement.bindLong(4, Long.parseLong(campos[3]));
                     mInsertAttributeStatement.bindLong(5, Long.parseLong(campos[4]));
-                    mInsertAttributeStatement.execute();
+                    //mInsertAttributeStatement.execute();
                     ++id;
                 }
             } catch (IOException ioe) {
@@ -213,7 +213,7 @@ public class DaoMaster extends AbstractDaoMaster {
                     mInsertAttributeStatement = db.compileStatement("INSERT INTO INSTITUCION (_id, NOMBRE) VALUES (?,?)");
                     mInsertAttributeStatement.bindLong(1, Long.parseLong(campos[0]));
                     mInsertAttributeStatement.bindString(2, campos[1].toString());
-                    mInsertAttributeStatement.execute();
+                    //mInsertAttributeStatement.execute();
                     ++id;
                 }
             } catch (IOException ioe) {
@@ -248,7 +248,7 @@ public class DaoMaster extends AbstractDaoMaster {
                     mInsertAttributeStatement = db.compileStatement("INSERT INTO TRIBUNAL (_id, NOMBRE) VALUES (?,?)");
                     mInsertAttributeStatement.bindLong(1, Long.parseLong(campos[0]));
                     mInsertAttributeStatement.bindString(2, campos[1].toString());
-                    mInsertAttributeStatement.execute();
+                    //mInsertAttributeStatement.execute();
                     ++id;
                 }
             } catch (IOException ioe) {
@@ -282,7 +282,7 @@ public class DaoMaster extends AbstractDaoMaster {
                     mInsertAttributeStatement = db.compileStatement("INSERT INTO COMUNA (_id, NOMBRE) VALUES (?,?)");
                     mInsertAttributeStatement.bindLong(1, new Long(id));
                     mInsertAttributeStatement.bindString(2, thisLine.toString());
-                    mInsertAttributeStatement.execute();
+                    //mInsertAttributeStatement.execute();
                     ++id;
                 }
             } catch (IOException ioe) {
@@ -600,7 +600,7 @@ public class DaoMaster extends AbstractDaoMaster {
                     mInsertAttributeStatement = db.compileStatement("INSERT INTO MOTIVO (_id, NOMBRE) VALUES (?,?)");
                     mInsertAttributeStatement.bindLong(1, new Long(id));
                     mInsertAttributeStatement.bindString(2, thisLine.toString());
-                    mInsertAttributeStatement.execute();
+                    //mInsertAttributeStatement.execute();
                     ++id;
                 }
             } catch (IOException ioe) {
@@ -634,7 +634,7 @@ public class DaoMaster extends AbstractDaoMaster {
                     mInsertAttributeStatement = db.compileStatement("INSERT INTO MOTIVO_FISCALIA (_id, NOMBRE) VALUES (?,?)");
                     mInsertAttributeStatement.bindLong(1, new Long(id));
                     mInsertAttributeStatement.bindString(2, thisLine.toString());
-                    mInsertAttributeStatement.execute();
+                    //mInsertAttributeStatement.execute();
                     ++id;
                 }
             } catch (IOException ioe) {
@@ -668,7 +668,7 @@ public class DaoMaster extends AbstractDaoMaster {
                     mInsertAttributeStatement = db.compileStatement("INSERT INTO TIPO_VEHICULO (_id, NOMBRE) VALUES (?,?)");
                     mInsertAttributeStatement.bindLong(1, new Long(id));
                     mInsertAttributeStatement.bindString(2, thisLine.toString());
-                    mInsertAttributeStatement.execute();
+                    //mInsertAttributeStatement.execute();
                     ++id;
                 }
             } catch (IOException ioe) {
@@ -703,7 +703,7 @@ public class DaoMaster extends AbstractDaoMaster {
                     mInsertAttributeStatement = db.compileStatement("INSERT INTO MARCA (_id, NOMBRE) VALUES (?,?)");
                     mInsertAttributeStatement.bindLong(1, new Long(campos[0]));
                     mInsertAttributeStatement.bindString(2, campos[1].toString());
-                    mInsertAttributeStatement.execute();
+                    //mInsertAttributeStatement.execute();
                     ++id;
                 }
             } catch (IOException ioe) {

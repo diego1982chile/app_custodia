@@ -17,18 +17,25 @@ import android.net.Uri;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.ContactsContract;
 import android.test.UiThreadTest;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.android.gms.games.internal.GamesLog;
+import com.lowagie.text.DocumentException;
 
 import org.ksoap2.serialization.SoapObject;
 
+import java.io.File;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,6 +44,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.Vector;
 
+import test3.ncxchile.cl.db.AndroidDatabaseManager;
 import test3.ncxchile.cl.db.Global;
 import test3.ncxchile.cl.greenDAO.Logs;
 import test3.ncxchile.cl.greenDAO.Sesion;
@@ -111,7 +119,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
         //mEmailView.setText("66221261");
         //mPasswordView.setText("Ncx123456");
         FixturesUpdater fixturesUpdater= new FixturesUpdater(this);
-        //fixturesUpdater.updateFixtures("grueros");
+        fixturesUpdater.updateFixtures("estados_visuales");
 
         gruaDialogFragment = new GruaDialogFragment();
         gruaDialogFragment = new GruaDialogFragment();
@@ -166,6 +174,30 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
         DatabaseConnection.daoSession.getLogsDao().insert(logs);
     }
     */
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_activity_actions, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                return true;
+            case R.id.action_dba:
+                Intent dbmanager = new Intent(this, AndroidDatabaseManager.class);
+                startActivity(dbmanager);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     /**
      * Attempts to sign in or register the account specified by the login form.

@@ -52,8 +52,6 @@ public class FragmentX6 extends android.app.Fragment {
         super.onCreate(savedInstanceState);
     }
 
-
-
     // METODO QUE INICIALIZA LA VISTA SELECCIONADA EN EL TAB
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -87,7 +85,7 @@ public class FragmentX6 extends android.app.Fragment {
                     nombreEstadoVisual.setTextSize(18);
                     nombreEstadoVisual.setTextColor(Color.parseColor("#003076"));
 
-                    if (estadoVisual.getTipo() == 1) {
+                    if (!estadoVisual.getRespuestaBinaria()) {
                         if(estadoVisual.getHabilitado()){
                             TableRow.LayoutParams params = new TableRow.LayoutParams(0,TableRow.LayoutParams.WRAP_CONTENT,3f);
                             params.setMargins(10, 20, 10, 20);
@@ -169,7 +167,6 @@ public class FragmentX6 extends android.app.Fragment {
             System.out.println("savedInstanceState!=null");
             return rootView;
         }
-
     }
 
     public void envioDeDatos() {

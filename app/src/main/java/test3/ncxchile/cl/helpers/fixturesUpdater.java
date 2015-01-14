@@ -68,7 +68,7 @@ public class FixturesUpdater {
     }
 
     public static void updateFixtures() {
-        List<String> fixtures = Arrays.asList("comunas", "estado_visual", "instituciones", "marcas", "motivos", "motivos_fiscalia", "tipos_vehiculo", "tribunales");
+        List<String> fixtures = Arrays.asList("comunas", "estados_visuales", "instituciones", "marcas", "motivos", "motivos_fiscalia", "tipos_vehiculo", "tribunales");
 
         for (int i = 0; i < fixtures.size(); ++i)
             updateFixtures(fixtures.get(i));
@@ -98,9 +98,9 @@ public class FixturesUpdater {
             methodName = "obtenerTablaAuxiliar";
             params.put("tabla","comunas");
         }
-        if (fixtures.equals("estado_visual")){
+        if (fixtures.equals("estados_visuales")){
             methodName = "obtenerTablaAuxiliar";
-            params.put("tabla","estados_visuales");
+            params.put("tabla","estado_visual");
         }
         if (fixtures.equals("instituciones")){
             methodName = "obtenerTablaAuxiliar";
