@@ -14,6 +14,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 
 import java.util.ArrayList;
@@ -23,6 +27,7 @@ import java.util.Locale;
 import test3.ncxchile.cl.greenDAO.Acta;
 import test3.ncxchile.cl.greenDAO.FichaEstadoVisual;
 import test3.ncxchile.cl.greenDAO.Tribunal;
+import test3.ncxchile.cl.helpers.FixturesUpdater;
 import test3.ncxchile.cl.models.DatosPDF;
 
 import test3.ncxchile.cl.greenDAO.FinalizarActaDao;
@@ -692,5 +697,10 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         {
             throw new RuntimeException("Cannot reinstantiate fragment " + f.getClass().getName(), e);
         }
+    }
+
+    public void cargarFixtures(View view){
+        FixturesUpdater fixturesUpdater= new FixturesUpdater(this);
+        fixturesUpdater.updateFixtures(view.getTag().toString(),view);
     }
 }

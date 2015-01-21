@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="500dp"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        >
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/luzverde"
+            android:layout_margin="8dp"/>
+        <TextView
+            android:id="@+id/txt_dia"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="1dp"
+            android:text="Settings"
+            android:textColor="@android:color/holo_blue_light"
+            android:textSize="22dip"
+            android:fontFamily="sand-serif">
+        </TextView>
+    </LinearLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/holo_blue_light"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_centerHorizontal="true">
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:showDividers="middle"
+            android:nestedScrollingEnabled="true"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:paddingRight="10dp"
+            android:id="@+id/tableRow2">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#003076"
+                android:textSize="18dp"
+                android:text="Server IP:"
+                android:layout_marginTop="8dp"
+                android:id="@+id/textView_settings_1" />
+
+            <test3.ncxchile.cl.widgets.IPEditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/settings_ip_1"
+                android:numeric="integer"
+                android:tag="1"
+                android:ems="3"
+                android:maxLength="3"
+                android:gravity="center"
+                android:layout_marginLeft="5dp"
+                 />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#003076"
+                android:textSize="18dp"
+                android:text="."
+                android:layout_marginTop="6dp"
+                android:id="@+id/textView_settings_3" />
+
+            <test3.ncxchile.cl.widgets.IPEditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/settings_ip_2"
+                android:numeric="integer"
+                android:tag="2"
+                android:ems="3"
+                android:maxLength="3"
+                android:singleLine="true"
+                android:gravity="center"
+                 />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#003076"
+                android:textSize="18dp"
+                android:text="."
+                android:layout_marginTop="6dp"
+                android:id="@+id/textView_settings_4" />
+
+            <test3.ncxchile.cl.widgets.IPEditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/settings_ip_3"
+                android:numeric="integer"
+                android:tag="3"
+                android:ems="3"
+                android:maxLength="3"
+                android:singleLine="true"
+                android:gravity="center"
+                 />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#003076"
+                android:textSize="18dp"
+                android:text="."
+                android:layout_marginTop="6dp"
+                android:id="@+id/textView_settings_5" />
+
+            <test3.ncxchile.cl.widgets.IPEditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/settings_ip_4"
+                android:numeric="integer"
+                android:tag="4"
+                android:ems="3"
+                android:maxLength="3"
+                android:singleLine="true"
+                android:gravity="center"
+                 />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#003076"
+                android:textSize="18dp"
+                android:text=":"
+                android:layout_marginTop="6dp"
+                android:id="@+id/textView_settings_2" />
+
+            <test3.ncxchile.cl.widgets.IPEditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/settings_port"
+                android:numeric="integer"
+                android:tag="5"
+                android:ems="5"
+                android:maxLength="5"
+                android:singleLine="true"
+                android:gravity="center"
+                 />
+
+        </TableRow>
+
+        <TableRow android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="0dp">
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:measureWithLargestChild="true"
+                android:orientation="horizontal"
+                android:paddingTop="0dip"
+                android:layout_marginBottom="0dip">
+                <Button
+                    android:background="@drawable/my_button_border"
+                    android:id="@+id/btn_tarea_no"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:text="Cancelar"
+                    android:textSize="14dp"
+                    />
+                <Button
+                    android:background="@drawable/my_button_border"
+                    android:id="@+id/btn_tarea_yes"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:text= "Aceptar"
+                    android:textSize="14dp"
+                    />
+            </LinearLayout>
+        </TableRow>
+    </LinearLayout>
+
+</LinearLayout>

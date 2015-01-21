@@ -76,13 +76,21 @@
                 <requestFocus />
             </LinearLayout>
             <test3.ncxchile.cl.widgets.CustomAutoComplete
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.51"
                 android:layout_marginLeft="15dp"
+                android:layout_marginRight="5dp"
                 android:textSize="18dp"
                 android:id="@+id/tipos_vehiculo"
                 android:hint="Buscar tipo vehículo..."
                 />
+            <fragment
+                android:name="test3.ncxchile.cl.widgets.FragmentButton"
+                android:tag="tipos_vehiculo"
+                android:id="@+id/fragment_button4_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </TableRow>
 
         <TableRow
@@ -149,7 +157,14 @@
                 android:inputType="textCapWords"
                 android:imeOptions="actionNext"
                 android:layout_weight="0.51"
-                android:layout_marginLeft="15dp" />
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="5dp"/>
+            <fragment
+                android:name="test3.ncxchile.cl.widgets.FragmentButton"
+                android:tag="marcas"
+                android:id="@+id/fragment_button4_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </TableRow>
 
         <TableRow

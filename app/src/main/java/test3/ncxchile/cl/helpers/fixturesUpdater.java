@@ -3,7 +3,13 @@ package test3.ncxchile.cl.helpers;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.provider.Settings;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -52,6 +58,7 @@ import test3.ncxchile.cl.greenDAO.TipoVehiculo;
 import test3.ncxchile.cl.greenDAO.Tribunal;
 import test3.ncxchile.cl.greenDAO.User;
 import test3.ncxchile.cl.greenDAO.UserName;
+import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.soap.EnvelopeBuilder;
 import test3.ncxchile.cl.soap.SoapMethod;
 
@@ -220,4 +227,154 @@ public class FixturesUpdater {
                 }
             });
         }
+
+    public static void updateFixtures(final String fixtures, View view) {
+
+        final RelativeLayout relativeLayout=(RelativeLayout)view;
+        final TextView textView=(TextView)relativeLayout.getChildAt(0);
+        final TextView statusError=(TextView)relativeLayout.getChildAt(1);
+        final TextView statusOk=(TextView)relativeLayout.getChildAt(2);
+        final ProgressBar progressBar=(ProgressBar)relativeLayout.getChildAt(3);
+        textView.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+
+        final Handler handler = new Handler();
+
+        final AsyncHttpClient client = new AsyncHttpClient();
+
+        String contentType = "text/xml; charset=utf-8";
+
+        client.addHeader("Accept", "text/xml");
+
+        String soapAction = "http://soa.jboss.org/enterprise/OTServiceOp";
+        String baseURL = Global.soap.getProperty("baseURL");
+        String url = baseURL + "/OTService/ebws/enterprise/OTService";
+        String methodName = "";
+        Map<String,String> params = new HashMap<String,String>();
+
+        if (fixtures.equals("grueros"))
+            methodName = "backupGruero";
+        if (fixtures.equals("comunas")){
+            methodName = "obtenerTablaAuxiliar";
+            params.put("tabla","comunas");
+        }
+        if (fixtures.equals("estados_visuales")){
+            methodName = "obtenerTablaAuxiliar";
+            params.put("tabla","estado_visual");
+        }
+        if (fixtures.equals("instituciones")){
+            methodName = "obtenerTablaAuxiliar";
+            params.put("tabla","instituciones");
+        }
+        if (fixtures.equals("marcas")) {
+            methodName = "obtenerTablaAuxiliar";
+            params.put("tabla","marcas");
+        }
+        if (fixtures.equals("motivos")) {
+            methodName = "obtenerTablaAuxiliar";
+            params.put("tabla","motivos");
+        }
+        if (fixtures.equals("motivos_fiscalia")) {
+            methodName = "obtenerTablaAuxiliar";
+            params.put("tabla","motivos_fiscalia");
+        }
+        if (fixtures.equals("tipos_vehiculo")) {
+            methodName = "obtenerTablaAuxiliar";
+            params.put("tabla","tipos_vehiculo");
+        }
+        if (fixtures.equals("tribunales")) {
+            methodName = "obtenerTablaAuxiliar";
+            params.put("tabla","tribunales");
+        }
+
+        client.addHeader("SOAPAction", soapAction);
+
+        client.post(context, url, EnvelopeBuilder.buildEnvelope(methodName,params), contentType, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onStart() {
+                // called before request is started
+                System.out.println("AsyncHttp: onStart");
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                // called when response HTTP status is "200 OK"
+                System.out.println("AsyncHttp: onSucces");
+
+                InputStream stream = new ByteArrayInputStream(response);
+
+                if (fixtures.equals("grueros")) {
+                    // TODO actualizar fixture local
+                    List<User> users = (List<User>)(Object)SAXXMLParser.parse(stream,fixtures);
+                    Global.daoSession.getUserDao().insertOrReplaceInTx(users);
+                }
+                if (fixtures.equals("comunas")) {
+                    // TODO actualizar fixture local
+                    List<Comuna> comunas = (List<Comuna>)(Object)SAXXMLParser.parse(stream,fixtures);
+                    Global.daoSession.getComunaDao().insertOrReplaceInTx(comunas);
+                }
+                if (fixtures.equals("instituciones")) {
+                    // TODO actualizar fixture local
+                    List<Institucion> instituciones = (List<Institucion>)(Object)SAXXMLParser.parse(stream,fixtures);
+                    Global.daoSession.getInstitucionDao().insertOrReplaceInTx(instituciones);
+                }
+                if (fixtures.equals("marcas")) {
+                    // TODO actualizar fixture local
+                    List<Marca> marcas = (List<Marca>)(Object)SAXXMLParser.parse(stream,fixtures);
+                    Global.daoSession.getMarcaDao().insertOrReplaceInTx(marcas);
+                }
+                if (fixtures.equals("motivos")) {
+                    // TODO actualizar fixture local
+                    List<Motivo> motivos = (List<Motivo>)(Object)SAXXMLParser.parse(stream,fixtures);
+                    Global.daoSession.getMotivoDao().insertOrReplaceInTx(motivos);
+                }
+                if (fixtures.equals("motivos_fiscalia")) {
+                    // TODO actualizar fixture local
+                    List<MotivoFiscalia> motivosFiscalia = (List<MotivoFiscalia>)(Object)SAXXMLParser.parse(stream,fixtures);
+                    Global.daoSession.getMotivoFiscaliaDao().insertOrReplaceInTx(motivosFiscalia);
+                }
+                if (fixtures.equals("tipos_vehiculo")) {
+                    // TODO actualizar fixture local
+                    List<TipoVehiculo> tiposVehiculo = (List<TipoVehiculo>)(Object)SAXXMLParser.parse(stream,fixtures);
+                    Global.daoSession.getTipoVehiculoDao().insertOrReplaceInTx(tiposVehiculo);
+                }
+                if (fixtures.equals("tribunales")) {
+                    // TODO actualizar fixture local
+                    List<Tribunal> tribunales = (List<Tribunal>)(Object)SAXXMLParser.parse(stream,fixtures);
+                    Global.daoSession.getTribunalDao().insertOrReplaceInTx(tribunales);
+                }
+                if (fixtures.equals("estados_visuales")) {
+                    // TODO actualizar fixture local
+                    List<EstadoVisual> estadosVisuales = (List<EstadoVisual>)(Object)SAXXMLParser.parse(stream,fixtures);
+                    Global.daoSession.getEstadoVisualDao().insertOrReplaceInTx(estadosVisuales);
+                }
+
+                progressBar.setVisibility(View.INVISIBLE);
+                statusOk.setVisibility(View.VISIBLE);
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {statusOk.setVisibility(View.GONE); textView.setVisibility(View.VISIBLE);}},3000);
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                System.out.println("AsyncHttp: onFailure");
+                e.printStackTrace();
+                progressBar.setVisibility(View.INVISIBLE);
+                statusError.setVisibility(View.VISIBLE);
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {statusError.setVisibility(View.GONE); textView.setVisibility(View.VISIBLE);}},3000);
+                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+            }
+
+            @Override
+            public void onRetry(int retryNo) {
+                System.out.println("AsyncHttp: onRetry N°" + retryNo);
+                // called when request is retried
+            }
+        });
     }
+}

@@ -316,7 +316,14 @@
                     android:maxLength="90"
                     android:singleLine="true"
                     android:imeOptions="actionNext"
-                    android:layout_marginLeft="15dp" />
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="5dp"/>
+                <fragment
+                    android:name="test3.ncxchile.cl.widgets.FragmentButton"
+                    android:tag="instituciones"
+                    android:id="@+id/fragment_button1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
             </TableRow>
 
             <TableRow
@@ -420,8 +427,6 @@
                     android:inputType="number"
                     android:layout_marginLeft="15dp" />
             </TableRow>
-
-
         </LinearLayout>
     </ScrollView>
     </RelativeLayout>

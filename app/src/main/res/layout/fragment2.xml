@@ -51,7 +51,7 @@
                 android:text="@string/tipo_motivo"
                 android:textColor="#003076"
                 android:textSize="18dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="10dp"
                 android:id="@+id/tipo_motivo" />
 
             <RadioGroup
@@ -110,30 +110,50 @@
                 android:layout_height="0px" >
                 <requestFocus />
             </LinearLayout>
-
-            <test3.ncxchile.cl.widgets.CustomAutoComplete
-                android:layout_width="match_parent"
+            <LinearLayout
                 android:layout_height="wrap_content"
-                android:id="@+id/motivos1"
-                android:layout_marginLeft="15dp"
-                android:textSize="18dp"
-                android:layout_weight="1"
-                android:hint="Buscar motivo..."
-                />
-
-            <test3.ncxchile.cl.widgets.CustomAutoComplete
                 android:layout_width="match_parent"
+                android:id="@+id/motivos">
+                <test3.ncxchile.cl.widgets.CustomAutoComplete
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/motivos1"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="5dp"
+                    android:textSize="18dp"
+                    android:layout_weight="1"
+                    android:hint="Buscar motivo..."
+                    />
+                <fragment
+                    android:name="test3.ncxchile.cl.widgets.FragmentButton"
+                    android:tag="motivos"
+                    android:id="@+id/fragment_button2_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
                 android:layout_height="wrap_content"
-                android:id="@+id/motivos2"
-                android:layout_marginLeft="15dp"
-                android:textSize="18dp"
-                android:layout_weight="1"
-                android:hint="Buscar motivo..."
-                />
-
-
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:id="@+id/motivos_fiscalia">
+                <test3.ncxchile.cl.widgets.CustomAutoComplete
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/motivos2"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="5dp"
+                    android:textSize="18dp"
+                    android:layout_weight="1"
+                    android:hint="Buscar motivo..."
+                    />
+                <fragment
+                    android:name="test3.ncxchile.cl.widgets.FragmentButton"
+                    android:tag="motivos_fiscalia"
+                    android:id="@+id/fragment_button2_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
         </TableRow>
-
         <TableRow
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -257,14 +277,20 @@
                 android:id="@+id/textView6" />
 
             <test3.ncxchile.cl.widgets.CustomAutoComplete
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="Buscar comuna..."
                 android:layout_marginLeft="15dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="0.51"
                 android:textSize="18dp"
                 android:id="@+id/comunas" />
-
-
+            <fragment
+                android:name="test3.ncxchile.cl.widgets.FragmentButton"
+                android:tag="comunas"
+                android:id="@+id/fragment_button2_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </TableRow>
 
         <TableRow

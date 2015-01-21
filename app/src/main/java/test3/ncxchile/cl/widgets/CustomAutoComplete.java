@@ -118,7 +118,8 @@ public class CustomAutoComplete extends AutoCompleteTextView {
 
                     if(items.length==0){
                         int selection=getSelectionEnd();
-                        setText(s.subSequence(0,s.length()-1));
+                        if(s.length()>0)
+                            setText(s.subSequence(0,s.length()-1));
                         if(selection>0)
                             setSelection(s.length()-1);
                     }

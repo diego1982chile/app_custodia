@@ -1,11 +1,13 @@
 package test3.ncxchile.cl.acta;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -17,6 +19,7 @@ import test3.ncxchile.cl.greenDAO.MotivoFiscaliaDao;
 import test3.ncxchile.cl.login.R;
 import test3.ncxchile.cl.session.SessionManager;
 import test3.ncxchile.cl.widgets.CustomAutoComplete;
+import test3.ncxchile.cl.widgets.FragmentButton;
 import test3.ncxchile.cl.widgets.RequiredEditText;
 
 /**
@@ -36,6 +39,7 @@ public class FragmentX2 extends android.app.Fragment {
     public EditText view2_01, view2_04, view2_06;
     public RequiredEditText view2_02, view2_03, view2_05;
     public CustomAutoComplete spinner_motivo1, spinner_motivo2, comunas;
+    public LinearLayout motivos, motivos_fiscalia;
     public RadioGroup view2_00;
     public TextView errores;
     public String errorv02_01, errorv02_02, errorv02_03, texto_error;
@@ -62,7 +66,9 @@ public class FragmentX2 extends android.app.Fragment {
         spinner_motivo1.setSource(MotivoDao.TABLENAME);
         spinner_motivo2 = (CustomAutoComplete) rootView.findViewById(R.id.motivos2);
         spinner_motivo2.setSource(MotivoFiscaliaDao.TABLENAME);
-        spinner_motivo2.setVisibility(View.GONE);
+        motivos=(LinearLayout)rootView.findViewById(R.id.motivos);
+        motivos_fiscalia=(LinearLayout)rootView.findViewById(R.id.motivos_fiscalia);
+
         view2_06 = (EditText) rootView.findViewById(R.id.view2_06_ref);
         view2_00 = (RadioGroup) rootView.findViewById(R.id.radioGroup1);
         view2_00.check(R.id.radioButton1);
@@ -71,12 +77,12 @@ public class FragmentX2 extends android.app.Fragment {
             public void onCheckedChanged(RadioGroup arg0, int id) {
                 switch (id) {
                     case R.id.radioButton1:
-                        spinner_motivo1.setVisibility(View.VISIBLE);
-                        spinner_motivo2.setVisibility(View.GONE);
+                        motivos.setVisibility(View.VISIBLE);
+                        motivos_fiscalia.setVisibility(View.GONE);
                         break;
                     case R.id.radioButton2:
-                        spinner_motivo1.setVisibility(View.GONE);
-                        spinner_motivo2.setVisibility(View.VISIBLE);
+                        motivos.setVisibility(View.GONE);
+                        motivos_fiscalia.setVisibility(View.VISIBLE);
                         break;
                 }
             }
@@ -90,8 +96,12 @@ public class FragmentX2 extends android.app.Fragment {
         // Precargar datos del retiro
 
         if(myActivity.acta!=null){
-            if(myActivity.acta.getFiscalia())
+            if(myActivity.acta.getFiscalia()) {
+                motivos.setVisibility(View.GONE);
+                motivos_fiscalia.setVisibility(View.VISIBLE);
+                spinner_motivo2.setText(myActivity.acta.getCausaRetiro().toString());
                 view2_00.check(R.id.radioButton2);
+            }
 
             spinner_motivo1.setText(myActivity.acta.getCausaRetiro().toString());
             comunas.setText(myActivity.acta.getDireccion().getComuna());
@@ -147,12 +157,12 @@ public class FragmentX2 extends android.app.Fragment {
         }
         */
 
-        if(spinner_motivo1.getSelectedItem()==null && spinner_motivo1.getVisibility()==View.VISIBLE){
+        if(spinner_motivo1.getSelectedItem()==null && motivos.getVisibility()==View.VISIBLE){
             spinner_motivo1.setError("Debes seleccionar un item de la lista");
             esValido=false;
         }
 
-        if(spinner_motivo2.getSelectedItem()==null && spinner_motivo2.getVisibility()==View.VISIBLE){
+        if(spinner_motivo2.getSelectedItem()==null && motivos_fiscalia.getVisibility()==View.VISIBLE){
             spinner_motivo2.setError("Debes seleccionar un item de la lista");
             esValido=false;
         }

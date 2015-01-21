@@ -304,7 +304,14 @@
                     android:layout_weight="0.51"
                     android:singleLine="true"
                     android:imeOptions="actionNext"
-                    android:layout_marginLeft="15dp" />
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="5dp"/>
+                <fragment
+                    android:name="test3.ncxchile.cl.widgets.FragmentButton"
+                    android:tag="tribunales"
+                    android:id="@+id/fragment_button3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
             </TableRow>
         </LinearLayout>
       </ScrollView>

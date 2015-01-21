@@ -62,6 +62,7 @@ import test3.ncxchile.cl.soap.SoapProxy;
 import test3.ncxchile.cl.validators.RutValidator;
 import test3.ncxchile.cl.widgets.ErrorDialog;
 import test3.ncxchile.cl.widgets.RutEditText;
+import test3.ncxchile.cl.widgets.SettingsDialog;
 
 /**
  * A login screen that offers login via email/password.
@@ -119,7 +120,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
         //mEmailView.setText("66221261");
         //mPasswordView.setText("Ncx123456");
         FixturesUpdater fixturesUpdater= new FixturesUpdater(this);
-        fixturesUpdater.updateFixtures("estados_visuales");
+        //fixturesUpdater.updateFixtures("estados_visuales");
 
         gruaDialogFragment = new GruaDialogFragment();
         gruaDialogFragment = new GruaDialogFragment();
@@ -189,6 +190,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.action_settings:
+                SettingsDialog settingsDialog= new SettingsDialog();
+                settingsDialog.show(getFragmentManager(), "NoticeDialogFragment");
                 return true;
             case R.id.action_dba:
                 Intent dbmanager = new Intent(this, AndroidDatabaseManager.class);
