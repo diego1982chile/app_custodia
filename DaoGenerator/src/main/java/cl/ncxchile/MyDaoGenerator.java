@@ -36,7 +36,7 @@ public class MyDaoGenerator {
 
         //addUserName(schema);
 
-        addMarca(schema);
+        addUserTareaActaAccionMapa(schema);
 
         new DaoGenerator().generateAll(schema, "upload/src-gen");
     }
@@ -167,7 +167,10 @@ public class MyDaoGenerator {
         userName.addStringProperty("UserName");
     }
 
-    private static void addTareaActaAccionMapa(Schema schema) {
+    private static void addUserTareaActaAccionMapa(Schema schema) {
+
+        Entity user = schema.addEntity("User");
+        user.addIdProperty();
 
         Entity tarea = schema.addEntity("Tarea");
         tarea.addIdProperty();
@@ -181,6 +184,14 @@ public class MyDaoGenerator {
         tarea.addStringProperty("estado");
         tarea.addStringProperty("recinto");
         tarea.addIntProperty("status");
+
+        Property idUser = tarea.addLongProperty("idUser").notNull().getProperty();
+
+        tarea.addToOne(user, idUser);
+
+        ToMany userToTareas = user.addToMany(tarea, idUser);
+        userToTareas.setName("tareas");
+        userToTareas.orderAsc(idUser);
 
         Entity accion = schema.addEntity("Accion");
         accion.addIdProperty();
@@ -256,5 +267,12 @@ public class MyDaoGenerator {
         Entity institucion = schema.addEntity("Tribunal");
         institucion.addIdProperty();
         institucion.addStringProperty("nombre");
+    }
+
+    private static void addParametro(Schema schema) {
+        Entity parametro = schema.addEntity("Parametro");
+        parametro.addIdProperty();
+        parametro.addStringProperty("nombre");
+        parametro.addStringProperty("valor");
     }
 }

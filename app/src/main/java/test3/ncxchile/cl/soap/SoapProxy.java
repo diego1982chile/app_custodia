@@ -9,7 +9,7 @@ import test3.ncxchile.cl.db.Global;
 
 public class SoapProxy {
 
-    private static String baseURL = Global.soap.getProperty("baseURL");
+    private static String baseURL = Global.daoSession.getParametroDao().getValue("baseURL");
 
 	//"11852245" "Murillo1"
 	public static boolean loginGruero(String rutValor, String passwordValor, SoapHandler handler) {
@@ -268,7 +268,9 @@ public class SoapProxy {
     }
 
 
-	
+	public void setBaseURL(String baseURL){
+        this.baseURL=baseURL;
+    }
 
 	
 }

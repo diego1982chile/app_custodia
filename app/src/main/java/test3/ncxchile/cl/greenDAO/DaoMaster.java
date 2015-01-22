@@ -49,7 +49,7 @@ import test3.ncxchile.cl.security.PasswordHelper;
  * Master of DAO (schema version 1000): knows all DAOs.
 */
 public class DaoMaster extends AbstractDaoMaster {
-    public static final int SCHEMA_VERSION = 1284;
+    public static final int SCHEMA_VERSION = 1288;
 
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(SQLiteDatabase db, boolean ifNotExists) {
@@ -84,6 +84,7 @@ public class DaoMaster extends AbstractDaoMaster {
         UserNameDao.createTable(db, ifNotExists);
         TribunalDao.createTable(db, ifNotExists);
         MarcaDao.createTable(db, ifNotExists);
+        ParametroDao.createTable(db, ifNotExists);
     }
     
     /** Drops underlying database table using DAOs. */
@@ -119,6 +120,7 @@ public class DaoMaster extends AbstractDaoMaster {
         UserNameDao.dropTable(db, ifExists);
         TribunalDao.dropTable(db, ifExists);
         MarcaDao.dropTable(db, ifExists);
+        ParametroDao.dropTable(db, ifExists);
     }
     
     public static abstract class OpenHelper extends SQLiteOpenHelper {
@@ -752,6 +754,43 @@ public class DaoMaster extends AbstractDaoMaster {
                     // just ignore it
                 }
             }
+
+            ////////////////////////////////////
+            // Poblar Parametros
+            myInput=null;
+
+            //System.out.print("ASSETS1="+getAssets().toString());
+            try {
+                myInput = mContext.getAssets().open("parametros.txt");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            br = null;
+            thisLine = null;
+
+            try {
+                br = new BufferedReader((new InputStreamReader(myInput)));
+                long id = 1;
+                while ((thisLine = br.readLine()) != null) {
+                    String[] campos= thisLine.split(";");
+
+                    mInsertAttributeStatement = db.compileStatement("INSERT INTO PARAMETRO (_id, NOMBRE, VALOR) VALUES (?,?,?)");
+                    mInsertAttributeStatement.bindLong(1, new Long(id));
+                    mInsertAttributeStatement.bindString(2, campos[0].toString());
+                    mInsertAttributeStatement.bindString(3, campos[1].toString());
+                    mInsertAttributeStatement.execute();
+                    ++id;
+                }
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            } finally {                       // always close the file
+                if (br != null) try {
+                    br.close();
+                } catch (IOException ioe2) {
+                    // just ignore it
+                }
+            }
         }
     }
     
@@ -808,6 +847,7 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(UserNameDao.class);
         registerDaoClass(TribunalDao.class);
         registerDaoClass(MarcaDao.class);
+        registerDaoClass(ParametroDao.class);
     }
     
     public DaoSession newSession() {

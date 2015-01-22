@@ -49,13 +49,11 @@ public class ThreadLocalizacion extends CountDownTimer implements
     // Update frequency in seconds
     public static final int UPDATE_INTERVAL_IN_SECONDS = 5;
     // Update frequency in milliseconds
-    private static final long UPDATE_INTERVAL =
-            MILLISECONDS_PER_SECOND * UPDATE_INTERVAL_IN_SECONDS;
+    private static final long UPDATE_INTERVAL = MILLISECONDS_PER_SECOND * UPDATE_INTERVAL_IN_SECONDS;
     // The fastest update frequency, in seconds
     private static final int FASTEST_INTERVAL_IN_SECONDS = 1;
     // A fast frequency ceiling in milliseconds
-    private static final long FASTEST_INTERVAL =
-            MILLISECONDS_PER_SECOND * FASTEST_INTERVAL_IN_SECONDS;
+    private static final long FASTEST_INTERVAL = MILLISECONDS_PER_SECOND * FASTEST_INTERVAL_IN_SECONDS;
 
     // Define an object that holds accuracy and frequency parameters
     LocationRequest mLocationRequest;
@@ -129,7 +127,7 @@ public class ThreadLocalizacion extends CountDownTimer implements
         context.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(_context, "Disconnected. Please re-connect.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(_context, "Disconnected. Please re-connect.", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -67,7 +67,6 @@ import test3.ncxchile.cl.soap.SoapMethod;
  */
 public class FixturesUpdater {
 
-
     static Context context;
 
     public FixturesUpdater(Context context) {
@@ -85,15 +84,15 @@ public class FixturesUpdater {
 
         final AsyncHttpClient client = new AsyncHttpClient();
 
-        String authUsername = Global.soap.getProperty("authUsername");
-        final String authPassword = Global.soap.getProperty("authPassword");
+        String authUsername = Global.daoSession.getParametroDao().getValue("authUsername");
+        final String authPassword = Global.daoSession.getParametroDao().getValue("authPassword");
 
         String contentType = "text/xml; charset=utf-8";
 
         client.addHeader("Accept", "text/xml");
 
         String soapAction = "http://soa.jboss.org/enterprise/OTServiceOp";
-        String baseURL = Global.soap.getProperty("baseURL");
+        String baseURL = Global.daoSession.getParametroDao().getValue("baseURL");
         String url = baseURL + "/OTService/ebws/enterprise/OTService";
         String methodName = "";
         Map<String,String> params = new HashMap<String,String>();

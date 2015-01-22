@@ -56,6 +56,7 @@ import test3.ncxchile.cl.threads.ThreadAcciones;
 import test3.ncxchile.cl.threads.ThreadLocalizacion;
 import test3.ncxchile.cl.threads.ThreadMapas;
 import test3.ncxchile.cl.threads.ThreadTareas;
+import test3.ncxchile.cl.widgets.SettingsDialog;
 
 public class HomeActivity extends Activity {
 
@@ -262,6 +263,8 @@ public class HomeActivity extends Activity {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.action_settings:
+                SettingsDialog settingsDialog= new SettingsDialog();
+                settingsDialog.show(getFragmentManager(), "NoticeDialogFragment");
                 return true;
             case R.id.action_dba:
                 Intent dbmanager = new Intent(this, AndroidDatabaseManager.class);

@@ -51,6 +51,7 @@ public class DaoSession extends AbstractDaoSession {
     private final DaoConfig userNameDaoConfig;
     private final DaoConfig tribunalDaoConfig;
     private final DaoConfig marcaDaoConfig;
+    private final DaoConfig parametroDaoConfig;
 
     private final FinalizarActaDao finalizarActaDao;
     private final ActaDao actaDao;
@@ -83,6 +84,7 @@ public class DaoSession extends AbstractDaoSession {
     private final UserNameDao userNameDao;
     private final TribunalDao tribunalDao;
     private final MarcaDao marcaDao;
+    private final ParametroDao parametroDao;
 
     public DaoSession(SQLiteDatabase db, IdentityScopeType type, Map<Class<? extends AbstractDao<?, ?>>, DaoConfig>
             daoConfigMap) {
@@ -181,6 +183,9 @@ public class DaoSession extends AbstractDaoSession {
         marcaDaoConfig = daoConfigMap.get(MarcaDao.class).clone();
         marcaDaoConfig.initIdentityScope(type);
 
+        parametroDaoConfig = daoConfigMap.get(ParametroDao.class).clone();
+        parametroDaoConfig.initIdentityScope(type);
+
         finalizarActaDao = new FinalizarActaDao(finalizarActaDaoConfig, this);
         actaDao = new ActaDao(actaDaoConfig, this);
         vehiculoDataDao = new VehiculoDataDao(vehiculoDataDaoConfig, this);
@@ -212,6 +217,7 @@ public class DaoSession extends AbstractDaoSession {
         userNameDao = new UserNameDao(userNameDaoConfig, this);
         tribunalDao = new TribunalDao(tribunalDaoConfig, this);
         marcaDao = new MarcaDao(marcaDaoConfig, this);
+        parametroDao = new ParametroDao(parametroDaoConfig, this);
 
         registerDao(FinalizarActa.class, finalizarActaDao);
         registerDao(Acta.class, actaDao);
@@ -244,6 +250,7 @@ public class DaoSession extends AbstractDaoSession {
         registerDao(UserName.class, userNameDao);
         registerDao(Tribunal.class, tribunalDao);
         registerDao(Marca.class, marcaDao);
+        registerDao(Parametro.class, parametroDao);
     }
     
     public void clear() {
@@ -278,6 +285,7 @@ public class DaoSession extends AbstractDaoSession {
         userNameDaoConfig.getIdentityScope().clear();
         tribunalDaoConfig.getIdentityScope().clear();
         marcaDaoConfig.getIdentityScope().clear();
+        parametroDaoConfig.getIdentityScope().clear();
     }
 
     public FinalizarActaDao getFinalizarActaDao() {
@@ -402,5 +410,9 @@ public class DaoSession extends AbstractDaoSession {
 
     public MarcaDao getMarcaDao() {
         return marcaDao;
+    }
+
+    public ParametroDao getParametroDao() {
+        return parametroDao;
     }
 }

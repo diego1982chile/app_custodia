@@ -8,7 +8,7 @@ import test3.ncxchile.cl.db.Global;
 
 public class SoapMethod {
 	
-	public final String namespace = Global.soap.getProperty("namespace");
+	public final String namespace = Global.daoSession.getParametroDao().getValue("namespace");
 	public String methodName = null;
 	public String soapAction = null;
 	public List<PropertyInfo> params = null;

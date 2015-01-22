@@ -22,7 +22,8 @@ public class IPEditText extends EditText {
     //Context context;
     private Paint pincel;
     private Drawable successIcon;
-    private String text="";
+    public String text="";
+    private boolean flag=true;
 
     public IPEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -60,17 +61,28 @@ public class IPEditText extends EditText {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 System.out.println("getTag().toString()="+getTag().toString());
-                if(s.length()==0)
-                    return;
+
                 if(s.length()!=0)
                     text=s.toString();
                 if(Integer.parseInt(getTag().toString())==5){
+
+                    if(s.length()>0 && s.length()<5)
+                        flag=true;
+
                     if(s.length()==5){
                         if(Integer.parseInt(s.toString())>65535)
                             setText("65535");
+                        if(flag){
+                            if(focusSearch(FOCUS_RIGHT)!=null)
+                                focusSearch(FOCUS_RIGHT).requestFocus();
+                            flag=false;
+                        }
                     }
                 }
                 else{
+                    if(s.length()>0 && s.length()<3)
+                        flag=true;
+
                     if(s.length()==3){
                         switch (Integer.parseInt(getTag().toString())){
                             case 1:
@@ -80,13 +92,16 @@ public class IPEditText extends EditText {
                                     setText("1");
                                 break;
                             default:
-                                if(Integer.parseInt(s.toString())>223)
+                                if(Integer.parseInt(s.toString())>255)
                                     setText("255");
                                 break;
                         }
+                        if(flag){
+                            if(focusSearch(FOCUS_RIGHT)!=null)
+                                focusSearch(FOCUS_RIGHT).requestFocus();
+                            flag=false;
+                        }
                     }
-                    if(focusSearch(FOCUS_RIGHT)!=null)
-                        focusSearch(FOCUS_RIGHT).requestFocus();
                 }
             }
 

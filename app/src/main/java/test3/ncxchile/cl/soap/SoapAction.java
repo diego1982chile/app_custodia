@@ -24,8 +24,8 @@ import test3.ncxchile.cl.helpers.Logger;
 
 public class SoapAction extends AsyncTask<SoapMethod, Integer, Vector> {
 
-	private final String authUsername = Global.soap.getProperty("authUsername");
-	private final String authPassword = Global.soap.getProperty("authPassword");
+	private final String authUsername = Global.daoSession.getParametroDao().getValue("authUsername");
+	private final String authPassword = Global.daoSession.getParametroDao().getValue("authPassword");
 
 	private SoapHandler handler = null;
 

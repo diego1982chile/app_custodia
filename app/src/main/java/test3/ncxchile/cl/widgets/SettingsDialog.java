@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Toast;
 
 import test3.ncxchile.cl.db.Global;
 import test3.ncxchile.cl.greenDAO.User;
@@ -20,6 +22,7 @@ import test3.ncxchile.cl.helpers.Logger;
 import test3.ncxchile.cl.home.HomeActivity;
 import test3.ncxchile.cl.login.LoginActivity;
 import test3.ncxchile.cl.login.R;
+import test3.ncxchile.cl.soap.SoapProxy;
 import test3.ncxchile.cl.validators.RutValidator;
 
 /**
@@ -42,6 +45,14 @@ public class SettingsDialog extends DialogFragment {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
 
+        String baseURL= Global.daoSession.getParametroDao().getValue("baseURL");
+        String[] tokens=baseURL.split("\\//");
+        String ip= tokens[1].split("\\:")[0];
+
+        String puerto= tokens[1].split("\\:")[1];
+
+        String[] ips=ip.split("\\.");
+
         yes = (Button) dialog.findViewById(R.id.btn_tarea_yes);
         no = (Button) dialog.findViewById(R.id.btn_tarea_no);
         ip1 = (IPEditText) dialog.findViewById(R.id.settings_ip_1);
@@ -50,56 +61,51 @@ public class SettingsDialog extends DialogFragment {
         ip4 = (IPEditText) dialog.findViewById(R.id.settings_ip_4);
         port = (IPEditText) dialog.findViewById(R.id.settings_port);
 
-        yes.setOnTouchListener(new View.OnTouchListener() {
-
-            public boolean onTouch(View v, MotionEvent event) {
-
-                switch ( event.getAction() ) {
-                    case MotionEvent.ACTION_DOWN:
-                        v.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_bright));
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        v.setBackgroundResource(R.drawable.my_button_border);
-                        break;
-                }
-                return false;
-            }
-        });
-
-        no.setOnTouchListener(new View.OnTouchListener() {
-
-            public boolean onTouch(View v, MotionEvent event) {
-
-                switch ( event.getAction() ) {
-                    case MotionEvent.ACTION_DOWN:
-                        v.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_bright));
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        v.setBackgroundResource(R.drawable.my_button_border);
-                        break;
-                }
-                return false;
-            }
-        });
+        ip1.setText(ips[0]);
+        ip2.setText(ips[1]);
+        ip3.setText(ips[2]);
+        ip4.setText(ips[3]);
+        port.setText(puerto);
 
         yes.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-            if(ip1.getText().toString().equals("")) {
+            if(ip1.text.equals("")) {
                 ip1.setError(getString(R.string.error_field_required));
                 return;
             }
-            if(ip2.getText().toString().equals("")) {
+            if(ip2.text.toString().equals("")) {
                 ip2.setError(getString(R.string.error_field_required));
                 return;
             }
-
-            if(port.getText().toString().equals("")) {
+            if(ip3.text.equals("")) {
+                ip3.setError(getString(R.string.error_field_required));
+                return;
+            }
+            if(ip4.text.toString().equals("")) {
+                ip4.setError(getString(R.string.error_field_required));
+                return;
+            }
+            if(port.text.toString().equals("")) {
                 port.setError(getString(R.string.error_field_required));
                 return;
             }
-            dismiss();
+            String ip="http://"+ip1.getText().toString()+"."+ip2.getText().toString()+"."+ip3.getText().toString()+"."+ip4.getText().toString()+":"+port.getText().toString();
+            Global.daoSession.getParametroDao().setValue("baseURL",ip);
+
+            Toast.makeText(getActivity(), "La aplicación se reiniciará con la nueva configuración", Toast.LENGTH_LONG).show();
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent i = getActivity().getPackageManager().getLaunchIntentForPackage(getActivity().getPackageName());
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(i);
+                        getActivity().finish();
+                        System.exit(0);
+                        dismiss();
+                    }},3000);
             }
         });
 
@@ -109,29 +115,6 @@ public class SettingsDialog extends DialogFragment {
                 dismiss();
             }
         });
-
-        TextWatcher ipTextWatcher = new TextWatcher() {
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                System.out.println("s.length()="+s.length());
-
-
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        };
-
-        ip1.addTextChangedListener(ipTextWatcher);
-        ip2.addTextChangedListener(ipTextWatcher);
-        ip3.addTextChangedListener(ipTextWatcher);
-        ip4.addTextChangedListener(ipTextWatcher);
 
         return dialog;
     }
