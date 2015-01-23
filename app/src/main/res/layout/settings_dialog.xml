@@ -57,7 +57,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/holo_blue_light"
+                android:textColor="@android:color/white"
                 android:textSize="18dp"
                 android:text="Server IP:"
                 android:layout_marginTop="8dp"
@@ -73,7 +73,7 @@
                 android:maxLength="3"
                 android:gravity="center"
                 android:background="@drawable/blue_edit_text"
-                android:textColor="@android:color/holo_blue_dark"
+                android:textColor="@android:color/white"
                 android:layout_marginTop="6dp"
                 android:layout_marginLeft="5dp"
                  />
@@ -81,7 +81,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/holo_blue_dark"
+                android:textColor="@android:color/white"
                 android:textSize="18dp"
                 android:text="."
                 android:layout_marginTop="8dp"
@@ -100,7 +100,7 @@
                 android:singleLine="true"
                 android:gravity="center"
                 android:background="@drawable/blue_edit_text"
-                android:textColor="@android:color/holo_blue_dark"
+                android:textColor="@android:color/white"
                 android:layout_marginTop="6dp"
                  />
 
@@ -110,7 +110,7 @@
                 android:textSize="18dp"
                 android:text="."
                 android:layout_marginTop="8dp"
-                android:textColor="@android:color/holo_blue_dark"
+                android:textColor="@android:color/white"
                 android:layout_marginLeft="1dp"
                 android:layout_marginRight="1dp"
                 android:id="@+id/textView_settings_4" />
@@ -126,14 +126,14 @@
                 android:singleLine="true"
                 android:gravity="center"
                 android:background="@drawable/blue_edit_text"
-                android:textColor="@android:color/holo_blue_dark"
+                android:textColor="@android:color/white"
                 android:layout_marginTop="6dp"
                  />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/holo_blue_dark"
+                android:textColor="@android:color/white"
                 android:textSize="18dp"
                 android:text="."
                 android:layout_marginTop="8dp"
@@ -152,7 +152,7 @@
                 android:singleLine="true"
                 android:gravity="center"
                 android:background="@drawable/blue_edit_text"
-                android:textColor="@android:color/holo_blue_dark"
+                android:textColor="@android:color/white"
                 android:layout_marginTop="6dp"
                  />
 
@@ -162,7 +162,7 @@
                 android:textSize="18dp"
                 android:text=":"
                 android:layout_marginTop="8dp"
-                android:textColor="@android:color/holo_blue_dark"
+                android:textColor="@android:color/white"
                 android:layout_marginLeft="1dp"
                 android:layout_marginRight="1dp"
                 android:id="@+id/textView_settings_2" />
@@ -178,7 +178,7 @@
                 android:singleLine="true"
                 android:gravity="center"
                 android:background="@drawable/blue_edit_text"
-                android:textColor="@android:color/holo_blue_dark"
+                android:textColor="@android:color/white"
                 android:layout_marginTop="6dp"
                  />
 

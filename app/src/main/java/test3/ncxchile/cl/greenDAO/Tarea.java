@@ -20,12 +20,16 @@ public class Tarea {
     private String estado;
     private String recinto;
     private Integer status;
+    private long idUser;
 
     /** Used to resolve relations */
     private transient DaoSession daoSession;
 
     /** Used for active entity operations. */
     private transient TareaDao myDao;
+
+    private User user;
+    private Long user__resolvedKey;
 
     private List<Accion> acciones;
 
@@ -36,7 +40,7 @@ public class Tarea {
         this.id = id;
     }
 
-    public Tarea(Long id, Integer servicio, String fecha, String hora, java.util.Date timeStamp, String tamano, String direccion, String comuna, String estado, String recinto, Integer status) {
+    public Tarea(Long id, Integer servicio, String fecha, String hora, java.util.Date timeStamp, String tamano, String direccion, String comuna, String estado, String recinto, Integer status, long idUser) {
         this.id = id;
         this.servicio = servicio;
         this.fecha = fecha;
@@ -48,6 +52,7 @@ public class Tarea {
         this.estado = estado;
         this.recinto = recinto;
         this.status = status;
+        this.idUser = idUser;
     }
 
     /** called by internal mechanisms, do not call yourself. */
@@ -142,6 +147,42 @@ public class Tarea {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public long getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(long idUser) {
+        this.idUser = idUser;
+    }
+
+    /** To-one relationship, resolved on first access. */
+    public User getUser() {
+        long __key = this.idUser;
+        if (user__resolvedKey == null || !user__resolvedKey.equals(__key)) {
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            UserDao targetDao = daoSession.getUserDao();
+            User userNew = targetDao.load(__key);
+            synchronized (this) {
+                user = userNew;
+            	user__resolvedKey = __key;
+            }
+        }
+        return user;
+    }
+
+    public void setUser(User user) {
+        if (user == null) {
+            throw new DaoException("To-one property 'idUser' has not-null constraint; cannot set to-one to null");
+        }
+        synchronized (this) {
+            this.user = user;
+            idUser = user.getId();
+            user__resolvedKey = idUser;
+        }
     }
 
     /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */

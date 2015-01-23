@@ -11,6 +11,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Vector;
 
+import test3.ncxchile.cl.clientesWS.ClienteLoginGruero;
 import test3.ncxchile.cl.db.Global;
 import test3.ncxchile.cl.greenDAO.User;
 import test3.ncxchile.cl.security.PasswordHelper;
@@ -129,8 +130,11 @@ public class LoginController implements Serializable {
         // AQUI SE DEBE CONSUMIR EL WEBSERVICE MEDIANTE LA INSTANCIACIÓN DE UN CLIENTE SOAP
         //System.out.println("Voy a consumir un WebService para autenticar al usuario en el sistema");
 
+        ClienteLoginGruero clienteLoginGruero= new ClienteLoginGruero(localContext);
+
         System.out.println("LLAMANDO WEB SERVICE: " + rutCompleto + "," + mPassword);
         SoapProxy.loginGruero(String.valueOf(mRut) , mPassword, handler);
+        //return clienteLoginGruero.loginGruero();
 
         return 0;
     }

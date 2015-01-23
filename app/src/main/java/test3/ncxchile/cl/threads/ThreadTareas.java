@@ -263,6 +263,8 @@ public class ThreadTareas extends CountDownTimer implements SoapHandler
                     tarea.setEstado(estado);
                     tarea.setRecinto(recinto);
                     tarea.setStatus(0);
+                    tarea.setIdUser(Global.sessionManager.getId());
+                    System.out.println("Global.sessionManager.getId()="+Global.sessionManager.getId());
 
                     Tarea consulta = daoSession.getTareaDao().getByServicio(servicio);
                     System.out.println("Tarea " + item + "=" + consulta);

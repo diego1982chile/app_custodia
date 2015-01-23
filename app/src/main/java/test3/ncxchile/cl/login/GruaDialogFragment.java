@@ -125,7 +125,7 @@ public class GruaDialogFragment extends DialogFragment {
                     return;
                 }
                 String userName= Global.daoSession.getUserNameDao().getByRut(usuario.getRut()).getUserName();
-                Global.sessionManager.createLoginSession(usuario.getRut() + usuario.getDv().toString(), usuario.getNombre(), usuario.getApellidoPaterno(), usuario.getApellidoMaterno(), userName);
+                Global.sessionManager.createLoginSession(usuario.getId(), usuario.getRut() + usuario.getDv().toString(), usuario.getPassword(), usuario.getNombre(), usuario.getApellidoPaterno(), usuario.getApellidoMaterno(), userName);
                 Global.sessionManager.setGrua(num_os.getText().toString());
 
                 Logger.log("Login Offline:" + usuario.getNombre() + " " + usuario.getApellidoPaterno() + " Grúa:" + num_os.getText().toString());

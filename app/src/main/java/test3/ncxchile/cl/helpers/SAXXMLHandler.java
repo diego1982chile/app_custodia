@@ -40,9 +40,12 @@ public class SAXXMLHandler extends DefaultHandler {
     private TipoVehiculo tipoVehiculo;
     private Tribunal tribunal;
     private test3.ncxchile.cl.greenDAO.EstadoVisual estadoVisual;
+    private String loginStatus;
+
     private String fixture="";
     private boolean id=false;
     private boolean valor=false;
+    private boolean codigo=false;
 
     public SAXXMLHandler() {
         objects = new ArrayList<Object>();
@@ -109,6 +112,8 @@ public class SAXXMLHandler extends DefaultHandler {
             id=true;
         if (qName.equalsIgnoreCase("valor"))
             valor=true;
+        if (qName.equalsIgnoreCase("codigo"))
+            codigo=true;
     }
 
     public void characters(char[] ch, int start, int length) throws SAXException {
@@ -200,6 +205,9 @@ public class SAXXMLHandler extends DefaultHandler {
                 valor=false;
             }
         }
+        if(codigo){
+            loginStatus=tempVal;
+        }
     }
 
     public void endElement(String uri, String localName, String qName)
@@ -241,6 +249,8 @@ public class SAXXMLHandler extends DefaultHandler {
             if (qName.equalsIgnoreCase("registrosTabla"))
                 objects.add(estadoVisual);
         }
+        if(qName.equalsIgnoreCase("loginGrueroResponse"))
+            objects.add(loginStatus);
     }
 }
 

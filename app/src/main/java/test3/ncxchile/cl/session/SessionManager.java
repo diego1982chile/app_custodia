@@ -34,6 +34,9 @@ public class SessionManager {
     // User name (make variable public to access from outside)
     public static final String KEY_RUT = "rut";
 
+    // User name (make variable public to access from outside)
+    public static final String KEY_PASSWORD = "password";
+
     // Email address (make variable public to access from outside)
     public static final String KEY_NOMBRE = "name";
 
@@ -80,16 +83,19 @@ public class SessionManager {
     /**
      * Create login session
      * */
-    public void createLoginSession(String rut, String nombre, String apellido_paterno, String apellido_materno, String user_name){
+    public void createLoginSession(Long id, String rut, String password, String nombre, String apellido_paterno, String apellido_materno, String user_name){
 
         // Storing login value as TRUE
-        editor.putString(KEY_ID, "");
+        editor.putLong(KEY_ID, id);
 
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
 
         // Storing rut in pref
         editor.putString(KEY_RUT, rut);
+
+        // Storing rut in pref
+        editor.putString(KEY_PASSWORD, password);
 
         // Storing email in pref
         editor.putString(KEY_NOMBRE, nombre);
@@ -151,6 +157,10 @@ public class SessionManager {
      * */
     public HashMap<String, String> getUserDetails(){
         HashMap<String, String> user = new HashMap<String, String>();
+
+        // user rut
+        //user.put(KEY_ID, pref.getLong(KEY_ID, 0));
+
         // user rut
         user.put(KEY_RUT, pref.getString(KEY_RUT, null));
 
@@ -197,13 +207,13 @@ public class SessionManager {
         return pref.getBoolean(IS_LOGIN, false);
     }
 
-    public String getId(){
-        return pref.getString(KEY_ID, "");
+    public Long getId(){
+        return pref.getLong(KEY_ID, 0);
     }
 
-    public void setId(String id){
+    public void setId(Long id){
         Editor editor= pref.edit();
-        editor.putString(KEY_ID, id);
+        editor.putLong(KEY_ID, id);
         editor.commit();
     }
 

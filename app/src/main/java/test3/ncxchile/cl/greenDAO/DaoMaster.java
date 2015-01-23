@@ -49,7 +49,7 @@ import test3.ncxchile.cl.security.PasswordHelper;
  * Master of DAO (schema version 1000): knows all DAOs.
 */
 public class DaoMaster extends AbstractDaoMaster {
-    public static final int SCHEMA_VERSION = 1288;
+    public static final int SCHEMA_VERSION = 1291;
 
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(SQLiteDatabase db, boolean ifNotExists) {
@@ -357,7 +357,7 @@ public class DaoMaster extends AbstractDaoMaster {
                     mInsertAttributeStatement.bindString(6, campos[4].toString());
                     mInsertAttributeStatement.bindString(7, campos[5].toString());
                     mInsertAttributeStatement.bindLong(8, 0);
-                    mInsertAttributeStatement.execute();
+                    //mInsertAttributeStatement.execute();
                     //Long tareaId= mInsertAttributeStatement.executeInsert();
 
                     ////////////////////// Insertar datos de solicitud en el acta asociada a esta tarea ///////////////////////

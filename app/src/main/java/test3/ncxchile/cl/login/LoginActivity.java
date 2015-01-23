@@ -328,8 +328,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
                         if(online) {
                             // Creating user login session
                             String userName= Global.daoSession.getUserNameDao().getByRut(usuario.getRut()).getUserName();
-                            Global.sessionManager.createLoginSession(usuario.getRut() + usuario.getDv().toString(), usuario.getNombre(), usuario.getApellidoPaterno(), usuario.getApellidoMaterno(),userName);
-                            Global.sessionManager.setId(idSesion.toString());
+                            Global.sessionManager.createLoginSession(usuario.getId(),usuario.getRut() + usuario.getDv().toString(), usuario.getPassword(), usuario.getNombre(), usuario.getApellidoPaterno(), usuario.getApellidoMaterno(),userName);
+                            //Global.sessionManager.setId(idSesion.toString());
                             Logger.log("Login Online:" + usuario.getNombre() + " " + usuario.getApellidoPaterno() + " Grúa:");
 
                             Intent myIntent = new Intent(LoginActivity.this, HomeActivity.class);
@@ -403,7 +403,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
                     Global.daoSession.getUserNameDao().insertOrReplace(userName);
             }
             System.out.println("Nro Usuarios=" + Global.daoSession.getUserDao().getAll().size());
-
 
         }
 
