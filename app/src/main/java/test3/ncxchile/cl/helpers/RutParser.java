@@ -28,4 +28,14 @@ public abstract class RutParser {
         System.out.println("rutString="+rutString);
         return rutString;
     }
+
+    public static String formatRutGuion(String rut){
+        String rutString=rut.toString();
+        rutString = rutString.substring(0, rutString.length()-7) +
+                rutString.substring(rutString.length()-7, rutString.length()-4) +
+                rutString.substring(rutString.length()-4, rutString.length()-1) + '-' +
+                rutString.charAt(rutString.length()-1);
+        System.out.println("rutString="+rutString);
+        return rutString;
+    }
 }

@@ -214,12 +214,18 @@ public class SoapProxy {
         firmaGrueroParam.setName("firmaGruero");
         firmaGrueroParam.setValue(firmaGruero);
 
+        PropertyInfo bitacora = new PropertyInfo();
+        bitacora.setType(PropertyInfo.STRING_CLASS);
+        bitacora.setName("bitacora");
+        bitacora.setValue(recinto);
+
         params.add(servicioParam);
         params.add(fechaParam);
         params.add(georefParam);
         params.add(actaJSONParam);
         params.add(firmaAutoridadParam);
         params.add(firmaGrueroParam);
+        params.add(bitacora);
 
         SoapMethod soapMethod = new SoapMethod(methodName, soapAction, url, params);
         soapMethod.source = source;

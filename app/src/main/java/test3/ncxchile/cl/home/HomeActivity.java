@@ -316,7 +316,8 @@ public class HomeActivity extends Activity {
 
         Date timeStamp= new Date();
         SimpleDateFormat hora = new SimpleDateFormat("HH:mm:ss");
-        Global.sesion.setHora_fin(hora.format(timeStamp));
+        if(Global.sesion!=null)
+            Global.sesion.setHora_fin(hora.format(timeStamp));
         Global.daoSession.getSesionDao().update(Global.sesion);
         Logger.log("User Logout");
         threadTareas.cancel();

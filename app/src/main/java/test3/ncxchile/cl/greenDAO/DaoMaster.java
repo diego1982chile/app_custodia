@@ -49,7 +49,7 @@ import test3.ncxchile.cl.security.PasswordHelper;
  * Master of DAO (schema version 1000): knows all DAOs.
 */
 public class DaoMaster extends AbstractDaoMaster {
-    public static final int SCHEMA_VERSION = 1291;
+    public static final int SCHEMA_VERSION = 1301;
 
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(SQLiteDatabase db, boolean ifNotExists) {
@@ -177,7 +177,7 @@ public class DaoMaster extends AbstractDaoMaster {
                     mInsertAttributeStatement = db.compileStatement("INSERT INTO ESTADO_VISUAL (_id,NOMBRE,RESPUESTA_BINARIA,HABILITADO,TIPO) VALUES (?,?,?,?,?)");
                     mInsertAttributeStatement.bindLong(1, Long.parseLong(campos[0]));
                     mInsertAttributeStatement.bindString(2, campos[1].toString());
-                    mInsertAttributeStatement.bindString(3, campos[2].toString());
+                    mInsertAttributeStatement.bindLong(3, Long.parseLong(campos[2]));
                     mInsertAttributeStatement.bindLong(4, Long.parseLong(campos[3]));
                     mInsertAttributeStatement.bindLong(5, Long.parseLong(campos[4]));
                     mInsertAttributeStatement.execute();

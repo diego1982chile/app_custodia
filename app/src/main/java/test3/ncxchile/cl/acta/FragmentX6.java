@@ -85,8 +85,10 @@ public class FragmentX6 extends android.app.Fragment {
                     nombreEstadoVisual.setTextSize(18);
                     nombreEstadoVisual.setTextColor(Color.parseColor("#003076"));
 
+                    System.out.println("estadoVisual.getRespuestaBinaria()="+estadoVisual.getRespuestaBinaria());
+
                     if (!estadoVisual.getRespuestaBinaria()) {
-                        //if(estadoVisual.getHabilitado()){
+                        if(estadoVisual.getHabilitado()){
                             TableRow.LayoutParams params = new TableRow.LayoutParams(0,TableRow.LayoutParams.WRAP_CONTENT,3f);
                             params.setMargins(10, 20, 10, 20);
                             nombreEstadoVisual.setLayoutParams(params);
@@ -137,9 +139,9 @@ public class FragmentX6 extends android.app.Fragment {
                                         linearLayout.setVisibility(View.GONE);
                                 }
                             });
-                        //}
+                        }
                     } else {
-                        //if(estadoVisual.getHabilitado()){
+                        if(estadoVisual.getHabilitado()){
                             TableRow.LayoutParams params = new TableRow.LayoutParams(0,TableRow.LayoutParams.WRAP_CONTENT,5f);
                             params.setMargins(10, 20, 10, 20);
                             nombreEstadoVisual.setLayoutParams(params);
@@ -156,7 +158,7 @@ public class FragmentX6 extends android.app.Fragment {
                             opcion.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
                             row.addView(opcion);
                             tablaEstadoVisual.addView(row);
-                        //}
+                        }
                     }
                 }
             }
