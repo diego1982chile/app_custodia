@@ -227,8 +227,8 @@
                 android:id="@+id/view6_03_licencia"
                 android:layout_weight="0.51"
                 android:singleLine="true"
-                android:inputType="textCapWords"
                 android:imeOptions="actionNext"
+                android:capitalize="characters"
                 android:layout_marginLeft="15dp" />
         </TableRow>
 
@@ -374,7 +374,6 @@
                 android:layout_marginTop="8dp"
                 android:id="@+id/textView15" />
 
-
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -480,6 +479,7 @@
                 android:layout_weight="0.51"
                 android:singleLine="true"
                 android:imeOptions="actionNext"
+                android:capitalize="characters"
                 android:layout_marginLeft="15dp" />
         </TableRow>
 

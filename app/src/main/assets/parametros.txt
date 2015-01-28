@@ -1,4 +1,4 @@
-baseURL;http://192.168.0.4:8380
+baseURL;http://200.27.19.44:8380
 namespace;http://www.cmvrc.cl/schemas/soap
 authUsername;clienteJbossEsb
 authPassword;gdyb21LQTcIANtvYMT7QVQ==

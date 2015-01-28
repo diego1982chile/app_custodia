@@ -96,7 +96,11 @@
                 android:singleLine="true"
                 android:imeOptions="actionNext"
                 android:layout_weight="0.51"
-                android:layout_marginLeft="15dp" />
+                android:layout_marginLeft="15dp"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
         </TableRow>
 
         <TableRow
@@ -130,7 +134,11 @@
                 android:inputType="textCapWords"
                 android:imeOptions="actionNext"
                 android:layout_weight="0.51"
-                android:layout_marginLeft="15dp" />
+                android:layout_marginLeft="15dp"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
         </TableRow>
 
         <TableRow
@@ -165,7 +173,11 @@
                 android:maxLength="9"
                 android:imeOptions="actionNext"
                 android:hint="Ingresar rut sin puntos ni guiones"
-                android:layout_marginLeft="15dp" />
+                android:layout_marginLeft="15dp"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false" />
         </TableRow>
 
     </LinearLayout>

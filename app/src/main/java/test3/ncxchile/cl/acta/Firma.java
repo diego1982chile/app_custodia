@@ -237,11 +237,6 @@ public class Firma extends Activity {
               @Override
               public void run() {
                   // Almacenar vector asociado a esta acción
-                  Acta acta = actaController.getActaByTarea(Global.sessionManager.getTareaActiva());
-                  Date timeStamp = new Date();
-                  SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
-                  SimpleDateFormat hora = new SimpleDateFormat("HH:mm:ss");
-                  Accion accion = new Accion(null, "Acta Completada", fecha.format(timeStamp), hora.format(timeStamp), timeStamp, Global.sessionManager.getLatitud(), Global.sessionManager.getLongitud(), false, Global.sessionManager.getTareaActiva(), null, acta.getId());
                   accionController.encolarAccion("Acta Completada");
                   // Actualizar estado interno de la tarea
                   tareaController.setStatusTarea(Global.sessionManager.getTareaActiva(), 3);
