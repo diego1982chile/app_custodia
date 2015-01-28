@@ -384,18 +384,33 @@ public class ActaController {
                 if(tribunal!=null){
                     tribunalJson.putOpt("id",tribunal.getId());
                     tribunalJson.putOpt("nombre",tribunal.getNombre());
-                    tribunalJson.putOpt("rut",null);
-                    tribunalJson.putOpt("tipoInstitucion",null);
-                    tribunalJson.putOpt("representante",null);
-                    tribunalJson.putOpt("direccion",null);
-                    tribunalJson.putOpt("telefonos",Arrays.asList());
-                    tribunalJson.putOpt("correos",Arrays.asList());
+                    tribunalJson.putOpt("rut", JSONObject.NULL);
+                    tribunalJson.putOpt("tipoInstitucion",JSONObject.NULL);
+                    tribunalJson.putOpt("representante",JSONObject.NULL);
+                    tribunalJson.putOpt("direccion",JSONObject.NULL);
+                    tribunalJson.putOpt("telefonos",new JSONArray());
+                    tribunalJson.putOpt("correos",new JSONArray());
                 }
                 actaJson.putOpt("tribunal", tribunalJson);
             }
 
             // SE AGREGA BITACORA
             actaJson.putOpt("bitacora", JSONObject.NULL);
+            // SE AGREGA GEOREF CREACION
+            actaJson.putOpt("georefCreacion", JSONObject.NULL);
+            // SE AGREGA GEOREF FIRMA
+            actaJson.putOpt("georefFirma", JSONObject.NULL);
+            // SE AGREGA FECHA TRASLADO
+            actaJson.putOpt("fechaTraslado", JSONObject.NULL);
+            // SE AGREGA RefFotoVideo
+            if(acta.getExistImage() && acta.getExistVideo())
+                actaJson.putOpt("refFotoVideo", "Existen fotos y video adjuntos");
+            if(acta.getExistImage() && !acta.getExistVideo())
+                actaJson.putOpt("refFotoVideo", "Existen fotos adjuntas");
+            if(!acta.getExistImage() && acta.getExistVideo())
+                actaJson.putOpt("refFotoVideo", "Existe video adjunto");
+            if(!acta.getExistImage() && !acta.getExistVideo())
+                actaJson.putOpt("refFotoVideo", "No existen archivos adjuntos");
 
             ArrayList<String> actaKeys = new ArrayList<String>();
             ArrayList<String> actaTemplateKeys = new ArrayList<String>();
@@ -529,6 +544,19 @@ public class ActaController {
 
                             //Global.daoSession.getPersonaDao().insertOrReplace(persona);
 
+                            if(direccionJson!=null){
+                                System.out.println("direccionJson!=null");
+                                direccion.setCalle(direccionJson.optString("calle"));
+                                direccion.setComuna(direccionJson.optString("comuna"));
+                                direccion.setNumeracion(direccionJson.optString("numeracion"));
+                                direccion.setInterseccion(direccionJson.optString("interseccion"));
+                                direccion.setReferencias(direccionJson.optString("referencias"));
+                                Global.daoSession.getDireccionDao().insert(direccion);
+                                persona.setDireccion2ID(direccion.getId());
+                            }
+
+                            Global.daoSession.getPersonaDao().insertOrReplace(persona);
+
                             if(telefonosJson.length()>0) {
                                 telefonos.setEmail(telefonosJson.get(0).toString().trim());
                                 telefonos.setTelefonosID(persona.getId());
@@ -545,18 +573,6 @@ public class ActaController {
                                     Global.daoSession.getCorreosDao().insert(correos);
                                     persona.getCorreos().add(correos);
                                 }
-                            }
-
-                            if(direccionJson!=null){
-                                System.out.println("direccionJson!=null");
-                                direccion.setCalle(direccionJson.optString("calle"));
-                                direccion.setComuna(direccionJson.optString("comuna"));
-                                direccion.setNumeracion(direccionJson.optString("numeracion"));
-                                direccion.setInterseccion(direccionJson.optString("interseccion"));
-                                direccion.setReferencias(direccionJson.optString("referencias"));
-                                Global.daoSession.getDireccionDao().insert(direccion);
-                                persona.setDireccion2ID(direccion.getId());
-                                Global.daoSession.getPersonaDao().insertOrReplace(persona);
                             }
 
                         }
@@ -597,6 +613,19 @@ public class ActaController {
                             persona.setRut(RutValidator.parseRut(grueroJson.optString("rut")));
                             persona.setUsuario(grueroJson.optString("usuario"));
 
+                            if(direccionJson!=null){
+                                System.out.println("Gruero: direccionJson!=null");
+                                direccion.setCalle(direccionJson.optString("calle"));
+                                direccion.setComuna(direccionJson.getString("comuna"));
+                                direccion.setNumeracion(direccionJson.optString("numeracion"));
+                                direccion.setInterseccion(direccionJson.optString("interseccion"));
+                                direccion.setReferencias(direccionJson.optString("referencias"));
+                                Global.daoSession.getDireccionDao().insert(direccion);
+                                persona.setDireccion2ID(direccion.getId());
+                            }
+
+                            Global.daoSession.getPersonaDao().insertOrReplace(persona);
+
                             if(telefonosJson.length()>0){
                                 telefonos.setEmail(telefonosJson.get(0).toString().trim());
                                 telefonos.setTelefonosID(persona.getId());
@@ -612,17 +641,6 @@ public class ActaController {
                                     Global.daoSession.getCorreosDao().insertOrReplace(correos);
                                     persona.getCorreos().add(correos);
                                 }
-                            }
-                            if(direccionJson!=null){
-                                System.out.println("Gruero: direccionJson!=null");
-                                direccion.setCalle(direccionJson.optString("calle"));
-                                direccion.setComuna(direccionJson.getString("comuna"));
-                                direccion.setNumeracion(direccionJson.optString("numeracion"));
-                                direccion.setInterseccion(direccionJson.optString("interseccion"));
-                                direccion.setReferencias(direccionJson.optString("referencias"));
-                                Global.daoSession.getDireccionDao().insert(direccion);
-                                persona.setDireccion2ID(direccion.getId());
-                                Global.daoSession.getPersonaDao().insertOrReplace(persona);
                             }
                         }
 

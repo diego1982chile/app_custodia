@@ -93,6 +93,7 @@ public class FixturesUpdater {
 
         String soapAction = "http://soa.jboss.org/enterprise/OTServiceOp";
         String baseURL = Global.daoSession.getParametroDao().getValue("baseURL");
+
         String url = baseURL + "/OTService/ebws/enterprise/OTService";
         String methodName = "";
         Map<String,String> params = new HashMap<String,String>();
@@ -246,13 +247,14 @@ public class FixturesUpdater {
         client.addHeader("Accept", "text/xml");
 
         String soapAction = "http://soa.jboss.org/enterprise/OTServiceOp";
-        String baseURL = Global.soap.getProperty("baseURL");
+        String baseURL = Global.daoSession.getParametroDao().getValue("baseURL");
         String url = baseURL + "/OTService/ebws/enterprise/OTService";
         String methodName = "";
         Map<String,String> params = new HashMap<String,String>();
 
         if (fixtures.equals("grueros"))
             methodName = "backupGruero";
+
         if (fixtures.equals("comunas")){
             methodName = "obtenerTablaAuxiliar";
             params.put("tabla","comunas");

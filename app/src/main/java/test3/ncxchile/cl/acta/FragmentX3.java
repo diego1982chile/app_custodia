@@ -103,33 +103,39 @@ public class FragmentX3 extends android.app.Fragment {
         boolean esValido=true;
 
         if(view3_02.getText().toString().equals("")){
-            view3_02.setError(getString(R.string.error_field_required));
-            esValido=false;
+            view3_02.setText("No disponible");
+            //view3_02.setError(getString(R.string.error_field_required));
+            //esValido=false;
         }
 
         if (view3_03.getText().toString().equals("")){
-            view3_03.setError(getString(R.string.error_field_required));
-            esValido=false;
+            view3_03.setText("No disponible");
+            //view3_03.setError(getString(R.string.error_field_required));
+            //esValido=false;
         }
 
         if(view3_04.getText().toString().equals("")){
-            view3_04.setError(getString(R.string.error_field_required));
-            esValido=false;
+            view3_04.setText("No disponible");
+            //view3_04.setError(getString(R.string.error_field_required));
+            //esValido=false;
         }
 
         if(view3_05.getText().toString().equals("")){
-            view3_05.setError(getString(R.string.error_field_required));
-            esValido=false;
+            view3_05.setText("No disponible");
+            //view3_05.setError(getString(R.string.error_field_required));
+            //esValido=false;
         }
 
         if(view3_06.getText().toString().equals("")){
-            view3_06.setError(getString(R.string.error_field_required));
-            esValido=false;
+            view3_06.setText("No disponible");
+            //view3_06.setError(getString(R.string.error_field_required));
+            //esValido=false;
         }
 
         if(view3_07.getText().toString().equals("")){
-            view3_07.setError(getString(R.string.error_field_required));
-            esValido=false;
+            view3_07.setText("No disponible");
+            //view3_07.setError(getString(R.string.error_field_required));
+            //esValido=false;
         }
 
         if(view3_08.getSelectedItem()==null){
